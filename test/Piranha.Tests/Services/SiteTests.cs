@@ -486,6 +486,17 @@ public class SiteTests : BaseTestsAsync
     }
 
     [Fact]
+    public async Task CreateMissingSiteContentTypeReturnsNull()
+    {
+        using (var api = CreateApi())
+        {
+            var model = await api.Sites.CreateContentAsync<MySiteContent>("MissingSiteContentType");
+
+            Assert.Null(model);
+        }
+    }
+
+    [Fact]
     public async Task GetSiteContent()
     {
         using (var api = CreateApi())

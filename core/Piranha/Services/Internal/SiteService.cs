@@ -399,7 +399,7 @@ internal sealed class SiteService : ISiteService
         {
             return _factory.CreateAsync<T>(type);
         }
-        return null;
+        return Task.FromResult<T>(null);
     }
 
     /// <summary>
