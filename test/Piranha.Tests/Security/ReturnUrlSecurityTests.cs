@@ -9,6 +9,7 @@
  */
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -55,6 +56,33 @@ public class ReturnUrlSecurityTests
         Assert.Equal(
             "/login?returnUrl=%2Fprotected%3FreturnUrl%3D%2F%2Fevil.example%2F%3Cscript%3Ealert%281%29%3C%2Fscript%3E",
             context.Response.Headers.Location.ToString());
+    }
+
+    [Fact]
+    public async Task SecurityMiddlewareDoesNotRedirectAfterResponseHasStarted()
+    {
+        var responseFeature = new StartedResponseFeature
+        {
+            StatusCode = StatusCodes.Status401Unauthorized
+        };
+        var context = new DefaultHttpContext();
+        context.Features.Set<IHttpResponseFeature>(responseFeature);
+        var service = new TestApplicationService
+        {
+            Request =
+            {
+                Url = "/protected"
+            }
+        };
+        var middleware = new SecurityMiddleware(
+            _ => Task.CompletedTask,
+            Options.Create(new SecurityOptions { LoginUrl = "/login" }));
+
+        await middleware.InvokeAsync(context, service);
+
+        Assert.True(context.Response.HasStarted);
+        Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
+        Assert.False(context.Response.Headers.ContainsKey("Location"));
     }
 
     [Fact]
@@ -128,6 +156,27 @@ public class ReturnUrlSecurityTests
             new TestStringLocalizer<Piranha.Manager.Localization.Page>(),
             new TestStringLocalizer<Piranha.Manager.Localization.Post>(),
             new TestStringLocalizer<Piranha.Manager.Localization.Site>());
+    }
+
+    private sealed class StartedResponseFeature : IHttpResponseFeature
+    {
+        public int StatusCode { get; set; }
+
+        public string ReasonPhrase { get; set; }
+
+        public IHeaderDictionary Headers { get; set; } = new HeaderDictionary();
+
+        public Stream Body { get; set; } = Stream.Null;
+
+        public bool HasStarted => true;
+
+        public void OnStarting(Func<object, Task> callback, object state)
+        {
+        }
+
+        public void OnCompleted(Func<object, Task> callback, object state)
+        {
+        }
     }
 
     private sealed class TestApplicationService : IApplicationService

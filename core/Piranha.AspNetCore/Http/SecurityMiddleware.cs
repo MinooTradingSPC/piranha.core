@@ -48,7 +48,7 @@ public class SecurityMiddleware
 
         // Check if we got back an unauthorized result
         // from the application
-        if (ctx.Response.StatusCode == 401)
+        if (!ctx.Response.HasStarted && ctx.Response.StatusCode == 401)
         {
             // Redirect to the configured login url
             ctx.Response.Redirect($"{ _options.LoginUrl }?returnUrl={ Uri.EscapeDataString(service.Request.Url) }");
