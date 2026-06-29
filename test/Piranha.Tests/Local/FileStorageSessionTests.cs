@@ -70,6 +70,35 @@ public class FileStorageSessionTests : IDisposable
         }
     }
 
+    [Fact]
+    public async Task PutStreamRejectsPathTraversalOutsideStorageRoot()
+    {
+        var storage = new Piranha.Local.FileStorage(_basePath, "~/uploads/", Piranha.Local.FileStorageNaming.UniqueFolderNames);
+
+        using (var session = await storage.OpenAsync())
+        using (var stream = CreateStream("content"))
+        {
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(async () =>
+            {
+                await session.PutAsync(_media, "nested/../../../outside.txt", "text/plain", stream);
+            });
+        }
+    }
+
+    [Fact]
+    public async Task PutBytesRejectsPathTraversalOutsideStorageRoot()
+    {
+        var storage = new Piranha.Local.FileStorage(_basePath, "~/uploads/", Piranha.Local.FileStorageNaming.UniqueFolderNames);
+
+        using (var session = await storage.OpenAsync())
+        {
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(async () =>
+            {
+                await session.PutAsync(_media, "nested/../../../outside.txt", "text/plain", Encoding.UTF8.GetBytes("content"));
+            });
+        }
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(_basePath))

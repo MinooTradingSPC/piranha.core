@@ -18,6 +18,7 @@ public class FileStorageSession : IStorageSession
     private readonly string _basePath;
     private readonly string _baseUrl;
     private readonly FileStorageNaming _naming;
+    private readonly string _storageRoot;
 
     /// <summary>
     /// Default constructor.
@@ -32,6 +33,7 @@ public class FileStorageSession : IStorageSession
         _basePath = basePath;
         _baseUrl = baseUrl;
         _naming = naming;
+        _storageRoot = EnsureTrailingSeparator(Path.GetFullPath(_basePath));
     }
 
     /// <summary>
@@ -44,10 +46,11 @@ public class FileStorageSession : IStorageSession
     public async Task<bool> GetAsync(Media media, string filename, Stream stream)
     {
         var path = _storage.GetResourceName(media, filename);
+        var fullPath = GetFullPath(path);
 
-        if (File.Exists(_basePath + path))
+        if (File.Exists(fullPath))
         {
-            using (var file = File.OpenRead(_basePath + path))
+            using (var file = File.OpenRead(fullPath))
             {
                 await file.CopyToAsync(stream).ConfigureAwait(false);
                 return true;
@@ -67,10 +70,11 @@ public class FileStorageSession : IStorageSession
     public async Task<string> PutAsync(Media media, string filename, string contentType, Stream stream)
     {
         var path = _storage.GetResourceName(media, filename);
+        var fullPath = GetFullPath(path);
 
         EnsureFolder(media);
 
-        using (var file = new FileStream(_basePath + path, FileMode.Create, FileAccess.Write))
+        using (var file = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true))
         {
             await stream.CopyToAsync(file).ConfigureAwait(false);
         }
@@ -88,10 +92,11 @@ public class FileStorageSession : IStorageSession
     public async Task<string> PutAsync(Media media, string filename, string contentType, byte[] bytes)
     {
         var path = _storage.GetResourceName(media, filename);
+        var fullPath = GetFullPath(path);
 
         EnsureFolder(media);
 
-        using (var file = new FileStream(_basePath + path, FileMode.Create, FileAccess.Write))
+        using (var file = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true))
         {
             await file.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
         }
@@ -108,14 +113,15 @@ public class FileStorageSession : IStorageSession
         return Task.Run(() =>
         {
             var path = _storage.GetResourceName(media, filename);
+            var fullPath = GetFullPath(path);
 
-            if (File.Exists(_basePath + path))
+            if (File.Exists(fullPath))
             {
-                File.Delete(_basePath + path);
+                File.Delete(fullPath);
 
                 if (_naming == FileStorageNaming.UniqueFolderNames)
                 {
-                    var folderPath = $"{ _basePath }/{ media.Id }";
+                    var folderPath = GetFullPath(media.Id.ToString());
 
                     // Check if the folder is empty, and if so, delete it
                     if (Directory.GetFiles(folderPath).Length == 0)
@@ -139,6 +145,22 @@ public class FileStorageSession : IStorageSession
     }
 
     /// <summary>
+    /// Gets a validated absolute path for the given storage resource.
+    /// </summary>
+    /// <param name="path">The storage resource path</param>
+    /// <returns>The absolute path</returns>
+    private string GetFullPath(string path)
+    {
+        var fullPath = Path.GetFullPath(Path.Combine(_storageRoot, path));
+
+        if (!fullPath.StartsWith(_storageRoot, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new UnauthorizedAccessException("Attempted to access a file outside the storage root.");
+        }
+        return fullPath;
+    }
+
+    /// <summary>
     /// Makes sure the folder exists if unique folder names
     /// are used.
     /// </summary>
@@ -147,10 +169,17 @@ public class FileStorageSession : IStorageSession
     {
         if (_naming == FileStorageNaming.UniqueFolderNames)
         {
-            if (!Directory.Exists($"{ _basePath }/{ media.Id }"))
+            var folderPath = GetFullPath(media.Id.ToString());
+
+            if (!Directory.Exists(folderPath))
             {
-                Directory.CreateDirectory($"{ _basePath }/{ media.Id }");
+                Directory.CreateDirectory(folderPath);
             }
         }
+    }
+
+    private static string EnsureTrailingSeparator(string path)
+    {
+        return path.EndsWith(Path.DirectorySeparatorChar) ? path : path + Path.DirectorySeparatorChar;
     }
 }
