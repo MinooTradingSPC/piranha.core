@@ -1208,7 +1208,7 @@ internal sealed class RecordingPageRepository : IPageRepository
 
     public Task<IEnumerable<Comment>> GetAllComments(Guid? pageId, bool onlyApproved, int page, int pageSize)
     {
-        throw new NotImplementedException();
+        return Task.FromResult<IEnumerable<Comment>>(Array.Empty<Comment>());
     }
 
     public Task<IEnumerable<Comment>> GetAllPendingComments(Guid? pageId, int page, int pageSize)
