@@ -68,6 +68,21 @@ public class MediaServiceTests : BaseTestsAsync
     }
 
     [Fact]
+    public async Task GetScaledConcurrently()
+    {
+        var urls = await Task.WhenAll(Enumerable.Range(0, 8)
+            .Select(async _ =>
+            {
+                using (var api = CreateApi())
+                {
+                    return await api.Media.EnsureVersionAsync(imageId, 640);
+                }
+            }));
+
+        Assert.All(urls, url => Assert.EndsWith($"/uploads/{imageId}-HLD_Screenshot_01_mech_1080_640.png", url));
+    }
+
+    [Fact]
     public async Task GetCropped()
     {
         using (var api = CreateApi())
