@@ -342,6 +342,26 @@ public class MediaTests : BaseTestsAsync
     }
 
     [Fact]
+    public async Task RepositoryDeleteFolderWithMediaThrowsValidationException()
+    {
+        using (var db = GetDb())
+        {
+            var repo = new Piranha.Repositories.MediaRepository(db);
+
+            await Assert.ThrowsAsync<System.ComponentModel.DataAnnotations.ValidationException>(async () =>
+            {
+                await repo.DeleteFolder(folder1Id);
+            });
+        }
+
+        using (var api = CreateApi())
+        {
+            Assert.NotNull(await api.Media.GetFolderByIdAsync(folder1Id));
+            Assert.Equal(1, await api.Media.CountFolderItemsAsync(folder1Id));
+        }
+    }
+
+    [Fact]
     public async Task DeleteFolderWithChildFolderThrowsValidationException()
     {
         MediaFolder parent = null;
