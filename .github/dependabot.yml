@@ -19,7 +19,7 @@ updates:
         patterns:
           - "Microsoft.EntityFrameworkCore*"
           - "Npgsql.EntityFrameworkCore.*"
-          - "Pomelo.EntityFrameworkCore.*"
+          - "MySql.EntityFrameworkCore"
       # ASP.NET Core / Extensions ship in lock-step
       aspnetcore:
         patterns:

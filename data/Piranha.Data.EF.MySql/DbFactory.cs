@@ -29,10 +29,8 @@ public class DbFactory : IDesignTimeDbContextFactory<MySqlDb>
     /// <returns>The db context</returns>
     public MySqlDb CreateDbContext(string[] args)
     {
-        var connectionString = "server=localhost;port=3306;database=piranha;uid=root;password=password";
-
         var builder = new DbContextOptionsBuilder<MySqlDb>();
-        builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        builder.UseMySQL("server=localhost;port=3306;database=piranha;uid=root;password=password");
         return new MySqlDb(builder.Options);
     }
 }
