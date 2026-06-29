@@ -48,7 +48,7 @@ public sealed class AuthController : Controller
             Secure = true,
             SameSite = SameSiteMode.Strict
         });
-        if (!string.IsNullOrEmpty(returnUrl))
+        if (Url.IsLocalUrl(returnUrl))
         {
             return LocalRedirect(returnUrl);
         }

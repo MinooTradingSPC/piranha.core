@@ -84,7 +84,7 @@ namespace Piranha.Manager.LocalAuth.Areas.Manager.Pages
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
-            ReturnUrl = returnUrl;
+            ReturnUrl = Url.IsLocalUrl(returnUrl) ? returnUrl : null;
         }
 
         /// <summary>
@@ -102,9 +102,9 @@ namespace Piranha.Manager.LocalAuth.Areas.Manager.Pages
                 return Page();
             }
 
-            if (!string.IsNullOrEmpty(returnUrl))
+            if (Url.IsLocalUrl(returnUrl))
             {
-                return LocalRedirect($"~/manager/login/auth?returnUrl={ returnUrl }");
+                return LocalRedirect($"~/manager/login/auth?returnUrl={ Uri.EscapeDataString(returnUrl) }");
             }
             return LocalRedirect("~/manager/login/auth");
         }
