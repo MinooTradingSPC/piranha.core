@@ -70,7 +70,7 @@ public class FileStorageSession : IStorageSession
 
         EnsureFolder(media);
 
-        using (var file = File.OpenWrite(_basePath + path))
+        using (var file = new FileStream(_basePath + path, FileMode.Create, FileAccess.Write))
         {
             await stream.CopyToAsync(file).ConfigureAwait(false);
         }
@@ -91,7 +91,7 @@ public class FileStorageSession : IStorageSession
 
         EnsureFolder(media);
 
-        using (var file = File.OpenWrite(_basePath + path))
+        using (var file = new FileStream(_basePath + path, FileMode.Create, FileAccess.Write))
         {
             await file.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
         }
