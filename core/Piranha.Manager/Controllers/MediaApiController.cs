@@ -78,7 +78,13 @@ public class MediaApiController : Controller
         }
         else
         {
-            return Redirect(await _api.Media.EnsureVersionAsync(id, width.Value, height));
+            var url = await _api.Media.EnsureVersionAsync(id, width.Value, height);
+
+            if (url != null)
+            {
+                return Redirect(url);
+            }
+            return NotFound();
         }
     }
 
