@@ -51,7 +51,7 @@ public class SecurityMiddleware
         if (ctx.Response.StatusCode == 401)
         {
             // Redirect to the configured login url
-            ctx.Response.Redirect($"{ _options.LoginUrl }?returnUrl={ service.Request.Url }");
+            ctx.Response.Redirect($"{ _options.LoginUrl }?returnUrl={ Uri.EscapeDataString(service.Request.Url) }");
         }
     }
 }
