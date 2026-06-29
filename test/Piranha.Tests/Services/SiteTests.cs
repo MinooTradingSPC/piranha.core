@@ -327,6 +327,50 @@ public class SiteTests : BaseTestsAsync
     }
 
     [Fact]
+    public async Task SiteReadsWithoutDefaultLanguageReturnEmptyLanguageId()
+    {
+        using (var db = GetDb())
+        {
+            var languages = db.Languages.ToDictionary(l => l.Id, l => l.IsDefault);
+            var site = db.Sites.First(s => s.Id == SITE_1_ID);
+            var originalLanguageId = site.LanguageId;
+
+            try
+            {
+                foreach (var language in db.Languages)
+                {
+                    language.IsDefault = false;
+                }
+                site.LanguageId = null;
+                db.SaveChanges();
+
+                var factory = new Piranha.Services.ContentFactory(_services);
+                var serviceFactory = new Piranha.Services.ContentServiceFactory(factory);
+                var repository = new Piranha.Repositories.SiteRepository(db, serviceFactory);
+
+                var all = await repository.GetAll();
+                var byId = await repository.GetById(SITE_1_ID);
+                var byInternalId = await repository.GetByInternalId(SITE_1);
+                var defaultSite = await repository.GetDefault();
+
+                Assert.Equal(Guid.Empty, all.First(s => s.Id == SITE_1_ID).LanguageId);
+                Assert.Equal(Guid.Empty, byId.LanguageId);
+                Assert.Equal(Guid.Empty, byInternalId.LanguageId);
+                Assert.Equal(Guid.Empty, defaultSite.LanguageId);
+            }
+            finally
+            {
+                foreach (var language in db.Languages)
+                {
+                    language.IsDefault = languages[language.Id];
+                }
+                site.LanguageId = originalLanguageId;
+                db.SaveChanges();
+            }
+        }
+    }
+
+    [Fact]
     public async Task GetSitemap()
     {
         using (var api = CreateApi())
