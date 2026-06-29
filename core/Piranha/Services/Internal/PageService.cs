@@ -971,7 +971,7 @@ internal sealed class PageService : IPageService
                 return site.Id;
             }
         }
-        return siteId.Value;
+        return siteId ?? Guid.Empty;
     }
 
     /// <summary>
