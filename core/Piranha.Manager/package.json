@@ -33,7 +33,7 @@
     "sass": "^1.69.3",
     "select2": "4.1.0",
     "simplemde": "1.11.2",
-    "through2": "^3.0.1",
+    "through2": "^5.0.3",
     "vue": "^3.5.38",
     "vue-template-compiler": "^0.1.0",
     "vuejs-datepicker": "^1.6.2"
