@@ -12,6 +12,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.Distributed;
 using Xunit;
 using Piranha.Models;
+using Piranha.Repositories;
+using Piranha.Services;
 
 namespace Piranha.Tests.Services;
 
@@ -187,6 +189,28 @@ public class AliasTests : BaseTestsAsync
     }
 
     [Fact]
+    public async Task GetAllWithoutDefaultSiteReturnsEmpty()
+    {
+        var service = new Piranha.Services.AliasService(new ThrowingAliasRepository(), new MissingDefaultSiteService());
+
+        var aliases = await service.GetAllAsync();
+
+        Assert.NotNull(aliases);
+        Assert.Empty(aliases);
+    }
+
+    [Fact]
+    public async Task GetByRedirectUrlWithoutDefaultSiteReturnsEmpty()
+    {
+        var service = new Piranha.Services.AliasService(new ThrowingAliasRepository(), new MissingDefaultSiteService());
+
+        var aliases = await service.GetByRedirectUrlAsync("/redirect-1");
+
+        Assert.NotNull(aliases);
+        Assert.Empty(aliases);
+    }
+
+    [Fact]
     public async Task GetById()
     {
         using (var api = CreateApi())
@@ -359,5 +383,116 @@ public class AliasTests : BaseTestsAsync
 
             await api.Aliases.DeleteAsync(model.Id);
         }
+    }
+}
+
+internal sealed class ThrowingAliasRepository : IAliasRepository
+{
+    public Task<IEnumerable<Alias>> GetAll(Guid siteId)
+    {
+        throw new InvalidOperationException("The alias repository should not be called when no default site exists.");
+    }
+
+    public Task<Alias> GetById(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Alias> GetByAliasUrl(string url, Guid siteId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Alias>> GetByRedirectUrl(string url, Guid siteId)
+    {
+        throw new InvalidOperationException("The alias repository should not be called when no default site exists.");
+    }
+
+    public Task Save(Alias model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Delete(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+internal sealed class MissingDefaultSiteService : ISiteService
+{
+    public Task<IEnumerable<Site>> GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Site> GetByIdAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Site> GetByInternalIdAsync(string internalId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Site> GetByHostnameAsync(string hostname)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Site> GetDefaultAsync()
+    {
+        return Task.FromResult<Site>(null);
+    }
+
+    public Task<DynamicSiteContent> GetContentByIdAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<T> GetContentByIdAsync<T>(Guid id) where T : SiteContent<T>
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Sitemap> GetSitemapAsync(Guid? id = null, bool onlyPublished = true)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SaveAsync(Site model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SaveContentAsync<T>(Guid siteId, T model) where T : SiteContent<T>
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<T> CreateContentAsync<T>(string typeId = null) where T : SiteContentBase
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task InvalidateSitemapAsync(Guid id, bool updateLastModified = true)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteAsync(Site model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RemoveSitemapFromCacheAsync(Guid id)
+    {
+        throw new NotImplementedException();
     }
 }
