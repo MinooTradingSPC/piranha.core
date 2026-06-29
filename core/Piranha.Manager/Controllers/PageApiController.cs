@@ -262,12 +262,21 @@ public class PageApiController : Controller
     {
         var page = await _service.GetById(id, false);
 
-        if (page != null)
+        if (page == null)
         {
-            await _service.Save(page, false);
-
-            page = await _service.GetById(id);
+            return new PageEditModel
+            {
+                Status = new StatusMessage
+                {
+                    Type = StatusMessage.Error,
+                    Body = _localizer.Page["The page could not be found"]
+                }
+            };
         }
+
+        await _service.Save(page, false);
+
+        page = await _service.GetById(id);
 
         page.Status = new StatusMessage
         {

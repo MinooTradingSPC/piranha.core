@@ -168,12 +168,21 @@ public class PostApiController : Controller
     {
         var post = await _service.GetById(id, false);
 
-        if (post != null)
+        if (post == null)
         {
-            await _service.Save(post, false);
-
-            post = await _service.GetById(id);
+            return new PostEditModel
+            {
+                Status = new StatusMessage
+                {
+                    Type = StatusMessage.Error,
+                    Body = _localizer.Post["The post could not be found"]
+                }
+            };
         }
+
+        await _service.Save(post, false);
+
+        post = await _service.GetById(id);
 
         post.Status = new StatusMessage
         {
