@@ -8,6 +8,7 @@
  *
  */
 
+using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Piranha.Cache;
@@ -23,7 +24,7 @@ internal sealed class MediaService : IMediaService
     private readonly IStorage _storage;
     private readonly IImageProcessor _processor;
     private readonly ICache _cache;
-    private static readonly object ScaleMutex = new object();
+    private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> ScaleMutexes = new();
     private const string MEDIA_STRUCTURE = "MediaStructure";
 
     /// <summary>
@@ -410,12 +411,20 @@ internal sealed class MediaService : IMediaService
                         _processor.Scale(stream, output, width);
                     }
                     output.Position = 0;
-                    bool upload = false;
-
-                    lock (ScaleMutex)
+                    var mutex = ScaleMutexes.GetOrAdd(media.Id, _ => new SemaphoreSlim(1, 1));
+                    await mutex.WaitAsync().ConfigureAwait(false);
+                    try
                     {
+                        var current = await _repo.GetById(media.Id).ConfigureAwait(false);
+                        if (current != null)
+                        {
+                            media = current;
+                            query = media.Versions.Where(v => v.Width == width);
+                            query = height.HasValue ? query.Where(v => v.Height == height) : query.Where(v => !v.Height.HasValue);
+                        }
+
                         // We have to make sure we don't scale multiple files
-                        // at the same time as it can create index violations.
+                        // for the same media at the same time as it can create index violations.
                         version = query.FirstOrDefault();
 
                         if (version == null)
@@ -432,23 +441,18 @@ internal sealed class MediaService : IMediaService
                             };
                             media.Versions.Add(version);
 
-                            _repo.Save(media).Wait();
-                            RemoveFromCache(media).Wait();
-
-                            upload = true;
-                        }
-                    }
-
-                    if (upload)
-                    {
-                        await session.PutAsync(media, GetResourceName(media, width, height), media.ContentType,
+                            await session.PutAsync(media, GetResourceName(media, width, height), media.ContentType,
                                 output).ConfigureAwait(false);
 
-                        var info = new FileInfo(media.Filename);
-                        return GetPublicUrl(media, width, height, info.Extension);
+                            await _repo.Save(media).ConfigureAwait(false);
+                            await RemoveFromCache(media).ConfigureAwait(false);
+                        }
                     }
-                    //When moving this out of its parent method, realized that if the mutex failed, it would just fall back to the null instead of trying to return the issue.
-                    //Added this to ensure that queries didn't just give up if they weren't the first to the party.
+                    finally
+                    {
+                        mutex.Release();
+                    }
+
                     return GetPublicUrl(media, width, height, version.FileExtension);
                 }
             }
