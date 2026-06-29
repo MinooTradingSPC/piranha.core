@@ -732,7 +732,7 @@ internal sealed class PageService : IPageService
                 var page = await GetByIdAsync<PageInfo>(id).ConfigureAwait(false);
                 if (page != null)
                 {
-                    await RemoveFromCache(model).ConfigureAwait(false);
+                    await RemoveFromCache(page).ConfigureAwait(false);
                 }
             }
         }
