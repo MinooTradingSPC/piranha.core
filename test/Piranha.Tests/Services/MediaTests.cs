@@ -327,6 +327,67 @@ public class MediaTests : BaseTestsAsync
     }
 
     [Fact]
+    public async Task DeleteFolderWithMediaThrowsValidationException()
+    {
+        using (var api = CreateApi())
+        {
+            await Assert.ThrowsAsync<System.ComponentModel.DataAnnotations.ValidationException>(async () =>
+            {
+                await api.Media.DeleteFolderAsync(folder1Id);
+            });
+
+            Assert.NotNull(await api.Media.GetFolderByIdAsync(folder1Id));
+            Assert.Equal(1, await api.Media.CountFolderItemsAsync(folder1Id));
+        }
+    }
+
+    [Fact]
+    public async Task DeleteFolderWithChildFolderThrowsValidationException()
+    {
+        MediaFolder parent = null;
+        MediaFolder child = null;
+
+        using (var api = CreateApi())
+        {
+            try
+            {
+                parent = new MediaFolder
+                {
+                    Name = "Parent"
+                };
+                await api.Media.SaveFolderAsync(parent);
+
+                child = new MediaFolder
+                {
+                    ParentId = parent.Id,
+                    Name = "Child"
+                };
+                await api.Media.SaveFolderAsync(child);
+
+                await Assert.ThrowsAsync<System.ComponentModel.DataAnnotations.ValidationException>(async () =>
+                {
+                    await api.Media.DeleteFolderAsync(parent.Id);
+                });
+
+                Assert.NotNull(await api.Media.GetFolderByIdAsync(parent.Id));
+                Assert.Single(await api.Media.GetAllFoldersAsync(parent.Id));
+            }
+            finally
+            {
+                if (child != null)
+                {
+                    await api.Media.DeleteFolderAsync(child.Id);
+                }
+
+                if (parent != null)
+                {
+                    await api.Media.DeleteFolderAsync(parent.Id);
+                }
+            }
+        }
+    }
+
+    [Fact]
     public async Task Delete()
     {
         using (var api = CreateApi())

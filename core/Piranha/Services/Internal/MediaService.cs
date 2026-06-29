@@ -554,14 +554,13 @@ internal sealed class MediaService : IMediaService
 
         if (folder != null)
         {
-            //
-            // TODO: Check empty
-            //
-            // var folderCount = _db.MediaFolders.Count(f => f.ParentId == id);
-            // var mediaCount = _db.Media.Count(m => m.FolderId == id);
+            var folderCount = (await _repo.GetAllFolders(id).ConfigureAwait(false)).Count();
+            var mediaCount = await _repo.CountAll(id).ConfigureAwait(false);
 
-            // if (folderCount == 0 && mediaCount == 0)
-            // {
+            if (folderCount > 0 || mediaCount > 0)
+            {
+                throw new ValidationException("The media folder must be empty before it can be deleted.");
+            }
 
             // Call hooks & delete
             App.Hooks.OnBeforeDelete(folder);
@@ -569,7 +568,6 @@ internal sealed class MediaService : IMediaService
             App.Hooks.OnAfterDelete(folder);
 
             await RemoveFromCache(folder).ConfigureAwait(false);
-            //}
         }
     }
 
