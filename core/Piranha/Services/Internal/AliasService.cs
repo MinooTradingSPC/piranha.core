@@ -140,7 +140,7 @@ internal sealed class AliasService : IAliasService
             }
         }
 
-        if (!siteId.HasValue)
+        if (!siteId.HasValue || string.IsNullOrWhiteSpace(url))
         {
             return Enumerable.Empty<Alias>();
         }

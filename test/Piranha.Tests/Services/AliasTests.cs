@@ -211,6 +211,17 @@ public class AliasTests : BaseTestsAsync
     }
 
     [Fact]
+    public async Task GetByRedirectUrlWithEmptyUrlReturnsEmpty()
+    {
+        var service = new Piranha.Services.AliasService(new ThrowingAliasRepository(), new StaticDefaultSiteService());
+
+        var aliases = await service.GetByRedirectUrlAsync("   ");
+
+        Assert.NotNull(aliases);
+        Assert.Empty(aliases);
+    }
+
+    [Fact]
     public async Task GetById()
     {
         using (var api = CreateApi())
@@ -419,7 +430,15 @@ internal sealed class ThrowingAliasRepository : IAliasRepository
     }
 }
 
-internal sealed class MissingDefaultSiteService : ISiteService
+internal sealed class StaticDefaultSiteService : MissingDefaultSiteService
+{
+    public override Task<Site> GetDefaultAsync()
+    {
+        return Task.FromResult(new Site { Id = Guid.NewGuid(), Title = "Default", InternalId = "Default", IsDefault = true });
+    }
+}
+
+internal class MissingDefaultSiteService : ISiteService
 {
     public Task<IEnumerable<Site>> GetAllAsync()
     {
@@ -441,7 +460,7 @@ internal sealed class MissingDefaultSiteService : ISiteService
         throw new NotImplementedException();
     }
 
-    public Task<Site> GetDefaultAsync()
+    public virtual Task<Site> GetDefaultAsync()
     {
         return Task.FromResult<Site>(null);
     }
