@@ -14,6 +14,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Piranha.AttributeBuilder;
+using Piranha.Cache;
 using Piranha.Extend;
 using Piranha.Extend.Fields;
 using Piranha.Models;
@@ -1365,4 +1366,157 @@ internal sealed class PageMissingDefaultSiteService : ISiteService
     {
         throw new NotImplementedException();
     }
+}
+
+[Collection("Integration tests")]
+public class PageServiceCacheTests
+{
+    [Fact]
+    public async Task SaveAsyncRemovesAffectedSiblingFromCache()
+    {
+        var previousCacheLevel = Piranha.App.CacheLevel;
+        Piranha.App.CacheLevel = CacheLevel.Full;
+
+        try
+        {
+            var savedPage = new PageInfo
+            {
+                Id = Guid.NewGuid(),
+                SiteId = Guid.NewGuid(),
+                TypeId = "PageInfo",
+                Title = "Saved page",
+                Slug = "saved-page",
+                Published = DateTime.Now,
+                SortOrder = 1
+            };
+            var affectedPage = new PageInfo
+            {
+                Id = Guid.NewGuid(),
+                SiteId = savedPage.SiteId,
+                TypeId = "PageInfo",
+                Title = "Affected page",
+                Slug = "affected-page",
+                Published = DateTime.Now,
+                SortOrder = 2
+            };
+            var cache = new RecordingPageCache(affectedPage);
+            var service = new Piranha.Services.PageService(
+                new SaveAffectedPageRepository(affectedPage),
+                null,
+                new RecordingPageSiteService(),
+                null,
+                null,
+                cache);
+
+            await service.SaveAsync(savedPage);
+
+            Assert.Contains(affectedPage.Id.ToString(), cache.RemovedKeys);
+            Assert.Contains($"PageInfo_{affectedPage.Id}", cache.RemovedKeys);
+            Assert.Contains($"PageId_{affectedPage.SiteId}_{affectedPage.Slug}", cache.RemovedKeys);
+        }
+        finally
+        {
+            Piranha.App.CacheLevel = previousCacheLevel;
+        }
+    }
+}
+
+internal sealed class RecordingPageCache : ICache
+{
+    private readonly PageInfo _affectedPage;
+
+    public RecordingPageCache(PageInfo affectedPage)
+    {
+        _affectedPage = affectedPage;
+    }
+
+    public IList<string> RemovedKeys { get; } = new List<string>();
+
+    public Task<T> GetAsync<T>(string key, CancellationToken cancellationToken = default)
+    {
+        if (key == $"PageInfo_{_affectedPage.Id}")
+        {
+            return Task.FromResult((T)(object)_affectedPage);
+        }
+        return Task.FromResult<T>(default);
+    }
+
+    public Task SetAsync<T>(string key, T value, CancellationToken cancellationToken = default)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
+    {
+        RemovedKeys.Add(key);
+        return Task.CompletedTask;
+    }
+}
+
+internal sealed class SaveAffectedPageRepository : IPageRepository
+{
+    private readonly PageInfo _affectedPage;
+
+    public SaveAffectedPageRepository(PageInfo affectedPage)
+    {
+        _affectedPage = affectedPage;
+    }
+
+    public Task<IEnumerable<Guid>> GetAll(Guid siteId) => throw new NotImplementedException();
+    public Task<IEnumerable<Guid>> GetAllBlogs(Guid siteId) => throw new NotImplementedException();
+    public Task<IEnumerable<Guid>> GetAllDrafts(Guid siteId) => throw new NotImplementedException();
+    public Task<IEnumerable<Comment>> GetAllComments(Guid? pageId, bool onlyApproved, int page, int pageSize) => throw new NotImplementedException();
+    public Task<IEnumerable<Comment>> GetAllPendingComments(Guid? pageId, int page, int pageSize) => throw new NotImplementedException();
+    public Task<T> GetStartpage<T>(Guid siteId) where T : PageBase => throw new NotImplementedException();
+
+    public Task<T> GetById<T>(Guid id) where T : PageBase
+    {
+        if (id == _affectedPage.Id)
+        {
+            return Task.FromResult((T)(object)_affectedPage);
+        }
+        return Task.FromResult<T>(null);
+    }
+
+    public Task<IEnumerable<T>> GetByIds<T>(params Guid[] ids) where T : PageBase => throw new NotImplementedException();
+
+    public Task<T> GetBySlug<T>(string slug, Guid siteId) where T : PageBase
+    {
+        return Task.FromResult<T>(null);
+    }
+
+    public Task<T> GetDraftById<T>(Guid id) where T : PageBase => throw new NotImplementedException();
+    public Task<IEnumerable<Guid>> Move<T>(T model, Guid? parentId, int sortOrder) where T : PageBase => throw new NotImplementedException();
+    public Task<Comment> GetCommentById(Guid id) => throw new NotImplementedException();
+
+    public Task<IEnumerable<Guid>> Save<T>(T model) where T : PageBase
+    {
+        return Task.FromResult<IEnumerable<Guid>>(new[] { _affectedPage.Id });
+    }
+
+    public Task SaveDraft<T>(T model) where T : PageBase => throw new NotImplementedException();
+    public Task SaveComment(Guid pageId, Comment model) => throw new NotImplementedException();
+    public Task CreateRevision(Guid id, int revisions) => Task.CompletedTask;
+    public Task<IEnumerable<Guid>> Delete(Guid id) => throw new NotImplementedException();
+    public Task DeleteDraft(Guid id) => Task.CompletedTask;
+    public Task DeleteComment(Guid id) => throw new NotImplementedException();
+}
+
+internal sealed class RecordingPageSiteService : ISiteService
+{
+    public Task<IEnumerable<Site>> GetAllAsync() => throw new NotImplementedException();
+    public Task<Site> GetByIdAsync(Guid id) => throw new NotImplementedException();
+    public Task<Site> GetByInternalIdAsync(string internalId) => throw new NotImplementedException();
+    public Task<Site> GetByHostnameAsync(string hostname) => throw new NotImplementedException();
+    public Task<Site> GetDefaultAsync() => throw new NotImplementedException();
+    public Task<DynamicSiteContent> GetContentByIdAsync(Guid id) => throw new NotImplementedException();
+    public Task<T> GetContentByIdAsync<T>(Guid id) where T : SiteContent<T> => throw new NotImplementedException();
+    public Task<Sitemap> GetSitemapAsync(Guid? id = null, bool onlyPublished = true) => throw new NotImplementedException();
+    public Task SaveAsync(Site model) => throw new NotImplementedException();
+    public Task SaveContentAsync<T>(Guid siteId, T model) where T : SiteContent<T> => throw new NotImplementedException();
+    public Task<T> CreateContentAsync<T>(string typeId = null) where T : SiteContentBase => throw new NotImplementedException();
+    public Task InvalidateSitemapAsync(Guid id, bool updateLastModified = true) => Task.CompletedTask;
+    public Task DeleteAsync(Guid id) => throw new NotImplementedException();
+    public Task DeleteAsync(Site model) => throw new NotImplementedException();
+    public Task RemoveSitemapFromCacheAsync(Guid id) => Task.CompletedTask;
 }
