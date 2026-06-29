@@ -214,6 +214,7 @@ internal sealed class MediaService : IMediaService
         if (content.Id.HasValue)
         {
             model = await GetByIdAsync(content.Id.Value).ConfigureAwait(false);
+            isReplacement = model != null;
         }
 
         if (model == null)
@@ -227,8 +228,6 @@ internal sealed class MediaService : IMediaService
         }
         else
         {
-            isReplacement = true;
-
             if (model.Versions.Count > 0)
             {
                 foreach (var version in model.Versions)
