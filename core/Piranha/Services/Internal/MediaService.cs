@@ -208,6 +208,8 @@ internal sealed class MediaService : IMediaService
         }
 
         Media model = null;
+        var isReplacement = false;
+        var oldResourceNames = new List<string>();
 
         if (content.Id.HasValue)
         {
@@ -225,22 +227,18 @@ internal sealed class MediaService : IMediaService
         }
         else
         {
-            using (var session = await _storage.OpenAsync().ConfigureAwait(false))
-            {
-                // Delete all versions as we're updating the image
-                if (model.Versions.Count > 0)
-                {
-                    foreach (var version in model.Versions)
-                    {
-                        // Delete version from storage
-                        await session.DeleteAsync(model, GetResourceName(model, version.Width, version.Height, version.FileExtension)).ConfigureAwait(false);
-                    }
-                    model.Versions.Clear();
-                }
+            isReplacement = true;
 
-                // Delete the old file because we might have a different filename
-                await session.DeleteAsync(model, GetResourceName(model)).ConfigureAwait(false);
+            if (model.Versions.Count > 0)
+            {
+                foreach (var version in model.Versions)
+                {
+                    oldResourceNames.Add(GetResourceName(model, version.Width, version.Height, version.FileExtension));
+                }
+                model.Versions.Clear();
             }
+
+            oldResourceNames.Add(GetResourceName(model));
         }
 
         var type = App.MediaTypes.GetItem(content.Filename);
@@ -276,17 +274,61 @@ internal sealed class MediaService : IMediaService
             stream = memStream;
         }
 
-        // Upload to storage
-        using (var session = await _storage.OpenAsync().ConfigureAwait(false))
-        {
-            model.Size = stream.Length;
-            await session.PutAsync(model, model.Filename,
-                model.ContentType, stream).ConfigureAwait(false);
-        }
+        model.Size = stream.Length;
+        var stagedFilename = isReplacement ? $".replace-{Guid.NewGuid():N}-{model.Filename}" : model.Filename;
+        var staged = false;
 
-        App.Hooks.OnBeforeSave(model);
-        await _repo.Save(model).ConfigureAwait(false);
-        App.Hooks.OnAfterSave(model);
+        try
+        {
+            // Upload to storage
+            using (var session = await _storage.OpenAsync().ConfigureAwait(false))
+            {
+                await session.PutAsync(model, stagedFilename,
+                    model.ContentType, stream).ConfigureAwait(false);
+                staged = true;
+            }
+
+            App.Hooks.OnBeforeSave(model);
+            await _repo.Save(model).ConfigureAwait(false);
+            App.Hooks.OnAfterSave(model);
+
+            if (isReplacement)
+            {
+                using (var session = await _storage.OpenAsync().ConfigureAwait(false))
+                {
+                    using (var stagedStream = new MemoryStream())
+                    {
+                        if (!await session.GetAsync(model, stagedFilename, stagedStream).ConfigureAwait(false))
+                        {
+                            throw new FileNotFoundException("The staged replacement media file could not be found.", stagedFilename);
+                        }
+
+                        stagedStream.Position = 0;
+                        await session.PutAsync(model, model.Filename,
+                            model.ContentType, stagedStream).ConfigureAwait(false);
+                    }
+
+                    await session.DeleteAsync(model, stagedFilename).ConfigureAwait(false);
+
+                    foreach (var oldResourceName in oldResourceNames.Where(name => name != model.Filename))
+                    {
+                        await session.DeleteAsync(model, oldResourceName).ConfigureAwait(false);
+                    }
+                }
+            }
+        }
+        catch
+        {
+            if (staged)
+            {
+                using (var session = await _storage.OpenAsync().ConfigureAwait(false))
+                {
+                    await session.DeleteAsync(model, stagedFilename).ConfigureAwait(false);
+                }
+            }
+
+            throw;
+        }
 
         await RemoveFromCache(model).ConfigureAwait(false);
         await RemoveStructureFromCache().ConfigureAwait(false);
