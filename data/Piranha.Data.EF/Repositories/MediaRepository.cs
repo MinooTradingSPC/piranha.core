@@ -123,6 +123,11 @@ internal class MediaRepository : IMediaRepository
     public async Task<IEnumerable<Models.MediaFolder>> GetFoldersByIds(IEnumerable<Guid> ids)
     {
         var idArray = ids as Guid[] ?? ids.ToArray();
+        if (idArray.Length == 0)
+        {
+            return Enumerable.Empty<Models.MediaFolder>();
+        }
+
         return await _db.MediaFolders
             .AsNoTracking()
             .Where(f => idArray.Contains(f.Id))

@@ -87,7 +87,13 @@ internal sealed class MediaService : IMediaService
     /// <returns>The available media folders</returns>
     public async Task<IEnumerable<MediaFolder>> GetAllFoldersAsync(Guid? folderId = null)
     {
-        var ids = (await _repo.GetAllFolders(folderId).ConfigureAwait(false)).ToArray();
+        var allFolders = await _repo.GetAllFolders(folderId).ConfigureAwait(false);
+        if (allFolders == null)
+        {
+            return Array.Empty<MediaFolder>();
+        }
+
+        var ids = allFolders.ToArray();
         if (ids.Length == 0)
         {
             return Array.Empty<MediaFolder>();
@@ -119,8 +125,9 @@ internal sealed class MediaService : IMediaService
         }
 
         // Restore the original ordering (by name, as returned by GetAllFolders)
+        var retDict = ret.ToDictionary(f => f.Id);
         return ids
-            .Select(id => ret.FirstOrDefault(f => f.Id == id))
+            .Select(id => retDict.TryGetValue(id, out var folder) ? folder : null)
             .Where(f => f != null)
             .ToList();
     }
