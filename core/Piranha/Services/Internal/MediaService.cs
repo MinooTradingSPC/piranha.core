@@ -24,6 +24,9 @@ internal sealed class MediaService : IMediaService
     private readonly IStorage _storage;
     private readonly IImageProcessor _processor;
     private readonly ICache _cache;
+    // Keyed by media ID so concurrent scaling of different items runs in parallel.
+    // Entries are removed in DeleteAsync; in-flight callers retain their reference
+    // via GetOrAdd so removal is always safe without disposing.
     private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> ScaleMutexes = new();
     private const string MEDIA_STRUCTURE = "MediaStructure";
 
@@ -571,6 +574,13 @@ internal sealed class MediaService : IMediaService
                 await session.DeleteAsync(media, media.Filename).ConfigureAwait(false);
                 App.Hooks.OnAfterDelete(media);
             }
+
+            // Remove the per-media semaphore now that the record is gone.
+            // Any in-flight EnsureVersionAsync calls hold their own reference via
+            // GetOrAdd and will complete safely; we simply stop new callers from
+            // finding this entry in the dictionary.
+            ScaleMutexes.TryRemove(id, out _);
+
             await RemoveFromCache(media).ConfigureAwait(false);
             await RemoveStructureFromCache().ConfigureAwait(false);
         }
