@@ -8,7 +8,9 @@
  *
  */
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Piranha.Manager;
 using Piranha.Manager.Controllers;
 using Piranha.Models;
 using Piranha.Services;
@@ -26,6 +28,21 @@ public class MediaApiControllerTests
         var result = await controller.GetUrl(Guid.NewGuid(), 640);
 
         Assert.IsType<NotFoundResult>(result);
+    }
+
+    /// <summary>
+    /// Regression test for issue #145: SaveMeta was missing the MediaEdit permission check,
+    /// allowing read-only admin users to modify media metadata.
+    /// </summary>
+    [Fact]
+    public void SaveMetaRequiresMediaEditPermission()
+    {
+        var method = typeof(MediaApiController).GetMethod(nameof(MediaApiController.SaveMeta));
+        var authorizeAttributes = method
+            .GetCustomAttributes(typeof(AuthorizeAttribute), inherit: false)
+            .Cast<AuthorizeAttribute>();
+
+        Assert.Contains(authorizeAttributes, a => a.Policy == Permission.MediaEdit);
     }
 
     private sealed class TestApi : IApi
