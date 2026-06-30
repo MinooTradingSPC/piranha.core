@@ -145,20 +145,9 @@ internal sealed class PageService : IPageService
     /// <returns>The available models</returns>
     public async Task<IEnumerable<T>> GetAllAsync<T>(Guid? siteId = null) where T : PageBase
     {
-        var models = new List<T>();
         var pages = await _repo.GetAll(await EnsureSiteIdAsync(siteId).ConfigureAwait(false))
             .ConfigureAwait(false);
-
-        foreach (var pageId in pages)
-        {
-            var page = await GetByIdAsync<T>(pageId).ConfigureAwait(false);
-
-            if (page != null)
-            {
-                models.Add(page);
-            }
-        }
-        return models;
+        return await GetByIdsAsync<T>(pages.ToArray()).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -178,20 +167,9 @@ internal sealed class PageService : IPageService
     /// <returns>The pages</returns>
     public async Task<IEnumerable<T>> GetAllBlogsAsync<T>(Guid? siteId = null) where T : Models.PageBase
     {
-        var models = new List<T>();
         var pages = await _repo.GetAllBlogs(await EnsureSiteIdAsync(siteId).ConfigureAwait(false))
             .ConfigureAwait(false);
-
-        foreach (var pageId in pages)
-        {
-            var page = await GetByIdAsync<T>(pageId).ConfigureAwait(false);
-
-            if (page != null)
-            {
-                models.Add(page);
-            }
-        }
-        return models;
+        return await GetByIdsAsync<T>(pages.ToArray()).ConfigureAwait(false);
     }
 
     /// <summary>
