@@ -2,7 +2,7 @@
 @import "inc/bootstrap-slim";
 @import "inc/fontawesome";
 @import  "../../../node_modules/select2/dist/css/select2";
-@import  "../../../node_modules/simplemde/dist/simplemde.min";
+@import  "../../../node_modules/easymde/dist/easymde.min";
 @import "inc/fonts";
 @import "inc/general";
 @import "inc/nav";
@@ -32,8 +32,10 @@
 @import "inc/gallery";
 @import "inc/login";
 @import "inc/tinymce";
-@import "inc/simplemde";
+@import "inc/easymde";
 @import "inc/dropzone";
 @import "inc/select2";
 @import "inc/preview";
 @import "inc/datepicker";
+@import "inc/vuetify-theme";
+

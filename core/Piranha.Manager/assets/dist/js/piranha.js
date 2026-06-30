@@ -1,9 +1,9 @@
-
 //
 // Setting up a common event bus
 // for all Vue apps in Piranha
 //
 Vue.prototype.eventBus = new Vue();
+
 /*global
     piranha
 */
@@ -1398,6 +1398,88 @@ piranha.resources = new function() {
     };
 };
 /*global
+    piranha, Vue, Vuetify
+*/
+
+piranha.vuetify = new function () {
+    var colors = {
+        background: "#f2f2f2",
+        surface: "#ffffff",
+        primary: "#007eaa",
+        secondary: "#6c757d",
+        success: "#439700",
+        info: "#17a2b8",
+        warning: "#f0ad4e",
+        error: "#a94441"
+    };
+
+    this.theme = {
+        themes: {
+            light: colors
+        }
+    };
+
+    this.install = function () {
+        if (window.Vue && window.Vuetify && Vue.use) {
+            Vue.use(Vuetify);
+        }
+    };
+
+    this.create = function (options) {
+        if (!window.Vuetify) {
+            return null;
+        }
+
+        return new Vuetify(Object.assign({
+            theme: this.theme
+        }, options || {}));
+    };
+
+    this.mount = function (selector) {
+        var target = document.querySelector(selector);
+
+        if (!target || !window.Vue || !window.Vuetify) {
+            return null;
+        }
+
+        this.install();
+
+        var vuetify = this.create();
+        var app = new Vue({
+            vuetify: vuetify,
+            render: function (createElement) {
+                return createElement("v-app", {
+                    staticClass: "piranha-vuetify-runtime"
+                });
+            }
+        });
+
+        this.app = app;
+        this.instance = app.$mount(target);
+
+        return this.instance;
+    };
+
+    this.applyTheme = function () {
+        var root = document.documentElement;
+
+        root.setAttribute("data-piranha-theme", "vuetify");
+        root.style.setProperty("--piranha-theme-background", colors.background);
+        root.style.setProperty("--piranha-theme-surface", colors.surface);
+        root.style.setProperty("--piranha-theme-primary", colors.primary);
+        root.style.setProperty("--piranha-theme-secondary", colors.secondary);
+        root.style.setProperty("--piranha-theme-success", colors.success);
+        root.style.setProperty("--piranha-theme-info", colors.info);
+        root.style.setProperty("--piranha-theme-warning", colors.warning);
+        root.style.setProperty("--piranha-theme-error", colors.error);
+    };
+};
+
+piranha.vuetify.install();
+piranha.vuetify.applyTheme();
+piranha.vuetify.mount("#piranha-vuetify-app");
+
+/*global
     piranha, tinymce
 */
 
@@ -1409,7 +1491,7 @@ piranha.editor = {
     },
     addInlineMarkdown: function (id, value, update) {
         var preview = $("#" + id).parent().find(".markdown-preview");
-        var simplemde = new SimpleMDE({
+        var simplemde = new EasyMDE({
             element: document.getElementById(id),
             status: false,
             spellChecker: true,
@@ -1488,6 +1570,7 @@ $(document).on('focusin', function (e) {
         e.stopImmediatePropagation();
     }
 });
+
 Vue.component("page-item", {
   props: ["item"],
   methods: {
@@ -1495,5 +1578,5 @@ Vue.component("page-item", {
       item.isExpanded = !item.isExpanded;
     }
   },
-  template: "\n<li :data-id=\"item.id\" class=\"dd-item\" :class=\"{ expanded: item.isExpanded || item.items.length === 0 }\">\n    <div class=\"sitemap-item expanded\">\n        <div class=\"link\">\n            <span class=\"actions\">\n                <a v-if=\"item.items.length > 0 && item.isExpanded\" v-on:click.prevent=\"toggleItem(item)\" class=\"expand\" href=\"#\"><i class=\"fas fa-minus\"></i></a>\n                <a v-if=\"item.items.length > 0 && !item.isExpanded\" v-on:click.prevent=\"toggleItem(item)\" class=\"expand\" href=\"#\"><i class=\"fas fa-plus\"></i></a>\n            </span>\n            <a href=\"#\" v-on:click.prevent=\"piranha.pagepicker.select(item)\">\n                {{ item.title }}\n            </a>\n        </div>\n        <div class=\"type d-none d-md-block\">\n            {{ item.typeName }}\n        </div>\n    </div>\n    <ol class=\"dd-list\" v-if=\"item.items.length > 0\">\n        <page-item v-for=\"child in item.items\" v-bind:key=\"child.id\" v-bind:item=\"child\">\n        </page-item>\n    </ol>\n</li>\n"
+  template: "\n    <li :data-id=\"item.id\" class=\"dd-item\" :class=\"{ expanded: item.isExpanded || item.items.length === 0 }\">\n        <div class=\"sitemap-item expanded\">\n            <div class=\"link\">\n                <span class=\"actions\">\n                    <a v-if=\"item.items.length > 0 && item.isExpanded\" v-on:click.prevent=\"toggleItem(item)\" class=\"expand\" href=\"#\"><i class=\"fas fa-minus\"></i></a>\n                    <a v-if=\"item.items.length > 0 && !item.isExpanded\" v-on:click.prevent=\"toggleItem(item)\" class=\"expand\" href=\"#\"><i class=\"fas fa-plus\"></i></a>\n                </span>\n                <a href=\"#\" v-on:click.prevent=\"piranha.pagepicker.select(item)\">\n                    {{ item.title }}\n                </a>\n            </div>\n            <div class=\"type d-none d-md-block\">\n                {{ item.typeName }}\n            </div>\n        </div>\n        <ol class=\"dd-list\" v-if=\"item.items.length > 0\">\n            <page-item v-for=\"child in item.items\" v-bind:key=\"child.id\" v-bind:item=\"child\">\n            </page-item>\n        </ol>\n    </li>\n"
 });

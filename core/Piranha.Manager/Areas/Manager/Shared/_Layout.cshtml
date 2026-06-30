@@ -1,4 +1,4 @@
-﻿@inject Microsoft.Extensions.Options.IOptions<ManagerOptions> Options
+@inject Microsoft.Extensions.Options.IOptions<ManagerOptions> Options
 @inject Piranha.Config Config
 @{
     var module = Piranha.App.Modules.Get<Piranha.Manager.Module>();
@@ -20,6 +20,10 @@
         <link rel="stylesheet" href="~/manager/assets/css/full.min.css?v=@version">
     }
     <link rel="icon" href="~/manager/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/manager/assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/manager/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/manager/assets/img/favicon-16x16.png">
+    <link rel="manifest" href="~/manager/assets/img/site.webmanifest">
 
     @foreach (var style in module.Styles)
     {
@@ -34,6 +38,7 @@
     <div class="pre-release">Pre-release</div>
     }
     <partial name="~/Areas/Manager/Shared/Partial/_Menu.cshtml" />
+    <div id="piranha-vuetify-app" class="piranha-vuetify-app"></div>
 
     @RenderBody()
 
@@ -66,9 +71,9 @@
 
     <partial name="~/Areas/Manager/Shared/Partial/_EditorConfig.cshtml" />
 
-    @RenderSection("partials", required: false)
+    @await RenderSectionAsync("partials", required: false)
 
-<environment include="Development">
+    <environment include="Development">
     <script type="text/javascript" src="~/manager/assets/js/piranha-deps-dev.js?v=@version"></script>
 </environment>
 <environment exclude="Development">
@@ -122,6 +127,7 @@
             <script type="@script.Type" src="@Url.Content(script.Src)" integrity="@script.Integrity" crossorigin="@script.GetCrossOriginValueStrValue()"></script>
         }
     }
-    @RenderSection("script", required: false)
-</body>
+
+    @await RenderSectionAsync("script", required: false)
+    </body>
 </html>
