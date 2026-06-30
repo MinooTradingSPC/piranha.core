@@ -87,19 +87,49 @@ internal sealed class MediaService : IMediaService
     /// <returns>The available media folders</returns>
     public async Task<IEnumerable<MediaFolder>> GetAllFoldersAsync(Guid? folderId = null)
     {
-        var models = new List<MediaFolder>();
-        var items = await _repo.GetAllFolders(folderId).ConfigureAwait(false);
-
-        foreach (var item in items)
+        var allFolders = await _repo.GetAllFolders(folderId).ConfigureAwait(false);
+        if (allFolders == null)
         {
-            var folder = await GetFolderByIdAsync(item).ConfigureAwait(false);
+            return Array.Empty<MediaFolder>();
+        }
 
-            if (folder != null)
+        var ids = allFolders.ToArray();
+        if (ids.Length == 0)
+        {
+            return Array.Empty<MediaFolder>();
+        }
+
+        var ret = new List<MediaFolder>(ids.Length);
+        var notCached = new List<Guid>();
+
+        foreach (var id in ids)
+        {
+            var cached = _cache == null ? null : await _cache.GetAsync<MediaFolder>(id.ToString()).ConfigureAwait(false);
+            if (cached != null)
             {
-                models.Add(folder);
+                ret.Add(cached);
+            }
+            else
+            {
+                notCached.Add(id);
             }
         }
-        return models;
+
+        if (notCached.Count > 0)
+        {
+            foreach (var folder in await _repo.GetFoldersByIds(notCached).ConfigureAwait(false))
+            {
+                await OnFolderLoad(folder).ConfigureAwait(false);
+                ret.Add(folder);
+            }
+        }
+
+        // Restore the original ordering (by name, as returned by GetAllFolders)
+        var retDict = ret.ToDictionary(f => f.Id);
+        return ids
+            .Select(id => retDict.TryGetValue(id, out var folder) ? folder : null)
+            .Where(f => f != null)
+            .ToList();
     }
 
     /// <summary>
