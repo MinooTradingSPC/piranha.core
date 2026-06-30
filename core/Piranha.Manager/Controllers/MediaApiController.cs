@@ -105,6 +105,7 @@ public class MediaApiController : Controller
     /// <param name="model">The media model</param>
     [Route("meta/save")]
     [HttpPost]
+    [Authorize(Policy = Permission.MediaEdit)]
     public async Task<IActionResult> SaveMeta(MediaListModel.MediaItem model)
     {
         if (await _service.SaveMeta(model))
