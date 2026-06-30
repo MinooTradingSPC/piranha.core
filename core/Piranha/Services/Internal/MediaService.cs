@@ -27,6 +27,12 @@ internal sealed class MediaService : IMediaService
     private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> ScaleMutexes = new();
     private const string MEDIA_STRUCTURE = "MediaStructure";
 
+    // Lazily loaded once per service instance (scoped per request) to avoid
+    // allocating a Config object on every GetPublicUrl call. ExecutionAndPublication
+    // mode ensures the factory runs exactly once even under concurrent access
+    // (e.g. Task.WhenAll over OnLoad in _getFast).
+    private readonly Lazy<string> _mediaCdnUrl;
+
     /// <summary>
     /// Default constructor.
     /// </summary>
@@ -42,6 +48,11 @@ internal sealed class MediaService : IMediaService
         _storage = storage;
         _processor = processor;
         _cache = cache;
+        _mediaCdnUrl = new Lazy<string>(() =>
+        {
+            using var config = new Config(paramService);
+            return config.MediaCDN;
+        }, LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
     //Separated this into its own thing in case it needed to get reused elsewhere.
@@ -751,15 +762,12 @@ internal sealed class MediaService : IMediaService
     {
         var name = GetResourceName(media, width, height, extension);
 
-        using (var config = new Config(_paramService))
-        {
-            var cdn = config.MediaCDN;
+        var cdn = _mediaCdnUrl.Value;
 
-            if (!string.IsNullOrWhiteSpace(cdn))
-            {
-                return cdn + _storage.GetResourceName(media, name);
-            }
-            return _storage.GetPublicUrl(media, name);
+        if (!string.IsNullOrWhiteSpace(cdn))
+        {
+            return cdn + _storage.GetResourceName(media, name);
         }
+        return _storage.GetPublicUrl(media, name);
     }
 }
