@@ -159,6 +159,7 @@ public class RevertControllerTests
         public Task<int> GetCountAsync(Guid archiveId) => throw new NotImplementedException();
         public Task<DynamicPost> GetByIdAsync(Guid id) => Task.FromResult<DynamicPost>(null);
         public Task<T> GetByIdAsync<T>(Guid id) where T : PostBase => Task.FromResult<T>(null);
+        public Task<IEnumerable<T>> GetByIdsAsync<T>(params Guid[] ids) where T : PostBase => Task.FromResult<IEnumerable<T>>(Array.Empty<T>());
         public Task<DynamicPost> GetDraftByIdAsync(Guid id) => throw new NotImplementedException();
         public Task<T> GetDraftByIdAsync<T>(Guid id) where T : PostBase => throw new NotImplementedException();
         public Task<DynamicPost> GetBySlugAsync(string blog, string slug, Guid? siteId = null) => throw new NotImplementedException();
