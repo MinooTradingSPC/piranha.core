@@ -53,7 +53,7 @@ internal sealed class DistributedCache : ICache
     /// <inheritdoc />
     public async Task SetAsync<T>(string key, T value, CancellationToken cancellationToken = default)
     {
-        await _cache.SetStringAsync(key, JsonConvert.SerializeObject(value, _jsonSettings), cancellationToken).ConfigureAwait(false);
+        await _cache.SetStringAsync(key, JsonConvert.SerializeObject(value, typeof(T), _jsonSettings), cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

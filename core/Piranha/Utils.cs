@@ -895,7 +895,7 @@ public static class Utils
             TypeNameHandling = TypeNameHandling.Auto,
             SerializationBinder = new Cache.PiranhaTypesBinder()
         };
-        var json = JsonConvert.SerializeObject(obj, settings);
+        var json = JsonConvert.SerializeObject(obj, typeof(T), settings);
 
         return JsonConvert.DeserializeObject<T>(json, settings);
     }
