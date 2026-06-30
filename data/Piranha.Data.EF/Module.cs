@@ -24,7 +24,7 @@ public class Module : IModule
     /// <summary>
     /// Gets the Author
     /// </summary>
-    public string Author => "Piranha";
+    public string Author => "Kiarash Minoo";
 
     /// <summary>
     /// Gets the Name
@@ -44,12 +44,12 @@ public class Module : IModule
     /// <summary>
     /// Gets the package url.
     /// </summary>
-    public string PackageUrl => "https://www.nuget.org/packages/Piranha.Data.EF";
+    public string PackageUrl => "https://github.com/MinooTradingSPC/piranha.core";
 
     /// <summary>
     /// Gets the icon url.
     /// </summary>
-    public string IconUrl => "https://piranhacms.org/assets/twitter-shield.png";
+    public string IconUrl => "https://raw.githubusercontent.com/MinooTradingSPC/piranha.core/master/Piranha.png";
 
     /// <summary>
     /// Initializes the Mapster mapping configuration.
