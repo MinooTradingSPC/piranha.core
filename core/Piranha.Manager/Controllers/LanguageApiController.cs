@@ -54,6 +54,7 @@ public class LanguageApiController : Controller
     /// <param name="model">The model</param>
     [Route("")]
     [HttpPost]
+    [Authorize(Policy = Permission.LanguageEdit)]
     public async Task<IActionResult> Save(LanguageEditModel model)
     {
         try
@@ -86,6 +87,7 @@ public class LanguageApiController : Controller
     /// <param name="id">The unique id</param>
     [Route("{id}")]
     [HttpDelete]
+    [Authorize(Policy = Permission.LanguageDelete)]
     public async Task<IActionResult> Delete(Guid id)
     {
         try
