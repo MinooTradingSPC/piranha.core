@@ -109,7 +109,8 @@ public class ImageSharpProcessor : IImageProcessor
         using var canvas = new SKCanvas(dst);
         canvas.DrawBitmap(src,
             new SKRect(x, y, x + width, y + height),
-            new SKRect(0, 0, width, height));
+            new SKRect(0, 0, width, height),
+            Sampling);
         return dst;
     }
 
@@ -145,7 +146,7 @@ public class ImageSharpProcessor : IImageProcessor
         };
 
         canvas.SetMatrix(matrix);
-        canvas.DrawBitmap(src, 0, 0);
+        canvas.DrawBitmap(src, 0, 0, Sampling);
         canvas.Flush();
         return dst;
     }
