@@ -27,6 +27,11 @@ internal sealed class MediaService : IMediaService
     private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> ScaleMutexes = new();
     private const string MEDIA_STRUCTURE = "MediaStructure";
 
+    // Lazily loaded once per service instance (scoped per request) to avoid
+    // allocating a Config object on every GetPublicUrl call.
+    private string _mediaCdnUrl;
+    private bool _mediaCdnUrlLoaded;
+
     /// <summary>
     /// Default constructor.
     /// </summary>
@@ -751,15 +756,19 @@ internal sealed class MediaService : IMediaService
     {
         var name = GetResourceName(media, width, height, extension);
 
-        using (var config = new Config(_paramService))
+        if (!_mediaCdnUrlLoaded)
         {
-            var cdn = config.MediaCDN;
-
-            if (!string.IsNullOrWhiteSpace(cdn))
+            using (var config = new Config(_paramService))
             {
-                return cdn + _storage.GetResourceName(media, name);
+                _mediaCdnUrl = config.MediaCDN;
             }
-            return _storage.GetPublicUrl(media, name);
+            _mediaCdnUrlLoaded = true;
         }
+
+        if (!string.IsNullOrWhiteSpace(_mediaCdnUrl))
+        {
+            return _mediaCdnUrl + _storage.GetResourceName(media, name);
+        }
+        return _storage.GetPublicUrl(media, name);
     }
 }
