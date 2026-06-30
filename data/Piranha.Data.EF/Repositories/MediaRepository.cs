@@ -116,6 +116,28 @@ internal class MediaRepository : IMediaRepository
             .FirstOrDefaultAsync(f => f.Id == id);
 
     /// <summary>
+    /// Gets the media folders with the given ids in a single query.
+    /// </summary>
+    /// <param name="ids">The unique ids</param>
+    /// <returns>The media folders</returns>
+    public async Task<IEnumerable<Models.MediaFolder>> GetFoldersByIds(IEnumerable<Guid> ids)
+    {
+        var idArray = ids as Guid[] ?? ids.ToArray();
+        return await _db.MediaFolders
+            .AsNoTracking()
+            .Where(f => idArray.Contains(f.Id))
+            .Select(f => new Models.MediaFolder
+            {
+                Id = f.Id,
+                ParentId = f.ParentId,
+                Name = f.Name,
+                Created = f.Created
+            })
+            .ToListAsync()
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Gets the hierarchical media structure.
     /// </summary>
     /// <returns>The media structure</returns>

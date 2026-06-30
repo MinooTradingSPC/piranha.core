@@ -87,19 +87,42 @@ internal sealed class MediaService : IMediaService
     /// <returns>The available media folders</returns>
     public async Task<IEnumerable<MediaFolder>> GetAllFoldersAsync(Guid? folderId = null)
     {
-        var models = new List<MediaFolder>();
-        var items = await _repo.GetAllFolders(folderId).ConfigureAwait(false);
-
-        foreach (var item in items)
+        var ids = (await _repo.GetAllFolders(folderId).ConfigureAwait(false)).ToArray();
+        if (ids.Length == 0)
         {
-            var folder = await GetFolderByIdAsync(item).ConfigureAwait(false);
+            return Array.Empty<MediaFolder>();
+        }
 
-            if (folder != null)
+        var ret = new List<MediaFolder>(ids.Length);
+        var notCached = new List<Guid>();
+
+        foreach (var id in ids)
+        {
+            var cached = _cache == null ? null : await _cache.GetAsync<MediaFolder>(id.ToString()).ConfigureAwait(false);
+            if (cached != null)
             {
-                models.Add(folder);
+                ret.Add(cached);
+            }
+            else
+            {
+                notCached.Add(id);
             }
         }
-        return models;
+
+        if (notCached.Count > 0)
+        {
+            foreach (var folder in await _repo.GetFoldersByIds(notCached).ConfigureAwait(false))
+            {
+                await OnFolderLoad(folder).ConfigureAwait(false);
+                ret.Add(folder);
+            }
+        }
+
+        // Restore the original ordering (by name, as returned by GetAllFolders)
+        return ids
+            .Select(id => ret.FirstOrDefault(f => f.Id == id))
+            .Where(f => f != null)
+            .ToList();
     }
 
     /// <summary>
