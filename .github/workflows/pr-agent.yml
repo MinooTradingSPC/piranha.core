@@ -19,4 +19,3 @@ jobs:
 
     secrets:
       OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
-      NVIDIA_NIM_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
