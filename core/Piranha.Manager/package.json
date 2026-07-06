@@ -36,6 +36,6 @@
     "through2": "^5.0.3",
     "vue": "^2.7.16",
     "vuejs-datepicker": "^1.6.2",
-    "vuetify": "^2.7.2"
+    "vuetify": "^4.1.3"
   }
 }
