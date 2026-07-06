@@ -17,7 +17,7 @@
     "@fortawesome/fontawesome-free": "^7.3.0",
     "@microsoft/signalr": "^10.0.0",
     "@vue/compiler-sfc": "^3.5.39",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.3.8",
     "dompurify": "^3.4.11",
     "dropzone": "^5.9.3",
     "easymde": "^2.21.0",
