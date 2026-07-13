@@ -93,4 +93,10 @@ jobs:
                 --title "$title" \
                 --body-file "$body_file" \
                 --label "security" \
-            
+                --label "codeql"
+              rm -f "$body_file"
+              echo "Created issue: $title"
+            else
+              echo "Issue already exists for alert #${number} — skipping"
+            fi
+          done
