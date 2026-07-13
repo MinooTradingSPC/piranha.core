@@ -2,8 +2,11 @@ name: "CodeQL"
 
 on:
   schedule:
-    # GitHub cron uses UTC; these are 12:00 AM and 12:00 PM Asia/Dubai.
-    - cron: '0 20,8 * * *'
+    # Was twice daily with no push trigger at all — for a full-solution
+    # restore+build+CodeQL(csharp+javascript) run, that's the single most
+    # expensive schedule in the org. Weekly is plenty for a safety net.
+    - cron: '0 20 * * 6'   # Saturday 20:00 UTC (~00:00 Asia/Dubai Sunday)
+  workflow_dispatch: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -90,10 +93,4 @@ jobs:
                 --title "$title" \
                 --body-file "$body_file" \
                 --label "security" \
-                --label "codeql"
-              rm -f "$body_file"
-              echo "Created issue: $title"
-            else
-              echo "Issue already exists for alert #${number} — skipping"
-            fi
-          done
+            
