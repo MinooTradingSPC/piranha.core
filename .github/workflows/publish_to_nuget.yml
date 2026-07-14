@@ -1,101 +1,95 @@
 name: Publish NuGet Packages
 
+# Converted to reusable-ci.yml (channel: release) for consistency with
+# IIIF/ThunderPropagator. TRIGGER CHANGE: this used to fire on `release: published` (a
+# human drafts/publishes a GitHub Release first, which then triggers packaging).
+# reusable-ci.yml now creates its OWN tag + GitHub Release (with a generated
+# CHANGELOG.md section as the body) as part of auto-bumping Directory.Build.props's
+# <Version> (patch++ per run, since there's no prerelease/beta stage here -- see
+# bump-component below if that should ever change to grow minor/major instead), so
+# this is now workflow_dispatch only -- run manually to cut a release, same model as
+# IIIF. If you still want release-note curation before publishing, edit the
+# auto-created GitHub Release afterwards; the tag/version/changelog are already set by
+# the time it's created.
+#
+# NODE VERSION CAVEAT: the previous job pinned Node 20.x via actions/setup-node. The
+# pre-build-command hook below can only run shell commands (not `uses:` steps), so it
+# relies on whatever Node ships preinstalled on windows-latest runners. If a specific
+# Node version becomes required, add an explicit install (e.g. via nvm-windows or
+# corepack) to the pre-build-command below.
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
-    inputs:
-      build_frontend:
-        description: 'Run npm install and Gulp to rebuild frontend assets before packing'
-        type: boolean
-        default: false
+  workflow_dispatch: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: windows-latest
-    timeout-minutes: 30
-    environment: Production
+  # NuGet publishing here targets GitHub Packages (not nuget.org) via
+  # reusable-ci.yml's nuget-target: github-packages option -- no NuGet.org Trusted
+  # Publishing OIDC involved, so no nuget-user secret is needed.
+  #
+  # IMPORTANT: a job-level `permissions:` block is exhaustive, not additive -- any
+  # scope not listed here is implicitly set to "none" for every nested job the called
+  # reusable workflow runs, regardless of what that nested job requests for itself.
+  # This must list every scope ANY of reusable-ci.yml's jobs need across the whole
+  # run: contents:write (version/changelog commit, tag, GitHub Release), packages:write
+  # (publish-nuget, to push to GitHub Packages), actions:write
+  # (cleanup-nuget-artifacts). id-token:write isn't strictly needed for the
+  # github-packages target, but is harmless to include.
+  release:
     permissions:
-      contents: read
+      contents: write
       packages: write
-
-    steps:
-
-    # Checkout
-    - name: Checkout repository
-      uses: actions/checkout@v7
-
-    # Setup .NET Core
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: '10.0.x'
-        source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    # Setup Node.js
-    - name: Use Node.js 20.x
-      uses: actions/setup-node@v6
-      with:
-        node-version: 20
-
-    # Build frontend assets
-    - name: Build frontend assets (Gulp)
-      if: ${{ github.event_name == 'release' || inputs.build_frontend == true }}
-      working-directory: core/Piranha.Manager
-      run: |
+      id-token: write
+      actions: write
+    uses: KiarashMinoo/.github/.github/workflows/reusable-ci.yml@main
+    with:
+      channel: release
+      # No prior beta stage here, so every run hits the "release-only flow" branch in
+      # update-version.ps1, which bumps -BumpComponent (default 'major', matching the
+      # standard protocol) each time. Pin bump-component: minor or patch here instead
+      # if piranha.core should grow more slowly than a full major version per release.
+      dotnet-versions: |
+        8.0.x
+        9.0.x
+        10.0.x
+      solution-path: 'Piranha.sln'
+      runner-os: '["windows-latest"]'
+      platforms: '["AnyCpu"]'
+      configurations: '["Release"]'
+      pre-build-command: |
+        cd core/Piranha.Manager
         npm install --legacy-peer-deps
         npx gulp
-
-    # Build and pack
-    - name: Build solution and generate NuGet package
-      run: |
-        dotnet restore
-        dotnet clean
-        dotnet build -c Release
-
-        dotnet pack core/Piranha/Piranha.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.AspNetCore/Piranha.AspNetCore.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.AspNetCore.Hosting/Piranha.AspNetCore.Hosting.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.AttributeBuilder/Piranha.AttributeBuilder.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.Azure.BlobStorage/Piranha.Azure.BlobStorage.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.ImageSharp/Piranha.ImageSharp.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.Local.FileStorage/Piranha.Local.FileStorage.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.Manager/Piranha.Manager.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.Manager.LocalAuth/Piranha.Manager.LocalAuth.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.Manager.Localization/Piranha.Manager.Localization.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.Manager.TinyMCE/Piranha.Manager.TinyMCE.csproj --no-build -c Release -o ./artifacts
-        dotnet pack core/Piranha.WebApi/Piranha.WebApi.csproj --no-build -c Release -o ./artifacts
-        dotnet pack data/Piranha.Data.EF/Piranha.Data.EF.csproj --no-build -c Release -o ./artifacts
-        dotnet pack data/Piranha.Data.EF.MySql/Piranha.Data.EF.MySql.csproj --no-build -c Release -o ./artifacts
-        dotnet pack data/Piranha.Data.EF.PostgreSql/Piranha.Data.EF.PostgreSql.csproj --no-build -c Release -o ./artifacts
-        dotnet pack data/Piranha.Data.EF.SQLite/Piranha.Data.EF.SQLite.csproj --no-build -c Release -o ./artifacts
-        dotnet pack data/Piranha.Data.EF.SQLServer/Piranha.Data.EF.SQLServer.csproj --no-build -c Release -o ./artifacts
-        dotnet pack identity/Piranha.AspNetCore.Identity/Piranha.AspNetCore.Identity.csproj --no-build -c Release -o ./artifacts
-        dotnet pack identity/Piranha.AspNetCore.Identity.MySQL/Piranha.AspNetCore.Identity.MySQL.csproj --no-build -c Release -o ./artifacts
-        dotnet pack identity/Piranha.AspNetCore.Identity.PostgreSQL/Piranha.AspNetCore.Identity.PostgreSQL.csproj --no-build -c Release -o ./artifacts
-        dotnet pack identity/Piranha.AspNetCore.Identity.SQLite/Piranha.AspNetCore.Identity.SQLite.csproj --no-build -c Release -o ./artifacts
-        dotnet pack identity/Piranha.AspNetCore.Identity.SQLServer/Piranha.AspNetCore.Identity.SQLServer.csproj --no-build -c Release -o ./artifacts
-
-    # Push to GitHub Packages
-    - name: Push packages to GitHub Packages
-      shell: pwsh
-      run: |
-        $ErrorActionPreference = 'Stop'
-        $source = "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
-        $key    = "${{ secrets.GITHUB_TOKEN }}"
-
-        Get-ChildItem -Path "artifacts" -Filter "*.nupkg" | ForEach-Object {
-          dotnet nuget push $_.FullName --skip-duplicate -k $key -s $source
-          if ($LASTEXITCODE -ne 0) { throw "Push failed for $($_.Name)" }
-        }
-
-        Get-ChildItem -Path "artifacts" -Filter "*.snupkg" -ErrorAction SilentlyContinue | ForEach-Object {
-          dotnet nuget push $_.FullName --skip-duplicate -k $key -s $source
-          if ($LASTEXITCODE -ne 0) { throw "Push failed for $($_.Name)" }
-        }
+        cd ../..
+      # Explicit project list (matches the previous workflow 1:1) instead of a
+      # solution-wide pack, since Piranha.sln also contains test/sample projects that
+      # shouldn't be packed.
+      pack-project-paths: |
+        core/Piranha/Piranha.csproj
+        core/Piranha.AspNetCore/Piranha.AspNetCore.csproj
+        core/Piranha.AspNetCore.Hosting/Piranha.AspNetCore.Hosting.csproj
+        core/Piranha.AttributeBuilder/Piranha.AttributeBuilder.csproj
+        core/Piranha.Azure.BlobStorage/Piranha.Azure.BlobStorage.csproj
+        core/Piranha.ImageSharp/Piranha.ImageSharp.csproj
+        core/Piranha.Local.FileStorage/Piranha.Local.FileStorage.csproj
+        core/Piranha.Manager/Piranha.Manager.csproj
+        core/Piranha.Manager.LocalAuth/Piranha.Manager.LocalAuth.csproj
+        core/Piranha.Manager.Localization/Piranha.Manager.Localization.csproj
+        core/Piranha.Manager.TinyMCE/Piranha.Manager.TinyMCE.csproj
+        core/Piranha.WebApi/Piranha.WebApi.csproj
+        data/Piranha.Data.EF/Piranha.Data.EF.csproj
+        data/Piranha.Data.EF.MySql/Piranha.Data.EF.MySql.csproj
+        data/Piranha.Data.EF.PostgreSql/Piranha.Data.EF.PostgreSql.csproj
+        data/Piranha.Data.EF.SQLite/Piranha.Data.EF.SQLite.csproj
+        data/Piranha.Data.EF.SQLServer/Piranha.Data.EF.SQLServer.csproj
+        identity/Piranha.AspNetCore.Identity/Piranha.AspNetCore.Identity.csproj
+        identity/Piranha.AspNetCore.Identity.MySQL/Piranha.AspNetCore.Identity.MySQL.csproj
+        identity/Piranha.AspNetCore.Identity.PostgreSQL/Piranha.AspNetCore.Identity.PostgreSQL.csproj
+        identity/Piranha.AspNetCore.Identity.SQLite/Piranha.AspNetCore.Identity.SQLite.csproj
+        identity/Piranha.AspNetCore.Identity.SQLServer/Piranha.AspNetCore.Identity.SQLServer.csproj
+      publish-to-nuget: true
+      nuget-target: 'github-packages'
+    secrets:
+      gh-token: ${{ secrets.GITHUB_TOKEN }}
