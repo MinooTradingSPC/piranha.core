@@ -3,13 +3,27 @@
 
 .navbar {
     &.navbar-left {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
         width: 3rem;
         height: 100%;
+        box-sizing: border-box;
+        align-items: stretch;
         padding: .5rem 0;
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: hidden;
         transition: width ease-in-out .2s;
+
+        > .navbar-brand {
+            flex: 0 0 auto;
+        }
+
+        > .navbar-nav {
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
 
         &.active, &:hover {
             width: 200px;

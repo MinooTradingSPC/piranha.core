@@ -1,9 +1,11 @@
 @using Piranha.Manager
 @inject ManagerLocalizer Localizer
 @inject IAuthorizationService Auth
+@inject ManagerLocalizationOptions LocalizationOptions
 @{
     var menu = await Menu.Items.GetForUser(User, Auth);
     var logout = Piranha.App.Modules.Manager().LogoutUrl;
+    var languages = LocalizationOptions.SupportedCultures;
 }
 
 <nav class="navbar navbar-left fixed-top navbar-dark bg-dark">
@@ -25,5 +27,29 @@
             }
         }
         <li class="nav-item nav-header"><a class="navbar-text" href="@Url.Content(logout)"><i class="fas fa-power-off"></i>@Localizer.Menu["Logout"]</a></li>
+        <li class="nav-item manager-preferences">
+            @if (languages.Count > 0)
+            {
+                <div class="manager-icon-chooser manager-language-chooser" role="group" aria-label="@Localizer.General["Language"]">
+                    @foreach (var language in languages)
+                    {
+                        <button type="button"
+                                data-manager-language-value="@language.Name"
+                                title="@language.NativeName"
+                                aria-label="@language.NativeName">
+                            <img class="language-flag" data-manager-language-flag="@language.Name" alt="" aria-hidden="true">
+                        </button>
+                    }
+                </div>
+            }
+            <div class="manager-icon-chooser manager-theme-chooser" role="group" aria-label="@Localizer.General["Color theme"]">
+                <button type="button" data-manager-theme-value="light" title="@Localizer.General["Light theme"]" aria-label="@Localizer.General["Light theme"]">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <button type="button" data-manager-theme-value="dark" title="@Localizer.General["Dark theme"]" aria-label="@Localizer.General["Dark theme"]">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </li>
     </ul>
 </nav>

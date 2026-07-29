@@ -10,16 +10,16 @@
                 <a v-if="piranha.permissions.pages.edit" :href="piranha.baseUrl + item.editUrl + item.id">
                     <span>{{ item.title }}</span>
                     <span v-if="item.isRestricted" class="icon-restricted text-secondary small"><i class="fas fa-lock"></i></span>
-                    <span v-if="item.status" class="badge badge-info">{{ item.status }}</span>
-                    <span v-if="item.isScheduled" class="badge badge-info">{{ piranha.resources.texts.scheduled }}</span>
-                    <span v-if="item.isCopy" class="badge badge-warning">{{ piranha.resources.texts.copy }}</span>
+                    <span v-if="item.status" class="badge text-bg-info">{{ item.status }}</span>
+                    <span v-if="item.isScheduled" class="badge text-bg-info">{{ piranha.resources.texts.scheduled }}</span>
+                    <span v-if="item.isCopy" class="badge text-bg-warning">{{ piranha.resources.texts.copy }}</span>
                 </a>
                 <span v-else class="title">
                     <span>{{ item.title }}</span>
                     <span v-if="item.isRestricted" class="icon-restricted text-secondary small"><i class="fas fa-lock"></i></span>
-                    <span v-if="item.status" class="badge badge-info">{{ item.status }}</span>
-                    <span v-if="item.isScheduled" class="badge badge-info">{{ piranha.resources.texts.scheduled }}</span>
-                    <span v-if="item.isCopy" class="badge badge-warning">{{ piranha.resources.texts.copy }}</span>
+                    <span v-if="item.status" class="badge text-bg-info">{{ item.status }}</span>
+                    <span v-if="item.isScheduled" class="badge text-bg-info">{{ piranha.resources.texts.scheduled }}</span>
+                    <span v-if="item.isCopy" class="badge text-bg-warning">{{ piranha.resources.texts.copy }}</span>
                 </span>
             </div>
             <div class="type d-none d-md-block">{{ item.typeName }}</div>

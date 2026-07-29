@@ -10,12 +10,14 @@
  */
 // Gulp task to compile .vue files into Vue.Components(...)
 var path = require('path'),
-    vueCompiler = require('vue-template-compiler'),
+    fs = require('fs'),
+    vueCompiler = require('@vue/compiler-sfc'),
     babel = require("@babel/core"),
     babelTemplate = require("@babel/template").default,
     codeFrameColumns = require('@babel/code-frame').codeFrameColumns,
     babelTypes = require("@babel/types"),
-    through2 = require('through2'),
+    through2Module = require('through2'),
+    through2 = through2Module.obj ? through2Module : through2Module.default,
     rtlcss = require('gulp-rtlcss');
 
 function vueCompile() {
@@ -35,16 +37,16 @@ function vueCompile() {
 
             var compile;
             compile = function (componentName, content) {
-                var component = vueCompiler.parseComponent(content, []);
+                var component = vueCompiler.parse(content, { filename: relativeFile }).descriptor;
                 if (component.styles.length > 0) {
                     component.styles.forEach(s => {
-                        const linesToStyle = content.substr(0, s.start).split(/\r?\n/).length;
+                        const linesToStyle = s.loc.start.line;
                         var msg = 'WARNING: <style> tag in ' + relativeFile + ' is ignored\n' + codeFrameColumns(content, { start: { line: linesToStyle } }, { highlightCode: true });
                         console.warn(msg);
                     });
                 }
 
-                var ast = babel.parse(component.script.content, {
+                var ast = babel.parseSync(component.script.content, {
                     parserOpts: {
                         sourceFilename: file.path
                     }
@@ -61,15 +63,13 @@ function vueCompile() {
 
                 ast.program.body = [componentAst]
 
-                babel.transformFromAst(ast, null, null, function (err, result) {
-                    if (err) {
-                        callback(err, null)
-                    }
-                    else {
-                        file.contents = Buffer.from(result.code);
-                        callback(null, file)
-                    }
-                });
+                try {
+                    var result = babel.transformFromAstSync(ast, null, null);
+                    file.contents = Buffer.from(result.code);
+                    callback(null, file);
+                } catch (err) {
+                    callback(err, null);
+                }
             }
             var componentName = path.basename(file.path, ext);
             if (file.isBuffer()) {
@@ -94,11 +94,15 @@ function vueCompile() {
 var gulp = require("gulp"),
     sass = require('gulp-sass')(require('sass')),
     concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
+    cssmin = require("gulp-clean-css"),
     rename = require("gulp-rename"),
     uglify = require('gulp-uglify-es').default;
 
 var output = "assets/dist/";
+
+var sassOptions = {
+    silenceDeprecations: ["import", "global-builtin", "slash-div", "if-function", "color-functions", "abs-percent"]
+};
 
 var css = [
     "assets/src/scss/slim.scss",
@@ -115,15 +119,14 @@ var js = [
         name: "piranha-deps-dev.js",
         items: [
             "node_modules/jquery/dist/jquery.js",
-            "node_modules/popper.js/dist/umd/popper.js",
-            "node_modules/bootstrap/dist/js/bootstrap.js",
-            "node_modules/vue/dist/vue.js",
+            "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+            "node_modules/@vue/compat/dist/vue.global.js",
+            "node_modules/vuetify/dist/vuetify.js",
             "node_modules/html5sortable/dist/html5sortable.js",
             "node_modules/nestable2/dist/jquery.nestable.min.js",
             "node_modules/dropzone/dist/dropzone.js",
             "node_modules/select2/dist/js/select2.js",
-            "node_modules/vuejs-datepicker/dist/vuejs-datepicker.min.js",
-            "node_modules/simplemde/dist/simplemde.min.js",
+            "node_modules/easymde/dist/easymde.min.js",
             "node_modules/dompurify/dist/purify.min.js"
         ]
     },
@@ -131,21 +134,23 @@ var js = [
         name: "piranha-deps.js",
         items: [
             "node_modules/jquery/dist/jquery.js",
-            "node_modules/popper.js/dist/umd/popper.js",
-            "node_modules/bootstrap/dist/js/bootstrap.js",
-            "node_modules/vue/dist/vue.min.js",
+            "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+            "node_modules/@vue/compat/dist/vue.global.prod.js",
+            "node_modules/vuetify/dist/vuetify.min.js",
             "node_modules/html5sortable/dist/html5sortable.js",
             "node_modules/nestable2/dist/jquery.nestable.min.js",
             "node_modules/dropzone/dist/dropzone.js",
             "node_modules/select2/dist/js/select2.js",
-            "node_modules/vuejs-datepicker/dist/vuejs-datepicker.min.js",
-            "node_modules/simplemde/dist/simplemde.min.js",
+            "node_modules/easymde/dist/easymde.min.js",
             "node_modules/dompurify/dist/purify.min.js"
         ]
     },
     {
         name: "piranha.js",
         items: [
+            "assets/src/js/piranha.theme.js",
+            "assets/src/js/piranha.bootstrap.js",
+            "assets/src/js/piranha.datepicker.js",
             "assets/src/js/piranha.eventbus.js",
             "assets/src/js/piranha.accessibility.js",
             "assets/src/js/piranha.alert.js",
@@ -153,6 +158,7 @@ var js = [
             "assets/src/js/piranha.dropzone.js",
             "assets/src/js/piranha.permissions.js",
             "assets/src/js/piranha.utils.js",
+            "assets/src/js/piranha.managerlanguage.js",
             "assets/src/js/piranha.blockpicker.js",
             "assets/src/js/piranha.notifications.js",
             "assets/src/js/piranha.contentpicker.js",
@@ -162,6 +168,7 @@ var js = [
             "assets/src/js/piranha.preview.js",
             "assets/src/js/piranha.languageedit.js",
             "assets/src/js/piranha.resources.js",
+            "assets/src/js/piranha.vuetify.js",
             "assets/src/js/piranha.editor.js",
             "assets/src/js/components/page-item.vue"
         ]
@@ -293,79 +300,123 @@ var js = [
 
 
 //
-// Compile & minimize & rtl less files
+// Stream helper
 //
-gulp.task("rtl:min:css", function (done) {
-    // Minimize and combine styles
-    for (var n = 0; n < css.length; n++)
-    {
-        gulp.src(css[n])
-            .pipe(sass().on("error", sass.logError))
-            .pipe(cssmin())
-            .pipe(rtlcss()) // Convert to RTL.
-            .pipe(rename({
-                suffix: ".rtl.min"
-            }))
-            .pipe(gulp.dest(output + "css"));
+function finishStream(stream) {
+    return new Promise(function (resolve, reject) {
+        stream.on("finish", resolve);
+        stream.on("end", resolve);
+        stream.on("error", reject);
+    });
+}
+
+//
+// Compile & minimize & rtl sass files
+//
+gulp.task("rtl:min:css", function () {
+    var tasks = [];
+
+    for (var n = 0; n < css.length; n++) {
+        tasks.push(finishStream(
+            gulp.src(css[n])
+                .pipe(sass(sassOptions).on("error", sass.logError))
+                .pipe(cssmin())
+                .pipe(rtlcss())
+                .pipe(rename({
+                    suffix: ".rtl.min"
+                }))
+                .pipe(gulp.dest(output + "css"))
+        ));
     }
 
-    // Copy fonts
-    for (var n = 0; n < fonts.length; n++)
-    {
-        gulp.src(fonts[n])
-            .pipe(gulp.dest(output + "webfonts"));
+    return Promise.all(tasks);
+});
+
+//
+// Compile & minimize sass files
+//
+gulp.task("min:css", function () {
+    var tasks = [];
+
+    for (var n = 0; n < css.length; n++) {
+        tasks.push(finishStream(
+            gulp.src(css[n])
+                .pipe(sass(sassOptions).on("error", sass.logError))
+                .pipe(cssmin())
+                .pipe(rename({
+                    suffix: ".min"
+                }))
+                .pipe(gulp.dest(output + "css"))
+        ));
     }
+
+    return Promise.all(tasks);
+});
+
+//
+// Copy font assets once after styles have been generated.
+//
+gulp.task("copy:fonts", function (done) {
+    var fontsPath = path.resolve(output + "webfonts");
+    var outputPath = path.resolve(output);
+
+    if (!fontsPath.startsWith(outputPath + path.sep)) {
+        throw new Error("Refusing to clean fonts outside the asset output directory.");
+    }
+
+    fs.rmSync(fontsPath, { recursive: true, force: true });
+    fs.mkdirSync(fontsPath, { recursive: true });
+
+    var fontDirs = [
+        path.resolve("node_modules/@fortawesome/fontawesome-free/webfonts"),
+        path.resolve("assets/src/fonts")
+    ];
+
+    fontDirs.forEach(function (fontDir) {
+        fs.readdirSync(fontDir).forEach(function (name) {
+            var source = path.join(fontDir, name);
+            var target = path.join(fontsPath, name);
+
+            if (fs.statSync(source).isFile()) {
+                fs.copyFileSync(source, target);
+            }
+        });
+    });
+
     done();
 });
 
 //
-// Compile & minimize less files
+// Compile & minimize javascript files
 //
-gulp.task("min:css", function (done) {
-    // Minimize and combine styles
-    for (var n = 0; n < css.length; n++)
-    {
-        gulp.src(css[n])
-            .pipe(sass().on("error", sass.logError))
-            .pipe(cssmin())
-            .pipe(rename({
-                suffix: ".min"
-            }))
-            .pipe(gulp.dest(output + "css"));
+gulp.task("min:js", function () {
+    var tasks = [];
+
+    for (var n = 0; n < js.length; n++) {
+        tasks.push(finishStream(
+            gulp.src(js[n].items, { base: "." })
+                .pipe(vueCompile())
+                .pipe(concat(output + "js/" + js[n].name))
+                .pipe(gulp.dest("."))
+                .pipe(uglify().on('error', function (e) {
+                    console.log(e);
+                }))
+                .pipe(rename({
+                    suffix: ".min"
+                }))
+                .pipe(gulp.dest("."))
+        ));
     }
 
-    // Copy fonts
-    for (var n = 0; n < fonts.length; n++)
-    {
-        gulp.src(fonts[n])
-            .pipe(gulp.dest(output + "webfonts"));
-    }
-    done();
-});
-
-//
-// Compile & minimize less files
-//
-gulp.task("min:js", function (done) {
-    for (var n = 0; n < js.length; n++)
-    {
-        gulp.src(js[n].items, { base: "." })
-            .pipe(vueCompile())
-            .pipe(concat(output + "js/" + js[n].name))
-            .pipe(gulp.dest("."))
-            .pipe(uglify().on('error', function (e) {
-                console.log(e);
-            }))
-            .pipe(rename({
-                suffix: ".min"
-            }))
-            .pipe(gulp.dest("."));
-    }
-    done();
+    return Promise.all(tasks);
 });
 
 //
 // Default tasks
 //
-gulp.task("serve", gulp.parallel(["min:css", "min:js", "rtl:min:css"]));
+gulp.task("serve", gulp.series(gulp.parallel("min:css", "min:js", "rtl:min:css"), "copy:fonts"));
 gulp.task("default", gulp.series("serve"));
+
+
+
+

@@ -1,11 +1,15 @@
-<div v-if="useTranslations" class="dropdown d-inline">
-    <button class="btn btn-primary btn-labeled dropdown-toggle" type="button" data-toggle="dropdown">
-        <i class="fas fa-atlas"></i>
-        {{ currentLanguage.title }}
+<div v-if="useTranslations && currentLanguage" class="dropdown d-inline language-picker">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true">
+        <span class="language-flag" aria-hidden="true">{{ languageFlag(currentLanguage) }}</span>
+        <span>{{ currentLanguage.title }}</span>
     </button>
     <ul class="dropdown-menu">
-        <li v-for="lang in languages">
-            <a class="dropdown-item" :href="piranha.baseUrl + 'manager/content/edit/' + typeId + '/' + id + '/' + lang.id">{{ lang.title }}</a>
+        <li v-for="lang in languages" v-bind:key="lang.id">
+            <a class="dropdown-item" :class="{ active: lang.id === languageId }" :aria-current="lang.id === languageId ? 'true' : null" :href="piranha.baseUrl + 'manager/content/edit/' + typeId + '/' + id + '/' + lang.id">
+                <span class="language-flag" aria-hidden="true">{{ languageFlag(lang) }}</span>
+                <span>{{ lang.title }}</span>
+                <small v-if="lang.culture" class="language-culture">{{ lang.culture }}</small>
+            </a>
         </li>
     </ul>
 </div>

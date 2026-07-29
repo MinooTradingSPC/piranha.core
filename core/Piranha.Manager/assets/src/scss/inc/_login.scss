@@ -55,9 +55,24 @@
 }
 
 #login {
-    background: #0C3C50 url("../img/login.png");
-    background-size: cover;
+    background: #06172f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0;
+    min-height: 100vh;
+    padding: 2rem 0;
+    position: relative;
+
+    &::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: url("../img/login.svg") no-repeat 50% 50%;
+        background-size: cover;
+        opacity: .28;
+        pointer-events: none;
+    }
 
     .invalid-feedback {
         color: $red-bright;
@@ -65,8 +80,18 @@
     }
 
     .container {
-        max-width: 360px;
-        margin-top: 6rem;
+        max-width: 390px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .card-login {
+        background: rgba(6, 23, 47, .76);
+        border: 1px solid rgba($white, .14);
+        border-radius: .75rem;
+        box-shadow: 0 1.5rem 4rem rgba($black, .35);
+        overflow: hidden;
+        backdrop-filter: blur(8px);
     }
 
     .card-body {
@@ -74,6 +99,7 @@
 
         &.card-body-logo {
             color: $white;
+            padding: 2rem 2rem 1rem;
             text-align: center;
 
             .logo {
@@ -100,13 +126,47 @@
         &.card-body-form {
             position: relative;
             background-color: transparent;
+            padding: 1.5rem 2rem 2rem;
 
             .col-form-label {
                 @include sr-only();
             }
 
             .form-control {
+                min-height: 3.25rem;
+                color: $gray-900;
+                background-color: rgba($white, .96);
+                border: 1px solid rgba($white, .45);
+                border-radius: .375rem;
                 font-weight: 300;
+                transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color .15s ease-in-out;
+
+                &::placeholder {
+                    color: $gray-600;
+                    opacity: .8;
+                }
+
+                &:hover {
+                    background-color: $white;
+                    border-color: rgba($white, .8);
+                }
+
+                &:focus {
+                    color: $gray-900;
+                    background-color: $white;
+                    border-color: lighten($blue, 18%);
+                    box-shadow: 0 0 0 .25rem rgba($blue, .25);
+                }
+            }
+
+            .btn {
+                min-height: 3.25rem;
+                border-radius: .375rem;
+                box-shadow: 0 .5rem 1.25rem rgba($black, .2);
+
+                &:focus-visible {
+                    box-shadow: 0 0 0 .25rem rgba($white, .35);
+                }
             }
         }
     }
@@ -137,4 +197,22 @@
             animation: shake-box 0.75s cubic-bezier(.36,.07,.19,.97) both;
         }
     }
+
+    @media (max-width: 575.98px) {
+        align-items: flex-start;
+        padding-top: 1rem;
+
+        .card-body.card-body-logo {
+            padding-top: 1.25rem;
+
+            .logo {
+                height: 120px;
+            }
+        }
+
+        .card-body.card-body-form {
+            padding: 1rem 1.25rem 1.5rem;
+        }
+    }
 }
+

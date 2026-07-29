@@ -6,17 +6,15 @@
             <!-- Modal header -->
             <div class="modal-header border-bottom-0">
                 <h5 class="modal-title"><i class="fas fa-file"></i> @Localizer.Page["Add page"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- Tabs -->
             <ul class="nav nav-tabs" id="pageAddTabs" role="tablist">
                 <li class="nav-item">
-                    <a href="#pageAddNew" data-toggle="tab" class="nav-link active"><i class="fas fa-plus"></i> @Localizer.General["Empty"]</a>
+                    <a href="#pageAddNew" data-bs-toggle="tab" class="nav-link active"><i class="fas fa-plus"></i> @Localizer.General["Empty"]</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#pageAddCopy" data-toggle="tab" class="nav-link"><i class="fas fa-copy"></i> @Localizer.General["Copy"]</a>
+                    <a href="#pageAddCopy" data-bs-toggle="tab" class="nav-link"><i class="fas fa-copy"></i> @Localizer.General["Copy"]</a>
                 </li>
             </ul>
 
@@ -40,7 +38,7 @@
                     <div id="pageAddCopy" class="tab-pane" role="tabpanel">
                         <div v-if="sites.length > 1" class="form-group d-flex justify-content-center">
                             <div class="dropdown">
-                                <button class="btn btn-primary btn-labeled dropdown-toggle" type="button" data-toggle="dropdown">
+                                <button class="btn btn-primary btn-labeled dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                     <span class="btn-label">
                                         <i class="fas fa-globe"></i>
                                     </span>
@@ -53,9 +51,11 @@
                         </div>
 
                         <div class="sitemap sitemap-container">
-                            <ol v-if="site.id === addSiteId" v-for="site in sites">
-                                <pagecopy-item v-for="item in site.pages" v-bind:key="item.id" v-bind:item="item"></pagecopy-item>
-                            </ol>
+                            <template v-for="site in sites" v-bind:key="site.id">
+                                <ol v-if="site.id === addSiteId">
+                                    <pagecopy-item v-for="item in site.pages" v-bind:key="item.id" v-bind:item="item"></pagecopy-item>
+                                </ol>
+                            </template>
                         </div>
                     </div>
                 </div>

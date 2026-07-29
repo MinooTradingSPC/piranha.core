@@ -1,4 +1,4 @@
-﻿@inject Microsoft.Extensions.Options.IOptions<ManagerOptions> Options
+@inject Microsoft.Extensions.Options.IOptions<ManagerOptions> Options
 @inject Piranha.Config Config
 @{
     var module = Piranha.App.Modules.Get<Piranha.Manager.Module>();
@@ -7,10 +7,31 @@
     var version = Piranha.Utils.GetAssemblyVersionHash(typeof(Piranha.Manager.Module).Assembly);
 }
 <!doctype html>
-<html lang="en">
+<html lang="@System.Globalization.CultureInfo.CurrentCulture.Name">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                theme = localStorage.getItem("piranha-admin-theme") ||
+                    localStorage.getItem("piranha.manager.theme");
+            } catch (error) {
+                // Storage can be disabled by browser privacy settings.
+            }
+            if (theme !== "light" && theme !== "dark") {
+                theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+            try {
+                localStorage.setItem("piranha-admin-theme", theme);
+            } catch (error) {
+                // The selected theme still applies when storage is unavailable.
+            }
+            document.documentElement.setAttribute("data-bs-theme", theme);
+            document.documentElement.setAttribute("data-manager-theme", theme);
+        }());
+    </script>
     @if(isRightToLeft)
     {
         <link rel="stylesheet" href="~/manager/assets/css/full.rtl.min.css?v=@version">
@@ -20,6 +41,10 @@
         <link rel="stylesheet" href="~/manager/assets/css/full.min.css?v=@version">
     }
     <link rel="icon" href="~/manager/assets/img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/manager/assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/manager/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/manager/assets/img/favicon-16x16.png">
+    <link rel="manifest" href="~/manager/assets/img/site.webmanifest">
 
     @foreach (var style in module.Styles)
     {
@@ -34,6 +59,7 @@
     <div class="pre-release">Pre-release</div>
     }
     <partial name="~/Areas/Manager/Shared/Partial/_Menu.cshtml" />
+    <div id="piranha-vuetify-app" class="piranha-vuetify-app"></div>
 
     @RenderBody()
 
@@ -66,14 +92,17 @@
 
     <partial name="~/Areas/Manager/Shared/Partial/_EditorConfig.cshtml" />
 
-    @RenderSection("partials", required: false)
+    @await RenderSectionAsync("partials", required: false)
 
-<environment include="Development">
+    <environment include="Development">
     <script type="text/javascript" src="~/manager/assets/js/piranha-deps-dev.js?v=@version"></script>
 </environment>
 <environment exclude="Development">
     <script type="text/javascript" src="~/manager/assets/js/piranha-deps.min.js?v=@version"></script>
 </environment>
+    <script type="text/javascript">
+        Vue.prototype.piranha = window.piranha;
+    </script>
     @foreach (var script in module.Scripts.Where(s => s.RenderBeforeCoreScripts))
     {
         if (string.IsNullOrWhiteSpace(script.Integrity))
@@ -90,9 +119,6 @@
         }
     }
     <script type="text/javascript" src="~/manager/assets/js/piranha.min.js?v=@version"></script>
-    <script type="text/javascript">
-        Vue.prototype.piranha = window.piranha;
-    </script>
 
     @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
     {
@@ -122,6 +148,7 @@
             <script type="@script.Type" src="@Url.Content(script.Src)" integrity="@script.Integrity" crossorigin="@script.GetCrossOriginValueStrValue()"></script>
         }
     }
-    @RenderSection("script", required: false)
-</body>
+
+    @await RenderSectionAsync("script", required: false)
+    </body>
 </html>

@@ -63,61 +63,60 @@ public class ModelLoader : IModelLoader
     {
         T model = null;
 
-        if (!draft && _app.CurrentPage != null && _app.CurrentPage.Id == id && _app.CurrentPage is T)
-        {
-            model = (T)_app.CurrentPage;
-        }
-
-        // Check if we're requesting a draft
         if (draft)
         {
-            // Check that the current user is authorized to preview pages
-            if ((await _auth.AuthorizeAsync(user, Piranha.Security.Permission.PagePreview)).Succeeded)
+            // Draft access requires explicit preview permission — checked before any data load.
+            if (!(await _auth.AuthorizeAsync(user, Piranha.Security.Permission.PagePreview)).Succeeded)
             {
-                // Get the draft, if available
-                model = await _api.Pages.GetDraftByIdAsync<T>(id);
-
-                if (model == null)
-                {
-                    model = await _api.Pages.GetByIdAsync<T>(id);
-                }
+                return null;
+            }
+            model = await _api.Pages.GetDraftByIdAsync<T>(id);
+            if (model == null)
+            {
+                model = await _api.Pages.GetByIdAsync<T>(id);
             }
         }
-
-        // No draft loaded or requested, try to get the published page
-        if (model == null)
+        else
         {
-            model = await _api.Pages.GetByIdAsync<T>(id);
-
-            if (model != null)
+            // Use the already-resolved page from the application service if available,
+            // otherwise fetch from the database.
+            if (_app.CurrentPage != null && _app.CurrentPage.Id == id && _app.CurrentPage is T currentPage)
             {
-                // Make sure the page is published
-                if (!model.Published.HasValue || model.Published.Value > DateTime.Now)
-                {
-                    // No published version exists
-                    return null;
-                }
+                model = currentPage;
             }
             else
             {
-                // No page found with the specified id
+                model = await _api.Pages.GetByIdAsync<T>(id);
+            }
+
+            if (model == null)
+            {
                 return null;
             }
+
+            // Always verify the published state for non-draft access, even for cache hits.
+            if (!model.Published.HasValue || model.Published.Value >= DateTime.Now)
+            {
+                return null;
+            }
+        }
+
+        if (model == null)
+        {
+            return null;
         }
 
         // Check permissions
         if (model.Permissions.Count > 0)
         {
-            var currentPermissions = App.Permissions.GetPublicPermissions()
-                .Select(p => p.Name);
+            var currentPermissions = new HashSet<string>(App.Permissions.GetPublicPermissions()
+                .Select(p => p.Name));
 
             foreach (var permission in model.Permissions)
             {
-                // Make sure the permissions is still available as a
-                // registered public permission.
-                if (!currentPermissions.Contains(permission))
+                if (permission == null || !currentPermissions.Contains(permission))
                 {
-                    continue;
+                    throw new UnauthorizedAccessException();
                 }
 
                 // Authorize
@@ -145,53 +144,63 @@ public class ModelLoader : IModelLoader
     {
         T model = null;
 
-        if (!draft && _app.CurrentPost != null && _app.CurrentPost.Id == id && _app.CurrentPost is T)
-        {
-            model = (T)_app.CurrentPost;
-        }
-
-        // Check if we're requesting a draft
         if (draft)
         {
-            // Check that the current user is authorized to preview pages
-            if ((await _auth.AuthorizeAsync(user, Piranha.Security.Permission.PostPreview)).Succeeded)
+            // Draft access requires explicit preview permission — checked before any data load.
+            if (!(await _auth.AuthorizeAsync(user, Piranha.Security.Permission.PostPreview)).Succeeded)
             {
-                // Get the draft, if available
-                model = await _api.Posts.GetDraftByIdAsync<T>(id);
-
-                if (model == null)
-                {
-                    model = await _api.Posts.GetByIdAsync<T>(id);
-                }
+                return null;
+            }
+            model = await _api.Posts.GetDraftByIdAsync<T>(id);
+            if (model == null)
+            {
+                model = await _api.Posts.GetByIdAsync<T>(id);
             }
         }
-
-        // No draft loaded or requested, try to get the published page
-        if (model == null)
+        else
         {
-            model = await _api.Posts.GetByIdAsync<T>(id);
-
-            if (model != null)
+            // Use the already-resolved post from the application service if available,
+            // otherwise fetch from the database.
+            if (_app.CurrentPost != null && _app.CurrentPost.Id == id && _app.CurrentPost is T currentPost)
             {
-                // Make sure the page is published
-                if (!model.Published.HasValue || model.Published.Value > DateTime.Now)
-                {
-                    // No published version exists
-                    return null;
-                }
+                model = currentPost;
             }
             else
             {
-                // No page found with the specified id
+                model = await _api.Posts.GetByIdAsync<T>(id);
+            }
+
+            if (model == null)
+            {
                 return null;
             }
+
+            // Always verify the published state for non-draft access, even for cache hits.
+            if (!model.Published.HasValue || model.Published.Value >= DateTime.Now)
+            {
+                return null;
+            }
+        }
+
+        if (model == null)
+        {
+            return null;
         }
 
         // Check permissions
         if (model.Permissions.Count > 0)
         {
+            var currentPermissions = new HashSet<string>(App.Permissions.GetPublicPermissions()
+                .Select(p => p.Name));
+
             foreach (var permission in model.Permissions)
             {
+                if (permission == null || !currentPermissions.Contains(permission))
+                {
+                    throw new UnauthorizedAccessException();
+                }
+
+                // Authorize
                 if (!(await _auth.AuthorizeAsync(user, permission)).Succeeded)
                 {
                     throw new UnauthorizedAccessException();

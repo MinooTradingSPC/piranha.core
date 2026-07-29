@@ -62,20 +62,15 @@ piranha.contentedit = new Vue({
             return piranha.utils.isEmptyText(this.excerpt);
         },
         currentLanguage: function () {
-            if (this.languages === null)
+            if (!this.languages || this.languages.length === 0)
             {
-                return {
-                    id: "",
-                    title: ""
-                };
+                return null;
             }
-            else
-            {
-                var self = this;
-                return self.languages.find(function (l) {
-                    return l.id === self.languageId;
-                });
-            }
+
+            var self = this;
+            return self.languages.find(function (l) {
+                return l.id === self.languageId;
+            }) || self.languages[0];
         }
     },
     mounted() {
@@ -85,6 +80,9 @@ piranha.contentedit = new Vue({
         //document.removeEventListener("keydown", this.doHotKeys);
     },
     methods: {
+        languageFlag: function (language) {
+            return piranha.utils.languageFlag(language && language.culture);
+        },
         bind: function (model) {
             this.id = model.id;
             this.languageId = model.languageId;
@@ -93,7 +91,7 @@ piranha.contentedit = new Vue({
             this.groupId = model.groupId;
             this.groupTitle = model.groupTitle;
             this.title = model.title;
-            this.excerpt = model.excerpt;
+            this.excerpt = DOMPurify.sanitize(model.excerpt || '', {USE_PROFILES: {html: true}});
             this.state = model.state;
             this.blocks = model.blocks;
             this.regions = model.regions;

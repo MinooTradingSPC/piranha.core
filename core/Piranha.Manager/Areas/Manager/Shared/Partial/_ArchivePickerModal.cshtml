@@ -7,16 +7,14 @@
             <!-- Modal Header -->
             <div class="modal-header border-bottom-0">
                 <h5 class="modal-title"><i class="fas fa-copy"></i> @Localizer.General["Select archive page"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <!-- Modal Body -->
             <div class="modal-body bg-light">
                 <div class="form-group d-flex justify-content-center">
                     <div class="dropdown" v-if="sites.length > 1">
-                        <button class="btn btn-primary btn-labeled dropdown-toggle" type="button" data-toggle="dropdown">
+                        <button class="btn btn-primary btn-labeled dropdown-toggle" type="button" data-bs-toggle="dropdown">
                             <span class="btn-label">
                                 <i class="fas fa-globe"></i>
                             </span>
@@ -36,7 +34,7 @@
                     <tbody>
                         <tr v-for="item in filteredItems">
                             <td>
-                                <a href="#" v-on:click.prevent="select(item)">{{ item.title }}<span v-if="item.status" class="badge badge-info">{{ item.status }}</span>
+                                <a href="#" v-on:click.prevent="select(item)">{{ item.title }}<span v-if="item.status" class="badge text-bg-info">{{ item.status }}</span>
                                     <div class="small text-muted">{{ item.permalink }}</div>
                                 </a>
                             </td>
