@@ -8,6 +8,7 @@
  *
  */
 
+using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Piranha.Cache;
@@ -23,8 +24,17 @@ internal sealed class MediaService : IMediaService
     private readonly IStorage _storage;
     private readonly IImageProcessor _processor;
     private readonly ICache _cache;
-    private static readonly object ScaleMutex = new object();
+    // Keyed by media ID so concurrent scaling of different items runs in parallel.
+    // Entries are removed in DeleteAsync; in-flight callers retain their reference
+    // via GetOrAdd so removal is always safe without disposing.
+    private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> ScaleMutexes = new();
     private const string MEDIA_STRUCTURE = "MediaStructure";
+
+    // Lazily loaded once per service instance (scoped per request) to avoid
+    // allocating a Config object on every GetPublicUrl call. ExecutionAndPublication
+    // mode ensures the factory runs exactly once even under concurrent access
+    // (e.g. Task.WhenAll over OnLoad in _getFast).
+    private readonly Lazy<string> _mediaCdnUrl;
 
     /// <summary>
     /// Default constructor.
@@ -41,6 +51,11 @@ internal sealed class MediaService : IMediaService
         _storage = storage;
         _processor = processor;
         _cache = cache;
+        _mediaCdnUrl = new Lazy<string>(() =>
+        {
+            using var config = new Config(paramService);
+            return config.MediaCDN;
+        }, LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
     //Separated this into its own thing in case it needed to get reused elsewhere.
@@ -86,19 +101,49 @@ internal sealed class MediaService : IMediaService
     /// <returns>The available media folders</returns>
     public async Task<IEnumerable<MediaFolder>> GetAllFoldersAsync(Guid? folderId = null)
     {
-        var models = new List<MediaFolder>();
-        var items = await _repo.GetAllFolders(folderId).ConfigureAwait(false);
-
-        foreach (var item in items)
+        var allFolders = await _repo.GetAllFolders(folderId).ConfigureAwait(false);
+        if (allFolders == null)
         {
-            var folder = await GetFolderByIdAsync(item).ConfigureAwait(false);
+            return Array.Empty<MediaFolder>();
+        }
 
-            if (folder != null)
+        var ids = allFolders.ToArray();
+        if (ids.Length == 0)
+        {
+            return Array.Empty<MediaFolder>();
+        }
+
+        var ret = new List<MediaFolder>(ids.Length);
+        var notCached = new List<Guid>();
+
+        foreach (var id in ids)
+        {
+            var cached = _cache == null ? null : await _cache.GetAsync<MediaFolder>(id.ToString()).ConfigureAwait(false);
+            if (cached != null)
             {
-                models.Add(folder);
+                ret.Add(cached);
+            }
+            else
+            {
+                notCached.Add(id);
             }
         }
-        return models;
+
+        if (notCached.Count > 0)
+        {
+            foreach (var folder in await _repo.GetFoldersByIds(notCached).ConfigureAwait(false))
+            {
+                await OnFolderLoad(folder).ConfigureAwait(false);
+                ret.Add(folder);
+            }
+        }
+
+        // Restore the original ordering (by name, as returned by GetAllFolders)
+        var retDict = ret.ToDictionary(f => f.Id);
+        return ids
+            .Select(id => retDict.TryGetValue(id, out var folder) ? folder : null)
+            .Where(f => f != null)
+            .ToList();
     }
 
     /// <summary>
@@ -207,10 +252,13 @@ internal sealed class MediaService : IMediaService
         }
 
         Media model = null;
+        var isReplacement = false;
+        var oldResourceNames = new List<string>();
 
         if (content.Id.HasValue)
         {
             model = await GetByIdAsync(content.Id.Value).ConfigureAwait(false);
+            isReplacement = model != null;
         }
 
         if (model == null)
@@ -224,22 +272,16 @@ internal sealed class MediaService : IMediaService
         }
         else
         {
-            using (var session = await _storage.OpenAsync().ConfigureAwait(false))
+            if (model.Versions.Count > 0)
             {
-                // Delete all versions as we're updating the image
-                if (model.Versions.Count > 0)
+                foreach (var version in model.Versions)
                 {
-                    foreach (var version in model.Versions)
-                    {
-                        // Delete version from storage
-                        await session.DeleteAsync(model, GetResourceName(model, version.Width, version.Height, version.FileExtension)).ConfigureAwait(false);
-                    }
-                    model.Versions.Clear();
+                    oldResourceNames.Add(GetResourceName(model, version.Width, version.Height, version.FileExtension));
                 }
-
-                // Delete the old file because we might have a different filename
-                await session.DeleteAsync(model, GetResourceName(model)).ConfigureAwait(false);
+                model.Versions.Clear();
             }
+
+            oldResourceNames.Add(GetResourceName(model));
         }
 
         var type = App.MediaTypes.GetItem(content.Filename);
@@ -275,17 +317,61 @@ internal sealed class MediaService : IMediaService
             stream = memStream;
         }
 
-        // Upload to storage
-        using (var session = await _storage.OpenAsync().ConfigureAwait(false))
-        {
-            model.Size = stream.Length;
-            await session.PutAsync(model, model.Filename,
-                model.ContentType, stream).ConfigureAwait(false);
-        }
+        model.Size = stream.Length;
+        var stagedFilename = isReplacement ? $".replace-{Guid.NewGuid():N}-{model.Filename}" : model.Filename;
+        var staged = false;
 
-        App.Hooks.OnBeforeSave(model);
-        await _repo.Save(model).ConfigureAwait(false);
-        App.Hooks.OnAfterSave(model);
+        try
+        {
+            // Upload to storage
+            using (var session = await _storage.OpenAsync().ConfigureAwait(false))
+            {
+                await session.PutAsync(model, stagedFilename,
+                    model.ContentType, stream).ConfigureAwait(false);
+                staged = true;
+            }
+
+            App.Hooks.OnBeforeSave(model);
+            await _repo.Save(model).ConfigureAwait(false);
+            App.Hooks.OnAfterSave(model);
+
+            if (isReplacement)
+            {
+                using (var session = await _storage.OpenAsync().ConfigureAwait(false))
+                {
+                    using (var stagedStream = new MemoryStream())
+                    {
+                        if (!await session.GetAsync(model, stagedFilename, stagedStream).ConfigureAwait(false))
+                        {
+                            throw new FileNotFoundException("The staged replacement media file could not be found.", stagedFilename);
+                        }
+
+                        stagedStream.Position = 0;
+                        await session.PutAsync(model, model.Filename,
+                            model.ContentType, stagedStream).ConfigureAwait(false);
+                    }
+
+                    await session.DeleteAsync(model, stagedFilename).ConfigureAwait(false);
+
+                    foreach (var oldResourceName in oldResourceNames.Where(name => name != model.Filename))
+                    {
+                        await session.DeleteAsync(model, oldResourceName).ConfigureAwait(false);
+                    }
+                }
+            }
+        }
+        catch
+        {
+            if (staged)
+            {
+                using (var session = await _storage.OpenAsync().ConfigureAwait(false))
+                {
+                    await session.DeleteAsync(model, stagedFilename).ConfigureAwait(false);
+                }
+            }
+
+            throw;
+        }
 
         await RemoveFromCache(model).ConfigureAwait(false);
         await RemoveStructureFromCache().ConfigureAwait(false);
@@ -410,12 +496,20 @@ internal sealed class MediaService : IMediaService
                         _processor.Scale(stream, output, width);
                     }
                     output.Position = 0;
-                    bool upload = false;
-
-                    lock (ScaleMutex)
+                    var mutex = ScaleMutexes.GetOrAdd(media.Id, _ => new SemaphoreSlim(1, 1));
+                    await mutex.WaitAsync().ConfigureAwait(false);
+                    try
                     {
+                        var current = await _repo.GetById(media.Id).ConfigureAwait(false);
+                        if (current != null)
+                        {
+                            media = current;
+                            query = media.Versions.Where(v => v.Width == width);
+                            query = height.HasValue ? query.Where(v => v.Height == height) : query.Where(v => !v.Height.HasValue);
+                        }
+
                         // We have to make sure we don't scale multiple files
-                        // at the same time as it can create index violations.
+                        // for the same media at the same time as it can create index violations.
                         version = query.FirstOrDefault();
 
                         if (version == null)
@@ -432,23 +526,18 @@ internal sealed class MediaService : IMediaService
                             };
                             media.Versions.Add(version);
 
-                            _repo.Save(media).Wait();
-                            RemoveFromCache(media).Wait();
-
-                            upload = true;
-                        }
-                    }
-
-                    if (upload)
-                    {
-                        await session.PutAsync(media, GetResourceName(media, width, height), media.ContentType,
+                            await session.PutAsync(media, GetResourceName(media, width, height), media.ContentType,
                                 output).ConfigureAwait(false);
 
-                        var info = new FileInfo(media.Filename);
-                        return GetPublicUrl(media, width, height, info.Extension);
+                            await _repo.Save(media).ConfigureAwait(false);
+                            await RemoveFromCache(media).ConfigureAwait(false);
+                        }
                     }
-                    //When moving this out of its parent method, realized that if the mutex failed, it would just fall back to the null instead of trying to return the issue.
-                    //Added this to ensure that queries didn't just give up if they weren't the first to the party.
+                    finally
+                    {
+                        mutex.Release();
+                    }
+
                     return GetPublicUrl(media, width, height, version.FileExtension);
                 }
             }
@@ -485,6 +574,13 @@ internal sealed class MediaService : IMediaService
                 await session.DeleteAsync(media, media.Filename).ConfigureAwait(false);
                 App.Hooks.OnAfterDelete(media);
             }
+
+            // Remove the per-media semaphore now that the record is gone.
+            // Any in-flight EnsureVersionAsync calls hold their own reference via
+            // GetOrAdd and will complete safely; we simply stop new callers from
+            // finding this entry in the dictionary.
+            ScaleMutexes.TryRemove(id, out _);
+
             await RemoveFromCache(media).ConfigureAwait(false);
             await RemoveStructureFromCache().ConfigureAwait(false);
         }
@@ -509,14 +605,13 @@ internal sealed class MediaService : IMediaService
 
         if (folder != null)
         {
-            //
-            // TODO: Check empty
-            //
-            // var folderCount = _db.MediaFolders.Count(f => f.ParentId == id);
-            // var mediaCount = _db.Media.Count(m => m.FolderId == id);
+            var folderCount = (await _repo.GetAllFolders(id).ConfigureAwait(false)).Count();
+            var mediaCount = await _repo.CountAll(id).ConfigureAwait(false);
 
-            // if (folderCount == 0 && mediaCount == 0)
-            // {
+            if (folderCount > 0 || mediaCount > 0)
+            {
+                throw new ValidationException("The media folder must be empty before it can be deleted.");
+            }
 
             // Call hooks & delete
             App.Hooks.OnBeforeDelete(folder);
@@ -524,7 +619,6 @@ internal sealed class MediaService : IMediaService
             App.Hooks.OnAfterDelete(folder);
 
             await RemoveFromCache(folder).ConfigureAwait(false);
-            //}
         }
     }
 
@@ -678,15 +772,12 @@ internal sealed class MediaService : IMediaService
     {
         var name = GetResourceName(media, width, height, extension);
 
-        using (var config = new Config(_paramService))
-        {
-            var cdn = config.MediaCDN;
+        var cdn = _mediaCdnUrl.Value;
 
-            if (!string.IsNullOrWhiteSpace(cdn))
-            {
-                return cdn + _storage.GetResourceName(media, name);
-            }
-            return _storage.GetPublicUrl(media, name);
+        if (!string.IsNullOrWhiteSpace(cdn))
+        {
+            return cdn + _storage.GetResourceName(media, name);
         }
+        return _storage.GetPublicUrl(media, name);
     }
 }

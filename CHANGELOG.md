@@ -1,0 +1,2566 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [1.0.4] — 2026-07-29
+
+### 🚀 Features
+
+- Added core files + basic example `(50791203)` — Håkan Edling
+- Added some default assets. Minor database changes `(c5031e17)` — Håkan Edling
+- Removed all references to 'dnx' `(78b4e072)` — Håkan Edling
+- Archives, startpage, DI & much more! `(6561c8d0)` — Håkan Edling
+- Added SiteMap repository `(ef02b50d)` — Håkan Edling
+- Added storage API:s `(b039f5fb)` — Håkan Edling
+- Updated to rc-2 `(c2567bd8)` — Håkan Edling
+- Had to recreate InitialMigration due to setup errors `(ce67e300)` — Håkan Edling
+- Changed and rewrote for dotnetcore `(d32e484d)` — Håkan Edling
+- Added repository and middleware for archives `(127e345d)` — Håkan Edling
+- Added some basic bower components `(301149ce)` — Håkan Edling
+- Added PageTypes, JSON import & Region/Field structure `(2073478d)` — Håkan Edling
+- Consolidated tab/whitespace handling across all files `(0355f76d)` — Håkan Edling
+- First test of saving PageModels. Collections not handled yet `(c0832a80)` — Håkan Edling
+- Completed first pass of the page repository `(847338b2)` — Håkan Edling
+- Added some basic Piranha styling to the example `(1a56bb05)` — Håkan Edling
+- Restructured, added blocks & block types `(813cfff1)` — Håkan Edling
+- Added template for the manager interface `(8ed457c2)` — Håkan Edling
+- More work on the manager interface & some core stuff `(803845be)` — Håkan Edling
+- Added support for saving regions from the manager `(afa668c9)` — Håkan Edling
+- Embedded manager views & resources `(3358111d)` — Håkan Edling
+- Added stub controller/view for Blocks `(04b19eeb)` — Håkan Edling
+- Updated embedded resource handling to prevent stream locks `(e586c952)` — Håkan Edling
+- Added some IServiceCollection extensions for easier setup `(9effafdd)` — Håkan Edling
+- Dispose API from all controllers. Moved resource management to middleware `(a3d15028)` — Håkan Edling
+- Replaced SingleOrDefault with FirstOrDefault & moved the Blog example to SqLite for cross platform testing `(a701ac45)` — Håkan Edling
+- Reworked lifetime management for the EF Api `(96253589)` — Håkan Edling
+- Optimized middleware to skip requests starting with `/manager/assets/` `(68135638)` — Håkan Edling
+- Added entity tags to the embedded resource middleware `(400f5934)` — Håkan Edling
+- Updated to 1.1 `(818a3948)` — Håkan Edling
+- Missed upgrading `netcoreapp1.0` to 1.1 `(897788a5)` — Håkan Edling
+- Updated all packages to 1.1 preview1 `(b6971491)` — Håkan Edling
+- Added `level` to SiteMapItem. Add support for adding pages through the manager `(53592b43)` — Håkan Edling
+- Add manager support for publishing pages. Started working on drag n drop in the page list `(d1fa0523)` — Håkan Edling
+- Added js/css for sitemap drag & drop. See issue #10 `(7e0a188f)` — Håkan Edling
+- Added published date to SiteMapItem `(490e37c1)` — Håkan Edling
+- Testing gulp-minification for cross-platform build `(81c5d826)` — Håkan Edling
+- Testing VS Bindings `(fe347dbb)` — Håkan Edling
+- Removed old bundling & compilation config `(f56876c1)` — Håkan Edling
+- Added manager support for unpublishing pages `(2bad2318)` — Håkan Edling
+- Moved sitemap header outside of the nestable area `(b4598760)` — Håkan Edling
+- Added block type import & manager list view for block types `(a119eece)` — Håkan Edling
+- Added IDataService layer for separation `(a8b9cd35)` — Håkan Edling
+- Sync db context after page move `(839bb64b)` — Håkan Edling
+- Added max & min items to collection regions `(e3205fab)` — Håkan Edling
+- Renamed BlockModel > Block `(f98a0d74)` — Håkan Edling
+- Split Block & DynamicBlock to separate files `(c0bac19c)` — Håkan Edling
+- Updated to .net core 1.1 & ef core 1.1 `(4f6c56f4)` — Håkan Edling
+- Updated EF project to support migrations for Mac `(95157d62)` — Håkan Edling
+- Updated core version in global.json `(30f43161)` — Håkan Edling
+- Updated EFCore dependency for UseSqlServer `(29f28c48)` — Billy Wolfington
+- Base Manager Controller `(6d8f52d0)` — Billy Wolfington
+- Started more unit tests `(31df1217)` — Billy Wolfington
+- Moved manager binders for cleaner syntax `(269c917a)` — Håkan Edling
+- Added PostItem for previewing posts without main body `(a26a2984)` — Håkan Edling
+- Repository updates `(d0fe2bc5)` — Håkan Edling
+- Updated manager binder usage `(82349c86)` — Håkan Edling
+- Updated files according to comments in PR #26 `(a69a69aa)` — Håkan Edling
+- Manager Area controllers `(9d2c8453)` — Billy Wolfington
+- Added PostListModel `(4bc443da)` — Billy Wolfington
+- Added missing PostListModel to the manager `(d5951a3b)` — Håkan Edling
+- Continued BlockTypeControllerUnitTest `(f65b00d2)` — Billy Wolfington
+- Moved AreaAttribute to the implementing controllers `(881c1f30)` — Håkan Edling
+- Change typo in area name `(3c124b60)` — Håkan Edling
+- Added missing ”Add” button for categories `(9bd75fda)` — Håkan Edling
+- PageControllerUnitTest `(c81c3e72)` — Billy Wolfington
+- PageControllerUnitTest `(6ca42288)` — Billy Wolfington
+- Changed BlockType/PageType manager views to use repositories. See #15 `(4e56826b)` — Håkan Edling
+- IDb created `(c238fc63)` — Billy Wolfington
+- IDb Documnentation `(7aa6c98e)` — Billy Wolfington
+- PageRepositoryUnitTest started `(1af05a6a)` — Billy Wolfington
+- Updated order of manager menu items `(c9ff4f89)` — Håkan Edling
+- Added simple markdown field with HTML conversion. See #33 `(b4f8eafd)` — Håkan Edling
+- Migrated blog example to gulp `(59d5246c)` — Håkan Edling
+- Some updated typography for the example blog `(c0cae3c7)` — Håkan Edling
+- Some UI updates to the blog example `(6b767cf5)` — Håkan Edling
+- Added IMarkdown abstraction `(90bdefb7)` — Håkan Edling
+- Modified example seed `(e7784aee)` — Håkan Edling
+- Added stubs for media management `(e9fc795f)` — Håkan Edling
+- More work on the MarkdownField. See #33 `(c9fdd569)` — Håkan Edling
+- Added simple auto-update for markdown. See #33 `(6bc6632d)` — Håkan Edling
+- Piranha.Builder.Attribute.xproj created `(a567ba36)` — TheWolfA2
+- Piranha.Builder.Attribute `(459f4838)` — TheWolfA2
+- Added boilerplate ImageField `(d1dd1acc)` — Håkan Edling
+- Updated blog example. Delete local database & seed new default data `(504d40db)` — Håkan Edling
+- Added Media & MediaFolder DbSets to IDb `(bcd6522a)` — Håkan Edling
+- Updates for Visual Studio `(9df3c93a)` — Håkan Edling
+- Updated namespaces for Azure Storage `(7680eec3)` — Håkan Edling
+- Added media folder repository `(5f0e23e2)` — Håkan Edling
+- Changed header image/background `(4c0745c3)` — Håkan Edling
+- Removed post type for now `(5d13f541)` — Håkan Edling
+- Added media repository to the default Api `(71116182)` — Håkan Edling
+- Changed BlobStorageSession constructor to internal to allow building `(7ae2899e)` — TheWolfA2
+- Updated label for IsHidden `(0676a426)` — Håkan Edling
+- Changed BlobStorageSession ctor `(cd08636e)` — TheWolfA2
+- Minor style updates to the Blog `(1162472e)` — Håkan Edling
+- Manager updates `(dbaf4490)` — Håkan Edling
+- Restructured attribute builder `(62cb6269)` — Håkan Edling
+- Updated solution `(1b934133)` — Håkan Edling
+- Added global.json for non-VS compilation `(b7df4545)` — Håkan Edling
+- Updated pages.GetBySlug to be site sensitive `(762ae373)` — Håkan Edling
+- Changed UNIQUEIDENTIFIER to NVARCHAR(36) `(0d1882e5)` — Håkan Edling
+- Downgraded to NetStandard 1.4. Updated to new msbuild tooling `(295f9ca3)` — Håkan Edling
+- Added database seed `(4ed5ef6b)` — Håkan Edling
+- Added config class for quick access to system params `(83067daf)` — Håkan Edling
+- Added manager interface for pages `(951a8305)` — Håkan Edling
+- Added StringField & regulare example page `(f81762e5)` — Håkan Edling
+- Added the possibility to delete orphan page types `(f781bd55)` — Håkan Edling
+- Added method for getting breadcrumb items, see #12 `(2d280294)` — Håkan Edling
+- Added data models & repository interfaces for media. See issue #20 `(47809266)` — Håkan Edling
+- Added support for hidden pages in the sitemap `(7fe4bbda)` — Håkan Edling
+- Added some more status messages. See #57 `(a1bd3eb0)` — Håkan Edling
+- Added active styles for the example web menu `(4218bae7)` — Håkan Edling
+- Added storage interfaces & local file store implementation. See #20 `(fac9c489)` — Håkan Edling
+- Started working on the media repository implementation. See #20 `(87ff336d)` — Håkan Edling
+- Added Piranha.Local.FileStorage to the Solution `(8e0d6372)` — Håkan Edling
+- Added media repository & tests `(b4667066)` — Håkan Edling
+- Deleted bower components from the repository `(f67ab3bf)` — Håkan Edling
+- Updated .gitignore to exlude bower components `(9da37df1)` — Håkan Edling
+- Restructured Sitemap so that it could be reused for the hierarchical media folder structure `(f6de1457)` — Håkan Edling
+- Added simple manager preview link for pages `(75aa0602)` — Håkan Edling
+- Did some restructuring to clean up the media list view `(de660286)` — Håkan Edling
+- Added some implicit operators for cleaner syntax `(c2a1dd10)` — Håkan Edling
+- Added ImageField `(46ffd0c4)` — Håkan Edling
+- Added basic manager support for ImageFields `(c7735a06)` — Håkan Edling
+- Added start controller for the manager `(6fbd0bb7)` — Håkan Edling
+- Updated project files for NuGet packaging `(871ce7b0)` — Håkan Edling
+- Added field options to page types `(c86e425f)` — Håkan Edling
+- Added handling & tests for default site in SiteRepository `(11aed223)` — Håkan Edling
+- Added basic manager views for sites `(4fe53226)` — Håkan Edling
+- Restructured views for reusage `(75e753a0)` — Håkan Edling
+- Added classes for creating a new region item from the client `(dce04fca)` — Håkan Edling
+- Added test button for inserting new region item `(964bfa94)` — Håkan Edling
+- Added support for configuring how the title of a region list item is generate `(e413b88b)` — Håkan Edling
+- Added support for adding region items. See #74 `(01ec5938)` — Håkan Edling
+- Added support for deleting region items. See #74 `(a7b13b18)` — Håkan Edling
+- Added optional sort order on RegionAttribute for inherited page types `(bece3d6f)` — Håkan Edling
+- Quickfix for MarkdownFields within a region list `(598658f4)` — Håkan Edling
+- Improved ImageField view with button-group `(b57a9720)` — Håkan Edling
+- Added ListExpand setting on regions. See #87 `(d3668923)` — Håkan Edling
+- Added interface for custom serializers. See #86 `(da448d62)` — Håkan Edling
+- Some minor code cleaning `(d47f6e5b)` — Håkan Edling
+- Added logging to middleware. See #14 `(f9d10d0a)` — Håkan Edling
+- Added null/empty tests for Markdown `(81e92bd9)` — Håkan Edling
+- Updated npm packages `(b6acfa90)` — Håkan Edling
+- Added claims security to the manager. Added SimpleSecurity module `(9d0e4b14)` — Håkan Edling
+- Moved some enums from Data to Models `(2434d683)` — Håkan Edling
+- Added claims based page preview `(4eead9fc)` — Håkan Edling
+- Updated to NetStandard 2.0 `(aa558dc3)` — Håkan Edling
+- Update project versions & NuSpec files `(3bf3c99d)` — Håkan Edling
+- Add delete confirmation `(a4ee84b2)` — gyretech
+- Altered the look of the delete confirmation modal `(0cc762ad)` — Håkan Edling
+- Updated versions to beta1 `(83016dbd)` — Håkan Edling
+- Removed old code `(7c72797f)` — Håkan Edling
+- Added view policies for pages `(b6908581)` — Håkan Edling
+- Removed unused hook & added some sitemap tests `(0bea0026)` — Håkan Edling
+- Removed unused media cache config `(79b7d24e)` — Håkan Edling
+- Migration fails when using SQL Server `(56378f86)` — gyretech
+- Updated the PageRepository.cs `(abe29c2f)` — gyretech
+- Initial code for site routing. Needs testing `(150bd7ef)` — Håkan Edling
+- Updated NuGet package references `(f209315e)` — Håkan Edling
+- Set focus to input in modal that has the autofocus attribute `(26b8deac)` — Filip Jansson
+- Update version to rc1 `(9d7722e6)` — Håkan Edling
+- Migrated from Dapper to EF Core `(221476ea)` — Håkan Edling
+- Migrated to Guid Id columns `(c6028470)` — Håkan Edling
+- Added attribute to exlude files from code coverage `(99454ad1)` — Håkan Edling
+- Updated build script `(e77cb44a)` — Håkan Edling
+- Added tests for SimpleField.GetTitle() `(d39eb34b)` — Håkan Edling
+- Updated NuSpec & Proj files for 4.0 release `(69ea2a6c)` — Håkan Edling
+- Update logo & login page `(65ef1485)` — Håkan Edling
+- Added blogging features. See #78, #77, #76 `(a993edbe)` — Håkan Edling
+- Removed blogging migration from code coverage `(16b9a4a7)` — Håkan Edling
+- Added some example blogging files `(f4b29cba)` — Håkan Edling
+- Added tag & archive repositories `(4e1ba252)` — Håkan Edling
+- Added some text utils for content `(4c915044)` — Håkan Edling
+- Totally redesigned the blogging architecture `(fa2e89aa)` — Håkan Edling
+- More template stuff for custom content types `(9b065143)` — Håkan Edling
+- Added manager UI for Post cache config `(4d592b5b)` — Håkan Edling
+- Removed delete cascade for categories from Migration `(3625e334)` — Håkan Edling
+- Removed cascade on PostTags `(cd1f5871)` — Håkan Edling
+- Added first version of post admin `(e776020d)` — Håkan Edling
+- Added new post permissions `(aaab2166)` — Håkan Edling
+- Splitted into separate files `(8b10c5ef)` — Håkan Edling
+- Moved some declarations `(aaf07b04)` — Håkan Edling
+- Added post table filter `(001e4505)` — Håkan Edling
+- Updated package versions `(0da31c91)` — Håkan Edling
+- First commit for post field feature `(2b795509)` — Håkan Edling
+- Added blog picker for post field modal `(0d5d502e)` — Håkan Edling
+- Hide blog picker if there’s only one blog available `(e7810b0a)` — Håkan Edling
+- Added base case when no Blogs exist in the site `(56c749d9)` — Håkan Edling
+- Updated assembly versions `(f72d4bdf)` — Håkan Edling
+- Added sitemap reload after move `(6ede7acb)` — Håkan Edling
+- Prohibited delete of pages with children `(83b31761)` — Håkan Edling
+- Updated project & nuspec versions `(d3ae300d)` — Håkan Edling
+- Updated TinyMCE editor styles to match Markdown preview `(fbfb5841)` — Håkan Edling
+- Added max-width for images in TinyMCE `(b4a26131)` — Håkan Edling
+- Updated versions to 4.1.0 `(692a8f05)` — Håkan Edling
+- Made tag list expandable vertically `(7cf664ca)` — Håkan Edling
+- Added config setting for archive page size `(c6a47bc5)` — Håkan Edling
+- Added missing PostArchive model. See #166 `(79008de9)` — Håkan Edling
+- Added repository hooks. See #105 `(0ce43734)` — Håkan Edling
+- Updated versions to 4.1.1 `(4cfcb875)` — Håkan Edling
+- Some additional changes to IStorage. See #109 `(2b5b6e42)` — Håkan Edling
+- Added web compiler config for VS users `(2879e5ff)` — Håkan Edling
+- Moved some Load hooks to not be dependent on cache `(7c4015a0)` — Håkan Edling
+- Added some tests & updated util method `(e042e6d6)` — Håkan Edling
+- Added alias model, repository & tests. See #97 `(fe5f34bc)` — Håkan Edling
+- Updated alias model to include site id `(04aed6f3)` — Håkan Edling
+- Added manager alias permissions `(a6885665)` — Håkan Edling
+- Added alias router & middleware `(61580b64)` — Håkan Edling
+- Added alias management `(37a6aedb)` — Håkan Edling
+- Added test for page redirects & alias hooks `(2c11e436)` — Håkan Edling
+- Updated versions `(a0a64e8d)` — Håkan Edling
+- Updated versions for beta1 `(bc800e16)` — Håkan Edling
+- Updated versions to 4.2.0 `(86336bc6)` — Håkan Edling
+- Update ImageSharp versions `(a34dc975)` — Håkan Edling
+- Updated versions. BasicWeb.CSharp needs to be updated after the other packages has been published `(8b4edd06)` — Håkan Edling
+- Stored config params in var for optimization `(bc9ff40a)` — Håkan Edling
+- Added CacheLevel to App `(39984691)` — Håkan Edling
+- Added drag n drop upload to media modal. See #67 `(d0b63590)` — Håkan Edling
+- Added SimpleMDE markdown editor. See #85 `(a32b3ee7)` — Håkan Edling
+- Added media modal to markdown editor. See #85 `(5415b0a2)` — Håkan Edling
+- Updated TinyMCE styles to match SimpleMDE better `(535b9f23)` — Håkan Edling
+- Corrected button styling `(07081069)` — Håkan Edling
+- Added alias suggestions for posts. See #184 `(dd8505d2)` — Håkan Edling
+- Updated versions to 4.3.0-beta1 `(1eba7fb6)` — Håkan Edling
+- Added basic features for AspNetCore.Identity `(9b0adc02)` — Håkan Edling
+- Updated versions to 4.3.0 `(f71b4f2a)` — Håkan Edling
+- Added support for base class queries `(cba4cb87)` — Håkan Edling
+- Version 4.4: Added checkboxfield `(761c4bd8)` — Mehmet Karahan
+- Version 4.4: Added checkboxfield `(baac1106)` — Mehmet Karahan
+- Version 4.4: Added checkboxfield `(73dc8bdd)` — Mehmet Karahan
+- Added media selection to link dialog `(8e88513d)` — Håkan Edling
+- Get number of fields based on sort order `(11598455)` — Filip Jansson
+- Handle empty result when counting fields `(666e7037)` — Filip Jansson
+- Use a while loop instead of 'do while' when working with fields `(364c4fd4)` — Filip Jansson
+- Created scope for service provider in ContentService `(ccf8bf3a)` — Håkan Edling
+- Removed redundant class `(032a8a5e)` — Håkan Edling
+- Removed unused properties for RegionType `(d5ed512d)` — Håkan Edling
+- Moved content creation for pages from ContentFactory to ContentService `(a4d52875)` — Håkan Edling
+- Initial commit of blocks `(1075479f)` — Håkan Edling
+- Added moving, deleting & creating blocks from the manager. Still a problem with initializing TinyMCE on inline blocks after adding them `(d9dd4d1e)` — Håkan Edling
+- Removed obsolete redundant code `(ea018a87)` — Håkan Edling
+- Extending IModule with more information fields `(c028c593)` — Filip Jansson
+- Manager module now implements updated IModule `(08a4b2d9)` — Filip Jansson
+- Added list view for modules in the manager `(64794256)` — Filip Jansson
+- Added UseBlocks to PageType `(2b6131e2)` — Håkan Edling
+- Added info for new block pages. Embedded font awesome `(91e54684)` — Håkan Edling
+- Changed glyphicons to fontawesome! `(30918141)` — Håkan Edling
+- Finished edit, add & delete for users `(930fe774)` — Håkan Edling
+- Added category grouping for permissions in the manager `(6c35e610)` — Håkan Edling
+- Add removal of non reusable blocks when page is removed `(ceb20010)` — Håkan Edling
+- Separated and documented `(c3c78baf)` — Håkan Edling
+- Updated Identity icons `(a6d7864d)` — Håkan Edling
+- Updated _Editor.cshtml syntax to support #202 `(b6b19079)` — Håkan Edling
+- Removed bootstrap-html5sortable. Updated bundleconfig & gulpfile `(f3ae8017)` — Håkan Edling
+- Renamed _Editor.cshtml to _EditorSetup.cshtml to prevent javscript errors on update `(e2c9eb1b)` — Håkan Edling
+- Added some more extension methods for service registrations `(581ff81e)` — Håkan Edling
+- Added naming on some labels for archive pages `(5d1f0e42)` — Håkan Edling
+- Add copy functionality to the page API `(e4b108f0)` — Lukas Nordin
+- Added block support to posts. See #202 `(abbabf56)` — Håkan Edling
+- Updated versions & example project `(3b02f619)` — Håkan Edling
+- Updated module info `(e031e49f)` — Håkan Edling
+- Changed versioning to 5.0.0-alpha1 `(ca831851)` — Håkan Edling
+- Added new provider dependent projects for AspNetCore.Identity `(c47c8347)` — Håkan Edling
+- Added Identity migrations for SQLServer `(96cf1a51)` — Håkan Edling
+- Updated user save to only use the UserManager service `(02b3d0df)` — Håkan Edling
+- Removed block settings button for now `(10ecc8a2)` — Håkan Edling
+- Did some cleaning. Added some tests `(0e248fc9)` — Håkan Edling
+- Moved block creation to the BlockController `(3b14c281)` — Håkan Edling
+- Added Number field `(ed33c751)` — Filip Jansson
+- Added integer serializer `(db39f339)` — Filip Jansson
+- Register number field with the integer serializer `(e980ffc3)` — Filip Jansson
+- Minor changes to slug generation `(b3a3ed92)` — Håkan Edling
+- Generate slug as none hierarchical for tags and categories `(5924741a)` — Filip Jansson
+- Generate slug as none hierarchical for posts `(f3178d55)` — Filip Jansson
+- Updated styling for extra block buttons `(57acfdbb)` — Håkan Edling
+- Added polyfill for Object.assign `(ad395c8b)` — Håkan Edling
+- Implemented IEquatable<T> for all FieldTypes `(5e99d3bd)` — Håkan Edling
+- Updated versions to Alpha-2 `(813479f1)` — Håkan Edling
+- Updated to 5.0.0-beta1 `(d82053a2)` — Håkan Edling
+- Changed icon positioning in the sitemap to avoid flickering `(2163ea20)` — Håkan Edling
+- Updated versions to 5.0 `(ce068e54)` — Håkan Edling
+- Updated label on login screen `(1591742a)` — Håkan Edling
+- Updated code formatting for Piranha.AspNetCore. See #216 `(d2546ab3)` — Håkan Edling
+- Updated code formatting for AspNetCore.Identity. See #216 `(a6598b64)` — Håkan Edling
+- Updated code formatting for SimpleSecurity. See #216 `(56203118)` — Håkan Edling
+- Updated code formatting for AttributeBuilder. See #216 `(611eba7c)` — Håkan Edling
+- Updated code formatting for Azure.BlobStorage. See #216 `(50203bd8)` — Håkan Edling
+- Updated code formatting for ImageSharp. See #216 `(dd8efdde)` — Håkan Edling
+- Updated code formatting for FileStorage. See #216 `(b94f6307)` — Håkan Edling
+- Started reformatting the main project. #216 `(767971e1)` — Håkan Edling
+- Added base class for block groups. See #291 `(cbf493f6)` — Håkan Edling
+- More code formatting. See #216 `(8ccf9828)` — Håkan Edling
+- Added data migrations, repositories & tests for #295 `(73cc3a09)` — Håkan Edling
+- Added manager views for global site content. See #295 `(b8cb390e)` — Håkan Edling
+- Updated versions `(261cb3ee)` — Håkan Edling
+- Added MySQL realted project and db contexts `(b756b9f3)` — aatmmr
+- Added MySQL related identity migrations `(02716020)` — aatmmr
+- Updated to lastest .NET 2.1 SDK to be in sync with upstream `(9347867d)` — aatmmr
+- Did some adjustments to the MySQL & Example project `(9f94c188)` — Håkan Edling
+- Added support for block groups `(8410c95f)` — Håkan Edling
+- CHANGED: usage of https `(27fa3bb7)` — rengert
+- Added expand/collapse of block groups with info text `(e30bdb78)` — Håkan Edling
+- Added item type filtering for Block Groups `(9b6f8c45)` — Håkan Edling
+- Updated versions to 5.1.0-alpha2 `(9270ddfb)` — Håkan Edling
+- Updated manager block styling to minimize use of absolute positioning `(39921cc2)` — Håkan Edling
+- Added support for notifications in the manager `(188fc47d)` — Filip Jansson
+- Added dimmer when block add dialog is open. See #291 `(280d6506)` — Håkan Edling
+- Support update, publish & unpublish pages via ajax `(f8102510)` — Filip Jansson
+- Support update, publish & unpublish post via ajax `(363eaeac)` — Filip Jansson
+- Support for buttons in dropdown menu `(1dba12a1)` — Filip Jansson
+- Css and js builds `(def03b20)` — Filip Jansson
+- Removed old alias code in the post edit view `(118eb47d)` — Filip Jansson
+- Make sure editable field values are copying before posting form data to the server. See #292 `(2974ed43)` — Håkan Edling
+- Check if we have cache before caching `(72606c3b)` — Filip Jansson
+- Add Registy to .bowerrc so packages will restore properly `(db220260)` — John Cutburth
+- Updated to 5.1.0-beta1 `(5905dea4)` — Håkan Edling
+- Decreased notification time by 1.5 seconds `(f30a69ee)` — Håkan Edling
+- Updated Pomelo EF Core Package and EF Core to version 2.1.1 `(fd8fc31c)` — aatmmr
+- Added application service, see #333 `(2d619413)` — Håkan Edling
+- Restructured the application service for extendability `(c7d5169d)` — Håkan Edling
+- Updated everything to .NET 2.1.1 `(f436d596)` — Håkan Edling
+- Updated affected files to 5.1.1 `(fcf3ffc1)` — Håkan Edling
+- Removed old code `(1d142321)` — Håkan Edling
+- Updated versions to 5.1.2 `(d8cb5b52)` — Håkan Edling
+- Added obsolete Init method for backwards compablility `(bc1c6790)` — Håkan Edling
+- Add GetAll and GetAll<T> methods in IPostRepository and PostRepository `(26bccbea)` — Talagozis
+- Added live-preview for pages. See #287 `(513ab641)` — Håkan Edling
+- Made preview sizes configurable. See #287 `(bac05ec1)` — Håkan Edling
+- Updated versions `(43164d59)` — Håkan Edling
+- Updated versions to beta2 `(a32a787d)` — Håkan Edling
+- Display group icon `(78774a0c)` — Filip Jansson
+- Updated versions to 5.2.0 `(09eff22d)` — Håkan Edling
+- Added ContentLastModified to Site `(01d5981d)` — Håkan Edling
+- Update Piranha.AspNetCore to 5.2.1 `(2298f49a)` — Håkan Edling
+- Calculate the correct height of the preview iframe `(c5638093)` — Filip Jansson
+- Updated manager login styling `(dc7706ad)` — Håkan Edling
+- Add a fallback block view using reflection to extract model fields `(23e1e1d3)` — Henrik Nergaard
+- Split Pascal cased property names into words `(dddf62c3)` — Henrik Nergaard
+- Add basePath and baseUrl parameters at AddPiranhaFileStorage extension method `(e03c3f31)` — Talagozis
+- Changed order of parameters to AddPiranhaFileStorage. See #422 `(0768523c)` — Håkan Edling
+- Added PDF document preview support `(dd331d0e)` — Filip Jansson
+- Updated manager styles for inline content `(5816fc4b)` — Håkan Edling
+- Updated verisons `(98f3ae81)` — Håkan Edling
+- Updated versions `(e92cd411)` — Håkan Edling
+- Api is always null in ApplicationService `(2ba57f9c)` — Lachezar Kuzmanov
+- Minor code updates for initialization `(d6cee819)` — Håkan Edling
+- Updated versions `(8e8982b3)` — Håkan Edling
+- Removed unused code `(ed2af6f5)` — Håkan Edling
+- Update code style of manager `(0ca6da8b)` — Håkan Edling
+- Repository fixing `(9e20fb5a)` — Håkan Edling
+- Reformatted page & post javascript for the manager `(42ed7bda)` — Håkan Edling
+- Update media manager js `(2e27d1b5)` — Håkan Edling
+- Some more cleanup `(55dcd81d)` — Håkan Edling
+- Updated manager services `(2ac1a9de)` — Håkan Edling
+- Winter cleaning of core classes `(02d7eb84)` — Håkan Edling
+- Reverted changes in media repository `(b87893e2)` — Håkan Edling
+- Reformatting and clean-up of Piranha.AspNetCore.Identity `(8ffde1f6)` — Håkan Edling
+- Cleaned and reformatted javascript `(65339e2f)` — Håkan Edling
+- Removed usage of System.Exception `(f4b8a7c4)` — Håkan Edling
+- Added support for IMemoryCache and IDistributedCache `(e432ec85)` — Håkan Edling
+- Removed trailing whitespaces from styles `(cacb589d)` — Håkan Edling
+- More code styling `(bc2ca410)` — Håkan Edling
+- upgraded blob storage `(edc12d52)` — Imran Rashid
+- Added AsNoTracking to get operations `(aea8d1ff)` — Håkan Edling
+- Upgraded ImageSharp to beta6. Added scaling to the example web applications `(bb96dc54)` — Håkan Edling
+- Converted PostTypeService to new structure `(94fded6e)` — Håkan Edling
+- Converted CategoryRepository to service layout `(9a7b191c)` — Håkan Edling
+- Converted TagRepository to new structure `(31feccd0)` — Håkan Edling
+- Converted SiteRepository to new structure `(b2c667b8)` — Håkan Edling
+- Updated version & nuspec for BlobStorage `(2ea402ba)` — Håkan Edling
+- Converted AliasRepository to new structure `(eae614fe)` — Håkan Edling
+- Converted PageRepository to new structure `(960d96e6)` — Håkan Edling
+- Moved content type caching to the App singleton `(1f47f825)` — Håkan Edling
+- Converted ArchiveRepository to the new structure `(91331f8d)` — Håkan Edling
+- Optimized PageService for fetching multiple models `(f90ff2e9)` — Håkan Edling
+- Converted PostRepository to new structure `(bbbd2840)` — Håkan Edling
+- Updated versions `(a7dd66c6)` — Håkan Edling
+- Converted MediaRepository to the new structure `(588ad44f)` — Håkan Edling
+- Moved all EF Core related code to it’s own repository `(8fe15236)` — Håkan Edling
+- Updated Piranha & Piranha.Data.EF to use ConfigureAwait(false) for all async operations `(324c9d08)` — Håkan Edling
+- Updated distributed cache to support objects not marked with Serializable Attribute `(caf3d325)` — Håkan Edling
+- Removed test logging `(89879ff8)` — Håkan Edling
+- Added module list view `(893ae5de)` — Håkan Edling
+- Revert "Merge branch 'v6.0/vue-manager' of https://github.com/PiranhaCMS/piranha.core into v6.0/vue-manager" `(71d5160f)` — Filip
+- Added some test rendering of blocks `(a287176f)` — Håkan Edling
+- Added TinyMCE to html blocks `(0f60d795)` — Håkan Edling
+- Added list title update & sorting `(47b624d8)` — Håkan Edling
+- Added quote block `(46d41e86)` — Håkan Edling
+- Updated assembly & nuspec versions `(17c75cd0)` — Håkan Edling
+- Added region support `(e20ae2be)` — Håkan Edling
+- Updated versions `(63eb2ac2)` — Håkan Edling
+- Added some more fields `(3b3fb68a)` — Håkan Edling
+- Updated imagefield styles, added sortable, add & remove item to region lists `(b2ae5cad)` — Håkan Edling
+- Added null check when comparing state `(6164e29a)` — Håkan Edling
+- Initial commit for Audio content (mp3 + wav support in core) `(7a7ee123)` — stephen
+- Make ArchiveRouter call GetBySlugAsync with typed class `(6cb0c7a3)` — Stefan Holm Olsen
+- Add null-checks to field classes `(e6d10457)` — Stefan Holm Olsen
+- Use GetBySlugAsync with typed classes in PageField and PostField initialization `(86686403)` — Stefan Holm Olsen
+- Ignore empty URL segments in ArchiveRouter `(6f8e8b90)` — Stefan Holm Olsen
+- Revert "Use GetBySlugAsync with typed classes in PageField and PostField initialization." `(13e9a5ad)` — Stefan Holm Olsen
+- Ignore empty URL segments in PageRouter and PostRouter `(5b5bfc40)` — Stefan Holm Olsen
+- New CheckboxField renderer with manual hidden field fallback `(f25e255a)` — i-love-code
+- Missing Manager changes - should make preview of audio the same as video at the media-picker stage `(dde1c1ab)` — stephen
+- Bug - one last instance of previewAudio div contained a video element `(e5d1e986)` — stephen
+- Minimized styles,for PR #573 `(1a05732a)` — Håkan Edling
+- Add minor optimization to DeepClone to skip cloning of value types `(0135a249)` — Stefan Holm Olsen
+- Started working on search functionality for Azure Search `(b334378f)` — Håkan Edling
+- Added horizontal block group layout `(169cca59)` — Håkan Edling
+- Updated some variables name `(5702fd02)` — Filip
+- Updated versions `(e98df21f)` — Håkan Edling
+- Moved labs to core & updated to Razor Component library `(1f35b103)` — Håkan Edling
+- Removed old log from piranha.dropzone `(e41e1405)` — Håkan Edling
+- Implemented page save `(fa789eda)` — Håkan Edling
+- Added add folder to media view & added support for open latest/current folder when selecting media `(feccbdc1)` — Håkan Edling
+- Updated search content index model `(d56cf6f1)` — Håkan Edling
+- Removed test reference to Azure.Search `(eb5180ee)` — Håkan Edling
+- Update block type panel style `(5e9506c8)` — Håkan Edling
+- Added image resizing to manager `(84ce7f02)` — Håkan Edling
+- Updated styling of block groups `(eb537d20)` — Håkan Edling
+- Added auto focus when open media folder modal `(31d7a54c)` — Håkan Edling
+- Added support for uploading media via mediapicker `(041f8174)` — Filip
+- Style tweaks according to specs from @NJepop `(ab7d4173)` — Håkan Edling
+- Added search input in mediapicker modal `(1d067596)` — Filip
+- Clear media search on select `(87dbe1e5)` — Håkan Edling
+- Added some accessibility features like remapping focus after leaving a modal `(ff8cfd3a)` — Håkan Edling
+- Implement PostgreSQL ASP.Net Identity Provider. Resolves #424 `(cb3d8c3b)` — Jason Underhill
+- Added support for running Memory Cache without cloning. See #597 `(3241b8fd)` — Håkan Edling
+- Added support for deleting pages from the Page list view `(d434d0bc)` — Håkan Edling
+- Added page delete from edit view `(09179bc5)` — Håkan Edling
+- Implemented config view `(f3cb5a90)` — Håkan Edling
+- Added support for creating pages `(9f369f25)` — Håkan Edling
+- Moved PostgreSQL to it’s own repository `(74b2554d)` — Håkan Edling
+- Added document field component `(3fa92b8b)` — Håkan Edling
+- Added video field component `(55223dbf)` — Filip
+- Added audio field component `(9eacb91c)` — Filip
+- Added media field component `(92d96a30)` — Filip
+- Added missing icons in the media picker `(6178b5ed)` — Filip
+- Added missing icons in media view `(665ef6a0)` — Filip
+- Moved MySQL to its own repository `(c4067801)` — Håkan Edling
+- Updated project versions `(36ea8384)` — Håkan Edling
+- Localization and UI updates `(856283e9)` — Håkan Edling
+- Updated PageField to use PageInfo `(683cde12)` — Filip
+- Added sitemap endpoint to the manager api `(0318c467)` — Filip
+- Added pagepicker to tha manager `(39f1b154)` — Filip
+- Added WIP page field vue component `(43d4acc2)` — Filip
+- Started converting post archive view to new UI `(8de29a81)` — Håkan Edling
+- Added revision support for pages and converted localization to resx `(c099a941)` — Håkan Edling
+- Moved resources to it’s own project `(a5ca0ea5)` — Håkan Edling
+- Added support for unpublishing pages `(694ecb48)` — Håkan Edling
+- Removed cloning as default choice for memory caching `(7804c3c9)` — Håkan Edling
+- Cleaned old NuGet references `(5ab9c684)` — Håkan Edling
+- Added login form `(e26a6f9f)` — Håkan Edling
+- Made login version number dynamic `(c59e4df5)` — Håkan Edling
+- Added inverted nav-tabs `(c807a502)` — Filip
+- Added tabs to media view instead of toggle button `(ca093301)` — Filip
+- Load image thumbnail version in media picker `(fe767c9c)` — Filip
+- Added basic authorization `(18ac5881)` — Håkan Edling
+- Added basic apicontroller authorization `(15c37bc8)` — Håkan Edling
+- Temporarily removed module permissions `(68c39b1c)` — Håkan Edling
+- Resetted translations to zero for crowdin `(84460d75)` — Håkan Edling
+- Moved media tabs outside topnav `(d438c1c6)` — Filip
+- New translations Alias.resx (Romanian) `(2f88036a)` — Håkan Edling
+- New translations Site.resx (Portuguese) `(576d1615)` — Håkan Edling
+- New translations Menu.resx (Polish) `(b970b5b9)` — Håkan Edling
+- New translations Module.resx (Polish) `(2af22284)` — Håkan Edling
+- New translations Page.resx (Polish) `(852a93f3)` — Håkan Edling
+- New translations Site.resx (Polish) `(7cd7f598)` — Håkan Edling
+- New translations Alias.resx (Portuguese) `(b7a71a70)` — Håkan Edling
+- New translations Config.resx (Portuguese) `(71a3e3aa)` — Håkan Edling
+- New translations General.resx (Portuguese) `(3bb3069a)` — Håkan Edling
+- New translations Media.resx (Portuguese) `(983efbdc)` — Håkan Edling
+- New translations Menu.resx (Portuguese) `(997cb489)` — Håkan Edling
+- New translations Module.resx (Portuguese) `(53adbf5e)` — Håkan Edling
+- New translations Page.resx (Portuguese) `(c4ba41a8)` — Håkan Edling
+- New translations Alias.resx (Russian) `(7d261799)` — Håkan Edling
+- New translations General.resx (Polish) `(8e1b219b)` — Håkan Edling
+- New translations Config.resx (Russian) `(732c4d37)` — Håkan Edling
+- New translations General.resx (Russian) `(998f6eb8)` — Håkan Edling
+- New translations Media.resx (Russian) `(4556b432)` — Håkan Edling
+- New translations Menu.resx (Russian) `(c9ddf270)` — Håkan Edling
+- New translations Module.resx (Russian) `(32513ead)` — Håkan Edling
+- New translations Page.resx (Russian) `(03359079)` — Håkan Edling
+- New translations Site.resx (Russian) `(800dadca)` — Håkan Edling
+- New translations Alias.resx (Serbian (Cyrillic)) `(95a70a9f)` — Håkan Edling
+- New translations Config.resx (Serbian (Cyrillic)) `(b75b56e6)` — Håkan Edling
+- New translations General.resx (Serbian (Cyrillic)) `(c6256d7f)` — Håkan Edling
+- New translations Media.resx (Serbian (Cyrillic)) `(226a23ac)` — Håkan Edling
+- New translations Menu.resx (Serbian (Cyrillic)) `(91ccf898)` — Håkan Edling
+- New translations Media.resx (Polish) `(33d512d8)` — Håkan Edling
+- New translations Config.resx (Polish) `(19507353)` — Håkan Edling
+- New translations Page.resx (Serbian (Cyrillic)) `(13aab40a)` — Håkan Edling
+- New translations General.resx (Dutch) `(32aa57e8)` — Håkan Edling
+- New translations Site.resx (Japanese) `(b3b304f8)` — Håkan Edling
+- New translations Alias.resx (Korean) `(019d5a0a)` — Håkan Edling
+- New translations Config.resx (Korean) `(307820ed)` — Håkan Edling
+- New translations General.resx (Korean) `(145cb383)` — Håkan Edling
+- New translations Media.resx (Korean) `(16db82ce)` — Håkan Edling
+- New translations Menu.resx (Korean) `(27a7c851)` — Håkan Edling
+- New translations Module.resx (Korean) `(3f30e555)` — Håkan Edling
+- New translations Page.resx (Korean) `(dea23442)` — Håkan Edling
+- New translations Site.resx (Korean) `(1ddfda8b)` — Håkan Edling
+- New translations Alias.resx (Dutch) `(f57db9ae)` — Håkan Edling
+- New translations Config.resx (Dutch) `(96722238)` — Håkan Edling
+- New translations Media.resx (Dutch) `(9f54c3ff)` — Håkan Edling
+- New translations Alias.resx (Polish) `(13678bb5)` — Håkan Edling
+- New translations Menu.resx (Dutch) `(7f654f39)` — Håkan Edling
+- New translations Module.resx (Dutch) `(eb9ed3c1)` — Håkan Edling
+- New translations Page.resx (Dutch) `(5bbe7416)` — Håkan Edling
+- New translations Site.resx (Dutch) `(cd1a671b)` — Håkan Edling
+- New translations Alias.resx (Norwegian) `(1af76a7e)` — Håkan Edling
+- New translations Config.resx (Norwegian) `(f8b3cdb4)` — Håkan Edling
+- New translations General.resx (Norwegian) `(34cab414)` — Håkan Edling
+- New translations Media.resx (Norwegian) `(65515dc2)` — Håkan Edling
+- New translations Menu.resx (Norwegian) `(e1d10c07)` — Håkan Edling
+- New translations Module.resx (Norwegian) `(aa78c8a0)` — Håkan Edling
+- New translations Page.resx (Norwegian) `(8c5d5d09)` — Håkan Edling
+- New translations Site.resx (Norwegian) `(7d905bab)` — Håkan Edling
+- New translations Module.resx (Serbian (Cyrillic)) `(a9c87045)` — Håkan Edling
+- New translations Site.resx (Serbian (Cyrillic)) `(04e9b51a)` — Håkan Edling
+- New translations Module.resx (Japanese) `(8430bf74)` — Håkan Edling
+- New translations Config.resx (Vietnamese) `(4e48a99d)` — Håkan Edling
+- New translations Page.resx (Chinese Simplified) `(574858c1)` — Håkan Edling
+- New translations Site.resx (Chinese Simplified) `(1ec1861a)` — Håkan Edling
+- New translations Alias.resx (Chinese Traditional) `(372c9449)` — Håkan Edling
+- New translations Config.resx (Chinese Traditional) `(53933d27)` — Håkan Edling
+- New translations General.resx (Chinese Traditional) `(b9effc2e)` — Håkan Edling
+- New translations Media.resx (Chinese Traditional) `(39747276)` — Håkan Edling
+- New translations Menu.resx (Chinese Traditional) `(c5b593b7)` — Håkan Edling
+- New translations Module.resx (Chinese Traditional) `(a99a2774)` — Håkan Edling
+- New translations Site.resx (French) `(9ce31838)` — Håkan Edling
+- New translations General.resx (Romanian) `(b32b17d0)` — Håkan Edling
+- New translations Config.resx (Afrikaans) `(b2c09c8c)` — Håkan Edling
+- New translations Alias.resx (Afrikaans) `(7c08c86a)` — Håkan Edling
+- New translations Site.resx (Spanish) `(66005881)` — Håkan Edling
+- New translations Page.resx (Spanish) `(cfbfbdb3)` — Håkan Edling
+- New translations Menu.resx (Spanish) `(647fcda3)` — Håkan Edling
+- New translations Media.resx (Spanish) `(481e94fc)` — Håkan Edling
+- New translations General.resx (Spanish) `(8abe13f2)` — Håkan Edling
+- New translations Config.resx (Spanish) `(4aa86702)` — Håkan Edling
+- New translations Alias.resx (Spanish) `(08b54437)` — Håkan Edling
+- New translations Config.resx (Romanian) `(54ad7a11)` — Håkan Edling
+- New translations Page.resx (French) `(701cc952)` — Håkan Edling
+- New translations Site.resx (Romanian) `(97f331ad)` — Håkan Edling
+- New translations Media.resx (Romanian) `(15d19147)` — Håkan Edling
+- New translations Module.resx (French) `(55a26d2d)` — Håkan Edling
+- New translations Menu.resx (Romanian) `(97bc6b87)` — Håkan Edling
+- New translations Module.resx (Romanian) `(7f07b7a4)` — Håkan Edling
+- New translations Site.resx (German) `(0b65b2f7)` — Håkan Edling
+- New translations Site.resx (Greek) `(859ba3d4)` — Håkan Edling
+- New translations Page.resx (Romanian) `(77cc135d)` — Håkan Edling
+- New translations Module.resx (Spanish) `(6400bbd7)` — Håkan Edling
+- New translations Menu.resx (French) `(857ddf02)` — Håkan Edling
+- New translations Config.resx (French) `(96824f52)` — Håkan Edling
+- New translations General.resx (French) `(10ae798e)` — Håkan Edling
+- New translations Media.resx (French) `(088c403f)` — Håkan Edling
+- New translations Alias.resx (French) `(745a4ce4)` — Håkan Edling
+- New translations Config.resx (Japanese) `(46c2e82e)` — Håkan Edling
+- New translations Page.resx (Greek) `(2e909bc0)` — Håkan Edling
+- New translations Module.resx (Greek) `(9d6a8849)` — Håkan Edling
+- New translations Menu.resx (Greek) `(976aa4f3)` — Håkan Edling
+- New translations Media.resx (Greek) `(f010ae65)` — Håkan Edling
+- New translations General.resx (Greek) `(a6df28b9)` — Håkan Edling
+- New translations Config.resx (Greek) `(9d0635b2)` — Håkan Edling
+- New translations General.resx (Japanese) `(62ab739c)` — Håkan Edling
+- New translations Media.resx (Japanese) `(d9f5fff9)` — Håkan Edling
+- New translations Menu.resx (Japanese) `(dda1f1fb)` — Håkan Edling
+- New translations Page.resx (Japanese) `(ad7c020a)` — Håkan Edling
+- New translations Alias.resx (Swedish) `(37f4901e)` — Håkan Edling
+- New translations Media.resx (Swedish) `(ea8ba5d8)` — Håkan Edling
+- New translations Config.resx (Swedish) `(c4199e5d)` — Håkan Edling
+- New translations General.resx (Swedish) `(57173939)` — Håkan Edling
+- New translations Alias.resx (Greek) `(386fca94)` — Håkan Edling
+- New translations Page.resx (German) `(8ea08de5)` — Håkan Edling
+- New translations Config.resx (Finnish) `(14be337b)` — Håkan Edling
+- New translations Module.resx (German) `(d4939310)` — Håkan Edling
+- New translations Menu.resx (German) `(556f1179)` — Håkan Edling
+- New translations Media.resx (German) `(690081c8)` — Håkan Edling
+- New translations General.resx (German) `(fa4411f2)` — Håkan Edling
+- New translations Config.resx (German) `(81e346d6)` — Håkan Edling
+- New translations Alias.resx (German) `(da6d39af)` — Håkan Edling
+- New translations Site.resx (Danish) `(7379af71)` — Håkan Edling
+- New translations Page.resx (Danish) `(fd04ca23)` — Håkan Edling
+- New translations Alias.resx (Finnish) `(f433179e)` — Håkan Edling
+- New translations General.resx (Finnish) `(d6b70bb0)` — Håkan Edling
+- New translations Menu.resx (Danish) `(7601f126)` — Håkan Edling
+- New translations Module.resx (Hebrew) `(e755e05f)` — Håkan Edling
+- New translations Module.resx (Hungarian) `(1c4d7934)` — Håkan Edling
+- New translations Menu.resx (Hungarian) `(6db504d4)` — Håkan Edling
+- New translations Media.resx (Hungarian) `(5a1350f0)` — Håkan Edling
+- New translations General.resx (Hungarian) `(fb5bdf3d)` — Håkan Edling
+- New translations Config.resx (Hungarian) `(b95aeae5)` — Håkan Edling
+- New translations Alias.resx (Hungarian) `(2b9f558c)` — Håkan Edling
+- New translations Site.resx (Hebrew) `(13b8e0fb)` — Håkan Edling
+- New translations Page.resx (Hebrew) `(2e651c75)` — Håkan Edling
+- New translations Menu.resx (Hebrew) `(38d12ff8)` — Håkan Edling
+- New translations Media.resx (Finnish) `(bdeda46f)` — Håkan Edling
+- New translations Media.resx (Hebrew) `(331476f4)` — Håkan Edling
+- New translations General.resx (Hebrew) `(13ced443)` — Håkan Edling
+- New translations Module.resx (Italian) `(3bdca17e)` — Håkan Edling
+- New translations Page.resx (Hungarian) `(c63d71b4)` — Håkan Edling
+- New translations Site.resx (Hungarian) `(542165ac)` — Håkan Edling
+- New translations Alias.resx (Italian) `(0631df1e)` — Håkan Edling
+- New translations Config.resx (Italian) `(c91ede81)` — Håkan Edling
+- New translations General.resx (Italian) `(bad6739d)` — Håkan Edling
+- New translations Media.resx (Italian) `(602b4e68)` — Håkan Edling
+- New translations Menu.resx (Italian) `(5d92047e)` — Håkan Edling
+- New translations Page.resx (Italian) `(54fa21fe)` — Håkan Edling
+- New translations Site.resx (Italian) `(c049f772)` — Håkan Edling
+- New translations Alias.resx (Japanese) `(459169cc)` — Håkan Edling
+- New translations Config.resx (Hebrew) `(90329366)` — Håkan Edling
+- New translations Menu.resx (Finnish) `(6c59efd8)` — Håkan Edling
+- New translations Module.resx (Finnish) `(c080c942)` — Håkan Edling
+- New translations Page.resx (Finnish) `(c9b6c8b7)` — Håkan Edling
+- New translations Site.resx (Finnish) `(d9d40833)` — Håkan Edling
+- New translations Alias.resx (Hebrew) `(9e398780)` — Håkan Edling
+- New translations Module.resx (Afrikaans) `(19bd3f6b)` — Håkan Edling
+- New translations General.resx (Afrikaans) `(30aa984e)` — Håkan Edling
+- New translations Media.resx (Afrikaans) `(a8a7efb0)` — Håkan Edling
+- New translations Menu.resx (Afrikaans) `(bdfc9a37)` — Håkan Edling
+- New translations Page.resx (Afrikaans) `(0e849ce2)` — Håkan Edling
+- New translations Site.resx (Afrikaans) `(0e91ab5f)` — Håkan Edling
+- New translations Alias.resx (Arabic) `(6b727c5f)` — Håkan Edling
+- New translations Config.resx (Arabic) `(87c067a0)` — Håkan Edling
+- New translations General.resx (Arabic) `(2839b913)` — Håkan Edling
+- New translations Media.resx (Arabic) `(7c0dc860)` — Håkan Edling
+- New translations Menu.resx (Arabic) `(d45d0a44)` — Håkan Edling
+- New translations Module.resx (Arabic) `(158a0593)` — Håkan Edling
+- New translations Site.resx (Arabic) `(24e8e312)` — Håkan Edling
+- New translations Page.resx (Arabic) `(9d3455c8)` — Håkan Edling
+- New translations Alias.resx (Catalan) `(898cfa18)` — Håkan Edling
+- New translations Config.resx (Catalan) `(a5b7bace)` — Håkan Edling
+- New translations Module.resx (Danish) `(3e830b26)` — Håkan Edling
+- New translations Media.resx (Danish) `(97081f0a)` — Håkan Edling
+- New translations Config.resx (Czech) `(cd952bb0)` — Håkan Edling
+- New translations General.resx (Catalan) `(441b55e7)` — Håkan Edling
+- New translations Media.resx (Catalan) `(e8e5f5f9)` — Håkan Edling
+- New translations Menu.resx (Catalan) `(f38a9686)` — Håkan Edling
+- New translations Module.resx (Catalan) `(0ab4c297)` — Håkan Edling
+- New translations Page.resx (Catalan) `(4ccdd63f)` — Håkan Edling
+- New translations Alias.resx (Czech) `(d2b6f632)` — Håkan Edling
+- New translations Site.resx (Catalan) `(484ddce2)` — Håkan Edling
+- New translations General.resx (Czech) `(3f8d9e37)` — Håkan Edling
+- New translations Media.resx (Czech) `(87c36880)` — Håkan Edling
+- New translations Menu.resx (Czech) `(6e66365e)` — Håkan Edling
+- New translations Module.resx (Czech) `(5b12246c)` — Håkan Edling
+- New translations Page.resx (Czech) `(30590229)` — Håkan Edling
+- New translations Site.resx (Czech) `(ebe192b9)` — Håkan Edling
+- New translations Alias.resx (Danish) `(5a4ea278)` — Håkan Edling
+- New translations Config.resx (Danish) `(3e2290ea)` — Håkan Edling
+- New translations General.resx (Danish) `(a65d90be)` — Håkan Edling
+- New translations Module.resx (Ukrainian) `(3a8dd946)` — Håkan Edling
+- New translations Site.resx (Ukrainian) `(8ce394c6)` — Håkan Edling
+- New translations Page.resx (Ukrainian) `(0975b1c1)` — Håkan Edling
+- New translations Module.resx (Vietnamese) `(9e6b7568)` — Håkan Edling
+- New translations Media.resx (Ukrainian) `(f972b8d3)` — Håkan Edling
+- New translations Site.resx (Vietnamese) `(694c5453)` — Håkan Edling
+- New translations Page.resx (Vietnamese) `(1d0c2cf7)` — Håkan Edling
+- New translations Menu.resx (Vietnamese) `(5ee035b8)` — Håkan Edling
+- New translations Media.resx (Vietnamese) `(38ff19d3)` — Håkan Edling
+- New translations General.resx (Vietnamese) `(44b8c4c2)` — Håkan Edling
+- New translations Alias.resx (Vietnamese) `(051d993d)` — Håkan Edling
+- New translations Menu.resx (Ukrainian) `(ccb7ede7)` — Håkan Edling
+- New translations General.resx (Ukrainian) `(d8e159f9)` — Håkan Edling
+- New translations Config.resx (Ukrainian) `(fee653d3)` — Håkan Edling
+- New translations General.resx (Turkish) `(3c95782c)` — Håkan Edling
+- New translations Alias.resx (Ukrainian) `(453ea439)` — Håkan Edling
+- New translations Site.resx (Turkish) `(92798443)` — Håkan Edling
+- New translations Page.resx (Turkish) `(2540162a)` — Håkan Edling
+- New translations Module.resx (Turkish) `(70adc263)` — Håkan Edling
+- New translations Menu.resx (Turkish) `(4b408fa6)` — Håkan Edling
+- New translations Media.resx (Turkish) `(a76c2007)` — Håkan Edling
+- New translations Config.resx (Turkish) `(add335cc)` — Håkan Edling
+- New translations Alias.resx (Turkish) `(a9aeb58d)` — Håkan Edling
+- New translations Site.resx (Swedish) `(d47008a3)` — Håkan Edling
+- New translations Page.resx (Swedish) `(4644d37f)` — Håkan Edling
+- New translations Module.resx (Swedish) `(2d520d75)` — Håkan Edling
+- New translations Menu.resx (Swedish) `(5a3e39a3)` — Håkan Edling
+- New translations Alias.resx (Swedish) `(37c79009)` — Håkan Edling
+- New translations Config.resx (Swedish) `(bfc6a5c6)` — Håkan Edling
+- New translations General.resx (Swedish) `(d7592b4d)` — Håkan Edling
+- New translations Media.resx (Swedish) `(56981531)` — Håkan Edling
+- New translations Menu.resx (Swedish) `(c88c3bc4)` — Håkan Edling
+- New translations Module.resx (Swedish) `(cfe888b9)` — Håkan Edling
+- New translations Page.resx (Swedish) `(3b6ab4ed)` — Håkan Edling
+- New translations Site.resx (Swedish) `(fb0515c2)` — Håkan Edling
+- Added published check and access check to ArchiveMiddleware `(60425bc4)` — i-love-code
+- New Crowdin translations (#647) `(73d2971c)` — Håkan Edling
+- Updated Identity module for Bootstrap 4 constructs `(8b4772a5)` — Håkan Edling
+- New Crowdin translations (#650) `(ef9ca004)` — Håkan Edling
+- Implemented page move in the sitemap `(9b797988)` — Håkan Edling
+- Added replaceState() when new page is saved to database `(340908c0)` — Håkan Edling
+- Updated media nav to nav-pills `(9ee69ec5)` — Filip
+- Added support for moving media between folders `(64ae1204)` — Filip
+- Updated preview modal with width/height check & added dimensions `(b84a71aa)` — Filip
+- Added resource for ”Draft” `(bf6428f6)` — Håkan Edling
+- New Crowdin translations (#655) `(0912c355)` — Håkan Edling
+- New Crowdin translations (#657) `(8a0dd3f3)` — Håkan Edling
+- New Crowdin translations (#658) `(23c45a03)` — Håkan Edling
+- Added backwards compability for server generated status messages `(f17970d0)` — Håkan Edling
+- Moved page state info to the toolbar `(289f2342)` — Håkan Edling
+- Added category filter for post archive `(b5a15eb3)` — Håkan Edling
+- Removed post archive search for now. Will implement in 7.1 `(dcb6eab6)` — Håkan Edling
+- Updated to BlobStorage 10.0.3 and updated namespaces `(be1ec3ba)` — Håkan Edling
+- Added support for hidden regions, if they should be handled by another view component `(1789c0d4)` — Håkan Edling
+- New Crowdin translations in Spanish (#662) `(f4c6cf48)` — Håkan Edling
+- Added missing css style for login background `(7861ed6b)` — Håkan Edling
+- Update page move to not support move between sites `(98faceaf)` — Håkan Edling
+- Updated preview modal to use nav-pills instead of nav-tabs `(38f63519)` — Filip
+- New Crowdin translations (#663) `(f10ec465)` — Håkan Edling
+- Creating folder from mediapicker now sends the currect filter if any `(e8a88be0)` — Filip
+- Updated .media-picker to be more generic `(dd2c8a85)` — Filip
+- Added audio block `(efd74984)` — Filip
+- Added video block `(579561fe)` — Filip
+- Added new translation strings `(21440e32)` — Håkan Edling
+- New Crowdin translations (#667) `(735c40b3)` — Håkan Edling
+- Added some resources for translations `(63e9ea3a)` — Håkan Edling
+- Added new translation strings `(8565edad)` — Filip
+- Added modal for editing site information `(9ef9875b)` — Håkan Edling
+- Added loading animation to buttons in the page edit view `(fb24d7f9)` — Filip
+- Added the possibility to set site type `(8d726cb8)` — Håkan Edling
+- New Crowdin translations (#669) `(0c1f2db2)` — Håkan Edling
+- Added so sitmap looks at Expanded Levels config setting `(982fa13b)` — Håkan Edling
+- Added post localization strings for archive view `(b1c9d879)` — Håkan Edling
+- New Crowdin translations (#680) `(d754a7b2)` — Håkan Edling
+- Did some cleaning for alpha1 `(9f3b2358)` — Håkan Edling
+- New Crowdin translations (#685) `(0ea7f395)` — Håkan Edling
+- Adds Null checks for field types `(55aa7c8d)` — John Pavek
+- Updated all projects to EF Core 2.2.x `(0b4fa87a)` — Håkan Edling
+- Updated all nuspec files for alpha1 `(1f7fcc1b)` — Håkan Edling
+- Added extension methods for configuring the IMvcBuilder for the manager `(07595204)` — Håkan Edling
+- Added column block to default blocks `(a5e28519)` — Håkan Edling
+- New Crowdin translations (#694) `(c19b6418)` — Håkan Edling
+- Added post edit rendering `(698be370)` — Håkan Edling
+- New Crowdin translations (#697) `(448c87a7)` — Håkan Edling
+- Integrated select2 with vue `(39ad25a2)` — Håkan Edling
+- Added missing registration for ColumnBlock `(1759540e)` — Håkan Edling
+- Added post field component and post picker dialog `(c877d911)` — Filip
+- Add drafts/revisions for posts & post edit `(6ea22fcc)` — Håkan Edling
+- Added post settings `(d4ae5a1f)` — Håkan Edling
+- Added support for adding posts `(d5a6ab87)` — Håkan Edling
+- Updated versions to alpha2 `(cc973a04)` — Håkan Edling
+- Added missing localization to posts `(3a9b4085)` — Håkan Edling
+- Added new post strings `(82cd5a96)` — Håkan Edling
+- Make sure we never cache drafts `(786e19fd)` — Håkan Edling
+- Added razor pagemodel base class for automatic draft handling `(329b29b9)` — Håkan Edling
+- Added base class for razor pagemodels for posts `(095d3b92)` — Håkan Edling
+- Removed redundant dependencies. Updated NuSpec `(bda214aa)` — Håkan Edling
+- Added page preview `(e7beb3dd)` — Håkan Edling
+- Added post preview to manager `(e25ea865)` — Håkan Edling
+- New Crowdin translations (#705) `(af716088)` — Håkan Edling
+- Removed old markup from role list `(bdf857b4)` — Håkan Edling
+- Added post labels `(6d2d40db)` — Håkan Edling
+- New Crowdin translations (#715) `(2ebd6cd5)` — Håkan Edling
+- New translations Post.resx (Bulgarian) (#717) `(c28f3af5)` — Håkan Edling
+- New translations Alias.resx (Vietnamese) `(fc5385ac)` — Håkan Edling
+- Added service for model loading in applications and added draft support to MvcWeb example `(cb3c2ec0)` — Håkan Edling
+- New translations Post.resx (Spanish) (#724) `(1b4919df)` — Håkan Edling
+- Added config for maximum number of revisions `(430291cd)` — Håkan Edling
+- New translations `(4bf61c81)` — Håkan Edling
+- Added full localization to the manager config view `(26ad42c8)` — Håkan Edling
+- New Crowdin translations (#727) `(9c03977c)` — Håkan Edling
+- Added support for adding & removing sites `(cd749f02)` — Håkan Edling
+- New translations Config.resx (Swedish) (#729) `(45b61de9)` — Håkan Edling
+- Updated to alpha3 `(51dfdd15)` — Håkan Edling
+- Added support for adding pages add specific positions `(7401fee6)` — Håkan Edling
+- Added comments and cleaned up using statements `(bb181c44)` — Håkan Edling
+- New Crowdin translations (#731) `(84340cb3)` — Håkan Edling
+- Updated manager to alpha4 `(eee44037)` — Håkan Edling
+- New Crowdin translations (#733) `(2375ef13)` — Håkan Edling
+- Added support to posts for custom editors `(b1db24dc)` — Håkan Edling
+- Updated versions to beta1 `(f00d4e5e)` — Håkan Edling
+- Added support for list regions on Sites `(922816a6)` — Håkan Edling
+- Added datepicker as global component `(afc4934f)` — Filip
+- Added the use of a datepicker in page settings `(60fab4dd)` — Filip
+- Added the use of a datepicker in post settings `(c2b8b078)` — Filip
+- Updated date-filed to use the datepicker component `(525a0ac9)` — Filip
+- Added SimpleMDE Markdown field `(c61b0262)` — Håkan Edling
+- Updated content styling for markdown `(cbf09566)` — Håkan Edling
+- Added correct content styling for side-by-side fullscreen preview `(e978f419)` — Håkan Edling
+- Added link dialog to Tiny MCE `(172318ec)` — Håkan Edling
+- Added image dialog to Tiny MCE `(2d22c263)` — Håkan Edling
+- Added full bootstrap css `(cf88531c)` — Håkan Edling
+- Added datepicker styling and options `(31fd8015)` — Filip
+- Update full.scss `(0a90a4e5)` — Filip
+- Minimized css `(587d8c94)` — Håkan Edling
+- Added font-weight to datepicker headers `(169cda4f)` — Filip
+- Minified css `(4e548095)` — Filip
+- Updated versions to rc1 `(cfb19981)` — Håkan Edling
+- Updated so sitemap can render HTML titles for items `(a0e2ceef)` — Håkan Edling
+- Added new Readonly field `(77b0c289)` — Håkan Edling
+- Added select-field component `(127f5f40)` — Filip
+- Moved category and tags to the title section so they are not dependent on Blocks `(decc37bb)` — Håkan Edling
+- Added model validation for Post Category `(712e6fbf)` — Håkan Edling
+- New Crowdin translations (#741) `(4023eccb)` — Håkan Edling
+- Switch back to tabs in preview modal for a more unified look `(684d3a74)` — Filip
+- New translations `(4b50960f)` — Håkan Edling
+- Localized all new resources in page edit `(51b33df5)` — Håkan Edling
+- Added new resources for page copies `(c3e09431)` — Håkan Edling
+- Removed html-formatting from resource string `(638f748b)` — Håkan Edling
+- Reverted back from ”New” to ”Empty” in page add dialog `(ef44b95a)` — Håkan Edling
+- New Crowdin translations (#748) `(2c315af4)` — Håkan Edling
+- Added badge for copies to the page list `(b1aba1b5)` — Håkan Edling
+- New Crowdin translations (#750) `(13d64d42)` — Håkan Edling
+- Some minor style adjustments `(63477cf5)` — Håkan Edling
+- Some minor adjustments to the sitemap styling `(9ba1fac4)` — Håkan Edling
+- Updated versions to 7.0.0!! `(10c562ed)` — Håkan Edling
+- Reverted TypeNameHandling in Utils.DeepClone `(d5f69493)` — Håkan Edling
+- New Crowdin translations (#752) `(5651aa63)` — Håkan Edling
+- Added site filter drop down on page copy modal `(fd1724c0)` — Håkan Edling
+- Made HtmlColumnBlock unlisted and added it back for compability `(15b86676)` — Håkan Edling
+- New Crowdin translations (#760) `(c7690951)` — Håkan Edling
+- Updated versions to 7.0.1 `(ef641748)` — Håkan Edling
+- Loop filteredFolders instead of all folders in mediapicker `(50270b9c)` — Filip
+- New Crowdin translations (#768) `(926575d5)` — Håkan Edling
+- Updated versions to 7.0.2 `(471092f4)` — Håkan Edling
+- Added strings for site delete confirmation and login `(8e5403ba)` — Håkan Edling
+- Made sure delete confirmation is always 100% wide regardless of content `(98c549b5)` — Håkan Edling
+- New Crowdin translations (#786) `(90785cb6)` — Håkan Edling
+- New Crowdin translations (#788) `(1992fa20)` — Håkan Edling
+- Updated versions for `SR3` `(3d81bb78)` — Håkan Edling
+- Add Russian translation `(63f05e05)` — Alexey Sergeev
+- Add russian translation `(3d03dd18)` — Alexey Sergeev
+- Update russian translation `(02668ac9)` — Alexey Sergeev
+- New Crowdin translations (#809) `(5f07f1a7)` — Håkan Edling
+- New Crowdin translations (#810) `(aeb04a54)` — Håkan Edling
+- New Crowdin translations (#812) `(7eb91977)` — Håkan Edling
+- Changed class used by the custom manager script list into a small class that can also take a has for SRI support as well as custom script type and crossorigin modes `(aee7282b)` — Jolt
+- Added support for omitting crossorigin attribute, but left anonymous as the default value `(12ffb929)` — Jolt
+- Removed TinyMCE from manager into its own package and added Summernote package `(e38eafab)` — Håkan Edling
+- Code clean up for CI checks `(45e1fbdd)` — Jolt
+- Final cleanup for CI checks `(b8659544)` — Jolt
+- New Crowdin translations (#814) `(f1b70f43)` — Håkan Edling
+- Updated summernote styling to better align with the UI `(3a3407a2)` — Håkan Edling
+- Added onChange callback for all HTML components `(676c6d3d)` — Håkan Edling
+- Started working on integrated link dialog for summernote `(c41406cf)` — Håkan Edling
+- Added asset compilation & minification `(474931de)` — Håkan Edling
+- Updated versions `(562d44b3)` — Håkan Edling
+- Add CodeMirror support for summernote codeview and boolean in middleware extension method to skip over this code. (The codemirror definition in the summernote statup is skipped over without issue if codemirror isn't present.) `(f796e7a9)` — Jolt
+- Updated versions for SR 5 `(0c6919bd)` — Håkan Edling
+- Enhanced media query speed and fetch routines to cut down time needed to query the database for media entries immensely, and changed client code to make fewer requests in the gallery folder `(0e3efa99)` — Jolt
+- Updated core packages and tests to net core 3.0 `(0cb74c33)` — Håkan Edling
+- Converted example projects to netcoreapp3.0 `(e29ca994)` — Håkan Edling
+- Pulled back font-size in CodeMirror code view .1rem `(4856e857)` — Håkan Edling
+- Removed node modules from TinyMCE build `(c5b75fe1)` — Håkan Edling
+- Manager: Support for routes on pages and posts `(864bb7fe)` — Mikael Lindemann
+- Changed position of route field in page settings `(c976ce4c)` — Håkan Edling
+- Added some module initializations `(c126349d)` — Håkan Edling
+- Added some new strings for routing `(8c985a86)` — Håkan Edling
+- Changed based translations to English `(b55eae2c)` — Håkan Edling
+- Added a previously forgotten method to call the repo's GetByID param array method from the IMediaService interface `(8f853df0)` — Jolt
+- New Crowdin translations (#858) `(fe109c04)` — Håkan Edling
+- Updated assembly versions `(aca9ebc3)` — Håkan Edling
+- Accept folder id as route value for media list. See #867 `(a7c84c94)` — Håkan Edling
+- Added come core functionality for client side validation. See #872 `(ae826019)` — Håkan Edling
+- Added permission bug for the media picker upload `(cf6eb881)` — Håkan Edling
+- Restructured manager actions `(8a1a7080)` — Håkan Edling
+- New Crowdin translations (#880) `(365a69fe)` — Håkan Edling
+- Changed media gallery to support unscaled images `(2d9faf49)` — Håkan Edling
+- Updated summernote editor font-size `(8d843f7b)` — Håkan Edling
+- Removed useless cross-reference `(c77e519f)` — Håkan Edling
+- Cleaned up model references `(356962ec)` — Håkan Edling
+- Removed ContentTypes which has been replaced with CustomEditors `(cb0d0249)` — Håkan Edling
+- Removed TaxonomyList `(28bf7ce0)` — Håkan Edling
+- New Crowdin translations (#882) `(e20c277b)` — Håkan Edling
+- Updated versions and NuSpec files `(0fff5f41)` — Håkan Edling
+- New Crowdin translations (#893) `(43b446d0)` — Håkan Edling
+- Added form validation to site form. See #872 `(33232936)` — Filip Jansson
+- Moved alias validation message to Localizer `(97b844f0)` — Filip Jansson
+- Updated hover style when inside a block group `(6d62cfd1)` — Håkan Edling
+- Cleaned up some using statements `(8a64ff32)` — Håkan Edling
+- Added new resource strings `(56efdcf9)` — Håkan Edling
+- New Crowdin translations (#902) `(4f655344)` — Håkan Edling
+- Only validate password if one was given `(dded00f0)` — Filip
+- Added form validation to user edit form. See #872 `(7d91bf84)` — Filip
+- Added form validation to edit role form. See #872 `(f6ef4882)` — Filip
+- Added form validation to create media folder form. See #872 `(8e26ea73)` — Filip
+- Added validation message for users and rols edit forms. See #872 `(ae7338d3)` — Filip
+- Removed valid form state styling `(99d60b52)` — Filip
+- Added check so folders are not moved into themselves. See #904 `(79ec121e)` — Håkan Edling
+- Updated versions to 7.1 `(96e0161f)` — Håkan Edling
+- New Crowdin translations (#905) `(9280bca5)` — Håkan Edling
+- Added validation resources `(f91e75d1)` — Håkan Edling
+- New Crowdin translations (#910) `(95e96ef9)` — Håkan Edling
+- New Crowdin translations (#912) `(f7dded54)` — Håkan Edling
+- Added product attribution for Tiny as license requires `(fee55b0c)` — Håkan Edling
+- Removed duplicate entries `(e17aa552)` — Håkan Edling
+- Changed resource usage in login page `(6500575b)` — Håkan Edling
+- New Crowdin translations (#914) `(8515103a)` — Håkan Edling
+- Started working on new integrated middleware. See #699 `(197e2d7d)` — Håkan Edling
+- Removed obsolete code `(4fd19ff3)` — Håkan Edling
+- Added security resources `(8416ac71)` — Håkan Edling
+- Added generic error message `(5a153dab)` — Håkan Edling
+- New Crowdin translations (#922) `(2a910f5c)` — Håkan Edling
+- New Crowdin translations (#923) `(2db37362)` — Håkan Edling
+- Identity checks `(371f0875)` — Urreman
+- Connect new Crowdin translations `(c1da4d7d)` — Urreman
+- Made `ArchivePage` obsolete. Introduced new `IsArchive` property on `PageTypeAttribute` `(e0d0be18)` — Håkan Edling
+- New Crowdin translations (#926) `(e481e178)` — Håkan Edling
+- Added simple startup `(ca99f6ab)` — Håkan Edling
+- Upgraded to .NET Core 3.1 `(3c2badf0)` — Håkan Edling
+- Updated project files according to guidelines `(e991f6a6)` — Håkan Edling
+- Finished simple startup `(2420eef0)` — Håkan Edling
+- Added support for integrated archive routing `(8df9f2a0)` — Håkan Edling
+- Added alias handling into integrated middleware `(9989e6d5)` — Håkan Edling
+- Added option support for runtime compilation of views `(b5d629a6)` — Håkan Edling
+- Add pagenum query param for Integrated middleware. See #942 `(1807e7c3)` — Håkan Edling
+- Pass on initial query strings in integrated middleware `(f5e83c45)` — Håkan Edling
+- Updated versions for SR 1 `(cab2e42f)` — Håkan Edling
+- New Crowdin translations (#937) `(b850b287)` — Håkan Edling
+- Updated NuGet-package for manager localization `(50e5c580)` — Håkan Edling
+- Added missing serializable attributes `(3628efdd)` — Håkan Edling
+- Added comments migrations and services for post comments. See #186 `(cc97efea)` — Håkan Edling
+- Added service & repository methods for page comment `(0972b075)` — Håkan Edling
+- Updated application models for better naming `(e8305ff8)` — Håkan Edling
+- New translations Post.resx (Turkish) (#958) `(b5ef3e37)` — Håkan Edling
+- Updated versions for 8.0 SR 2 `(6a9943b1)` — Håkan Edling
+- Added config parameters for comment page size & default approval `(21cf4d1c)` — Håkan Edling
+- Added config settings to page comments. Added new config tests `(9ea78736)` — Håkan Edling
+- Added hotkeys with saving functionality (CTRL + S) `(89367d81)` — Roderick Sieben
+- Added first version of comment list to the manager `(d347a06f)` — Håkan Edling
+- PR #975 - Updated after code review `(49eae8fd)` — Matteo Fabbri
+- Store requested hostname `(c6776fce)` — Andrey Ushakov
+- Added code for storing hostname with Integrated Middleware. See #986 `(341a7498)` — Håkan Edling
+- More details for commenting `(9ad0c4d6)` — Håkan Edling
+- Added label for to new switch buttons `(577593fb)` — Håkan Edling
+- New translations General.resx (Swedish) `(8849c010)` — Håkan Edling
+- Added functionality for closing comments after a specified number of days `(433a60a1)` — Håkan Edling
+- Added comment validation hook `(24388fee)` — Håkan Edling
+- Set current folder name when calling media list api endpoint `(d5383b79)` — Filip
+- Updated Expanded comment in RegionMeta `(b41fd8ee)` — Filip
+- New translations General.resx (Swedish) (#995) `(4cb0f5a7)` — Håkan Edling
+- Added approval & delete for page comments. See #186 `(8cb39e64)` — Håkan Edling
+- Added state filter to comment list. See #186 `(77c09679)` — Håkan Edling
+- Added some cell-sizing and alignment to comments `(9c670342)` — Håkan Edling
+- Updated structure for the search package `(eb818448)` — Håkan Edling
+- Updated Bootstrap to v4.4.1 to be able to use new features in manager extensions `(721cf1d1)` — Pär Sandgren
+- Added startup js to add event bus to prototype of Vue `(d77a6408)` — Filip Jansson
+- Renamed file startup to piranha.eventbus `(77a68291)` — Filip
+- Added comments from edit views `(2853f030)` — Håkan Edling
+- New Crowdin translations (#1006) `(1e358058)` — Håkan Edling
+- Added permissions for comments `(80490651)` — Håkan Edling
+- Emit "onSaved" event when pages and posts are saved `(3c5c8237)` — Filip
+- Return empty model of no page was found `(a180047a)` — Filip
+- Simplified usage for Generic Block `(a159d599)` — Håkan Edling
+- Added new resources for 8.1 `(1829e42e)` — Håkan Edling
+- Add some localization for comments `(608f6f5e)` — Håkan Edling
+- New Crowdin translations (#1009) `(5cfcee51)` — Håkan Edling
+- More comment strings `(4a0ea50d)` — Håkan Edling
+- New Crowdin translations (#1011) `(5d2c96f2)` — Håkan Edling
+- Added missing config strings `(ca11fd35)` — Håkan Edling
+- Added localization and another config setting `(3ed247aa)` — Håkan Edling
+- Added resources for user edit placeholders `(83f5feda)` — Håkan Edling
+- New Crowdin translations (#1013) `(b9421d73)` — Håkan Edling
+- Removed duplicate class attribute in page add modal `(61419b33)` — Håkan Edling
+- Added new media view in the manager `(40a30c78)` — Håkan Edling
+- Added check so that non empty folders can’t be removed `(1b70bc1c)` — Håkan Edling
+- New Crowdin translations (#1018) `(c01aaeb6)` — Håkan Edling
+- Cleaned up media library view. See #1024 `(d05d9260)` — Håkan Edling
+- Updated media library `(45cebbfa)` — Håkan Edling
+- Update versions `(df730069)` — Håkan Edling
+- New Crowdin translations (#1031) `(23a4bee9)` — Håkan Edling
+- Compile .vue templates into components `(54857bda)` — Lukas Nordin
+- Updated versions `(271c01cc)` — Håkan Edling
+- New Crowdin translations (#1036) `(3bdec022)` — Håkan Edling
+- New Crowdin translations (#1039) `(6edae486)` — Håkan Edling
+- Updated to named handler for comment save `(202ab5c9)` — Håkan Edling
+- Made ContentFactory.InitField async `(d0147eb6)` — Håkan Edling
+- Removed info text from page settings `(f450566c)` — Håkan Edling
+- Added inline add/update to media list `(42b93aaa)` — Håkan Edling
+- Updated versions `(cb8c310d)` — Håkan Edling
+- Added error message when login failed `(afeff367)` — Vincent JACQUET
+- Added login message `(558286f4)` — Håkan Edling
+- Use a background color closer to the backgoun image for the login `(777c7d2d)` — Vincent JACQUET
+- New Crowdin translations (#1045) `(e79bc4fb)` — Håkan Edling
+- New Crowdin translations (#1047) `(9342a871)` — Håkan Edling
+- Updated versions `(8de8bfa7)` — Håkan Edling
+- New translations General.resx (Czech) (#1049) `(75d06f68)` — Håkan Edling
+- New Crowdin translations (#1054) `(d8950708)` — Håkan Edling
+- Added new translations `(bcb60eb1)` — Håkan Edling
+- Converted all Vue js components to .vue files `(ccbf7a42)` — Håkan Edling
+- Renamed basclasses to make room for new generic Content Model `(ee3b8c8a)` — Håkan Edling
+- Added ISearchable interface and updated Azure search module `(c10d22c9)` — Håkan Edling
+- Removed hook registration for now `(d49028fa)` — Håkan Edling
+- Include XML documentation in the NuGet packages `(301c1e1b)` — Mikael Lindemann
+- Finished Azure Search module. See #675 `(0a4b62fa)` — Håkan Edling
+- Added ISearchable to text based fields `(b24348b8)` — Håkan Edling
+- Added support for return url and check required fields on the client side `(56113950)` — Vincent JACQUET
+- New Crowdin translations (#1058) `(d199216a)` — Håkan Edling
+- New translations Page.resx (French) (#1074) `(c1bdabe5)` — Håkan Edling
+- Removed nowarn from attribute builder and added missing comments `(d8e3e2b2)` — Håkan Edling
+- Added suppot for primary image and excerpt on posts `(531c1dfc)` — Håkan Edling
+- Add missing localisation `(2210f81c)` — Robby
+- Just resolved some formatting issues `(9c692a69)` — Håkan Edling
+- Testing to trigger AppVeyor `(c2905bba)` — Håkan Edling
+- Update to piranha/plugin.min.js `(ac8a03fd)` — Jason Toubia
+- Changed $login-invalid-feedback-color back to $red-bright `(3969eb2c)` — Vincent JACQUET
+- Updated Gulp references and gulp.js files `(3a2b42e7)` — Jason Toubia
+- Put back the border and set it color to the red bright when the control is invalid `(e68d7996)` — Vincent JACQUET
+- New Crowdin translations (#1099) `(224d5bf5)` — Håkan Edling
+- Aligned README & Copyright notices for .NET Foundation `(478c283e)` — Håkan Edling
+- Added searchable tests for blocks and fields `(45ee66c2)` — Håkan Edling
+- Added some null checks to blocks and added GetTitle tests `(4d5da594)` — Håkan Edling
+- New Crowdin translations (#1103) `(44063f9a)` — Håkan Edling
+- Added box-shadow outline. Removed error-texts `(8c3cf3c4)` — Håkan Edling
+- Renamed some content interfaces `(74084465)` — Håkan Edling
+- Updated versioning `(5cb4aa6c)` — Håkan Edling
+- Added Swashbuckle to example projects `(211494fd)` — Jason Toubia
+- New Crowdin translations (#1112) `(5f4bdfec)` — Håkan Edling
+- New Crowdin translations (#1127) `(4a3bc015)` — Håkan Edling
+- New translations Alias.resx (Italian) `(52770627)` — Håkan Edling
+- UseBlocks=false doesn't work with PostTypes `(f584655d)` — Mohammad Abdullah
+- Compiled js resource for #1135 `(155bd724)` — Håkan Edling
+- Add post type options for PrimaryImage and Excerpt. See #1082 `(dad1e669)` — Håkan Edling
+- New Crowdin translations (#1138) `(9106a352)` — Håkan Edling
+- Updated handling for CDN in regards to naming conventions for files. See #1124 `(e0d41e0f)` — Håkan Edling
+- Changed to dotnet pack from nuget pack `(0a82f054)` — Håkan Edling
+- New Crowdin translations (#1151) `(bb623a4c)` — Håkan Edling
+- Updated package build to include pdb-files and not generate symbol-packages `(1cf178f7)` — Håkan Edling
+- Updated source link build `(0fe5ded1)` — Håkan Edling
+- Reverted back to creating symbol packages as pdb-files in regular packages are not copied when installed `(cbc15773)` — Håkan Edling
+- Updated versions to 8.3.0-beta1 for testing `(bd29d7d1)` — Håkan Edling
+- Added support for drag and move multiple items in gallery `(809759fd)` — Filip
+- Improved drag and drop support and added it to list view also `(bd75f91b)` — Filip
+- Added support for deleting selected media items `(37537828)` — Filip
+- Changed media property to public and updated Manager. See issue #1183 `(35993dfd)` — Håkan Edling
+- Moved selected colors to _variables `(db139907)` — Filip
+- New translations Alias.resx (Arabic) `(b300c847)` — Håkan Edling
+- Built assets `(ffa2c963)` — Håkan Edling
+- Added an additional constructor to BlockItemTypeAttribute for simplicity `(feade747)` — Håkan Edling
+- Updated the available image aspects `(4d559b84)` — Håkan Edling
+- Updated so aspect-settings button icon reflects the currently selected aspect `(0af6550b)` — Håkan Edling
+- Added resources for image aspects `(2102d237)` — Håkan Edling
+- Localized labels for image block aspect `(79dbe2ce)` — Håkan Edling
+- New Crowdin translations (#1195) `(c56c02fa)` — Håkan Edling
+- Updated media move/delete text resources `(dc3e9ff4)` — Filip
+- Prompt user to confirm before deleting media selection `(85e44ddc)` — Filip
+- Added new media text resources `(0da7d58b)` — Filip
+- New Crowdin translations (#1197) `(02ea24ec)` — Håkan Edling
+- New Crowdin translations (#1205) `(4b4d19e3)` — Håkan Edling
+- Added MySQL & PostgreSQL identity providers to core repository `(ec2d9b9f)` — Håkan Edling
+- Updated package versions for manager `(c6c00a73)` — Håkan Edling
+- New translations Alias.resx (Arabic) `(2498060b)` — Håkan Edling
+- First draft of data select list. See #1186 `(49095199)` — Håkan Edling
+- Added alpha package versions `(abf9fe96)` — Håkan Edling
+- Updated manager version `(deb74d85)` — Håkan Edling
+- Updated Piranha versions `(1a23e326)` — Håkan Edling
+- Moved all identity projects for clarity `(2f682d28)` — Håkan Edling
+- Updated all project versions `(2dcb3b43)` — Håkan Edling
+- Updated url-generation for taxonomies. See #1235 `(35726f29)` — Håkan Edling
+- Added logo to Site. See #1240 `(e6c3eeef)` — Håkan Edling
+- Added feature branch for simple search module using IndexEngine `(f2e57bd3)` — Håkan Edling
+- Added root element in media picker folder breadcrumb `(69eebbe8)` — Urreman
+- New Crowdin updates (#1243) `(e089d8f3)` — Håkan Edling
+- Manager translations (#1244) `(57dd9c9c)` — Håkan Edling
+- Added conditionals for update-title to all field-components `(05c66c0c)` — Håkan Edling
+- Updated auto expand behaviour for new region list items `(8abf6bab)` — Håkan Edling
+- Added pre-release information in the manager `(98a4b1d6)` — Håkan Edling
+- Added helper for rendering meta-tags. See #1218 `(2063dd86)` — Håkan Edling
+- Check for empty url when hosted in Virtual Directory `(2bc0d21b)` — Eivind Gussiås Løkseth
+- New translations Config.resx (German) `(2b19d885)` — Håkan Edling
+- New Crowdin updates (#1278) `(8d98f866)` — Håkan Edling
+- New Crowdin updates (#1283) `(9a495832)` — Håkan Edling
+- New translations Media.resx (German) `(fce33e77)` — Håkan Edling
+- Added UI & migrations for Open Graph fields `(92654245)` — Håkan Edling
+- Added some missing localizations for seo. See #1218 `(8919890e)` — Håkan Edling
+- Added new SEO strings `(b8ba1aa4)` — Håkan Edling
+- New Crowdin updates (#1297) `(5c1321e9)` — Håkan Edling
+- New Crowdin updates (#1298) `(f0ea94ef)` — Håkan Edling
+- New Crowdin updates (#1300) `(8f772d47)` — Håkan Edling
+- Some code cleaning `(994d980a)` — Håkan Edling
+- Added some missing ConfigureAwait(false) statements `(963d7bdb)` — Håkan Edling
+- Changed module icons to be requested over HTTPS `(93aaacbc)` — Mikael Lindemann
+- New translations Page.resx (Danish) `(8c74a66f)` — Håkan Edling
+- New Crowdin updates (#1308) `(be167d61)` — Håkan Edling
+- Update versions to 8.4 `(77810ca8)` — Håkan Edling
+- Update meta tag helper to use PrimaryImage as default for OgImage `(01071401)` — Håkan Edling
+- Updated versions for SR1. See #1310 `(b93d7dd1)` — Håkan Edling
+- Restructured content models a bit `(9db79e96)` — Håkan Edling
+- Renamed startup extensions. See #1323 `(07df731f)` — Håkan Edling
+- Added new content strings `(93fee093)` — Håkan Edling
+- New Crowdin updates (#1321) `(59c6160c)` — Håkan Edling
+- New Crowdin updates (#1329) `(192764b6)` — Håkan Edling
+- Adjusted localization to use the new content section `(d1f45e1c)` — Håkan Edling
+- New translations Content.resx (Portuguese, Brazilian) `(b8805b49)` — Håkan Edling
+- Added classes for generic content structures `(f4d74af9)` — Håkan Edling
+- New Crowdin updates (#1336) `(eaa3d80a)` — Håkan Edling
+- Added meta data for generic content `(48ecacec)` — Håkan Edling
+- Added cached content types to App `(d3503a6d)` — Håkan Edling
+- Add automatic menu generation & content group icon `(d677febc)` — Håkan Edling
+- Added Language `(b8968025)` — Håkan Edling
+- Removed UseBlocks from ContentType `(8fb326db)` — Håkan Edling
+- Added migrations, services & repositories for generic content. See #1335 `(e6ef9f7a)` — Håkan Edling
+- Added support for loading dynamic content model `(fcccac6d)` — Håkan Edling
+- Added language to site edit modal `(5e5f57db)` — Håkan Edling
+- Added config button for languages `(fb24a6ce)` — Håkan Edling
+- Added GetAllAsync to ContentService `(e6c66aec)` — Håkan Edling
+- List generic content `(bacf34c0)` — Filip
+- Added modal for administrating languages. Needs more validation `(770c64e0)` — Håkan Edling
+- Finished language edit `(40249433)` — Håkan Edling
+- Added language resources `(65466caf)` — Håkan Edling
+- New Crowdin updates (#1345) `(abddd175)` — Håkan Edling
+- Localized the language panel `(9ca54a17)` — Håkan Edling
+- Added support for creating, update and delete generic content `(ce7d7acb)` — Filip
+- Renamed extenions files `(1a8895ef)` — Filip
+- Get content group and types from App instead of from storage or cache `(50acf3ab)` — Filip
+- Added content list item model `(53207e9d)` — Filip
+- Ignore case when trying to find types `(e7323383)` — Filip
+- Remove content from list view `(783cee6d)` — Filip
+- Added content edit breadcrumbs `(c1b9afef)` — Filip
+- Added excerpt to content translations `(76e99317)` — Håkan Edling
+- Set group and type id/title when creating content edit model `(6ee4d29d)` — Filip
+- New Crowdin updates (#1357) `(38228205)` — Håkan Edling
+- New Crowdin updates (#1365) `(65bce702)` — Håkan Edling
+- Added new seo meta props to page and posts `(6381c901)` — Filip
+- Only list index flagged content in sitemap, and set correct priority `(b5d29a77)` — Filip
+- Added SEO meta properties to IMeat `(284501b3)` — Filip
+- Update PiranhaHtmlExtensions.cs `(33f26439)` — Jojo Aquino
+- Added shorthand routing for disabling all routing components `(5fe819f8)` — Håkan Edling
+- Updated meta tags method to also add robots meta tag `(e5fad499)` — Filip
+- New Crowdin updates (#1380) `(11ea8eaa)` — Håkan Edling
+- Added tests for building content types `(94ed1dcb)` — Håkan Edling
+- Added block tests. Added missing NoCoverage attr to obsolete and generated classes `(0fe44edd)` — Håkan Edling
+- Minor test updates `(b26b4700)` — Håkan Edling
+- Added new resources for new SEO-features. See #1000 `(75413d0b)` — Håkan Edling
+- Updated layout of settings modal due to #1000 `(5880b2ec)` — Håkan Edling
+- New Crowdin updates (#1386) `(acb7a57f)` — Håkan Edling
+- Upgraded repository to .NET 5.0 RC2 `(7f789069)` — Håkan Edling
+- New Crowdin updates (#1393) `(c2d6b190)` — Håkan Edling
+- New Crowdin updates (#1395) `(6c6bce67)` — Håkan Edling
+- Restructured content type classes. Initial commit of field setting attributes, see #1233 `(bf599bf8)` — Håkan Edling
+- remove unnecessary sitemap authroize permission attribute on sitemap api controller `(a6d71364)` — Hristo Tonev
+- New Crowdin updates (#1402) `(ed9aa390)` — Håkan Edling
+- Added new color field `(a0fcd98a)` — Filip
+- New Crowdin updates (#1425) `(30b129a5)` — Håkan Edling
+- More work on settings attributes. See #1233 `(58a9c88d)` — Håkan Edling
+- Added settings attribute for color field `(c723db1e)` — Filip
+- Updated color field component to use settings and update title `(a2e62e40)` — Filip
+- Build files `(a78d98e6)` — Filip
+- Updated color field settings attribute comment `(33670193)` — Filip
+- Recompiled js `(4fda7814)` — Håkan Edling
+- Use TinyMCE´s api also in post edit `(cd9d2b4d)` — Filip
+- Upgrade to TinyMCE 5.6.2 `(f8df4d4d)` — Norbert Bietsch
+- Moved ColorFieldSettingsAttribute to the new namespace `(c62f10ed)` — Håkan Edling
+- Updated versions and added migrations for MySql and PostgreSql `(186568c9)` — Håkan Edling
+- New Crowdin updates (#1434) `(054d81cf)` — Håkan Edling
+- using Directory.Build.props to enforce consistency in package props `(2c133b6f)` — Michael Baird
+- consolidate packageicon into Build.targets and Build.props `(42d2b3c4)` — Michael Baird
+- New Crowdin updates (#1447) `(6792928f)` — Håkan Edling
+- add rtl layout support `(a0cb192a)` — Hossein Raziee
+- New Crowdin updates (#1450) `(6a199be1)` — Håkan Edling
+- New translations Site.resx (Persian) `(820e5b0f)` — Håkan Edling
+- New translations General.resx (Chinese Traditional) `(41c4060d)` — Håkan Edling
+- New translations Media.resx (Chinese Traditional) `(a45d7ad7)` — Håkan Edling
+- New translations Page.resx (Chinese Traditional) `(3c24f503)` — Håkan Edling
+- New translations Site.resx (Chinese Traditional) `(40b19254)` — Håkan Edling
+- New translations Content.resx (Chinese Traditional) `(5cda65ad)` — Håkan Edling
+- New translations Language.resx (Chinese Traditional) `(e1bb4147)` — Håkan Edling
+- New translations Page.resx (Chinese Traditional) `(24557aa6)` — Håkan Edling
+- New translations Post.resx (Chinese Traditional) `(44e7b2de)` — Håkan Edling
+- New translations General.resx (Chinese Simplified) `(7ce2904c)` — Håkan Edling
+- New translations Menu.resx (Chinese Simplified) `(8ef59554)` — Håkan Edling
+- New translations Module.resx (Chinese Simplified) `(98b2e875)` — Håkan Edling
+- New translations General.resx (Chinese Simplified) `(50386e41)` — Håkan Edling
+- New translations Config.resx (Chinese Simplified) `(7d9e0ac1)` — Håkan Edling
+- New translations Media.resx (Chinese Simplified) `(76251944)` — Håkan Edling
+- New translations Language.resx (Chinese Simplified) `(d52f5ee0)` — Håkan Edling
+- New translations Config.resx (Chinese Simplified) `(6594ee68)` — Håkan Edling
+- New translations Language.resx (Chinese Simplified) `(350da318)` — Håkan Edling
+- New translations Page.resx (Chinese Simplified) `(18daad39)` — Håkan Edling
+- New translations Site.resx (Chinese Simplified) `(fec94da5)` — Håkan Edling
+- New translations Security.resx (Chinese Simplified) `(e8be11a3)` — Håkan Edling
+- New translations Content.resx (Chinese Simplified) `(663c37f9)` — Håkan Edling
+- New translations Media.resx (Chinese Traditional) `(7835365a)` — Håkan Edling
+- New translations Media.resx (Chinese Simplified) `(78e9882e)` — Håkan Edling
+- New translations Page.resx (Chinese Simplified) `(79768cc0)` — Håkan Edling
+- New translations Post.resx (Chinese Simplified) `(93fa08d3)` — Håkan Edling
+- New Crowdin updates (#1458) `(2039865e)` — Håkan Edling
+- Recompiled assets. Added some missing comments `(4a39e335)` — Håkan Edling
+- Added browser icon to manager `(89fc37b0)` — Håkan Edling
+- Added basic content picker markup and vue app `(b0bd5915)` — Filip
+- New Crowdin updates (#1461) `(c880b6e0)` — Håkan Edling
+- Completed content picker modal `(89863d90)` — Håkan Edling
+- Added ContentField and modified ContentFieldSettings to filter on GroupId `(01ea5e41)` — Håkan Edling
+- Added so content edit can load & save different languages `(4aea0e58)` — Håkan Edling
+- New translations Post.resx (Persian) (#1469) `(96bd1140)` — Håkan Edling
+- Added dropdown for language select to content edit `(2a4347b1)` — Håkan Edling
+- Culture specific characters for Slovenian `(457446f7)` — Erik
+- New Crowdin updates (#1471) `(30cc0947)` — Håkan Edling
+- Disabled content taxonomies for now `(e8534f82)` — Håkan Edling
+- Moved icon back to repository folders `(5e3a68f3)` — Håkan Edling
+- New Crowdin updates (#1485) `(1d6d42e2)` — Håkan Edling
+- New Crowdin updates (#1493) `(42fa651a)` — Håkan Edling
+- New translations Module.resx (Chinese Traditional) (#1501) `(0ddc11e7)` — Håkan Edling
+- New Crowdin updates (#1508) `(c447599f)` — Håkan Edling
+- New translations Comment.resx (Chinese Simplified) `(df27e18f)` — Håkan Edling
+- Adding pt-BR special characters to slugs `(a7ad681e)` — Felipe Pergher
+- New translations Module.resx (Chinese Simplified) `(67eefb66)` — Håkan Edling
+- Updated to use UrlPathEncode for consistent whitespaces. See #1478 `(d8863e6f)` — Håkan Edling
+- New translations Language.resx (French) `(a215d292)` — Håkan Edling
+- Removed unused property `(d4297363)` — Håkan Edling
+- New Crowdin updates (#1554) `(08b25d40)` — Håkan Edling
+- Updated versions `(5ee12764)` — Håkan Edling
+- Use Azure.Storage.Blobs Nuget packge to replace deprecated Microsoft.Azure.Storage.Blob `(107416d7)` — tedvanderveen
+- Add missing PiranhaServiceBuilder extension method `(5d0eff10)` — tedvanderveen
+- Remove unused Nuget package `(17a8945d)` — tedvanderveen
+- Add extension method check for success HTTP Status code `(465bc65b)` — tedvanderveen
+- Optimize code `(b2591fea)` — tedvanderveen
+- Add interface IInitializable to make Init() available in select places `(c923859f)` — tedvanderveen
+- Use IInitializable and IInitializable.Init() to transpile Init calls `(0e46ed1a)` — tedvanderveen
+- Merge IStorageSession and IStorage `(51f91220)` — tedvanderveen
+- Move Media.Init() call to App class `(48d849f4)` — tedvanderveen
+- Modify docs `(4ae3be64)` — tedvanderveen
+- Correct order of code `(25c9b10a)` — tedvanderveen
+- Reverse some of the breaking changes `(682a890b)` — tedvanderveen
+- Remove duplicate empty line (make CodeFactor test pass) `(69e69739)` — tedvanderveen
+- Remove unused `using` refs `(dbba1b78)` — tedvanderveen
+- Undo changes to Piranha.Local.FileStorage `(1ad80e56)` — tedvanderveen
+- Undo changes to IStorageSession `(a7efc1c8)` — tedvanderveen
+- Undo changes `(d9dcf2a1)` — Ted van der Veen
+- Restore IStorageSession.cs `(daa90a36)` — tedvanderveen
+- Revert changes to IMediaService Add check if IMediaService instance implements IInitializable `(a881b58b)` — tedvanderveen
+- New Crowdin updates (#1571) `(dce917f4)` — Håkan Edling
+- New Crowdin updates (#1573) `(a28154fa)` — Håkan Edling
+- Updated model initialization `(d1557674)` — Håkan Edling
+- New translations General.resx (Swedish) `(f1be4b8b)` — Håkan Edling
+- Added missing translations for content, page & post edit `(3259e390)` — Håkan Edling
+- sitemap.xlm: Don't prefix absolute Uri `(8fc3bf9e)` — axunonb
+- Update SitemapMiddleware.cs `(a2a9135e)` — axunonb
+- New Crowdin updates (#1592) `(6d949045)` — Håkan Edling
+- New Crowdin updates (#1603) `(19bf68d9)` — Håkan Edling
+- New Crowdin updates (#1605) `(ef0e0f1a)` — Håkan Edling
+- Updated versions to alpha2 `(d846d2a1)` — Håkan Edling
+- Added services, repositories and tests for getting translation status & summary. See #1589 `(6d3f5b6c)` — Håkan Edling
+- Add new Razor library for integrated security pages and implementations `(67e245b8)` — tedvanderveen
+- Move ISecurity interface to new project `(0ecb6077)` — tedvanderveen
+- Move Login and Logout pages to new project `(372b5af3)` — tedvanderveen
+- Add extenson classes for using Security features `(d0782c6c)` — tedvanderveen
+- Remove ref to login page `(2f5aff7b)` — tedvanderveen
+- Remove unused usings `(5f8dd2a5)` — tedvanderveen
+- Delete previously added project `(71863166)` — tedvanderveen
+- Add ref to new location of ISecurity `(dc425670)` — tedvanderveen
+- Undo changes `(e59762eb)` — tedvanderveen
+- This should not be part of this PR `(63e7f6db)` — tedvanderveen
+- Moved ISecurity & Login/Logout to it’s own package. Made logout URL configurable `(84f82d1d)` — Håkan Edling
+- updating to Pomelo MySQL package v5.0.0 `(c20d34e0)` — aatmmr
+- New Crowdin updates (#1648) `(52edaef3)` — Håkan Edling
+- Updated versions `(412ce5e9)` — Håkan Edling
+- Add explicit definition of the Piranha nested roles/permissions structure `(db1fa2fd)` — tedvanderveen
+- Allow for optional delegate to be provided to AddPiranhaManager for custom AuthorizationOptions setup `(9b3204be)` — tedvanderveen
+- ENhance coding style `(bfbdd8ba)` — tedvanderveen
+- New Crowdin updates (#1683) `(53059d98)` — Håkan Edling
+- Added missed file for #1703 `(74916e26)` — Håkan Edling
+- Reverted 04b4fff. See #1697 `(39382d0b)` — Håkan Edling
+- Updated versions `(22a84b85)` — Håkan Edling
+- Added null check for media in BlobStorage. See #1564 `(a8c6afd3)` — Håkan Edling
+- Upgraded to .NET6-RC1. This will most likely cause build jobs to fail `(8c5cba62)` — Håkan Edling
+- Use Identify to get image width and height `(256342e3)` — Brian Popow
+- Update ImageSharp to 1.0.4 `(70836d2d)` — Brian Popow
+- Added auto-orientation of images on save `(2b66df88)` — Håkan Edling
+- Cleaned up application startup `(689e7cde)` — Håkan Edling
+- Removed obsolete routing code `(a9bea52d)` — Håkan Edling
+- Removed IndexEngineSearch implementation `(d158b1ca)` — Håkan Edling
+- Changed alias delete endpoint to HTTP DELETE. See #1725 `(976c4fdc)` — Håkan Edling
+- Changed site delete endpoint to HTTP DELETE. See #1725 `(c5041662)` — Håkan Edling
+- Prevent application middleware from executing when accessing the manager `(413b3063)` — Håkan Edling
+- Moved extension classes in projects to extension folder for structure `(82af7c5f)` — Håkan Edling
+- Renamed PiranhaMiddleware to RoutingMiddleware `(1cffe4e5)` — Håkan Edling
+- Added new language translations `(7d2848d6)` — Håkan Edling
+- New Crowdin updates (#1751) `(a99a7534)` — Håkan Edling
+- New Crowdin updates (#1753) `(8588c494)` — Håkan Edling
+- New Crowdin updates (#1756) `(8bbe1ff8)` — Håkan Edling
+- New Crowdin updates (#1782) `(26d5e824)` — Håkan Edling
+- Microsoft.Azure.Search (deprecated) replaced by Azure.Search.Documents `(ec219f00)` — martijntakken
+- Refresh language list after adding languages `(a46c5964)` — Rok Bermež
+- Confirmation dialog when deleting media item or folder `(e889cdfa)` — Rok Bermež
+- New Crowdin updates (#1821) `(fac868ea)` — Håkan Edling
+- Added support for custom endpoints with UsePiranha `(5c2c8879)` — Håkan Edling
+- Added missing comments `(67af4e1a)` — Håkan Edling
+- New Crowdin updates (#1823) `(32330e4c)` — Håkan Edling
+- Removed Site.Culture from UI. See #1845 `(227df2b8)` — Håkan Edling
+- Updated media handling `(68b2ec29)` — Håkan Edling
+- New Crowdin updates (#1839) `(cde0843e)` — Håkan Edling
+- New translations Language.resx (Chinese Simplified) `(b56e46ab)` — Håkan Edling
+- Removed double space in file headers `(d5e063ee)` — Håkan Edling
+- Enabled implicit usings `(6765a8c6)` — Håkan Edling
+- New Crowdin updates (#1862) `(a576f361)` — Håkan Edling
+- Add the getOrigin function to utils `(958a9fcc)` — Georgy Sayganov
+- Update the page to use the getOrigin function `(6f665dd0)` — Georgy Sayganov
+- Update Azure.Storage.Blobs to 12.13.0 `(5161fc14)` — Håkan Edling
+- New Crowdin updates (#1884) `(f8d50b17)` — Håkan Edling
+- New Crowdin updates (#1917) `(295cd7f2)` — Håkan Edling
+- Replacement characters are extended for slug generation `(62775ccb)` — akanmuratcimen
+- Upgrade ImageSharp to support webp `(f7c86b93)` — Malin Nilsson
+- Converted code-base to filescoped namespaces `(d13d8091)` — Håkan Edling
+- Removed IInitializable as it served no general purpose `(08d6b5e3)` — Håkan Edling
+- Moved TargetFramework to directory.build.props `(c86d622e)` — Håkan Edling
+- Provide field settings for regions for the cases in #1958 `(724b0091)` — Harry Negus
+- New Crowdin updates (#1955) `(eb08aefc)` — Håkan Edling
+- Bump Newtonsoft.Json from 13.0.1 to 13.0.2 in /core/Piranha `(9042330b)` — dependabot[bot]
+- New Crowdin updates (#1969) `(e1eae67e)` — Håkan Edling
+- New translations Alias.resx (Vietnamese) `(1629dcba)` — Håkan Edling
+- New translations Media.resx (Vietnamese) `(d1104d1f)` — Håkan Edling
+- New translations Comment.resx (Vietnamese) `(d73296d4)` — Håkan Edling
+- New translations Language.resx (Vietnamese) `(673799dc)` — Håkan Edling
+- New translations Media.resx (Vietnamese) `(467170c1)` — Håkan Edling
+- New translations Config.resx (Vietnamese) `(996253c9)` — Håkan Edling
+- New translations General.resx (Vietnamese) `(b7bbf672)` — Håkan Edling
+- New translations Menu.resx (Vietnamese) `(70914197)` — Håkan Edling
+- New translations Page.resx (Vietnamese) `(784ff007)` — Håkan Edling
+- New translations Site.resx (Vietnamese) `(6a3e3e92)` — Håkan Edling
+- New translations Post.resx (Vietnamese) `(53d1ba9a)` — Håkan Edling
+- New translations Security.resx (Vietnamese) `(e87f8602)` — Håkan Edling
+- New translations Content.resx (Vietnamese) `(9db8d2ec)` — Håkan Edling
+- Manager translations (#1980) `(33cef329)` — Håkan Edling
+- New Crowdin updates (#1993) `(5012c372)` — Håkan Edling
+- Empty DataSelectField literal `(b0ac171e)` — Stratos Palaiologos
+- Bump Microsoft.Rest.ClientRuntime in /core/Piranha.Azure.Search `(7389099e)` — dependabot[bot]
+- New Crowdin updates (#2008) `(1bc0c5aa)` — Håkan Edling
+- Updated the filteredItems method in piranha.pagepicker.js file to handle recursive search on nested pages `(6d7e508c)` — Zac White
+- Corrected code quality issues `(e9554df6)` — Zac White
+- Updated sass compilation `(b8177ff8)` — Håkan Edling
+- Removed simple cache and memory cache cloning. Closes #2026 `(5c996608)` — Håkan Edling
+- Removed classes and properties marked as obsolete `(2a84a290)` — Håkan Edling
+- Made service implementation internal sealed. #2027 `(8253a606)` — Håkan Edling
+- Moved ICache to Piranha.Cache. Made implementations internal sealed. #2027 `(d6f06b0f)` — Håkan Edling
+- Removed obsolete column block `(6fca059a)` — Håkan Edling
+- Made param keys private #2027 `(34a77b5f)` — Håkan Edling
+- Updated some missing comments `(486ab816)` — Håkan Edling
+- Upgraded to .NET 8. Remove Azure.Search. Closes #2023, Closes #2028 `(a757923a)` — Håkan Edling
+- Removed SimpleSecurity as it is old and obsolete. Closes #2025 `(d22a033c)` — Håkan Edling
+- Removed obsolete summernote package. Closes #2024 `(fd345fee)` — Håkan Edling
+- Removed obsolete markings of cached content types `(5cef3955)` — Håkan Edling
+- Upgraded to .NET 8.0 `(8ad10533)` — Håkan Edling
+- Added services to service registration `(e57719bb)` — Håkan Edling
+- Optimized services for usage without cache `(cc3b4848)` — Håkan Edling
+- Updated XSitemap dependency `(746e6c4d)` — Håkan Edling
+- Removed service registrations `(5da21dd7)` — Håkan Edling
+- Manager translations (#2043) `(2a58723b)` — Håkan Edling
+- Extend max length of Post Excerpt (#2039) `(caa019c6)` — Kim Lund Johansen
+- Extend max length of Page Excerpt `(4aee98b9)` — Håkan Edling
+- Updated external package reference `(6c190f5c)` — Håkan Edling
+- #2053 Pass fieldsettings to region field collection `(7efca43f)` — Harry Negus
+- #2053 removed unnecessay assignment to settings in ContentTypeService `(7cabc82a)` — Harry Negus
+- Bump SixLabors.ImageSharp in /core/Piranha.ImageSharp `(812d4260)` — dependabot[bot]
+- Added optional version param for local file assets. Closes #2061 `(8938e3f4)` — Håkan Edling
+- Update Piranha.AspNetCore.csproj `(409aa2cb)` — Andrew Gubskiy
+- Bump SixLabors.ImageSharp in /core/Piranha.ImageSharp `(9711bd4f)` — dependabot[bot]
+- Open Graph Tags Incomplete `(f43406f1)` — Vitali Karmanov
+- Async Method Support to ICache Interface `(96bbd3f6)` — ovsak
+- Missing ConfigureAwait `(af6ade4d)` — ovsak
+- Removed cancellation token from AliasService and ContentGroupService `(3b1f8317)` — ovsak
+- Manager translations (#2114) `(4eea3254)` — Håkan Edling
+- Updated ImageSharp version `(40f2b731)` — Håkan Edling
+- Merge manager-translations into master `(e768bd06)` — Håkan Edling
+- Updated ImageSharp dependency `(584be672)` — Håkan Edling
+
+### 🐛 Bug Fixes
+
+- Fixed so multiple piranha middleware won't handle the same request `(f56754fd)` — Håkan Edling
+- Added support for mocking the Api. Fixes #1 `(90b1a32a)` — Håkan Edling
+- Fixed typo in project def `(2364e589)` — Håkan Edling
+- Fixed rendering bug in page regions in the manager `(1835c4ea)` — Håkan Edling
+- Fixed registration bug for the API `(357502eb)` — Håkan Edling
+- Fixed client behavior for the site tree. Added page delete `(834a949b)` — Håkan Edling
+- Some minor fixes in gulpfile.js `(eb58cda6)` — Håkan Edling
+- Fixed sort order update when deleting a page `(df326a57)` — Håkan Edling
+- Implemented page move. Fixes #10 `(6d4ffbc4)` — Håkan Edling
+- Added attribute builder, fixes #8 `(3c52358a)` — Håkan Edling
+- Style guideline fix `(1b42ddcd)` — Billy Wolfington
+- Added category management. Fixes #17 `(94060898)` — Håkan Edling
+- Added collapsible manager menu. Fixes #29 `(0b42b969)` — Håkan Edling
+- Added option for enabling category archives. Fixes #30 `(400eda65)` — Håkan Edling
+- Added view to page types. Fixes #18 `(f4b0960c)` — Håkan Edling
+- Added media file storage & media repositories. Fixes #24 `(a563addc)` — Håkan Edling
+- Fixed so that MediaRepository uses IDb instead of Db `(ac48dbc3)` — Håkan Edling
+- Config for file extensions. Fixes #38 `(038584d5)` — Håkan Edling
+- Renamed some projects, fixed sdk-version for Windows build `(8bd37eb9)` — Håkan Edling
+- Made App content types reloadable. Fixes #35 `(0eda41d8)` — Håkan Edling
+- Fixed error on constructor `(b2a6c68b)` — Håkan Edling
+- Added IsHidden to Pages. Fixes issue #43 `(556198c6)` — Håkan Edling
+- Fixed so Init doesn’t crash if no config is given `(7a411a88)` — Håkan Edling
+- Fixed page type in Blog example `(a619d804)` — Håkan Edling
+- Fixed repository bug. Added tests for pages with collection fields `(e81b0838)` — Håkan Edling
+- Fixed ExecuteScalar for Sqlite `(f3acd93d)` — Håkan Edling
+- Fixed QueryMultiple for Sqlite `(9e0e33cf)` — Håkan Edling
+- Updated & fixed for VS2017 `(9f99f3f5)` — Håkan Edling
+- Fixed bug in PageRepository.GetAll `(f9d2554d)` — Håkan Edling
+- Fixed bug in Page.IsStartpage. Fixes #51 `(cf9fb73d)` — Håkan Edling
+- Added menu to the example project. Fixes #53 `(22ff8058)` — Håkan Edling
+- Fixed manager css-bug when collapsing/expanding a region item `(ba4d9f8a)` — Håkan Edling
+- Adjusted startpage permalink in sitemap generation. Fixes #52 `(2e6d54e1)` — Håkan Edling
+- Added support for page redirects. Fixes #55 `(a0610105)` — Håkan Edling
+- Added support for manager status messages. Fixes #57 `(6236f330)` — Håkan Edling
+- Added DateField. Fixes #32 `(df079b83)` — Håkan Edling
+- Fixed so gulp minification in manager uses the actual src less file of datetimepicker `(c00c7cda)` — Håkan Edling
+- Added first version of the media library. Fixes #20 & #21 `(e7fa32c8)` — Håkan Edling
+- Added so fields are initialized when loaded by the PageRepository. Fixes #63 `(a5ac4d3b)` — Håkan Edling
+- Restructured ImageField. Fixes #71 `(aeceb809)` — Håkan Edling
+- Fixed faulty test for not removing the default site `(906d114c)` — Håkan Edling
+- Added missing using statement. Fixes #73 `(572b0fb1)` — Håkan Edling
+- Stripped away path from uploaded filename. Fixes #72 `(43174693)` — Håkan Edling
+- Added additional info about the uploaded asset in the media preview modal. Fixes #65 `(e2a9eb28)` — Håkan Edling
+- Added support for video files in the media preview. Fixes #70 `(ad143db0)` — Håkan Edling
+- Fixed typo in NuSpec file `(cbc40b48)` — Håkan Edling
+- Fixed moving region items & deleting items in the middle of the collection. Fixes #74 `(2816347a)` — Håkan Edling
+- Fixed variable scope error. Fixes #80 `(a09ec316)` — Håkan Edling
+- Added FF fix for draggable. Fixes #81 `(05932227)` — Håkan Edling
+- Added suppor for non-expandable regions. Fixes #87 `(0dfa0158)` — Håkan Edling
+- Added support for media types. Fixes #61 `(45f55bd7)` — Håkan Edling
+- Added support for http cache in the middleware. Fixes #83 `(5c15d781)` — Håkan Edling
+- Fixed NULL reference exception bug `(4d3fdaaf)` — Håkan Edling
+- Adjusted media modal. Fixes #93 `(bb615ad4)` — Håkan Edling
+- Fixed AttributeBuilder region sorting. Fixes #88 `(29755888)` — Håkan Edling
+- Added support for updating media assets. Fixes #94 `(bab86865)` — Håkan Edling
+- Fixed submit but in page edit after media update was added in the media dialog `(429a247f)` — Håkan Edling
+- Added delete to the site manager. Fixes #98 `(32fce416)` — Håkan Edling
+- Added page edit for multiple sites. Fixes #99 `(bf70ef2f)` — Håkan Edling
+- Added caching to MediaRepository. Fixes #58 `(4072f92b)` — Håkan Edling
+- Added tests for cached repositories. Fixed cache bug in PageRepository `(4b857f93)` — Håkan Edling
+- Added custom serialization. Fixes #86 `(4aef1600)` — Håkan Edling
+- Added repository support for hierarchical slugs. Fixes #59 `(3eacd192)` — Håkan Edling
+- Added config views to the manager. Fixes #101 `(93ce69c7)` — Håkan Edling
+- Handled NULL input in markdown conversion. Fixes #104 `(6d5fb083)` — Håkan Edling
+- Made the sitemap expand/collapse. Fixes #106 `(dbbcd2aa)` — Håkan Edling
+- Added setting for expanded sitemap levels. Fixes #107 `(b0131e7c)` — Håkan Edling
+- Fixed missed caching in media repository `(0862d873)` — Håkan Edling
+- Fixed bug when moving pages in the manager `(3b198ee3)` — Håkan Edling
+- Added media modal upload. Fixes #68 `(37fbcb89)` — Håkan Edling
+- Added IApi for mocking purposes. Fixes #103 `(fdd2de09)` — Håkan Edling
+- Added support for multiple Page Routes. Fixes #112 `(1f583c60)` — Håkan Edling
+- Added local TinyMCE & Image dialog. Fixes #84 `(13345f29)` — Håkan Edling
+- Fixed bug in repository & upgraded Sqlite versions `(e45b04d6)` — Håkan Edling
+- Fixed so third-level menu looks at IsHidden `(fa08fe8a)` — Håkan Edling
+- Sitemap cache & bugfix for page move. Fixes #115 and #120 `(ef8c5f16)` — Håkan Edling
+- Focus first field. Fixes #118 `(5531ad81)` — Håkan Edling
+- Automatic menu folding. Fixes #117 `(3dca8ab4)` — Håkan Edling
+- Added collapsed markdown preview. Fixes #116 `(a0074303)` — Håkan Edling
+- Fixed an issue where lists regions would not show the correct amount of items `(53149c72)` — gyretech
+- Fixed bug when SortOrder was not updated after page delete `(fa94ae05)` — Håkan Edling
+- Added hierarchical page add. Fixes #60 `(abb6dce6)` — Håkan Edling
+- Fix for bug: #123 `(930e4cb0)` — gyretech
+- Revert "Fix for bug: #123" `(a275d3a3)` — gyretech
+- Revert "Revert "Fix for bug: #123"" `(e253f9b9)` — gyretech
+- Fix File upload Case Sensitivity `(dd9b1232)` — gyretech
+- Fix for #133 `(1ab268cb)` — gyretech
+- InternalId generation for sites. Fixes #135 `(75f95927)` — Håkan Edling
+- Updated Page Index. Fixes #136 `(09c7810c)` — Håkan Edling
+- Fixed manager handling of multiple sites `(ead3dec1)` — Håkan Edling
+- Added login error. Fixes #137 `(d9e91388)` — Håkan Edling
+- Added table text-overflow. Fixes #139 `(02c35359)` — Håkan Edling
+- Improved error handling. Fixes #138 `(5f3e2a64)` — Håkan Edling
+- Fixed transaction bug in PageRepository. Fixes #144 `(4d314ce2)` — Håkan Edling
+- Fixed repository bug for pages `(1c3b9bc6)` — Håkan Edling
+- Fixed view bug in example project `(343fff2d)` — Håkan Edling
+- Fixed bug in media modal caused by Id type change `(c5b65aad)` — Håkan Edling
+- Fixed bug in page edit view `(1a81e45d)` — Håkan Edling
+- Added policy permissions for menu. FIxes #151 `(cd0bc6f5)` — Håkan Edling
+- Initialize dynamically inserted html editors. FIxes #152 `(0e6c49c3)` — Håkan Edling
+- Fixed some inheritance misses `(a12df6ee)` — Håkan Edling
+- Fixed archive sort order `(f876c6a3)` — Håkan Edling
+- Added category validation & fixed post preview `(ff2b165a)` — Håkan Edling
+- Fixed blog sort order so unpublished posts are displayed at the top `(1a116545)` — Håkan Edling
+- Added complete set of media fields. Fixes #157 #158 #159 `(183870d7)` — Håkan Edling
+- Solved issue with empty collection regions. Fixes #162 `(e1778195)` — Håkan Edling
+- Added new PageField. Fixes #163 `(e0a51505)` — Håkan Edling
+- Added custom TinyMCE link plugin. Fixes #153 `(59498d79)` — Håkan Edling
+- Added category filter to blog archive. Fixes #164 `(050207f4)` — Håkan Edling
+- Fixed model validation on Publish for pages & posts `(db084327)` — Håkan Edling
+- Added category & total posts to Archive. Fixes #166 `(352497db)` — Håkan Edling
+- Added post type & category filter to blog. Fixes #165, #168 `(826fe2d1)` — Håkan Edling
+- Added support for setting a future publish date. Fixes #170 `(ee2ab9d6)` — Håkan Edling
+- Added automatic category/tag cleaning. Fixes #172 `(34238c3a)` — Håkan Edling
+- Made IStorage async. Fixes #109 `(0e6b44ad)` — Håkan Edling
+- Added storage provider for Azure BlobStorage. Fixes #23 `(10ea62e6)` — Håkan Edling
+- Added image scaling. Fixes #119 `(ddd4e239)` — Håkan Edling
+- Fixed nuspec files for BlobStorage & ImageShartp `(a3249d33)` — Håkan Edling
+- Fixed typo in BlobStorage nuspec `(2a7ca2f1)` — Håkan Edling
+- Added router tests. Fixes #178, #181 `(60c8b241)` — Håkan Edling
+- Completed alias manager views. Fixes #97 `(ff0eb4c5)` — Håkan Edling
+- Changed post save & included back button. Fixes #185 `(d9df2f14)` — Håkan Edling
+- Fixed blog page caching & routing. Fixes #187 `(7da85428)` — Håkan Edling
+- Add manual publishing for pages. Fixes #189 `(1ff8772a)` — Håkan Edling
+- Added sitemap.xml generation. Fixes #150 `(62fa87f6)` — Håkan Edling
+- Added search in manager blog archive. Fixes #188 `(6eb31a5e)` — Håkan Edling
+- Fixed bad sort order in data seed `(0233061f)` — Håkan Edling
+- Made permalinks consistent. Fixes #197 & fixes #196 `(bc0de6e2)` — Håkan Edling
+- Limited images in markdown preview. Fixes #192 `(4f5c4c35)` — Håkan Edling
+- Updated published date formatting. Fixes #200 `(9655b555)` — Håkan Edling
+- Added support for external alias URL’s. Fixes #204 `(90b6678a)` — Håkan Edling
+- Added CDN support for uploaded media. Fixes #205 `(38a4e0f4)` — Håkan Edling
+- Optimized middleware pipeline. Fixes #210 `(03ff336e)` — Håkan Edling
+- Added page type name to sitemap. Fixes #212 `(d5cc9fcd)` — Håkan Edling
+- Fixed injection bug in middleware. Fixes #213 `(bd1f995f)` — Håkan Edling
+- Delete old media file when updating. Fixes #218 `(12058acd)` — Håkan Edling
+- Added dropzone upload. Fixes #67 `(f431ead7)` — Håkan Edling
+- Added support for collection region for posts. Fixes #219 `(625af44d)` — Håkan Edling
+- Added support for generic fields & added SelectField. Fixes #56 `(ff2cf2a7)` — Håkan Edling
+- Corrected razor errors in template. Fixes #221 `(a6851b2c)` — Håkan Edling
+- Added alias suggestions. Fixes #184 `(6b7fde03)` — Håkan Edling
+- Fixed image filter for Markdown media modal `(48344db0)` — Håkan Edling
+- Added support for prefixed sites (mydomain/prefix). Fixes #209 `(d49a4369)` — Håkan Edling
+- Fixed css-bug for markdown fields in list regions `(3e332094)` — Håkan Edling
+- Fix for refreshing SimpleMDE inside hidden elements when shown `(e9209e82)` — Håkan Edling
+- Added drag n drop move of media. Fixes #64 `(fade90a4)` — Håkan Edling
+- Removed BasicWeb template. Fixes #223 `(c90526d7)` — Håkan Edling
+- Fixed solution file `(72fd8e57)` — Håkan Edling
+- Fixed typo in config view `(04aea56e)` — Håkan Edling
+- Fixed package version for ImageSharp `(bca49eca)` — Håkan Edling
+- Fixed region item sort & simplemde init. Fixes #224, #225 `(3d343ffc)` — Håkan Edling
+- Added tag filtering to post archive. Fixes #246 `(89a1ce5c)` — Håkan Edling
+- Added additional param for Archive Routing. Fixes #248 `(939655e8)` — Håkan Edling
+- Added support for dependency injection into Init(). Fixes #250 `(5f2b8b03)` — Håkan Edling
+- Renamed FieldAttribute. Fixes #251 `(053d6965)` — Håkan Edling
+- Fixed misalign constructor `(827c867c)` — Håkan Edling
+- Added hook for slug generation. Fixes #243 `(e951a610)` — Håkan Edling
+- Fixed TinyMCE initialization `(a5d852ea)` — Håkan Edling
+- Fixes for creating the first block on a new page `(27e85f18)` — Håkan Edling
+- Updated SitemapMiddleware to properly check published date. Fixes #263 `(009c78f9)` — Håkan Edling
+- Fixed so SitemapMiddleware ends the request pipeline. Added more block tests `(68d30e6a)` — Håkan Edling
+- Fixed sorting bug in block edit `(9c3b2f3b)` — Håkan Edling
+- ImageBlock fixes after block sort `(6a65d6f0)` — Håkan Edling
+- Added fix for role grouping `(56e32814)` — Håkan Edling
+- Make sure the archive is not returned for ill-formed URL’s. Fixes #261 `(eb682b18)` — Håkan Edling
+- Add custom manager styles & scripts. Fixes #273 `(04babd97)` — Håkan Edling
+- Fixed bug in list region sorting that was introduced after adding blocks `(381cec0d)` — Håkan Edling
+- Added region sortable fix for Chrome `(ba9165ab)` — Håkan Edling
+- Fixed bug in TinyMCE image dialog. Fixes #282 `(b09b07b8)` — Håkan Edling
+- Added swap column button for block. Fixes #281 `(a4fc2d49)` — Håkan Edling
+- Highlighted scheduled entries & added delete confirmations. Fixes #283. Fixes #284 `(40049f63)` — Håkan Edling
+- Support for loading models without regions & blocks. Fixes #285 `(6305ca18)` — Håkan Edling
+- Added auto registering of fields when importing content types. Fixes #288 `(3556b8ac)` — Håkan Edling
+- Added manager views for copying pages. Fixes #252 `(b83633f5)` — Håkan Edling
+- Fixed flickering when sorting items `(5a7cae45)` — Håkan Edling
+- Added polyfill for IE support. Fixes #293 `(06353084)` — Håkan Edling
+- Added support for list regions in SiteTypes. Fixes #295 `(32c203d8)` — Håkan Edling
+- Fixed form validation for manager login. Fixes #294, see #235 `(60b9a5d5)` — Håkan Edling
+- Fixed NuSpec typo `(baef9f1b)` — Håkan Edling
+- Upgraded to 2.1. Added support for different media version fileformats. Fixes #296, fixes #297 `(131e23f4)` — Håkan Edling
+- Fixed EntityTag syntax problem `(eef8436c)` — Håkan Edling
+- Fixed upgrade error in Piranha.AspNetCore.Identity `(539435c5)` — Håkan Edling
+- Fixed so routers don’t load the full content models `(457775bd)` — Håkan Edling
+- Updated media field layouts. Fixes #299 `(09d7efe1)` — Håkan Edling
+- Added info icons & name when hovering a block. Fixes #303 `(5298256e)` — Håkan Edling
+- Added html-block empty placeholders. Fixes #307 `(de84683a)` — Håkan Edling
+- Set block dialog position from viewport position. Fixes #318 `(ea4d1fff)` — Håkan Edling
+- Fixed style bug in block-extras buttons `(bddd5e48)` — Håkan Edling
+- Fixed so that image only HTML-fields are not considered empty on blur `(b4e9c599)` — Håkan Edling
+- Fixed action styling for block groups `(d8e085f7)` — Håkan Edling
+- Finished Block Groups. Fixes #291 `(584c6cd5)` — Håkan Edling
+- Fixed bug in block type name in group items `(68a8cb90)` — Håkan Edling
+- Fixed so it’s not possible to add posts to an unsaved Archive page. Fixes #321 `(c1deea1d)` — Håkan Edling
+- Added support for unlisted blocks. Fixes #324 `(60f50b02)` — Håkan Edling
+- Fixed site content issue where it was cached as T `(cd5306cb)` — Filip Jansson
+- Finished support for unlisted block types. Fixes #324 `(5793eac4)` — Håkan Edling
+- Moved removal of cached sitemap to SiteRepository. Fixes #337 `(bbe85157)` — Håkan Edling
+- Make sure the correct sitemap is refreshed after moving a page. Fixes #346 `(7557f5d1)` — Håkan Edling
+- Fixed count fields (meta description). Fixes #349 `(8077af09)` — Håkan Edling
+- Fixed NullReferenceException in text length calculation `(daa36c5d)` — Håkan Edling
+- Fixed bug when adding pages in with multiple sites. Fixes #347 `(71f73d31)` — Håkan Edling
+- Fixed AddMediaVersionExtension migration on npgsql `(ae7a5c96)` — alperencaliskan
+- Added auto-update of TinyMCE to form fields to ensure that data is saved with ajax post. Fixes #358 `(6765f629)` — Håkan Edling
+- Added ContentType to Sitemap.xml. Fixes #350 `(362d5e03)` — Håkan Edling
+- Removed IApi from base class constructor. Fixes #363 `(ef69382d)` — Håkan Edling
+- Keep Content Types in memory. Fixes #369 `(9a42c736)` — Håkan Edling
+- Fixed bug in BlockGroup title `(51d5b5f1)` — Håkan Edling
+- Manager fixes `(49042588)` — Håkan Edling
+- Added the possibility to inject partials into the manager. Fixes #373 `(cdfea829)` — Håkan Edling
+- Added support for async Init() methods. Fixes #374 `(f05b7152)` — Håkan Edling
+- Updated logos so they can be replaced with css. Fixes #359 `(1623f198)` — Håkan Edling
+- Fixed type in exception message `(ffc597c5)` — Håkan Edling
+- Added support for field placeholder texts. Fixes #370 `(8f5d445c)` — Håkan Edling
+- Expose redirect url in sitemap. Fixes #340 `(22b3805d)` — Håkan Edling
+- Fixed so preview only gets reloaded for the current page update. See #287 `(1876737e)` — Håkan Edling
+- Added post preview. Fixes #287 `(b4a57771)` — Håkan Edling
+- Rename BlogPage to ArchivePage. Fixes #391 `(345284dd)` — Håkan Edling
+- Added region descriptions. Fixes #388 `(4800f4a6)` — Håkan Edling
+- Added manager media search filter. Fixes #360 `(0f39fc21)` — Håkan Edling
+- Fixed bug with minimized menu logo. See #359 `(e100968c)` — Håkan Edling
+- Added forceSync to SimpleMDE editors. Fixes #392 `(f2efb6df)` — Håkan Edling
+- Fixed bug when swapping columns in HTML-block `(13e67d67)` — Håkan Edling
+- Make buttons fixed. Fixes #393 `(bb335ab4)` — Håkan Edling
+- Fixed some design flaws in some field layouts. Fixes #395 `(5c7e6861)` — Håkan Edling
+- Added raw sql from migration. Fixes #375. See related comments in #397 `(506942c0)` — Håkan Edling
+- Fixed so the last block can be removed from pages & posts. Fixes #396 `(00e38634)` — Håkan Edling
+- Changed published datetime picker to 24h time. Fixes #394 `(415a2803)` — Håkan Edling
+- Fixed some styling misses for fixed buttons & markdown fields `(14043e17)` — Håkan Edling
+- Added extension methods for MemCache & BlobStorage. Fixes #398, Fixes #399 `(3f0857d1)` — Håkan Edling
+- Fixed so that you can create image links in the HTML editor. Fixes #343 `(eed37742)` — Håkan Edling
+- Corrected z-index for fixed toolbar `(df5be1b7)` — Håkan Edling
+- Fixed so modals & alias takes currently selected site into account. Added multi site support for post dialog. Fixes #351, Fixes #405 `(15e3ff01)` — Håkan Edling
+- Updated all AspNetCore references. Fixes #408 `(358072b2)` — Håkan Edling
+- Added so posts for unpublished archives are considered unpublished. Fixes #323 `(b25a57f1)` — Håkan Edling
+- Fix placeholder text. set the input type to email `(e830b6c5)` — Henrik Nergaard
+- Added culture support to Sites. FIxes #308 `(6a79cd99)` — Håkan Edling
+- Enable HTML in region description. Fixes #415 `(773deab0)` — Håkan Edling
+- Show spinner during ajax call. Fixes #413 `(ff475268)` — Filip Jansson
+- Updated link plugin for TinyMCE. Fixes #419 & fixes #420 `(d7f11af2)` — Håkan Edling
+- Replaced example project with new from official website. Fixes #302 `(2cbebb06)` — Håkan Edling
+- Fix when region has collection and only one field the title is always "Item" `(04758885)` — Lachezar Kuzmanov
+- Fixed css bug in block group title `(79270c79)` — Håkan Edling
+- Added NullReferenceChecks to content transformation. Fixes #446 `(7f68962a)` — Håkan Edling
+- Updated formatting in DateField. Fixes #451 `(4647d1e3)` — Håkan Edling
+- Changed implementation of GetByHostname for sites. Fixes #449 & fixes #437 `(644288d1)` — Håkan Edling
+- Code style fixes `(67f20a9f)` — Håkan Edling
+- Fixed code style for repositories `(31753fce)` — Håkan Edling
+- More code fixes `(edca1bb0)` — Håkan Edling
+- Fixes in Manager module `(3d9a7682)` — Håkan Edling
+- Fixed missing semicolons in javscripts `(7baf8dae)` — Håkan Edling
+- Fixed type conversions in Equals implementations `(1278b253)` — Håkan Edling
+- Fixed thread-safety issues `(001e8b8c)` — Håkan Edling
+- Fixed IdentitySeed not adding users during initial setup `(5e8810dd)` — James White
+- Fixed some multiple line-feeds `(7ff3b03b)` — Håkan Edling
+- Fixed case sensitive comparison in MediaManager. Fixes #483 `(99d2ba62)` — Håkan Edling
+- Fixed reference to KeyVault `(eb0b43f4)` — Håkan Edling
+- Added constructor & extension method to create Blob Storage from connection string. Fixes #491 `(1222c1b4)` — Håkan Edling
+- Fixed merge error `(3955df1d)` — Håkan Edling
+- Added cloning for memory cache. Fixes #522 `(05b9ab53)` — Håkan Edling
+- Added support for deleting roles. Fixes #525 `(65d45cfc)` — Håkan Edling
+- Fixed bug in role assignment. Fixes #526 `(3f9c86fd)` — Håkan Edling
+- Converted modules to Razor class libraries. Fixes #527 `(fd4c951e)` — Håkan Edling
+- Added EF data project to Solution. Fixed warning in test project `(cb27e640)` — Håkan Edling
+- Some small fixes `(fb518973)` — Håkan Edling
+- Added type to Block, primarily for WebApi serialization. Fixes #518 `(7db77d2b)` — Håkan Edling
+- Added support for filtering post types on ArchivePage type. Fixes #276 `(541be3e1)` — Håkan Edling
+- Added the possibility for typed Archives & splitted page & archive loading into separate methods. Fixes #519 `(d969847a)` — Håkan Edling
+- Added video block. Fixes #458 `(307e42ec)` — Filip
+- Fixed width for top-nav `(168cfeb5)` — Håkan Edling
+- Fixed destroy/init of tinymce when inserting new blocks `(e99e2683)` — Håkan Edling
+- Removed JsonIgnore attribute from Blocks in BlockGroups. Fixes #543 `(3169d636)` — Håkan Edling
+- Fixed service/repository bug with block grouping `(1d49310d)` — Håkan Edling
+- Fixed some block styling for better sorting `(c30d98e5)` — Håkan Edling
+- Fixed bug when adding block to position 0 `(87ff3a94)` — Håkan Edling
+- Fixed html5sortable bug `(76f74f10)` — Håkan Edling
+- Added page title, fixed block group add/remove `(baa1e29f)` — Håkan Edling
+- Fixed toolbar position for tinymce `(44750d20)` — Håkan Edling
+- Added placeholder info to Posts & Sites. Fixes #552 `(7edbbba2)` — Håkan Edling
+- Added files in folders. Fixes #484 & fixes #485 `(e45d88c3)` — Håkan Edling
+- Fixed path issue in nuspec `(a9fbe9b2)` — Håkan Edling
+- Fixed bug in SiteService `(e39672d1)` — Håkan Edling
+- Fixed service/repository bug with block grouping `(96a41478)` — Håkan Edling
+- Add missing filter for unlisted blocks to Post Edit. Fixes #559 `(dc5eabae)` — Håkan Edling
+- Always invalidate sitemap when saving published pages. Fixes #555 `(77d20b45)` — Håkan Edling
+- Fixed cache bug in PostService `(679574c3)` — Håkan Edling
+- Fixed cache bug in PostService `(2bebff72)` — Håkan Edling
+- Fixed so printed version on login view is generated `(447c3ba0)` — Håkan Edling
+- Fixed region rendering `(c5a33dcc)` — Håkan Edling
+- Fixed incorrected checked-in stylesheets `(45b7ba65)` — Håkan Edling
+- Fixed half width for fields, added more fields & region icons `(62ec0928)` — Håkan Edling
+- Fixed collapsible card-body `(71d70d5c)` — Håkan Edling
+- Fixed color of alias delete button & darkened quotes `(612f4a6c)` — Håkan Edling
+- Added checks for future publish dates. Fixes #569 `(3fe18614)` — Håkan Edling
+- Fixed checks for when a page changes state. Fixes #568 `(bedfe0ec)` — Håkan Edling
+- Added subfolders to media folder item count. Fixes #565 `(0b31d1e3)` — Håkan Edling
+- Fix incorrect icon being shown in two places `(a2bce071)` — stephen
+- Fixed not equal comparison for SelectField `(4a9aefb3)` — Håkan Edling
+- Added caching for missing aliases. Fixes #587 `(60afe770)` — Håkan Edling
+- Added handling for ReturnUrl on login. Fixes #579 `(ffc3997f)` — Håkan Edling
+- Added service interface for moq. Fixes #576 `(7f239218)` — Håkan Edling
+- Updated SimpleCache to use ConcurrentDictionary. Fixes #583 `(02f8130a)` — Håkan Edling
+- Fixed block group items for posts. Fixes #577 `(3a403441)` — Håkan Edling
+- Added baseUrl to all ajax calls. Fixes #372 `(6100ca67)` — Håkan Edling
+- Fixed empty menu groups & login redirect depending on what the current user has access to. Fixes #593 `(695e2c95)` — Håkan Edling
+- Fixed sortable issue in horizontal groups `(955b756d)` — Håkan Edling
+- Fixed height for empty blocks in horizontal groups `(09cb2b6c)` — Håkan Edling
+- Fixed so PostInfo models are purged from cache. See #603 `(e435cd0f)` — Håkan Edling
+- Fixed build error from missing file `(aebd9ba0)` — Håkan Edling
+- Fixed some bugs and added blog type filter `(7619b312)` — Håkan Edling
+- Restructured core blocks a bit & fixed css-bug in topnav `(518a25ec)` — Håkan Edling
+- fix for items on blockgroup `(b2eef893)` — Stefan
+- Style updates & mediapicker search fixes `(7b21a58c)` — Håkan Edling
+- Load additional models into ArchiveModel. Fixes #620 `(cdb6c94b)` — Håkan Edling
+- Clear posts from cache after save. Fixes #603 `(45f96d33)` — Håkan Edling
+- Fixed bug when adding new blocks `(1b171151)` — Håkan Edling
+- Clean up CSS for the navbar fix `(53a836b4)` — Travis McGeehan
+- Fixed some issues with the new navbar. See #625 `(706422c2)` — Håkan Edling
+- Fixed nested block height for nice images `(6ae2c65e)` — Håkan Edling
+- Added descriptions to fields. Fixes #621 `(903d267e)` — Håkan Edling
+- Added resource media type. Fixes #629 `(cd5e499b)` — Håkan Edling
+- Updated nestable max depth. Fixes #636 `(eb3c3871)` — Håkan Edling
+- Fixed typos in the translation branch `(34b4d71b)` — Håkan Edling
+- Added external resources to manager layout. Fixes #648 `(3e8b5b91)` — Håkan Edling
+- Fixed region pills instead of dropdown. See issue #637 `(740c2e80)` — Håkan Edling
+- Fixed code for moving pages `(834c8e24)` — Håkan Edling
+- Split save flow for pages into two buttons. Added badge for displaying state. Fixes #637 `(7e089521)` — Håkan Edling
+- Fixed list group styling for user roles `(14e2eca9)` — Håkan Edling
+- Fixed manager bug in page field `(1e1d6a8f)` — Håkan Edling
+- Added collapse functionality for all blocks. Fixes #613 `(9b89a9a8)` — Håkan Edling
+- Add support for creating folders through the media dialog. Fixed some styling for login screen and other elements `(d0624c45)` — Håkan Edling
+- Fixed pagelist update after move `(a10cf356)` — Håkan Edling
+- Fixed page add for multiple sites. Added automatic view mode selection for media views depending on content `(dfddc02b)` — Håkan Edling
+- Fixed sortable initialization for horizontal block group items `(de5b3ae0)` — Håkan Edling
+- Fixed expand/collapse in page field modal `(efd02b85)` — Håkan Edling
+- Updated Razor Web example project. Fixes #682 `(339dba8a)` — Håkan Edling
+- Adding Select field fix `(2e903683)` — John Pavek
+- Fixed bug in quote block `(45ccd770)` — Håkan Edling
+- Fixed automatic removal of categories & tags `(d085e8e2)` — Håkan Edling
+- Fixed typo in resource string `(8fffe455)` — Håkan Edling
+- Added method for retrieving all page drafts & resolved cache issue. Fixes #725 `(98938027)` — Håkan Edling
+- Added status for drafts in manager Sitemap. Fixed so Page.IsHidden can be set in manager `(6f90d4be)` — Håkan Edling
+- Fixed so sitemap is reloaded after site is saved `(7166d9a0)` — Håkan Edling
+- Fixed bug in list regions for post types `(0c6920f2)` — Håkan Edling
+- Added web api module. Fixes #229 `(c14e9fce)` — Håkan Edling
+- Fixed so label is not rendered for single field regions `(890fb113)` — Håkan Edling
+- Add content edit for sites. Fixes #460 `(643a652a)` — Håkan Edling
+- Fixed image scaling bug in Safari `(42d45816)` — Håkan Edling
+- Fixed content focus after reverting content `(246a4b5c)` — Håkan Edling
+- Fixed so ~/manager redirects to the first page available for the current user `(f23e8c24)` — Håkan Edling
+- Fixed ordering bug in the Site Edit Modal `(c3ef491f)` — Håkan Edling
+- Fixed so default site is always shown on top in the page list `(d3568a8d)` — Håkan Edling
+- Fixed so id is used instead of name when adding new region items. Fixes #743 `(9ea6cc78)` — Håkan Edling
+- Fixed bug in Post Delete `(72f508bf)` — Håkan Edling
+- Added support for copies. Fixes #626 `(89235a3e)` — Håkan Edling
+- Fixed menu selection & breadcrumb of user view `(08ada668)` — Håkan Edling
+- Fixed link bug in module list `(87848e4f)` — Håkan Edling
+- Fixed z-index bug for TinyMCE toolbar in modals `(62a6a758)` — Håkan Edling
+- Fixed layering bug with TinyMCE toolbar `(8c11f117)` — Håkan Edling
+- Fixed so manager menu rendering takes user permissions into account. See #756 `(cc763c17)` — Håkan Edling
+- Fixed word wrap in Tiny MCE dropdowns. Fixes #757 `(1dce35bc)` — Håkan Edling
+- Manager updated for 7.0.1. Fixes #761, Fixes #762, Fixes #763 `(a18a2f6a)` — Håkan Edling
+- Added fixed Tiny toolbar to regions fields `(9e0c1c6c)` — Håkan Edling
+- Clear search query in mediapicker. Fixes  #771 `(e5740a13)` — Filip
+- Fixed bug in block styles when rendering EditorConfig. Fixes #767 `(1ce6611e)` — Håkan Edling
+- Moved block styles. Fixes #774 `(99bd64c5)` — Håkan Edling
+- Added support for custom block actions in the manager. Fixes #775 `(aa9d6174)` — Håkan Edling
+- Added manager support for redirects. Fixes #766 `(a3de4f18)` — Håkan Edling
+- Added site select in PagePicker modal. Fixes #777 `(d731d33d)` — Håkan Edling
+- Updated media gallery view. Fixes #779 `(adde827a)` — Håkan Edling
+- Added region class to post setting regions. Fixes #785 `(883c98e1)` — Håkan Edling
+- Added confirmation dialog for delete site. Fixes #783 `(13fa8dac)` — Håkan Edling
+- Added region class to site modal. FIxes #792 `(492c18ff)` — Håkan Edling
+- Added support for SelectFields on Posts and Sites. Fixes #794 `(ba054614)` — Håkan Edling
+- Strip HTML-tags from GetTitle for HtmlField. Fixes #795 `(8065c756)` — Håkan Edling
+- Propagate field changes for list-regions. Fixes #796 `(29b3c994)` — Håkan Edling
+- Added visualization of drafts in post list. Fixes #793 `(282a81e5)` — Håkan Edling
+- Added missing null check for cache in PostService. Fixes #801 `(9d927a27)` — Håkan Edling
+- Set field id on global BlockGroup Fields. Fixes #805 `(00ddaaa0)` — Håkan Edling
+- Fixed TinyMCE resources `(731aa49d)` — Håkan Edling
+- Fixed unlisted blocks in block groups. Fixes #821 `(356c3473)` — Håkan Edling
+- Added post type filtering on archives. Fixes #827 `(14eee385)` — Håkan Edling
+- Add title implementation for all standard blocks. Fixes #800 `(8bf89eb9)` — Håkan Edling
+- Added support for default collapsed blocks. Fixes #828, fixes #829 `(0e1f0852)` — Håkan Edling
+- Added extension method for generating a css class name from a block. Fixes #835 `(6982c278)` — Håkan Edling
+- Added rendering of custom partials in the manager. Fixes #832 `(a624b395)` — Håkan Edling
+- Chaged how global fields are loaded for block groups. Fixes #836 `(5611a62c)` — Håkan Edling
+- Changed how TinyMCE extracts content on blur. Fixes #838 `(139ae102)` — Håkan Edling
+- Added SelectField initialization of Block Group fields. Fixes #834 `(f501535b)` — Håkan Edling
+- Automatically register block group fields.  Added support for FieldAttributes on Block Groups fields. Fixes #831, fixes #839 `(b4a30c67)` — Håkan Edling
+- Fixed issues in previous commit left behind due to poor code-checking on my part `(815600c1)` — Jolt
+- Fixed typo in project reference `(d6e2ea92)` — Håkan Edling
+- Fixed javascript syntax issue in editor file `(71dd7868)` — Jolt
+- Fixed save from code view. Fixes #869 `(cb660aca)` — Håkan Edling
+- Updated manager views to adjust to permission settings. Fixes #772 `(6faed20f)` — Håkan Edling
+- Fixed so add post is a button if only one post type is available. Fixes #871 `(ac35fe47)` — Håkan Edling
+- Refactored all manager toolbar actions. Fixes #873 `(497e97cb)` — Håkan Edling
+- Added support for registering media types that doesn’t allow processing. Fixes #879 `(4b1c8e01)` — Håkan Edling
+- Fixed sorting error in media list after upload, see #845 `(34f57a40)` — Håkan Edling
+- Fixed bug in folder rendering in image picker `(c41bafa5)` — Håkan Edling
+- Added missing http action attributes. Fixes #876 `(adc6b036)` — Håkan Edling
+- Added password validation to user edit, thanks to @chybyk. Fixes #883 `(bb71037c)` — Håkan Edling
+- Manually convert DateField values to exclude time. Fixes #877 `(d28c4339)` — Håkan Edling
+- Added support for paging in Posts Api. Fixes #860 `(d2a1d943)` — Håkan Edling
+- Fixed bug when updating a media asset. Fixes #892 `(be178089)` — Håkan Edling
+- Fixed a Firefox issue where audio player had fixed width `(9caed9cd)` — Filip Jansson
+- Updated styling for global block group fields. Fixes #896 `(9fb19be0)` — Håkan Edling
+- Fixed bug with Site.ContentLastModified. FIxes #855 `(35aae441)` — Håkan Edling
+- Added vertical block group. Fixes #791 `(bb0eedc7)` — Håkan Edling
+- Fixed resource path error for TinyMCE. Most likely caused by compiling with 3.0 `(8a738307)` — Håkan Edling
+- Fixed rendering for empty block group headers `(8feb44ad)` — Håkan Edling
+- Added delete confirmations. Fixes #847 `(572577fe)` — Håkan Edling
+- Added support for moving folders. Fixes #904 `(6e5073e2)` — Filip
+- Fixed potential type casting error in MemoryCache `(817174e9)` — Håkan Edling
+- Fixed some styling issues in media library `(b785ce91)` — Håkan Edling
+- Changed startup order to fix authorization issues `(b6e9a44a)` — Håkan Edling
+- Fix for SelectField options population in manager `(da2f0f80)` — Andrey Turov
+- Upgraded and fixed mappings for AutoMapper 9.0 `(5d84e77c)` — Håkan Edling
+- Removed `base` tag from manager `_Layout`. Fixes #934 `(84a57879)` — Håkan Edling
+- Display field description in list region. Fixes #938 `(1375cfaa)` — Filip
+- Set new list item title if placeholder title is available. Fixes #939 `(a8021e56)` — Filip
+- Removed obsolete authentication checks in Page & Post middleware. FIxes #953 `(933b9996)` — Håkan Edling
+- Added routing options & redirects to Integrated middleware. Fixes #954, #956 `(2cb2e22c)` — Håkan Edling
+- Added HTTP Cache to Integrated Middleware. Fixes #955 `(480c24ee)` — Håkan Edling
+- Redesign of config view. Fixes #964 `(60ad1bc1)` — Håkan Edling
+- Fixed many Codacy vulnerability `(dae29a0a)` — Matteo Fabbri
+- Added option for sitemap routing. Fixes #979 `(11f60e7f)` — Håkan Edling
+- Added hook for extending the sitemap generation. FIxes #961 `(94d78a17)` — Håkan Edling
+- Added null check in SitemapMiddleware. Fixes #981 `(10ab80c4)` — Håkan Edling
+- Fixed null reference exception in SimpleField `(28cabf18)` — Håkan Edling
+- Fixed readonly issue with Slug generation hook `(740b63e2)` — Håkan Edling
+- Added published checks for pages/posts in Integrated middleware. Fixes #985 `(6a316693)` — Håkan Edling
+- fix comments `(934c5d81)` — Andrey Ushakov
+- fix broken build `(438d7bc2)` — Andrey Ushakov
+- Added support for pushing state when navigating folders in media. Fixes #867 `(72653dca)` — Filip
+- Add support for having expanding collection regions. Fixes #888 `(b489d5e9)` — Filip
+- Fixed bug in comment test `(4f47195e)` — Håkan Edling
+- Hide dropdowns with one item. Fixes #1003 `(02802dcb)` — Håkan Edling
+- Added multi-site support to alias. Fixes #1002 `(c4571bfe)` — Håkan Edling
+- Added extension method for custom identity seed. Fixes #999 `(3fdd1250)` — Håkan Edling
+- Updated js-references in preview. Fixes #987 `(c61c9dc3)` — Håkan Edling
+- Added support for generic blocks. Fixes #820 `(1058ae4c)` — Håkan Edling
+- Subscribe to "onSaved" event in post-archive and reload data. Fixes #948 `(adc8be4b)` — Filip
+- Updated placeholders for user edit. Fixes #1014 `(57900dcb)` — Håkan Edling
+- Updated redirect after manager login. Fixes #1019 `(0cafc886)` — Håkan Edling
+- Added support for media meta information. Fixes #1020 `(2cf5c423)` — Håkan Edling
+- Added permission support to pages & posts. Fixes #1025 `(06a817d5)` — Håkan Edling
+- Added SaveChangesAsync to Identity. Fixes #1023 `(e837f341)` — Håkan Edling
+- Fixed duplicate attributes in Vue components. Fixes #1021 `(dfadad11)` — Håkan Edling
+- Fixed manager css bug. Added fixed version to vue-compiler in package.json `(4a0d4f73)` — Håkan Edling
+- Added support for generic blocks in block groups. Fixes #1041 `(073785a3)` — Håkan Edling
+- Fixed some minor issues in comment managment `(8ee94e36)` — Håkan Edling
+- Added error message when invalid login credentials. Fixes #1027 (#1044) `(ccaaaf03)` — Filip
+- Fixed error in Property Naming `(8b656c02)` — Håkan Edling
+- Fixed framework reference miss in NuSpec `(ddf55a86)` — Håkan Edling
+- Fixed version in NuSpec `(a4daf5d4)` — Håkan Edling
+- Fixed async bug for posts `(8ee9a2f2)` — Håkan Edling
+- Fixed null reference exception for site content `(d4f3061e)` — Håkan Edling
+- Some small code fixes `(9a1e3ced)` — Håkan Edling
+- Fixed all documentation warnings `(b9ce8673)` — Håkan Edling
+- Fixed some Codacy issues `(a6709141)` — Håkan Edling
+- Fixed failed checks `(d2a6bec8)` — Vincent JACQUET
+- Fixed indentation `(49686039)` — Vincent JACQUET
+- Fixed indentation `(aa7ca555)` — Vincent JACQUET
+- Fixed autofocus `(bea6d7b5)` — Vincent JACQUET
+- Added sql server migration for post information. Fixes #1082 (#1090) `(63eafbdc)` — Filip
+- Fixed so NormalizedName can’t be changed for SysAdmin. Fixes #1091 `(f61b756b)` — Håkan Edling
+- Fixed bug in OpenCover integration `(830127bf)` — Håkan Edling
+- Removed usage of sync extensions, fixes #1104. Made all tests async and replaced OpenCover with Coverlet `(c0109a2f)` — Håkan Edling
+- Changed back accessor to internal. Fixes #1117 `(5a51cc82)` — Håkan Edling
+- Add option to disable archive routing for integrated middleware. Fixes #1123 `(3073801c)` — Håkan Edling
+- Fixed comment bug `(34424003)` — Håkan Edling
+- Added PostInformation migration for PostgresSql. Fixes #1082 `(2bc73471)` — Håkan Edling
+- Updated folder styling and auto focus form control for new folders. Fixes #1141, Fixes #1142 `(542463f0)` — Håkan Edling
+- Added manager init for fields. Fixes #1144 `(e911a33c)` — Håkan Edling
+- Added support for setting TinyMCE extended_valid_elements through the EditorConfig. Fixes #1154 `(3ed1df79)` — Håkan Edling
+- Added naming settings for FileStorage & BlobStorage. Fixes #1124 `(445172bf)` — Håkan Edling
+- Remove whitespaces from filenames. Fixes #1156 `(edc91bfc)` — Håkan Edling
+- Fixed bug when deleting comments in the manager. Fixes #1161 `(7c5e357e)` — Håkan Edling
+- Added razor page model for archives. Fixes #1167 `(12fb2425)` — Håkan Edling
+- Validate slug after being generated. Fixes #566 (#1169) `(6b320bd2)` — Filip
+- Fixed formatting issue in yml `(d0d0e5f5)` — Håkan Edling
+- Added automatic SignOut before trying to sign in again. Fixes #1159 `(0ad4621c)` — Håkan Edling
+- Added so that site prefix is taken into account for sitemap generation. Fixes #1083 `(66051cd9)` — Håkan Edling
+- Added suppor for anonymous api access. Fixes #841 `(1909b13c)` — Håkan Edling
+- Added author to QuoteBlock. Fixes #1037 (#1173) `(f848839e)` — Filip
+- Added PrimaryImage and Excerpt to Pages. Fixes #1175 `(1a5993a5)` — Håkan Edling
+- Manager: Fix 404 when fetching empty-image.png from wrong path `(1527e69b)` — Mikael Lindemann
+- Fixed bug with moving content blocks. Fixes #1178 `(42d15bdd)` — Håkan Edling
+- Add blocks for content links. Fixes #1179, Fixes #1180 `(9ee45019)` — Håkan Edling
+- Style-fix for content-links `(922146a9)` — Håkan Edling
+- Make sure we only validate against existing permissions. Fixes #1182 `(771a62b3)` — Håkan Edling
+- Fixed uploaded media not being cleared in mediapicker. Fixes #1189 `(6b5587ef)` — Filip
+- Added support for setting preferred image aspect on image block. Fixes #1191 `(273551fe)` — Håkan Edling
+- Fixed initialization in media block. Fixes test error `(0e419f18)` — Håkan Edling
+- Fixed styling bug in ImageBlock when inside a ColumnBlock `(4fe2ccac)` — Håkan Edling
+- Added support for HTML Excerpt. Fixes #1150 `(7b6b9550)` — Håkan Edling
+- Fixed uid-error for fields in regions. Fixes #1203 `(748d9f66)` — Håkan Edling
+- Enable spell checking. Fixes #1216 (#1217) `(2c25aa9e)` — Filip
+- Fixed distributed caching issues and added distributed caching to integration tests. Fixes #744 `(b0fe2c12)` — Håkan Edling
+- Updated package references. Fixes #1221 Fixes #1222 `(51de90c4)` — Håkan Edling
+- Fixed initialization bugs `(f8200b41)` — Håkan Edling
+- Fixed post routing for site with prefixes. Fixes #1234 `(7d76e9a2)` — Håkan Edling
+- Set ListExpand to false by default. Fixes #1232 `(a59b65d3)` — Håkan Edling
+- Added so Host defaults to Request hostname if not configured. Fixes #1239 `(cfd49699)` — Håkan Edling
+- Added URL-helpers for integrated web applications. Fixes #1235 `(f5647694)` — Håkan Edling
+- Fixed so current hostname is resolved from site & requested hostname. See #1234 `(e275e55d)` — Håkan Edling
+- Field and media fixes `(dd0e28ae)` — Urreman
+- Ensure forward slash on conten type routes. Fixes #1245 `(9964c491)` — Håkan Edling
+- Added list title support for generic blocks. Fixes #1246 `(67cc1e34)` — Håkan Edling
+- Added info for empty archives. Fixes #1253 `(ad20d1b6)` — Håkan Edling
+- Added site logo migration for SQL Server. Fixes #1240 `(33c1440b)` — Filip
+- Added hooks for sitemap. Fixes #1231 `(3fcd5cad)` — Håkan Edling
+- Changed permissions to internal. Fixes #1255 `(6211fbfd)` — Håkan Edling
+- Added core support for authentication. Fixes #1259 `(05f4141e)` — Håkan Edling
+- Added helper method for filtering the Sitemap for the current user. Fixes #1262 `(83a84f88)` — Håkan Edling
+- Added icon to sitemap items to visualize restricted items. Fixes #1266 `(5fe8a39b)` — Håkan Edling
+- Bugfix in video & audio block. Fixes #1292 `(83fccd61)` — Håkan Edling
+- Added check for empty image processor. Fixes #1288 `(404811d2)` — Håkan Edling
+- Temporary fix for resolving generic types. Fixes #1310 `(09cb3bc1)` — Håkan Edling
+- Fixed block creation and link generation. Fixes #1311 & fixes #1312 `(bc1e5157)` — Håkan Edling
+- Updated package versions for Select2 & Popper. Fixes #1316 `(352e020a)` — Håkan Edling
+- Removed all obsolete code. Fixes #1237 `(2839d9ce)` — Håkan Edling
+- Removed old redundant middleware and restructured AspNetCore namespace. Fixes #1323 `(05617769)` — Håkan Edling
+- Updated Primary Image & Excerpt. Fixes #1290 `(23f45a06)` — Håkan Edling
+- Updated package references. Fixes #1319 `(a4825559)` — Håkan Edling
+- Added editorconfig.json to MVC example. Fixes #1337 `(7adad7ec)` — Håkan Edling
+- Fix of #1346 `(da07110c)` — Jens Bråkenhielm
+- Fix of #1347 `(d3b6b88b)` — Jens Bråkenhielm
+- Fix of #1338 `(6396bd11)` — Jens Bråkenhielm
+- Fix of #1338 `(aa81b788)` — Jens Bråkenhielm
+- Fixed some LGTM errors `(73aae9df)` — Håkan Edling
+- Fixed migration issue for Site.LanguageId. Bumped alpha versions `(00f4ddee)` — Håkan Edling
+- Updated all packages from rc2 to stable release. Fixes #1400 `(7a0033da)` — Håkan Edling
+- Removed selectOnClose for tags. Fixes #1411 `(20629b1a)` — Håkan Edling
+- Updated meta-tag generation. Fixes #1421 `(b09c07a9)` — Håkan Edling
+- Prevent moving folder to into itself. Fixed #1409 (#1422) `(4c634457)` — Filip
+- Added support for connection pooling. Fixes #1428 `(0c7e8076)` — Håkan Edling
+- Updated naming of route parameter for PageEdit & PostEdit. Fixes #1324 `(10dabada)` — Håkan Edling
+- Added support for custom JSON settings. Fixes #1354 `(f75594fe)` — Håkan Edling
+- Fixed language binding when creating new site. Fixes #1429 `(d49d594c)` — Håkan Edling
+- Updated to get TinyMCE content via TinyMCE´s api. Fixes #1379 `(b07417df)` — Filip
+- Fixes issue with Data Select Field title `(2f432c85)` — Stephen Rogers
+- First version of settings attributes. Fixes #1233 `(d8595155)` — Håkan Edling
+- Added block type filter on page & post types. Fixes #1318 `(180acfd2)` — Håkan Edling
+- Added model validation for duplicate slugs in the services. Fixes #1369 `(8916ae46)` — Håkan Edling
+- Added so manager init is performed when blocks are created from the manager. Fixes #1420 `(516c0da2)` — Håkan Edling
+- Added support for persian characters in slugs. Fixes #1439 `(d5c762ed)` — Håkan Edling
+- Added actions to expand/collapse all pages in the page list. Fixes #1460 `(eae87f82)` — Håkan Edling
+- Added null checks to Media Helper. Fixes #1462 `(1b35b4fe)` — Håkan Edling
+- Changed ArchivePage<T> to use pagenum parameter instead of page. Fixes #1463 `(a96ec1d0)` — Håkan Edling
+- Fixed content edit and added content block `(465d080d)` — Håkan Edling
+- Added UrlEncoding for PublicUrl for Storage Services. Fixes #1478 `(f04a8264)` — Håkan Edling
+- Changed how new region items are expanded. Fixes #1486 `(fc397bc0)` — Håkan Edling
+- Added config option for block outlines in the manager UI. Fixes #1489 `(e9901613)` — Håkan Edling
+- Fixes issue 1490 `(14ecdef2)` — tfritzke
+- Custom components is now supported for block groups. Fixes #1498 `(7a5014de)` — Filip
+- Include full jQuery. Fixes #1506 `(3e386f00)` — Filip
+- Added support for editor width. Fixes #1514 `(71221482)` — Håkan Edling
+- Adding hooks for Generic Content. Fixes #1511 `(03d97e40)` — jensbrak
+- Added different comment models so they can be differentiated in hooks. Fixes #1525 `(f7f280d1)` — Håkan Edling
+- Added new endpoint for content list regions. Fixes #1550 `(bee1e784)` — Håkan Edling
+- Updated how excerpt is handled in the manager. Fixes #1516 `(d9f158e8)` — Håkan Edling
+- Updated so scheme isn’t added to already absolute content url’s. Fixes #1556 `(c19fa707)` — Håkan Edling
+- Updated notification flow when saving sites. Fixes #1553 `(0bdf56ef)` — Håkan Edling
+- Updated content title placeholder. Fixes #1541 `(14dd8711)` — Håkan Edling
+- Added so field settings are exported for generic block models. Fixes #1539 `(da63f9e9)` — Håkan Edling
+- Added support for blocks, fixes #1562. Added basic support for taxonomies, see #1563. Added support for hiding content groups, fixes #1563 `(d2f8d3ae)` — Håkan Edling
+- Map media count. Fixes #1579 `(7146cc60)` — Filip
+- Fixed block group transformation for generic content `(fbef55b6)` — Håkan Edling
+- Added meta-information about translatable fields. Fixes #1583 `(1723a8b9)` — Håkan Edling
+- Fixed parsing of published date for pages. Fixes #1584 `(e8965313)` — Håkan Edling
+- Fixed bug when saving drafts of a scheduled page or post. Fixes #1582 `(d739c5a6)` — Håkan Edling
+- Added full state visualization in edit & sitemap. Fixes #1581 `(30276a94)` — Håkan Edling
+- Check for SitemapItem.MetaIndex `(d95c7eba)` — axunonb
+- Added default support for `.gif` and `.jfif`. Fixes #1359 `(08ed2592)` — Håkan Edling
+- Prevent classes with missing BlockTypeAttribute to be registered. Fixes #1587 `(e397feff)` — Håkan Edling
+- Updated naming of internal manager classes to support Swashbuckle. Fixes #1574 `(31defe46)` — Håkan Edling
+- Added content setting support to content edit. Fixes #1578 `(356d9978)` — Håkan Edling
+- Redesign text block to prevent pasting HTML into it. Fixes #1566 `(98d881a0)` — Håkan Edling
+- Fixed bug in when limiting available block types for posts. Fixes #1633 `(fe7fd284)` — Håkan Edling
+- Fixed typo in Api.cs comments `(7c1f545c)` — Success Go
+- Fixed typo in Db.cs `(7fca610a)` — Success Go
+- Fixed typo in README.md and gulpfile.js `(c7f3336c)` — Success Go
+- Fixed incorrect policy check on UserController.cs Delete `(b16519f9)` — Brian Riley
+- Make sure content service looks at type.UseCategory for dynamic types. Fixes #1649 `(97cb199e)` — Håkan Edling
+- Updated display title of the permission for saving pages. Fixes #1647 `(2c516625)` — Håkan Edling
+- Fixes manager api comment `(70f3106b)` — Success Go
+- Fixes typo `(c95f8199)` — Success Go
+- Fixes typo in comments `(f33b15c0)` — Success Go
+- Fixes typo `(ca10de1d)` — Success Go
+- Fixes typo `(7841084e)` — Success Go
+- Fixes code style `(32adfedb)` — Success Go
+- Fixes typo `(fb377184)` — Success Go
+- Fixes typo `(8d3dce63)` — Success Go
+- Fixes typo in code base `(a32ad4e9)` — Success Go
+- fix edit user url `(f8de16f6)` — Guilherme Henrique Muller
+- Fix typo `(979bcbf7)` — Success Go
+- Fixes typo `(cd01d378)` — Success Go
+- Fixes model name error if validation error occurs `(228bf22c)` — Success Go
+- Fixes Aure Blob Storage module name error `(11326a51)` — Success Go
+- Added caching to content service. Fixes #1697 `(04b4fff1)` — Håkan Edling
+- Made PrimaryImage & Excerpt readonly for copies. Fixes #1644 `(b19d1956)` — Håkan Edling
+- Added LanguageId to site helper. Fixes #1703 `(47d052c2)` — Håkan Edling
+- Changed route param in content edit. Fixes #1715 `(1a94e27c)` — Håkan Edling
+- Updated edit URL. Fixes #1709 `(b1729ddd)` — Håkan Edling
+- Changed UserDelete from GET to DELETE. Fixes #1725 `(f050456b)` — Håkan Edling
+- Make sure page title isn't rendered as HTML. Fixes #1726 `(543bc53c)` — Håkan Edling
+- Added optional languageId to ContentService.GetAll(). Fixes #1702 `(f384e12a)` — Håkan Edling
+- Added field sorting. Fixes #1732 `(3cfa3cb1)` — Håkan Edling
+- Fixed bug in page/post field link. Fixes #1705 `(d138265a)` — Håkan Edling
+- Updated summernote & codemirror packages. Fixes #1730 `(a81876ea)` — Håkan Edling
+- Added await in async field initialization. Fixes #1701 `(f5f7c466)` — Håkan Edling
+- Updated manager security. Fixes #1741 `(eae8e439)` — Håkan Edling
+- Code style fixes `(704d7f38)` — Håkan Edling
+- Updated content settings layout. Fixes #1524 `(99515b9d)` — Håkan Edling
+- Added new markdown block. Fixes #1744 `(9d087dbe)` — Håkan Edling
+- Added description property to field, region & type attributes. Obsoleted old description attributes. Fixes #1747 `(b6f5be75)` — Håkan Edling
+- Redesign manager "Add page" to reuse same modal as when inserting page. Fixes #1748 `(77dd5b1d)` — Håkan Edling
+- Fixed issue when copying a page without adding it to a specific location. See #1748 `(d1c5b7c6)` — Håkan Edling
+- Fixed startpage routing in sites with a prefix `(00c86ccc)` — Håkan Edling
+- Fixed null check in user delete `(33cdaeec)` — Håkan Edling
+- Added so AuthController handles ReturnUrl. Fixes #1771 `(9b4444d7)` — Håkan Edling
+- Added anti-forgery when saving media meta-data. Fixes #1764 `(5f1516f9)` — Håkan Edling
+- Fixed page copy between sites. Fixes #1766 `(09cde8c2)` — Håkan Edling
+- Added missing dependencies to manager. Fixes #1775 `(c7f56b3e)` — Håkan Edling
+- Fixed EmailConfirmed changing to false when user edit, see #1708 `(9e126986)` — Bence Hajdu
+- minir style fix `(74a8bfe8)` — martijntakken
+- style fix `(75405d25)` — martijntakken
+- Updated old file headers. Fixes #1789 `(dd459aa7)` — Håkan Edling
+- codacy  "Expected method shorthand." fix `(0ff91d48)` — Rok Bermež
+- Added support for minimal hosting model. Fixes #1824 `(437b9a74)` — Håkan Edling
+- Removed usage of AliasListModel in UserController. Fixes #1796 `(20e17747)` — Håkan Edling
+- Set manager auth cookie as essential. Fixes #1829 `(a688ae13)` — Håkan Edling
+- Append version to manager resources. Fixes #1840 `(dadb2182)` — Håkan Edling
+- Enable legacy timestamps for Npgsql. Fixes #1762 `(a25be574)` — Håkan Edling
+- Added endpoint registration for classic startup. Fixes #1844 `(8dd29289)` — Håkan Edling
+- Removed usage of Site.Culture. Fixes #1845 `(88133abf)` — Håkan Edling
+- 1876. Fix `(71ea6919)` — Anvarjon
+- Fix a shorthand code style issue `(0b7fbb5b)` — Georgy Sayganov
+- Update routing for unpublished pages. Fixes #1916 `(81972c45)` — Håkan Edling
+- Updated PostSettings to use getOrigin. Fixes #1878 `(0f144af3)` — Håkan Edling
+- Updated Identity to use MaxFailedAccessAttempts. Fixes #1905 `(f6d4ce98)` — Håkan Edling
+- Add default name for content routes. Fixes #1946 `(a605dc59)` — Håkan Edling
+- Added cache support for content. Fixes #1697 `(9296bd7d)` — Håkan Edling
+- Added archive page fields. Fixes #1655 `(666665df)` — Håkan Edling
+- Set parent id to null when copying page. Fixes #1964 `(657c092c)` — Håkan Edling
+- Changed cache behaviour in alias service. Fixes #2034 `(a80d8eb9)` — Håkan Edling
+- Use a different cache key for ContentInfo in ContentService. Fixes #2041 `(eecceed1)` — Andy White
+- Updated ImageSharp. Fixes #2052 `(be0c6da3)` — Håkan Edling
+- Converted list in Alias service. Fixes #2056 `(39593783)` — Håkan Edling
+- Fixed code analyse issues `(5277ca79)` — ovsak
+- Fix statis analysis warnings `(fb1cd749)` — ovsak
+- Fixed comment in IContentGroupService `(8316eaf5)` — ovsak
+- Made alias repository case insensitive. Fixes #2087 `(30b96e25)` — Håkan Edling
+- Updated Markdig dependency. Fixes #2104 `(beed442f)` — Håkan Edling
+- Add DOMPurify to Markdown preview. Fixes #2105 `(636bd8b0)` — Håkan Edling
+- Disable preview for PDF-documents. Fixes #2115 `(8007c69b)` — Håkan Edling
+- Added favicon to login page. Fixes #2101 `(ac9c1550)` — Håkan Edling
+- Added DOM-purification for quote and text block. Fixes #2145 `(0a1e5081)` — Håkan Edling
+- Added DOM purification for Excerpt. Fixes #2163 `(b80deec5)` — Håkan Edling
+- Added DOM purification for Media folder name. Fixes #2164 `(bd2d901b)` — Håkan Edling
+- Added DOM purification for Markdown content. Fixes #2165 `(ddb7ce79)` — Håkan Edling
+- Remove entered password from error message. Fixes #2166 `(ac02722c)` — Håkan Edling
+- Added DOM purification to meta information. Fixes #2167 `(a9f5f6ca)` — Håkan Edling
+
+### ♻️ Refactoring
+
+- Completed page type handling. Needs some refactoring later on `(9c5139c3)` — Håkan Edling
+- Archive & Post refactoring `(4e2c4df2)` — Håkan Edling
+- Category refactoring `(c647c3e7)` — Håkan Edling
+- Block refactoring `(74a13462)` — Håkan Edling
+- Page refactoring `(a694183d)` — Håkan Edling
+- Refactoring from scratch to lower dependecies & support multiple frameworks `(1b37375e)` — Håkan Edling
+- Added caching to the PageRepository and did some minor refactoring `(83b198e2)` — Håkan Edling
+- Refactored the page & post repositories to use the ContentService `(0aa8a220)` — Håkan Edling
+- Refactored dynamic model creation and removed the old ContentFactory `(b11aadb4)` — Håkan Edling
+- Started refactoring services `(0dfaf32e)` — Håkan Edling
+- Refactored ContentService and moved Sync extensions to its own package `(a7e11bc2)` — Håkan Edling
+- Some minor code refactoring `(f5688ad8)` — Håkan Edling
+- Refactored and renamed some model properties `(e6dfd926)` — Håkan Edling
+- Added field rendering to block groups. Needs refactoring `(78eaf5ff)` — Håkan Edling
+- Refactored content models `(b36cecf0)` — Håkan Edling
+- Refactor delegate to ensure all Piranha Managers policies are configured by custom delegate `(36a27493)` — tedvanderveen
+- Some minor refactoring `(46928324)` — Håkan Edling
+- Refactored config helper `(6fa72633)` — Håkan Edling
+
+### ⚙️ CI / Tooling
+
+- Initial commit of publish action `(004713cb)` — Håkan Edling
+- Removed test workflow `(96461f94)` — Håkan Edling
+- Added new workflow file `(52b186d7)` — Håkan Edling
+- Moved workflows to temporary folder to prevent execution `(806188ae)` — Håkan Edling
+- Updated versions and workflow scripts `(02769c0b)` — Håkan Edling
+- Updated workflow signing `(c34e70b4)` — Håkan Edling
+- Fixed typo in workflow `(1232e0bc)` — Håkan Edling
+- Added package deploy to workflow `(4d84c1ed)` — Håkan Edling
+- Updated workflow to include quotes around glob pattern `(0ed7e40c)` — Håkan Edling
+- Updated glob pattern for nuget push `(9f75eed8)` — Håkan Edling
+- Removed —skip-duplicate from nuget push `(3a20251c)` — Håkan Edling
+- Removed `npm audit fix` from build script `(7fb61530)` — Håkan Edling
+- Put back `—skip-duplicate` to build action `(1e475aa5)` — Håkan Edling
+- Create codeql-analysis.yml `(61762b3a)` — Håkan Edling
+- Update codeql-analysis.yml `(7df80174)` — Håkan Edling
+- Added GitHub Action CI `(754a885e)` — Håkan Edling
+- Added coveralls CI integration `(d80b3904)` — Håkan Edling
+- Removed coveralls integration for now `(e627e5a4)` — Håkan Edling
+- Added CI Build on Windows `(6ba9a43e)` — Håkan Edling
+- Added quotation around commit message `(5524eefa)` — Håkan Edling
+- Added commiter info to integration `(ba70e202)` — Håkan Edling
+- Removed manual repo token `(ddb5cfec)` — Håkan Edling
+- Changed build name to ".NET Linux" `(4fcbddac)` — Håkan Edling
+- Removed coveralls for now `(2ea49f9a)` — Håkan Edling
+- Removed code coverage calculation from Linux build `(d5471152)` — Håkan Edling
+- Updated to .NET6-RC2 `(f37c6ae5)` — Håkan Edling
+- Updated publish script to use .NET6-RC2 `(e7617f99)` — Håkan Edling
+- Upgraded to .NET 6.0, see #1733 `(5a1cbb2b)` — Håkan Edling
+- Updated dotnet version in actions `(3888803e)` — Håkan Edling
+- Updated dotnet version in publish action `(ed7dc08c)` — Håkan Edling
+- Updated coverage generation `(5fd75b95)` — Håkan Edling
+- Added net7.0 along side net6.0 support - changed global.json sdk to 7.0.302 - added multiple targetframewords net6.0 + net7.0 - extracted Microsoft.SourceLink.GitHub reference up to build.targets - updated github actions with dotnet version 7.0.x `(0095e7a7)` — Constantinos Leftheris
+- Update publish_to_nuget.yml `(4dec3bfd)` — Håkan Edling
+- Updated node version in publish build `(1866a0e4)` — Håkan Edling
+- Update action to .NET 8 `(f1609f20)` — Håkan Edling
+- Update action to .NET 8 `(c3100da4)` — Håkan Edling
+- Updated path to lcov output file `(efde0abc)` — Håkan Edling
+- Update param name to coveralls `(30b13fd7)` — Håkan Edling
+- Updated nuget creation & publishing `(671782d5)` — Håkan Edling
+- Fixed syntax error in publish workflow `(61af42f7)` — Håkan Edling
+- Fixed publish workflow `(18c9ad4c)` — Håkan Edling
+- Added cross-compilation for .NET 9. Fixes #2116 `(39aa77cf)` — Håkan Edling
+- Update lcov path to .net9 `(10b6adff)` — Håkan Edling
+- Update merge path for lcov `(faf00894)` — Håkan Edling
+- Specify framework version in dotnet test `(d27eeab8)` — Håkan Edling
+- Updated node version in package build `(e21f831d)` — Håkan Edling
+- Removed client build from packaging `(aa2555d7)` — Håkan Edling
+- Updated signing process `(499e6dea)` — Håkan Edling
+- Added write permissions to sign job `(049bd40a)` — Håkan Edling
+- Include pack execution in action `(339060a7)` — Håkan Edling
+- Removed package signing `(a9bff126)` — Håkan Edling
+- Added environment to pipeline `(0a88cde9)` — Håkan Edling
+- Updated release action `(395750df)` — Håkan Edling
+- Add subscription-id to Azure CLI login step `(00a1138e)` — Håkan Edling
+- Update publish pipeline again `(b1779c7f)` — Håkan Edling
+- Changed signing to not use subscription id `(e7aae168)` — Håkan Edling
+- Updated az sign in command `(aa5bac04)` — Håkan Edling
+- Establish, modernize, and harden the MinooTrading Piranha fork `(119d2289)` — Ahmad Minoo
+
+### 📝 Documentation
+
+- Updated readme `(79a52e3f)` — Håkan Edling
+- Updated read me `(13c9c619)` — Håkan Edling
+- Updated README `(0bd3ed1c)` — Håkan Edling
+- Updated netcore version `(80fdcfa0)` — Håkan Edling
+- Updated README `(65903fcc)` — Håkan Edling
+- Added AppVeyor badge `(d3578d18)` — Håkan Edling
+- Updated NetStandard version `(7d5fb385)` — Håkan Edling
+- Change description a bit `(3a34c475)` — Håkan Edling
+- Added AppVeyor Badge `(209b235c)` — Håkan Edling
+- Added some more project information `(68703683)` — Håkan Edling
+- Added manager project to Readme `(819aa2d3)` — Håkan Edling
+- Fixed documentation miss `(1d9bdc3b)` — Håkan Edling
+- Added some getting started info `(b091293f)` — Håkan Edling
+- Added travis badge for Linux / OS X builds `(120c5bd0)` — Håkan Edling
+- Updated README `(bec3ee09)` — Håkan Edling
+- Added coveralls badge `(171ae432)` — Håkan Edling
+- Added dummy param to badge `(8b6e99b9)` — Håkan Edling
+- Update README.md `(9d9b9d56)` — Håkan Edling
+- Added NuGet badge to README `(cd32df9f)` — Håkan Edling
+- Updated README `(de585951)` — Håkan Edling
+- Updated README `(13725563)` — Håkan Edling
+- Update README.md `(5a2453cb)` — Håkan Edling
+- Update README.md `(411fedc7)` — Håkan Edling
+- Update README.md `(504e9a51)` — Håkan Edling
+- Update README.md `(404bfd2a)` — Håkan Edling
+- Updated getting started info `(dca92faf)` — Håkan Edling
+- Update README.md `(25c94d1b)` — Håkan Edling
+- Added Piranha.Azure.BlobStorage to core packages `(5fb3f1f3)` — Håkan Edling
+- Added contribution guidelines `(be738f01)` — Håkan Edling
+- Updated readme `(12a038cd)` — Håkan Edling
+- Updated version info in Readme `(a37db000)` — Håkan Edling
+- Updated README `(0c671e09)` — Håkan Edling
+- Update README.md `(8b40b497)` — Håkan Edling
+- Update README.md `(243bf6ee)` — Håkan Edling
+- Update README.md `(54ac80b2)` — Håkan Edling
+- Added LGTM badges `(3288e393)` — Håkan Edling
+- Added Codacy badge `(bb65f5d4)` — Håkan Edling
+- Added CodeFactor badge `(6497d62a)` — Håkan Edling
+- Added Open Collective info to README `(bad31d46)` — Håkan Edling
+- Added OC sponsors `(6317c7a6)` — Håkan Edling
+- Update README.md `(c553f28f)` — Håkan Edling
+- Added default login credentials `(f0fc4d06)` — Håkan Edling
+- Updated .NET SDK version info `(74fd4084)` — Håkan Edling
+- Updated README `(071eb719)` — Håkan Edling
+- Added some clarifications to README `(aeb170d0)` — Håkan Edling
+- Added Crowdin link and badge to readme `(f42551d2)` — Håkan Edling
+- Fix typo - advice -> advise `(8bb68ca1)` — Justin Nelson
+- Added template information `(7c869c41)` — Håkan Edling
+- Updated README `(72c92f87)` — Håkan Edling
+- Updated instructions on building js/css `(73282f29)` — jensbrak
+- Updated readme. Remover specific version of external components and added links `(8d139600)` — Håkan Edling
+- Fixed format error in README `(7f511042)` — Håkan Edling
+- Fixed faulty Codacy badge URL `(9285f739)` — Håkan Edling
+- Update README.md `(45eca7d6)` — Han Wong
+- Updated sponsors `(0437a65c)` — Håkan Edling
+- Removed Travis badge `(ae43c2a0)` — Håkan Edling
+- Changed windows build from Appveyor to GitHub Actions `(c02e35fb)` — Håkan Edling
+- including the words official documentation to the link improves text scanning `(a96e0e9c)` — surfmuggle
+- Added new sponsor `(5ed263fa)` — Håkan Edling
+- Create SECURITY.md `(55753b9a)` — Håkan Edling
+- Updated readme `(b1c1c3f0)` — Håkan Edling
+- Use new .NET SDK command `(004fa755)` — Andrii Kurdiumov
+- Added some readme files for package generation `(c418ee1b)` — Håkan Edling
+
+### 🧪 Tests
+
+- Moq included in unit tests `(dc5ce0ce)` — Billy Wolfington
+- Included references to corresponding Piranha project `(a50d3e74)` — Billy Wolfington
+- Sample Controller Unit test `(d26c125f)` — Billy Wolfington
+- BlockTypeController Unit Tests `(1de62b4d)` — Billy Wolfington
+- Added missing legal headers. See PL #26 `(cee401bb)` — Håkan Edling
+- BlockTypeControllerUnitTest Finished `(cf537076)` — Billy Wolfington
+- PageController.Add unit test `(6758bd27)` — Billy Wolfington
+- Unit test documentation started `(4518dfef)` — Billy Wolfington
+- Unit test documentation continued `(33309b10)` — Billy Wolfington
+- PageController.Save Unit Tests `(46be3083)` — Billy Wolfington
+- PageController.Save unit test docs `(1bfdc7c2)` — Billy Wolfington
+- PageController.Publish unit tests `(2db0d6a2)` — Billy Wolfington
+- PageController.UnPublish unit tests `(26a0aa9a)` — Billy Wolfington
+- PageController.Delete unit test `(a79e8b22)` — Billy Wolfington
+- Piranha.App caching imporves unit tests `(8c891134)` — Billy Wolfington
+- Mocking page and page type data `(ff59524c)` — Billy Wolfington
+- PageRepositoryUnitTest setup continued `(db5c6310)` — Billy Wolfington
+- PageTypeRepository.GetById unit tests `(2fefc5cc)` — Billy Wolfington
+- Adjusted PageType Ids `(6172d35b)` — Billy Wolfington
+- PageTypesRepository.Get unit tests `(9667ec34)` — Billy Wolfington
+- PageRepository.Delete unit tests `(c75e73f1)` — Billy Wolfington
+- PageTypeRepository.Save tests started `(65bedfe9)` — TheWolfA2
+- Refactored unit test naming convention to use <MethodName>_<Description> `(a17e0a3b)` — Billy Wolfington
+- PageTypeRepositoryUnitTests complete `(5c9c1eed)` — Billy Wolfington
+- Documentation to base class methods `(3d7d194f)` — Billy Wolfington
+- Started CategoryRepositoryUnitTest `(c877497b)` — Billy Wolfington
+- Removed Class1.cs from all test projects `(35903a75)` — TheWolfA2
+- RunTests.ps1 Removed unnecessary Class1.cs files; added powershell script for running all unit tests `(b4e71870)` — TheWolfA2
+- Attempting a better test script `(257491ca)` — TheWolfA2
+- Changed to non-global variable `(7ea55010)` — TheWolfA2
+- Removed exit from success state `(5bc98f9a)` — TheWolfA2
+- Fixed NullReferenceException from passing null as config `(289d23fa)` — TheWolfA2
+- Attempting to fix broken unit tests `(fb4bc626)` — TheWolfA2
+- Updated test naming convention in PageControllerUnitTest `(ad3b4082)` — TheWolfA2
+- Forgot to change method call after rename `(62a64e67)` — TheWolfA2
+- Multiple run tests scripts idea started `(72d0f3a0)` — TheWolfA2
+- Updated test names to 'ThrowsKeyNotFoundException' `(f48b53ba)` — TheWolfA2
+- Prep for AppVeyor setup PR `(95487b5e)` — TheWolfA2
+- CategoryRepository.GetBySlug Tests `(fb159868)` — Billy Wolfington
+- GetModelById tests started `(a1d69956)` — Billy Wolfington
+- Added dummy tests & removed obsoleted ones `(9943e0b7)` — Håkan Edling
+- Added unit tests for Sitemap `(1da42f75)` — Håkan Edling
+- Fixed bug in attribute builder tests `(5da8315d)` — Håkan Edling
+- Change filemode `(8b8f3421)` — Håkan Edling
+- Removed NuGet packages for cover tools `(84240b28)` — Håkan Edling
+- Added config tests `(817367e7)` — Håkan Edling
+- Added some more field tests `(6ee4f31c)` — Håkan Edling
+- Added MemCache tests `(2931c409)` — Håkan Edling
+- Fixed bug in AttributeBuilder tests `(33545262)` — Håkan Edling
+- Added tests to collection `(dfab646a)` — Håkan Edling
+- Added exception tests for serializers `(c5982e20)` — Håkan Edling
+- Reverted some tests `(63b0ebc2)` — Håkan Edling
+- Added GetByTitle tests `(5fe4a478)` — Håkan Edling
+- Added tests for new fields `(02e256fe)` — Håkan Edling
+- Added additional AliasRouter tests `(da9bfa9c)` — Håkan Edling
+- More router test cases `(368d0011)` — Håkan Edling
+- Fixed xunit updates in AttributeBuilder.Tests `(b2b2fc60)` — Håkan Edling
+- Version 4.4: Added tests for checkboxfield `(e86a7ef9)` — Mehmet Karahan
+- Updated archive router tests `(5a3b6640)` — Håkan Edling
+- Added tests for field Init Dependency Injection `(b3beede6)` — Håkan Edling
+- Added more conversion tests `(38d8085a)` — Håkan Edling
+- Added test for both number field and the integer serializer `(364aaa6e)` — Filip Jansson
+- Fixed error in ImageSharp unit test `(19b0e016)` — Håkan Edling
+- Fixed integration test for pages `(345bd4a7)` — Håkan Edling
+- Added some more tag tests `(05883f8b)` — Håkan Edling
+- Added more tests `(4b2e7943)` — Håkan Edling
+- Change MIME type to audio/mpeg from audio/mp3 `(be86b21a)` — stephen
+- Address codacy quality items (ignoring first item, it seems to be C# version feature) `(e24e9d36)` — stephen
+- Add unit tests for the DeepClone method `(76163dd2)` — Stefan Holm Olsen
+- Commented out test for obsolete HtmlColumnBlock `(bfb6ba3c)` — Håkan Edling
+- Slight syntax change `(6ae93f00)` — Jolt
+- Converted page tests to async `(1049ecac)` — Håkan Edling
+- Updated test to check that time is removed from DateField serializer `(01f8adb3)` — Håkan Edling
+- Fixed DateField serializer test `(f2f1a5c1)` — Håkan Edling
+- Added manager tests to test .bat-file `(504792d2)` — Håkan Edling
+- Added some more type builder tests `(2fc5adfa)` — Håkan Edling
+- Added some more serialization tests `(c109fb0e)` — Håkan Edling
+- Changed cache provider for two service tests `(9ebee9dd)` — Håkan Edling
+- Updated quote block test to also test quote author `(566534ff)` — Filip
+- Fixed service collection for integration tests `(b13b7d1a)` — Håkan Edling
+- Added some more content type tests `(bc9684bb)` — Håkan Edling
+- Added color field tests `(8319ac0d)` — Filip
+- Added script for running tests and reporting coverage locally `(890bbb79)` — Håkan Edling
+- Aligned tests with current version `(0d09f6f8)` — Håkan Edling
+- Fix `(0d64de5e)` — tedvanderveen
+- Added n to Interal so it is now Internal `(0d58ca50)` — RickIsWright
+- Removed old test scripts `(b38dbea2)` — Håkan Edling
+- Fixed dispose in comment tests `(ea06fd1a)` — Håkan Edling
+- Make sure to make internal id of site unique in test `(35b06a8e)` — Håkan Edling
+
+### 🏠 Chores
+
+- Initial commit `(81075943)` — Håkan Edling
+- Updated readme `(0ce89204)` — Håkan Edling
+- Renamed solution file, updated readme `(57b53554)` — Håkan Edling
+- Added some styling to the Blog example `(7e7bc6cd)` — Håkan Edling
+- Added `.vscode` folder `(ee5d42a7)` — Håkan Edling
+- Updated run command to use netcoreapp1.1 `(78e5eb77)` — Billy Wolfington
+- Multiple runs in launch.json `(bfc44e17)` — Billy Wolfington
+- xUnit tests `(ff9c220d)` — Billy Wolfington
+- Updated sln and test folder to support Visual Studio usage `(318bfa57)` — TheWolfA2
+- PageController.Edit unit tests `(73439088)` — Billy Wolfington
+- Just some comments `(f5db6248)` — Håkan Edling
+- Updated .vscode config `(3407aca6)` — Håkan Edling
+- Added published/last modified to regular pages in the example site `(b21e1a75)` — Håkan Edling
+- Removed bower components from the example web `(c44b1829)` — Håkan Edling
+- Updated .gitignore to exclude bower components from the example web `(23b8fff8)` — Håkan Edling
+- Updated example web data model and views `(5aee4cad)` — Håkan Edling
+- Added NuSpec files `(91bc55f6)` — Håkan Edling
+- Added some missing info to Local.FileStorage NuSpec `(bf099592)` — Håkan Edling
+- Updated NuSpec versions. Changed package images `(427d71bc)` — Håkan Edling
+- Updated NuSpec files `(3196f149)` — Håkan Edling
+- Updated the example project with some more complex regions and types `(12267b19)` — Håkan Edling
+- Updated NuSpec files `(80be7e61)` — Håkan Edling
+- Added some code to sidestep repository bug `(19a2da29)` — Håkan Edling
+- Added code comment to describe why fields are initialized `(62169bd3)` — Håkan Edling
+- Removed temporary constructor from region in example. See #80 `(d7cc8500)` — Håkan Edling
+- Updated NuSpec-files `(0ed1ffb3)` — Håkan Edling
+- Updated NuSpec file for Piranha.AspNetCore `(50b0040e)` — Håkan Edling
+- Change NuSpec version `(c3de5550)` — Håkan Edling
+- Some updates to the example project `(d6fd37d8)` — Håkan Edling
+- Added meta keys to the example project `(4bb41775)` — Håkan Edling
+- Updated manager NuSpec file `(d8d9677d)` — Håkan Edling
+- Added travis config `(3005fb3c)` — Håkan Edling
+- Added build.sh `(ebfe7d88)` — Håkan Edling
+- Simplified travis.yml & build.sh `(e85c7030)` — Håkan Edling
+- Simplified build even more `(0c9a50d0)` — Håkan Edling
+- Increased build verbosity `(a2877e91)` — Håkan Edling
+- More build stuff `(7f15c7d4)` — Håkan Edling
+- Made build.sh executable `(20cafd23)` — Håkan Edling
+- Added code coverage generation `(7aed9c65)` — Håkan Edling
+- Removed manual fetching over OpenCover packages `(78e1189a)` — Håkan Edling
+- Removed coverage for now `(dd8d8495)` — Håkan Edling
+- Ulimit to avoid Mac OS X restore errors `(10af9e1c)` — Håkan Edling
+- Added appveyor build test script `(69e3b62c)` — Håkan Edling
+- Added OpenCover integration `(371debc3)` — Håkan Edling
+- Removed gradient from folded subpages `(992bbf91)` — Håkan Edling
+- Let’s only build master `(b85a3967)` — Håkan Edling
+- Updated NuSpec-files `(11d71fbb)` — Håkan Edling
+- Updated NuSpec to Alpha7-1 `(ed29d637)` — Håkan Edling
+- Update NuSpec files `(9c252dcc)` — Håkan Edling
+- Updated SDK version for VS2017.3 compability `(369b4a65)` — Håkan Edling
+- Added third level page menu `(e71ce268)` — Håkan Edling
+- Updated test package & startpage seed `(1573cb3d)` — Håkan Edling
+- Updated gitignore to discard Sqlite database `(4441947b)` — Håkan Edling
+- Updated travis to dotnet 2.0 `(a79d89a8)` — Håkan Edling
+- Updated OS X version to 10.12 `(15a114cb)` — Håkan Edling
+- Included seed in publish `(af2842e3)` — Håkan Edling
+- Updated changelog URL in NuGet-packages `(8f0ad66d)` — Håkan Edling
+- Updated seeded data to the example web `(f846be2e)` — Håkan Edling
+- Updated menu rendering in example project `(064f3bd7)` — Håkan Edling
+- Updated example project to new archive api `(d42a3baa)` — Håkan Edling
+- Added Azure.BlobStorage to the solution `(ba0c3b22)` — Håkan Edling
+- Updated solution `(d86420bc)` — Håkan Edling
+- Added WebCompiler config to example project for Visual Studio `(11b13658)` — Håkan Edling
+- First commit of the new project templates `(9658a412)` — Håkan Edling
+- Added meta tags `(3cb7af99)` — Håkan Edling
+- Added temporary setup controller that redirects to the manager `(fdc54b63)` — Håkan Edling
+- Added setup & seed to basic web template `(971b6a51)` — Håkan Edling
+- Updated ignore to exclude uploaded test data `(db3c604c)` — Håkan Edling
+- Updated BasicWeb references & permalinks `(75d750a4)` — Håkan Edling
+- Updated BasicWeb NuSpec `(d0b23b42)` — Håkan Edling
+- Added MobileMenu CSS `(ad8f0abf)` — Luc Gosso
+- Update _Menu.cshtml `(18f5c0a3)` — Luc Gosso
+- Updated .gitignore file `(816743ab)` — alirizaadiyahsi
+- removed unnecessary wildcards `(e582e5ae)` — alirizaadiyahsi
+- Added tests for image resize `(2e86a3f8)` — Håkan Edling
+- Removed global.json `(683a594f)` — Håkan Edling
+- Updated NuSpec references `(bb54a9a9)` — Håkan Edling
+- Updated page tests `(0e816450)` — Håkan Edling
+- Added display template for ImageBlock `(6cc4a0a8)` — Håkan Edling
+- Updated old NuSpec description `(31436574)` — Håkan Edling
+- Yet another NuSpec typo `(9f9dae64)` — Håkan Edling
+- Updated NuSpec version `(629cecc0)` — Håkan Edling
+- Removed reference to Body in TeaserPage.cshtml `(05bcfc97)` — Håkan Edling
+- Updated Travis config to use .NET Core 2.1 `(b7e3ae3d)` — Håkan Edling
+- Changed .NET version for Travis `(a72a8c78)` — Håkan Edling
+- Updated nuspec-files for alpha release `(ce21c949)` — Håkan Edling
+- Added NuSpec for Identity.MySQL `(406eb35c)` — Håkan Edling
+- Updated nuspec with missing reference `(83b30c2a)` — Håkan Edling
+- Remove SilderGroup.cshtml from examples as it can use the default base block view `(83846d89)` — Henrik Nergaard
+- Updated solution `(6468d9f5)` — Håkan Edling
+- Added Razor Pages example project `(ae44d526)` — Håkan Edling
+- Update nuspec version for Piranha.ImageSharp `(ebd28210)` — Håkan Edling
+- Removed metapackage version to avoid .NET Core 2.2 compile warnings. See PR #456 `(088d8fc1)` — Håkan Edling
+- Updated example menus to check for IsHidden `(b8a8cc28)` — Håkan Edling
+- Removed test code from MvcWeb `(8772c157)` — Håkan Edling
+- Updated NuSpec with copyright years & new license meta-data `(382f3790)` — Håkan Edling
+- Added new labs manager project `(611a0309)` — Håkan Edling
+- Added some more test markup and resources `(c1f672a8)` — Håkan Edling
+- Changed to use form submit instead of button click `(1a39d4c4)` — Håkan Edling
+- Added static config page `(1395632e)` — Håkan Edling
+- Notifications now supports bootstrap themes `(419d0941)` — Filip
+- Updated to use more Bootstrap variables and minor clean up `(c6eeb075)` — Filip
+- Updated StatusMessage with bootstrap themes `(b6910264)` — Filip
+- Added flex markup & styling for sitemap `(9b0761c7)` — Håkan Edling
+- Added nestable support to sitemap `(75d389f6)` — Håkan Edling
+- Added gallery markup and styling `(9ab7a29a)` — Filip
+- Added styling for action buttons & added Config model & service `(857766ac)` — Håkan Edling
+- Added basic preview modal `(0e84b64b)` — Filip
+- Updated gallery sass variables to use arrays `(4233c4ee)` — Filip
+- Added vue model and components for rendering sitemap `(35b9d8bc)` — Håkan Edling
+- Updated static menu to link to pages `(e74941cf)` — Håkan Edling
+- Added site-level to page list `(9249f855)` — Håkan Edling
+- Added nestable event when sitemap is changed `(40f56516)` — Håkan Edling
+- Moved nestable init to updated `(d54b3cfa)` — Håkan Edling
+- Added media preview support for images `(a00a3fb0)` — Filip
+- Added media list and seeded test data `(2f6629b3)` — Håkan Edling
+- Preview modal now supports more types of media `(667f21b3)` — Filip
+- Added GetById to MediaService `(8a077545)` — Filip
+- Updated preview modal with more data and options `(0fdda68b)` — Filip
+- Added columns block `(958fe149)` — Håkan Edling
+- Added block meta info to page edit `(ee721ea4)` — Håkan Edling
+- Added gallery view option in the media view `(5418c4b8)` — Filip
+- Added functionality for removing blocks `(3fafebfe)` — Håkan Edling
+- Added localization to media gallery `(00fe186a)` — Håkan Edling
+- Added block sorting `(e0374817)` — Håkan Edling
+- Added functionality for adding block `(06250c74)` — Håkan Edling
+- Added mediapicker `(10ac5489)` — Filip
+- Updated mediapicker modal to use tabs instead of btns `(ddfd48c4)` — Filip
+- Update _MediaPickerModal.cshtml `(12b11c8a)` — Filip
+- Added the use of mediapicker in the image-block component `(8fe0d1a3)` — Filip
+- Added support for drag and drop in the media view `(10639ada)` — Filip
+- Added list rendering for block groups `(5d13aaac)` — Håkan Edling
+- Added loading transition for modules `(a98d252a)` — Håkan Edling
+- Added empty styling for html, html-columns, image & text block `(3ce5db1e)` — Håkan Edling
+- Added support for adding block group items `(e0808721)` — Håkan Edling
+- Added support for removing a block group item `(923f5aa7)` — Håkan Edling
+- Added support for filter in mediapicker `(ff7ff77e)` — Filip
+- Image block now uses the mediapicker image filter `(d5ee2619)` — Filip
+- Removed redundant lines `(81ef089a)` — Håkan Edling
+- Updated Razor example `(ad7cbc6f)` — Håkan Edling
+- Restyled modals to panel look `(ad678a68)` — Håkan Edling
+- Added missing translation `(477c483b)` — Håkan Edling
+- Restructured for better reusability `(e4a5a8d6)` — Håkan Edling
+- Added comments for content models `(18ce5cdd)` — Håkan Edling
+- Added basic accordion functionality to regions `(fcfb91e2)` — Håkan Edling
+- Added labs project to the solution `(b68d1cab)` — Filip
+- Added dummy method for removing media folder `(b798ba30)` — Håkan Edling
+- Added support for upload media via dropzone `(933c2bf4)` — Filip
+- Added methods for deleting media folder `(709ef14d)` — Håkan Edling
+- Included external js resources using npm `(2829fa9b)` — Håkan Edling
+- UI draft for uploading media `(ae047d37)` — Filip
+- Added fonts to local dist `(d32e80c4)` — Håkan Edling
+- Updated sdk version for travis `(85a9863f)` — Håkan Edling
+- Added VideoBlock DisplayTemplate `(8cefa72f)` — Filip
+- Updated the modal-panel option `(b3b09c22)` — Filip
+- Use modal-panel when displaying pickers `(7b2bef53)` — Filip
+- Moved Dropzone file template to partial `(5ab56e5a)` — Filip
+- Added support for update media via preview modal `(1f374c87)` — Filip
+- Fine-tuned UX/UI components with @njepop `(5b6d2029)` — Håkan Edling
+- Added support for removing media files `(8db20b09)` — Håkan Edling
+- Removed old licenseUrl from NuSpec-files `(a764619e)` — Håkan Edling
+- Added bash script for building nuget packages `(18c0170f)` — Håkan Edling
+- Updated travis to .net core 2.2 `(9467dec0)` — Håkan Edling
+- Updated travis with platform specific build rules `(c15665ca)` — Håkan Edling
+- Added carousel display template for GalleryBlock `(6b456d42)` — Håkan Edling
+- Some updates to the example projects `(a7093773)` — Håkan Edling
+- Moved ParentId from PageBlock/PostBlock to Block `(bfb10a14)` — Håkan Edling
+- Working on converting menu partial to a single bootstrap navbar `(a7834663)` — Travis McGeehan
+- center button height `(57e20e2f)` — Travis McGeehan
+- Move the social icons into the menu partial to fit navbar-brand design `(cd57345c)` — Travis McGeehan
+- Simplified example block markup `(662bf6e7)` — Håkan Edling
+- Updated seeded info & cleaned up styles `(4d651fc4)` — Håkan Edling
+- Added open collective funding info `(1c2acbeb)` — Håkan Edling
+- Added localization to solution `(8bbe9754)` — Håkan Edling
+- Removed old reference `(752139df)` — Håkan Edling
+- Update Crowdin configuration file `(3f79ab29)` — Håkan Edling
+- Update Crowdin configuration file `(ffe3ebcb)` — Håkan Edling
+- Update Crowdin configuration file `(46f80d2a)` — Håkan Edling
+- Update Crowdin configuration file `(3da9b645)` — Håkan Edling
+- Add Href test region. See issue #693 `(5e744924)` — Håkan Edling
+- Removed unused dependency on sync extensions `(e0141103)` — Håkan Edling
+- Add null check Html.Raw function call `(e9242f8f)` — Justin King
+- Updated Razor Pages example `(f9f999bd)` — Håkan Edling
+- Added SelectField test to allfields `(d91a3bbc)` — Håkan Edling
+- Updated versions for Piranha.Data.EF `(340d1747)` — Håkan Edling
+- Re-added projects not added to the solution `(edc6cc84)` — Jolt
+- Made minor change to launchsettings `(91fea268)` — Jolt
+- Revert "Made minor change to launchsettings." `(f2fc7692)` — Jolt
+- Added simple module example `(1d3c25a5)` — Håkan Edling
+- Removed stuff left by the template `(de791398)` — Håkan Edling
+- Removed old unused files `(0ff30e68)` — Håkan Edling
+- Update FUNDING.yml `(dc617ef6)` — Håkan Edling
+- Updated nuspec for localization `(42f50dbe)` — Håkan Edling
+- Updated travis to .net core 3.0 `(f0c7617f)` — Håkan Edling
+- Updated apveyor.yml `(219ae0d6)` — Håkan Edling
+- Updated NuSpec-files to 8.0 `(166d8b27)` — Håkan Edling
+- Updated NuSpec references `(6b35968c)` — Håkan Edling
+- Added specific migration projects per database provider `(504b6510)` — Håkan Edling
+- Added SQLite and SQLServer projects to solution file `(346b88a4)` — Filip
+- Updated the ImageBlock and ImageGalleryBlock to include the alt and title tags that have been added to the new media selector `(5fe9d498)` — Jon
+- Added sql server migration for comments `(1b725742)` — Filip
+- Added migration project for MySql `(afeffbd5)` — Håkan Edling
+- Added MySql migrations for 8.1 `(514d8273)` — Håkan Edling
+- Added nuspec for Piranha.Data.EF.MySql `(1cd251e5)` — Håkan Edling
+- Updated solution and NuGet package script `(ff25c608)` — Håkan Edling
+- Updated versions `(2f6ebdcd)` — Håkan Edling
+- Added project for PostgreSql `(f12ee4a6)` — Håkan Edling
+- Updated solution `(3ef70090)` — Håkan Edling
+- Setup connection string for PostgreSQL dev database and add migration for AddComments in PostgreSQL `(f72ab74a)` — Jason Underhill
+- Added nuspec for PostgreSQL `(8a1ca4ff)` — Håkan Edling
+- Added search project to solution `(7250e0c7)` — Håkan Edling
+- Removed unused parameter `(829ed889)` — Håkan Edling
+- Updated LICENSE `(a77d7299)` — Håkan Edling
+- Updated build scripts `(d6777eaf)` — Håkan Edling
+- Changed test execution to MSBuild `(1db459f8)` — Håkan Edling
+- Updated AppVeyor build script `(7706a3ae)` — Håkan Edling
+- Updated NuSpec references `(14f43cd1)` — Håkan Edling
+- Updated NuSpec-files to include repository url `(45c01f1e)` — Håkan Edling
+- Updated workflow with code signing `(382df273)` — Håkan Edling
+- Updated Nuget organisation name `(a401922c)` — Håkan Edling
+- Updated build & publish workflow `(ea3971ab)` — Håkan Edling
+- Changed conflicting variable name when configure anonymous access `(69176555)` — Filip
+- Added npm install and gulp to build workflow `(8f8917b2)` — Håkan Edling
+- Added page information migration for sql server `(e421e4d7)` — Filip
+- Removed SimpleModule as there is now a template project for modules `(225f8dbc)` — Håkan Edling
+- Updated sponsor info `(b4060e1b)` — Håkan Edling
+- Updated RazorWeb to use the new helper for meta-tags. See #1218 `(11bf27a0)` — Håkan Edling
+- Added sql server migration for og fields. See #1218 `(8e9a3eda)` — Filip
+- Restructured test content models `(a29558e9)` — Håkan Edling
+- Uncommented db seed `(e39be04a)` — Håkan Edling
+- Imlemented Delete in ContentRepository `(a7b463c3)` — Håkan Edling
+- Added CodeQL config `(32e48e34)` — Håkan Edling
+- Update codeql-config.yml `(e6d8e7e1)` — Håkan Edling
+- Added new SQLite initial migration `(8b0d255f)` — Filip
+- Recreated migratoin for sql server for content and seo `(31b1a89c)` — Filip
+- Recreated SqLite migrations from `8.4` and applied changes `(d36cf602)` — Håkan Edling
+- Recreated sql server migrations for generic content `(bf7e8128)` — Filip
+- Updated travis build config `(83546d8f)` — Håkan Edling
+- Added specific .NET SDK version for Travis `(e3fefd88)` — Håkan Edling
+- Added example block for raw HTML-content `(1bc68704)` — Håkan Edling
+- override generate docs for tests and example projects `(6eebaea6)` — Michael Baird
+- Added example generic block to RazorWeb `(8289bd07)` — Håkan Edling
+- Updated version to rc1 `(00f142c2)` — Håkan Edling
+- Updated icon reference in targets `(55262946)` — Håkan Edling
+- Updated version to rc2 `(7bd5c895)` — Filip
+- Updated version to rc3 `(22514c67)` — Filip
+- Updated version to 9.0 `(e5f572be)` — Håkan Edling
+- Removed global.json `(d6720a65)` — Håkan Edling
+- Added migrations for MySql & PostgreSql `(f92ac285)` — Håkan Edling
+- Added project ref. to sql server projects from razor web `(7998cb08)` — Filip
+- Added content block migration for SQL Server `(c2f517dd)` — Filip
+- Added last modification date to ContentTranslation `(7a988ba8)` — Håkan Edling
+- Added translation last modified sql server migration `(0d923d71)` — Filip
+- Use new extension methods in example projects `(c901a23f)` — tedvanderveen
+- Move Login and Logoff pages to Piranha.AspNetCore.Identity project `(27e28956)` — tedvanderveen
+- Remove ref to removed project `(be985081)` — tedvanderveen
+- Undo all changes to sample projects `(d468a69e)` — tedvanderveen
+- Allow anonymous access to Login page `(dfdf58bf)` — tedvanderveen
+- Undo changes `(3eefe384)` — tedvanderveen
+- Updated version to beta1 `(51c0954f)` — Håkan Edling
+- Updated version `(513565fb)` — Håkan Edling
+- Removed old travis build files `(aaf2bc99)` — Håkan Edling
+- Replaced old outdated example projects with new created from the web templates `(9dfa0e82)` — Håkan Edling
+- Removed setup views from example projects `(0760910f)` — Håkan Edling
+- Updated the last external dependencies to .NET 6.0 `(4ce7ce50)` — Håkan Edling
+- Updated version `(875f5c6b)` — Håkan Edling
+- Hide delete button for SYSADMIN role deletion `(5b2976ce)` — Success Go
+- Delete launchSettings.json `(961ee104)` — martijntakken
+- Updated version `(3ba46ee8)` — Håkan Edling
+- Updated version `(2a7ae067)` — Håkan Edling
+- Updated version `(c1b1b834)` — Håkan Edling
+- Updated version `(cdb6f634)` — Håkan Edling
+- Updated to AutoMapper 12.0.0 `(dd002ff1)` — Magnus Baneryd
+- Updated assembly versions `(54a5acdb)` — Håkan Edling
+- Added seed for razor pages example project `(d17da6a4)` — Håkan Edling
+- Updated version `(087e8e85)` — Håkan Edling
+- Removed multiple target frameworks from example project `(098cc069)` — Håkan Edling
+- Made data repositories internal  #2027 `(4f759db3)` — Håkan Edling
+- Upgraded MySql to latest stable package `(312b1d0a)` — Håkan Edling
+- Updated funding `(dab98cc8)` — Håkan Edling
+- Removed generated coverage data `(8d0b0d31)` — Håkan Edling
+- Updated test project references `(eab6a587)` — Håkan Edling
+- Updated version `(40ff9c75)` — Håkan Edling
+- Manager translations (#2140) `(55f97d4a)` — Håkan Edling
+- Updated version `(792e6919)` — Håkan Edling
+- Updated MySql dependency `(2025e9e5)` — Håkan Edling
+- Update package version `(7605efae)` — Håkan Edling
+- Removed AutoMapper from EF data mapping `(90f6f1dc)` — Bayar Demberel
+- Added default clause to a switch statement `(e095c504)` — Bayar Demberel
+
