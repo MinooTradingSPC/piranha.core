@@ -16,12 +16,12 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.*" />
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="8.*" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="10.*" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.*" />
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="9.*" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="10.*" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
