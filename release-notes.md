@@ -1,4 +1,4 @@
-## [1.0.6] — 2026-09-15
+## [1.0.7] — 2026-09-15
 
 ### 🚀 Features
 
@@ -2107,7 +2107,7 @@
 - Update publish pipeline again `(b1779c7f)` — Håkan Edling
 - Changed signing to not use subscription id `(e7aae168)` — Håkan Edling
 - Updated az sign in command `(aa5bac04)` — Håkan Edling
-- piranha.core: Squash-sync the MinooTrading fork onto latest upstream PiranhaCMS `(cd22bcfc)` — Ahmad Minoo
+- piranha.core: Sync working tree to origin/master (18 commits, local HEAD was stale) `(518ea38b)` — Ahmad Minoo
 
 ### 📝 Documentation
 
