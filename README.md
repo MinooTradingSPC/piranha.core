@@ -17,20 +17,6 @@ Piranha CMS is a decoupled, cross-platform CMS built for `.NET8` and `Entity Fra
 
 This fork targets `.NET 8`, `.NET 9`, and `.NET 10`, and ships with a comprehensive set of security remediations on top of the upstream 10.x codebase.
 
-## Security Improvements (v1.0.1)
-
-The following CodeQL findings from the upstream codebase have been remediated in this fork:
-
-| # | Rule | File | Fix |
-|---|------|------|-----|
-| [#40](https://github.com/MinooTradingSPC/piranha.core/issues/40) | `cs/web/cookie-secure-not-set` | `AuthController.cs` | Added `Secure = true` + `SameSite = Strict` to XSRF cookie |
-| [#39](https://github.com/MinooTradingSPC/piranha.core/issues/39) | `cs/web/missing-token-validation` | `CmsController.cs` | Added `[ValidateAntiForgeryToken]` to `SavePostComment` |
-| [#38](https://github.com/MinooTradingSPC/piranha.core/issues/38) | `cs/user-controlled-bypass` | `ModelLoader.cs:72` | Explicit `return null` when `PagePreview` auth fails |
-| [#37](https://github.com/MinooTradingSPC/piranha.core/issues/37) | `cs/user-controlled-bypass` | `ModelLoader.cs:154` | Explicit `return null` when `PostPreview` auth fails |
-| [#86](https://github.com/MinooTradingSPC/piranha.core/issues/86)/[#87](https://github.com/MinooTradingSPC/piranha.core/issues/87) | `cs/user-controlled-bypass` | `ModelLoader.cs` | Hardened published-state checks; removed unsafe casts |
-
-Additional JS dist-file findings (DOM XSS, incomplete sanitization, unsafe HTML expansion) were patched and the corresponding issues closed.
-
 ## Getting started
 
 ### Prerequisites
