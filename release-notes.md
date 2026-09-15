@@ -1,4 +1,4 @@
-## [1.0.5] — 2026-08-09
+## [1.0.6] — 2026-09-15
 
 ### 🚀 Features
 
@@ -2107,7 +2107,7 @@
 - Update publish pipeline again `(b1779c7f)` — Håkan Edling
 - Changed signing to not use subscription id `(e7aae168)` — Håkan Edling
 - Updated az sign in command `(aa5bac04)` — Håkan Edling
-- Modernize and harden the MinooTrading Piranha fork `(9aeac351)` — Ahmad Minoo
+- piranha.core: Squash-sync the MinooTrading fork onto latest upstream PiranhaCMS `(cd22bcfc)` — Ahmad Minoo
 
 ### 📝 Documentation
 
