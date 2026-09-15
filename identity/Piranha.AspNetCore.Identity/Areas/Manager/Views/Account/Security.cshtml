@@ -6,6 +6,7 @@
 @section script {
     <script src="~/manager/identity/piranha.accountsecurity.js"></script>
     <script type="text/javascript">
+        piranha.accountsecurity.promptSetup = @(Context.Request.Query["setup"] == "1" ? "true" : "false");
         piranha.accountsecurity.load();
     </script>
 }
@@ -20,7 +21,10 @@
     </div>
 
     <div class="container-fluid app" :class="{ ready: !loading }">
-        <div v-if="strongMethodCount === 0" class="alert alert-warning">
+        <div v-if="promptSetup" class="alert alert-info">
+            @Localizer.General["You signed in with an emailed code. Set up a passkey or an authenticator app below so you always have a way in without relying on email."]
+        </div>
+        <div v-else-if="strongMethodCount === 0" class="alert alert-warning">
             @Localizer.General["You're only signing in with a password. Add a passkey or an authenticator app for stronger protection."]
         </div>
 

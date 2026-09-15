@@ -42,6 +42,8 @@ public sealed class PasskeyAuthController : Controller
     private readonly SignInManager<User> _signInManager;
     private readonly IPasskeyService _passkeys;
     private readonly ITotpService _totp;
+    private readonly IRecoveryService _recovery;
+    private readonly AuthRateLimiters _rateLimiters;
     private readonly IDataProtector _protector;
     private readonly ILogger<PasskeyAuthController> _logger;
 
@@ -49,13 +51,15 @@ public sealed class PasskeyAuthController : Controller
     /// Default constructor.
     /// </summary>
     public PasskeyAuthController(UserManager<User> userManager, SignInManager<User> signInManager,
-        IPasskeyService passkeys, ITotpService totp, IDataProtectionProvider dataProtectionProvider,
-        ILogger<PasskeyAuthController> logger)
+        IPasskeyService passkeys, ITotpService totp, IRecoveryService recovery, AuthRateLimiters rateLimiters,
+        IDataProtectionProvider dataProtectionProvider, ILogger<PasskeyAuthController> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _passkeys = passkeys;
         _totp = totp;
+        _recovery = recovery;
+        _rateLimiters = rateLimiters;
         _protector = dataProtectionProvider.CreateProtector(FlowTokenPurpose);
         _logger = logger;
     }
@@ -73,11 +77,12 @@ public sealed class PasskeyAuthController : Controller
         var user = string.IsNullOrEmpty(email) ? null : await _userManager.FindByEmailAsync(email);
 
         // Ordered strongest-first (design doc §6.5: passkey > totp >
-        // password). "password" is always offered: every account that
-        // exists today has one (there is no other way to have created it
-        // yet), and offering it unconditionally for an unknown email keeps
-        // this response identical either way. Once email-otp lands, it
-        // takes over as the fallback for accounts with no password.
+        // password > email-otp). "password" is always offered: every
+        // account that exists today has one (there is no other way to have
+        // created it yet). "email-otp" is always offered too, last - it's
+        // the recovery/bootstrap path (#175), never the default when a
+        // stronger method exists. Both being unconditional keeps this
+        // response identical whether or not the email matches an account.
         var methods = new List<string>();
         if (user != null && await UserHasPasskeyAsync(user))
         {
@@ -88,12 +93,44 @@ public sealed class PasskeyAuthController : Controller
             methods.Add("totp");
         }
         methods.Add("password");
+        methods.Add("email-otp");
 
         return new AuthOptionsResponse
         {
             Token = ProtectFlow(email),
             Methods = methods.ToArray()
         };
+    }
+
+    /// <summary>
+    /// Sends a one-time recovery code to the account's email, if it exists.
+    /// Always returns the same generic response, whether or not the
+    /// account exists, the send succeeded, or a rate limit was hit -
+    /// nothing here is allowed to be a distinguishable signal.
+    /// </summary>
+    [HttpPost("email-otp/request")]
+    [AuthRateLimit(IdentityModuleExtensions.AuthRateLimitPolicies.EmailOtpRequest)]
+    public async Task<IActionResult> RequestEmailOtp([FromBody] EmailOtpRequestRequest request)
+    {
+        var email = UnprotectFlow(request?.Token);
+
+        // Keyed by the raw submitted address, not by whether it resolves to
+        // a real account, so exhausting this budget never itself reveals
+        // account existence.
+        if (!string.IsNullOrEmpty(email))
+        {
+            using var lease = _rateLimiters.EmailOtpByEmail.AttemptAcquire(email.Trim().ToLowerInvariant());
+            if (lease.IsAcquired)
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    await _recovery.RequestCodeAsync(user);
+                }
+            }
+        }
+
+        return Ok();
     }
 
     /// <summary>
@@ -141,7 +178,12 @@ public sealed class PasskeyAuthController : Controller
             ? $"~/manager/login/auth?returnUrl={Uri.EscapeDataString(returnUrl)}"
             : "~/manager/login/auth";
 
-        return new AuthVerifyResponse { Succeeded = true, ReturnUrl = target };
+        return new AuthVerifyResponse
+        {
+            Succeeded = true,
+            ReturnUrl = target,
+            PromptStrongMethodSetup = request.Method == "email-otp"
+        };
     }
 
     private async Task<bool> VerifyMethodAsync(User user, AuthVerifyRequest request)
@@ -156,6 +198,7 @@ public sealed class PasskeyAuthController : Controller
             "password" => await VerifyPasswordAsync(user, request.Password),
             "passkey" => await VerifyPasskeyAsync(user, request),
             "totp" => await _totp.VerifyCodeAsync(user.Id, request.Code),
+            "email-otp" => await _recovery.VerifyCodeAsync(user.Id, request.Code),
             _ => false
         };
 

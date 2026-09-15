@@ -62,6 +62,11 @@ public interface IDb
     DbSet<TotpCredential> TotpCredentials { get; set; }
 
     /// <summary>
+    /// Gets/sets the email recovery codes set.
+    /// </summary>
+    DbSet<RecoveryToken> RecoveryTokens { get; set; }
+
+    /// <summary>
     /// Saves the changes made to the context.
     /// </summary>
     /// <returns></returns>

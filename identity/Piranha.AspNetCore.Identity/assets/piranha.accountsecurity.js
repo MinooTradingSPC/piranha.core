@@ -6,6 +6,7 @@ piranha.accountsecurity = new Vue({
     el: "#accountsecurity",
     data: {
         loading: true,
+        promptSetup: false,
         passkeys: [],
         registeringPasskey: false,
         totpStatus: { enrolled: false, confirmedAt: null },

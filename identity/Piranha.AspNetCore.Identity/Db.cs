@@ -36,6 +36,11 @@ public abstract class Db<T> :
     public DbSet<TotpCredential> TotpCredentials { get; set; }
 
     /// <summary>
+    /// Gets/sets the email recovery codes set.
+    /// </summary>
+    public DbSet<RecoveryToken> RecoveryTokens { get; set; }
+
+    /// <summary>
     ///     Gets/sets whether the db context as been initialized. This
     ///     is only performed once in the application lifecycle.
     /// </summary>
@@ -108,6 +113,17 @@ public abstract class Db<T> :
             entity.HasOne(t => t.User)
                 .WithMany()
                 .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        mb.Entity<RecoveryToken>(entity =>
+        {
+            entity.ToTable("Piranha_RecoveryTokens");
+            entity.HasKey(r => r.Id);
+            entity.HasIndex(r => r.UserId);
+            entity.HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

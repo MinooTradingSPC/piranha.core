@@ -155,6 +155,34 @@ namespace Piranha.AspNetCore.Identity.MySQL.Migrations
                     b.ToTable("Piranha_Passkeys", (string)null);
                 });
 
+            modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.RecoveryToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CodeHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("ExpiresUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("UsedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Piranha_RecoveryTokens", (string)null);
+                });
+
             modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -328,6 +356,17 @@ namespace Piranha.AspNetCore.Identity.MySQL.Migrations
                 });
 
             modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.Passkey", b =>
+                {
+                    b.HasOne("Piranha.AspNetCore.Identity.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.RecoveryToken", b =>
                 {
                     b.HasOne("Piranha.AspNetCore.Identity.Data.User", "User")
                         .WithMany()

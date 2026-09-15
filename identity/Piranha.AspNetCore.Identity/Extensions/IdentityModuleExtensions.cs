@@ -38,6 +38,7 @@ public static class IdentityModuleExtensions
         public const string AuthVerify = "PiranhaAuthVerify";
         public const string PasskeyRegister = "PiranhaPasskeyRegister";
         public const string TotpEnroll = "PiranhaTotpEnroll";
+        public const string EmailOtpRequest = "PiranhaEmailOtpRequest";
     }
 
     /// <summary>
@@ -156,6 +157,10 @@ public static class IdentityModuleExtensions
         // TOTP authenticator-app support
         services.AddScoped<ITotpService, TotpService>();
 
+        // Email-otp recovery/bootstrap sign-in. IEmailSender is optional -
+        // see AddPiranhaSmtpEmailSender() and IEmailSender's own doc comment.
+        services.AddScoped<IRecoveryService, RecoveryService>();
+
         // Per-IP rate limiting for the anonymous auth-discovery/verification
         // and authenticated passkey-registration/TOTP-enrollment endpoints.
         // Applied via AuthRateLimitAttribute as an MVC filter (see its own
@@ -178,6 +183,28 @@ public static class IdentityModuleExtensions
         options.ServerDomain = "localhost";
         options.ServerName = "Piranha Manager";
         options.Origins = new HashSet<string> { "https://localhost" };
+    }
+
+    /// <summary>
+    /// Registers the default, SMTP-backed <see cref="IEmailSender"/>, used
+    /// to deliver email-otp recovery codes. Optional - without it, recovery
+    /// codes are generated and logged but never actually sent, though the
+    /// sign-in flow's responses stay generic either way. Call this after
+    /// <see cref="AddPiranhaIdentity{T}"/>.
+    /// </summary>
+    /// <param name="services">The current service collection</param>
+    /// <param name="options">The SMTP options</param>
+    /// <returns>The services</returns>
+    public static IServiceCollection AddPiranhaSmtpEmailSender(this IServiceCollection services,
+        Action<SmtpOptions> options)
+    {
+        var smtpOptions = new SmtpOptions();
+        options.Invoke(smtpOptions);
+
+        services.AddSingleton(smtpOptions);
+        services.AddScoped<IEmailSender, SmtpEmailSender>();
+
+        return services;
     }
 
     /// <summary>

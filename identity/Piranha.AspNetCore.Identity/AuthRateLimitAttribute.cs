@@ -45,6 +45,7 @@ public sealed class AuthRateLimitAttribute : Attribute, IAsyncActionFilter
             IdentityModuleExtensions.AuthRateLimitPolicies.AuthVerify => limiters.AuthVerify,
             IdentityModuleExtensions.AuthRateLimitPolicies.PasskeyRegister => limiters.PasskeyRegister,
             IdentityModuleExtensions.AuthRateLimitPolicies.TotpEnroll => limiters.TotpEnroll,
+            IdentityModuleExtensions.AuthRateLimitPolicies.EmailOtpRequest => limiters.EmailOtpRequest,
             _ => null
         };
 

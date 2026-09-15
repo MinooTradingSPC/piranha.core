@@ -78,6 +78,17 @@ public sealed class AuthAssertionOptionsRequest
 }
 
 /// <summary>
+/// Request body for <c>POST /manager/auth/email-otp/request</c>.
+/// </summary>
+public sealed class EmailOtpRequestRequest
+{
+    /// <summary>
+    /// The flow token from <c>POST /manager/auth/options</c>.
+    /// </summary>
+    public string Token { get; set; }
+}
+
+/// <summary>
 /// Request body for <c>POST /manager/auth/verify</c>.
 /// </summary>
 public sealed class AuthVerifyRequest
@@ -88,7 +99,7 @@ public sealed class AuthVerifyRequest
     public string Token { get; set; }
 
     /// <summary>
-    /// "password", "passkey", or "totp".
+    /// "password", "passkey", "totp", or "email-otp".
     /// </summary>
     public string Method { get; set; }
 
@@ -98,8 +109,8 @@ public sealed class AuthVerifyRequest
     public string Password { get; set; }
 
     /// <summary>
-    /// Required when <see cref="Method"/> is "totp": the 6-digit code from
-    /// the user's authenticator app.
+    /// Required when <see cref="Method"/> is "totp" or "email-otp": the
+    /// 6-digit code.
     /// </summary>
     public string Code { get; set; }
 
@@ -124,4 +135,10 @@ public sealed class AuthVerifyResponse
     public bool Succeeded { get; set; }
     public string Message { get; set; }
     public string ReturnUrl { get; set; }
+
+    /// <summary>
+    /// True when the user signed in with the email-otp recovery method and
+    /// should be prompted to register a stronger one.
+    /// </summary>
+    public bool PromptStrongMethodSetup { get; set; }
 }

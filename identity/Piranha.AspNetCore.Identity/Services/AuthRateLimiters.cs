@@ -43,6 +43,20 @@ public sealed class AuthRateLimiters
     /// </summary>
     public PartitionedRateLimiter<string> TotpEnroll { get; } = CreateLimiter(TimeSpan.FromMinutes(10), 10);
 
+    /// <summary>
+    /// Per-IP limiter for <c>POST /manager/auth/email-otp/request</c>.
+    /// </summary>
+    public PartitionedRateLimiter<string> EmailOtpRequest { get; } = CreateLimiter(TimeSpan.FromMinutes(15), 5);
+
+    /// <summary>
+    /// Per-email limiter for <c>POST /manager/auth/email-otp/request</c>,
+    /// keyed by the raw submitted address regardless of whether it maps to
+    /// a real account, so hitting it never reveals account existence.
+    /// Stricter than the IP limiter since it directly protects one inbox
+    /// from being spammed from many different IPs.
+    /// </summary>
+    public PartitionedRateLimiter<string> EmailOtpByEmail { get; } = CreateLimiter(TimeSpan.FromHours(1), 3);
+
     private static PartitionedRateLimiter<string> CreateLimiter(TimeSpan window, int permitLimit)
     {
         return PartitionedRateLimiter.Create<string, string>(key =>
