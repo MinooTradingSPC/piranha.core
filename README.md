@@ -1,5 +1,7 @@
 # Welcome to Piranha.Core — MinooTrading Fork
 
+
+
 | Build server   | Platform | Build status |
 |----------------|----------|--------------|
 | GitHub Actions | Windows  | [![.NET Win](https://github.com/MinooTradingSPC/piranha.core/actions/workflows/dotnet_win.yml/badge.svg)](https://github.com/MinooTradingSPC/piranha.core/actions/workflows/dotnet_win.yml) |
