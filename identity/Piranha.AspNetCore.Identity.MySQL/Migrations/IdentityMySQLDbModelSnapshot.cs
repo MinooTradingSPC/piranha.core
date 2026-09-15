@@ -182,6 +182,35 @@ namespace Piranha.AspNetCore.Identity.MySQL.Migrations
                     b.ToTable("Piranha_Roles", (string)null);
                 });
 
+            modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.TotpCredential", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("ConfirmedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("EncryptedSecret")
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("LastAcceptedTimeStep")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("LastUsed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Piranha_TotpCredentials", (string)null);
+                });
+
             modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -299,6 +328,17 @@ namespace Piranha.AspNetCore.Identity.MySQL.Migrations
                 });
 
             modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.Passkey", b =>
+                {
+                    b.HasOne("Piranha.AspNetCore.Identity.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.TotpCredential", b =>
                 {
                     b.HasOne("Piranha.AspNetCore.Identity.Data.User", "User")
                         .WithMany()

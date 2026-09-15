@@ -145,6 +145,43 @@
                     </button>
                 </div>
             </div>
+
+            <div class="card" v-if="isEditingSelf">
+                <div class="card-header">
+                    <span class="title">@Localizer.General["Authenticator app"]</span>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">@Localizer.General["Sign in with a 6-digit code from an app like Google Authenticator, Microsoft Authenticator, Authy, or Aegis, as a fallback next to passkeys."]</p>
+
+                    <div v-if="totpEnrollment">
+                        <p>@Localizer.General["Scan this code with your authenticator app:"]</p>
+                        <img :src="'data:image/png;base64,' + totpEnrollment.qrCodePngBase64" alt="QR code" style="max-width:200px" />
+                        <p class="text-muted small">@Localizer.General["Or enter this key manually:"] <code>{{ totpEnrollment.secret }}</code></p>
+                        <div class="form-group">
+                            <label>@Localizer.General["Enter the 6-digit code from the app to confirm"]</label>
+                            <input type="text" inputmode="numeric" maxlength="6" class="form-control small" v-model="totpConfirmCode" />
+                        </div>
+                        <button type="button" class="btn btn-primary" :disabled="totpBusy || totpConfirmCode.length !== 6" v-on:click.prevent="confirmTotpEnrollment()">
+                            @Localizer.General["Confirm"]
+                        </button>
+                        <button type="button" class="btn btn-secondary" v-on:click.prevent="cancelTotpEnrollment()">
+                            @Localizer.General["Cancel"]
+                        </button>
+                    </div>
+                    <div v-else-if="totpStatus.enrolled">
+                        <p class="text-muted">@Localizer.General["Confirmed"] {{ totpStatus.confirmedAt }}</p>
+                        <button type="button" class="btn btn-secondary" :disabled="totpBusy" v-on:click.prevent="beginTotpEnrollment()">
+                            @Localizer.General["Set up a new authenticator"]
+                        </button>
+                        <button type="button" class="btn btn-danger" v-on:click.prevent="revokeTotp()">
+                            @Localizer.General["Remove"]
+                        </button>
+                    </div>
+                    <button v-else type="button" class="btn btn-primary" :disabled="totpBusy" v-on:click.prevent="beginTotpEnrollment()">
+                        <i class="fas fa-plus"></i> @Localizer.General["Set up an authenticator app"]
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </form>

@@ -180,6 +180,35 @@ namespace Piranha.AspNetCore.Identity.SQLite.Migrations
                     b.ToTable("Piranha_Roles", (string)null);
                 });
 
+            modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.TotpCredential", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ConfirmedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EncryptedSecret")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("LastAcceptedTimeStep")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastUsed")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Piranha_TotpCredentials", (string)null);
+                });
+
             modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -297,6 +326,17 @@ namespace Piranha.AspNetCore.Identity.SQLite.Migrations
                 });
 
             modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.Passkey", b =>
+                {
+                    b.HasOne("Piranha.AspNetCore.Identity.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Piranha.AspNetCore.Identity.Data.TotpCredential", b =>
                 {
                     b.HasOne("Piranha.AspNetCore.Identity.Data.User", "User")
                         .WithMany()

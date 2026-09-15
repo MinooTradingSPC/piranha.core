@@ -17,20 +17,20 @@ using Piranha.AspNetCore.Identity.Services;
 namespace Piranha.AspNetCore.Identity;
 
 /// <summary>
-/// Applies a per-client-IP rate limit, backed by <see cref="PasskeyRateLimiters"/>,
-/// to the action it decorates. See <see cref="IdentityModuleExtensions.PasskeyRateLimitPolicies"/>
+/// Applies a per-client-IP rate limit, backed by <see cref="AuthRateLimiters"/>,
+/// to the action it decorates. See <see cref="IdentityModuleExtensions.AuthRateLimitPolicies"/>
 /// for the available policy names.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-public sealed class PasskeyRateLimitAttribute : Attribute, IAsyncActionFilter
+public sealed class AuthRateLimitAttribute : Attribute, IAsyncActionFilter
 {
     private readonly string _policy;
 
     /// <summary>
     /// Default constructor.
     /// </summary>
-    /// <param name="policy">One of <see cref="IdentityModuleExtensions.PasskeyRateLimitPolicies"/></param>
-    public PasskeyRateLimitAttribute(string policy)
+    /// <param name="policy">One of <see cref="IdentityModuleExtensions.AuthRateLimitPolicies"/></param>
+    public AuthRateLimitAttribute(string policy)
     {
         _policy = policy;
     }
@@ -38,12 +38,13 @@ public sealed class PasskeyRateLimitAttribute : Attribute, IAsyncActionFilter
     /// <inheritdoc />
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var limiters = context.HttpContext.RequestServices.GetRequiredService<PasskeyRateLimiters>();
+        var limiters = context.HttpContext.RequestServices.GetRequiredService<AuthRateLimiters>();
         var limiter = _policy switch
         {
-            IdentityModuleExtensions.PasskeyRateLimitPolicies.AuthOptions => limiters.AuthOptions,
-            IdentityModuleExtensions.PasskeyRateLimitPolicies.AuthVerify => limiters.AuthVerify,
-            IdentityModuleExtensions.PasskeyRateLimitPolicies.PasskeyRegister => limiters.PasskeyRegister,
+            IdentityModuleExtensions.AuthRateLimitPolicies.AuthOptions => limiters.AuthOptions,
+            IdentityModuleExtensions.AuthRateLimitPolicies.AuthVerify => limiters.AuthVerify,
+            IdentityModuleExtensions.AuthRateLimitPolicies.PasskeyRegister => limiters.PasskeyRegister,
+            IdentityModuleExtensions.AuthRateLimitPolicies.TotpEnroll => limiters.TotpEnroll,
             _ => null
         };
 

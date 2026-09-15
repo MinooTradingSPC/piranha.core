@@ -31,6 +31,11 @@ public abstract class Db<T> :
     public DbSet<Passkey> Passkeys { get; set; }
 
     /// <summary>
+    /// Gets/sets the confirmed TOTP authenticator credentials set.
+    /// </summary>
+    public DbSet<TotpCredential> TotpCredentials { get; set; }
+
+    /// <summary>
     ///     Gets/sets whether the db context as been initialized. This
     ///     is only performed once in the application lifecycle.
     /// </summary>
@@ -92,6 +97,17 @@ public abstract class Db<T> :
             entity.HasOne(p => p.User)
                 .WithMany()
                 .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        mb.Entity<TotpCredential>(entity =>
+        {
+            entity.ToTable("Piranha_TotpCredentials");
+            entity.HasKey(t => t.Id);
+            entity.HasIndex(t => t.UserId).IsUnique();
+            entity.HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

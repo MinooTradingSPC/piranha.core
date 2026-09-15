@@ -15,12 +15,12 @@ namespace Piranha.AspNetCore.Identity.Services;
 /// <summary>
 /// Per-IP rate limiters for the anonymous auth-discovery/verification
 /// endpoints and the authenticated passkey-registration endpoints. Applied
-/// as an MVC action filter (<see cref="Piranha.AspNetCore.Identity.PasskeyRateLimitAttribute"/>)
+/// as an MVC action filter (<see cref="Piranha.AspNetCore.Identity.AuthRateLimitAttribute"/>)
 /// rather than the ASP.NET Core rate-limiting middleware, so it doesn't
 /// depend on where <c>UseIdentity()</c> ends up in Piranha's own pipeline
 /// setup relative to <c>UseRouting</c>/<c>UseEndpoints</c>.
 /// </summary>
-public sealed class PasskeyRateLimiters
+public sealed class AuthRateLimiters
 {
     /// <summary>
     /// Limiter for <c>POST /manager/auth/options</c> and
@@ -37,6 +37,11 @@ public sealed class PasskeyRateLimiters
     /// Limiter for the passkey registration ceremony endpoints.
     /// </summary>
     public PartitionedRateLimiter<string> PasskeyRegister { get; } = CreateLimiter(TimeSpan.FromMinutes(10), 10);
+
+    /// <summary>
+    /// Limiter for the TOTP enrollment/confirmation endpoints.
+    /// </summary>
+    public PartitionedRateLimiter<string> TotpEnroll { get; } = CreateLimiter(TimeSpan.FromMinutes(10), 10);
 
     private static PartitionedRateLimiter<string> CreateLimiter(TimeSpan window, int permitLimit)
     {

@@ -32,11 +32,12 @@ public static class IdentityModuleExtensions
     /// Kept internal to the module so the policies and their consumers
     /// can't drift apart.
     /// </summary>
-    internal static class PasskeyRateLimitPolicies
+    internal static class AuthRateLimitPolicies
     {
         public const string AuthOptions = "PiranhaAuthOptions";
         public const string AuthVerify = "PiranhaAuthVerify";
         public const string PasskeyRegister = "PiranhaPasskeyRegister";
+        public const string TotpEnroll = "PiranhaTotpEnroll";
     }
 
     /// <summary>
@@ -152,12 +153,15 @@ public static class IdentityModuleExtensions
         services.AddScoped<IPasskeyService, PasskeyService>();
         services.AddScoped<IPasskeyLoginSupport, PasskeyLoginSupport>();
 
+        // TOTP authenticator-app support
+        services.AddScoped<ITotpService, TotpService>();
+
         // Per-IP rate limiting for the anonymous auth-discovery/verification
-        // and authenticated passkey-registration endpoints. Applied via
-        // PasskeyRateLimitAttribute as an MVC filter (see its own doc
-        // comment for why, instead of the ASP.NET Core rate-limiting
+        // and authenticated passkey-registration/TOTP-enrollment endpoints.
+        // Applied via AuthRateLimitAttribute as an MVC filter (see its own
+        // doc comment for why, instead of the ASP.NET Core rate-limiting
         // middleware).
-        services.AddSingleton<PasskeyRateLimiters>();
+        services.AddSingleton<AuthRateLimiters>();
 
         return services;
     }
