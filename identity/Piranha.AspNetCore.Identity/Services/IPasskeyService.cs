@@ -70,6 +70,15 @@ public interface IPasskeyService
     /// <param name="passkeyId">The passkey id</param>
     /// <returns>If a passkey was removed</returns>
     Task<bool> RemovePasskeyAsync(Guid userId, Guid passkeyId);
+
+    /// <summary>
+    /// Renames a passkey belonging to the given user.
+    /// </summary>
+    /// <param name="userId">The user id</param>
+    /// <param name="passkeyId">The passkey id</param>
+    /// <param name="deviceName">The new display name</param>
+    /// <returns>If a passkey was renamed</returns>
+    Task<bool> RenamePasskeyAsync(Guid userId, Guid passkeyId, string deviceName);
 }
 
 /// <summary>

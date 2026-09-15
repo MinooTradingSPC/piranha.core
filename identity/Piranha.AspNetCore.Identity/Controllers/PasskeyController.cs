@@ -113,15 +113,38 @@ public sealed class PasskeyController : Controller
     }
 
     /// <summary>
-    /// Removes one of the current user's passkeys.
+    /// Renames one of the current user's passkeys.
     /// </summary>
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Remove(Guid id)
+    [HttpPatch("{id:guid}")]
+    public async Task<IActionResult> Rename(Guid id, [FromBody] RenamePasskeyRequest request)
     {
         var user = await _userManager.GetUserAsync(HttpContext.User);
         if (user == null)
         {
             return Unauthorized();
+        }
+
+        var renamed = await _passkeys.RenamePasskeyAsync(user.Id, id, request?.DeviceName);
+
+        return renamed ? await List() : NotFound();
+    }
+
+    /// <summary>
+    /// Removes one of the current user's passkeys. Requires the account's
+    /// password as step-up verification, since this is a sensitive action.
+    /// </summary>
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Remove(Guid id, [FromBody] RemovePasskeyRequest request)
+    {
+        var user = await _userManager.GetUserAsync(HttpContext.User);
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        if (string.IsNullOrEmpty(request?.Password) || !await _userManager.CheckPasswordAsync(user, request.Password))
+        {
+            return BadRequest("Enter your password to remove this passkey.");
         }
 
         var removed = await _passkeys.RemovePasskeyAsync(user.Id, id);

@@ -34,6 +34,23 @@ public sealed class CompletePasskeyRegistrationRequest
 }
 
 /// <summary>
+/// Request body for renaming a passkey.
+/// </summary>
+public sealed class RenamePasskeyRequest
+{
+    public string DeviceName { get; set; }
+}
+
+/// <summary>
+/// Request body for removing a passkey. Requires the account's password
+/// as step-up verification.
+/// </summary>
+public sealed class RemovePasskeyRequest
+{
+    public string Password { get; set; }
+}
+
+/// <summary>
 /// Request body for <c>POST /manager/auth/options</c>.
 /// </summary>
 public sealed class AuthOptionsRequest
