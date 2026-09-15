@@ -29,9 +29,19 @@ public sealed class AuthRateLimiters
     public PartitionedRateLimiter<string> AuthOptions { get; } = CreateLimiter(TimeSpan.FromMinutes(5), 20);
 
     /// <summary>
-    /// Limiter for <c>POST /manager/auth/verify</c>.
+    /// Per-IP limiter for <c>POST /manager/auth/verify</c>.
     /// </summary>
     public PartitionedRateLimiter<string> AuthVerify { get; } = CreateLimiter(TimeSpan.FromMinutes(5), 10);
+
+    /// <summary>
+    /// Per-account limiter for <c>POST /manager/auth/verify</c>, keyed by
+    /// the raw submitted email regardless of whether it resolves to a real
+    /// account. Closes the gap the IP limiter alone leaves open: without
+    /// this, an attacker spreading guesses across many IPs could hit
+    /// Identity's own account lockout as their only ceiling, rather than
+    /// being slowed down well before that.
+    /// </summary>
+    public PartitionedRateLimiter<string> AuthVerifyByEmail { get; } = CreateLimiter(TimeSpan.FromMinutes(5), 10);
 
     /// <summary>
     /// Limiter for the passkey registration ceremony endpoints.

@@ -32,14 +32,16 @@ public sealed class TotpController : Controller
 {
     private readonly ITotpService _totp;
     private readonly UserManager<User> _userManager;
+    private readonly ISecurityAuditLogger _auditLogger;
 
     /// <summary>
     /// Default constructor.
     /// </summary>
-    public TotpController(ITotpService totp, UserManager<User> userManager)
+    public TotpController(ITotpService totp, UserManager<User> userManager, ISecurityAuditLogger auditLogger)
     {
         _totp = totp;
         _userManager = userManager;
+        _auditLogger = auditLogger;
     }
 
     /// <summary>
@@ -103,6 +105,8 @@ public sealed class TotpController : Controller
             return BadRequest("The code is incorrect or has expired. Please try again.");
         }
 
+        _auditLogger.LogEvent(SecurityAuditEvent.MethodEnrolled, "totp", SecurityAuditResult.Success, user.Id);
+
         return Ok(await _totp.GetStatusAsync(user.Id));
     }
 
@@ -124,7 +128,12 @@ public sealed class TotpController : Controller
             return BadRequest("Enter your password to remove your authenticator.");
         }
 
-        await _totp.RevokeAsync(user.Id);
+        var revoked = await _totp.RevokeAsync(user.Id);
+
+        if (revoked)
+        {
+            _auditLogger.LogEvent(SecurityAuditEvent.MethodRevoked, "totp", SecurityAuditResult.Success, user.Id);
+        }
 
         return Ok();
     }

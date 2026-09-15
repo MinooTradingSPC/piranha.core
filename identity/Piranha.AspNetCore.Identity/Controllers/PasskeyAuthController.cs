@@ -44,6 +44,7 @@ public sealed class PasskeyAuthController : Controller
     private readonly ITotpService _totp;
     private readonly IRecoveryService _recovery;
     private readonly AuthRateLimiters _rateLimiters;
+    private readonly ISecurityAuditLogger _auditLogger;
     private readonly IDataProtector _protector;
     private readonly ILogger<PasskeyAuthController> _logger;
 
@@ -52,7 +53,8 @@ public sealed class PasskeyAuthController : Controller
     /// </summary>
     public PasskeyAuthController(UserManager<User> userManager, SignInManager<User> signInManager,
         IPasskeyService passkeys, ITotpService totp, IRecoveryService recovery, AuthRateLimiters rateLimiters,
-        IDataProtectionProvider dataProtectionProvider, ILogger<PasskeyAuthController> logger)
+        ISecurityAuditLogger auditLogger, IDataProtectionProvider dataProtectionProvider,
+        ILogger<PasskeyAuthController> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -60,6 +62,7 @@ public sealed class PasskeyAuthController : Controller
         _totp = totp;
         _recovery = recovery;
         _rateLimiters = rateLimiters;
+        _auditLogger = auditLogger;
         _protector = dataProtectionProvider.CreateProtector(FlowTokenPurpose);
         _logger = logger;
     }
@@ -128,6 +131,11 @@ public sealed class PasskeyAuthController : Controller
                     await _recovery.RequestCodeAsync(user);
                 }
             }
+            else
+            {
+                _auditLogger.LogEvent(SecurityAuditEvent.SuspiciousRepeatedAttempts, "email-otp",
+                    SecurityAuditResult.RateLimited, email: email);
+            }
         }
 
         return Ok();
@@ -163,6 +171,22 @@ public sealed class PasskeyAuthController : Controller
     public async Task<AuthVerifyResponse> Verify([FromBody] AuthVerifyRequest request, [FromQuery] string returnUrl = null)
     {
         var email = UnprotectFlow(request?.Token);
+
+        // Per-account rate limit, keyed the same way as email-otp/request:
+        // by the raw submitted address, not by whether it resolves to a
+        // real account. Never returns a distinguishable response - just the
+        // same generic failure - since this is tied to account identity.
+        if (!string.IsNullOrEmpty(email))
+        {
+            using var lease = _rateLimiters.AuthVerifyByEmail.AttemptAcquire(email.Trim().ToLowerInvariant());
+            if (!lease.IsAcquired)
+            {
+                _auditLogger.LogEvent(SecurityAuditEvent.SuspiciousRepeatedAttempts, request?.Method,
+                    SecurityAuditResult.RateLimited, email: email);
+                return GenericFailure();
+            }
+        }
+
         var user = email == null ? null : await _userManager.FindByEmailAsync(email);
 
         var succeeded = user != null && await VerifyMethodAsync(user, request);
@@ -190,6 +214,7 @@ public sealed class PasskeyAuthController : Controller
     {
         if (await _userManager.IsLockedOutAsync(user))
         {
+            _auditLogger.LogEvent(SecurityAuditEvent.LoginFailed, request.Method, SecurityAuditResult.Locked, user.Id);
             return false;
         }
 
@@ -205,10 +230,20 @@ public sealed class PasskeyAuthController : Controller
         if (succeeded)
         {
             await _userManager.ResetAccessFailedCountAsync(user);
+            _auditLogger.LogEvent(SecurityAuditEvent.LoginSucceeded, request.Method, SecurityAuditResult.Success, user.Id);
         }
         else
         {
             await _userManager.AccessFailedAsync(user);
+            _auditLogger.LogEvent(SecurityAuditEvent.LoginFailed, request.Method, SecurityAuditResult.Failure, user.Id);
+
+            // We already know we weren't locked out before this attempt (the
+            // check above returns early otherwise), so a locked-out state
+            // now means this exact attempt is what tripped it.
+            if (await _userManager.IsLockedOutAsync(user))
+            {
+                _auditLogger.LogEvent(SecurityAuditEvent.LockoutTriggered, request.Method, SecurityAuditResult.Locked, user.Id);
+            }
         }
 
         return succeeded;

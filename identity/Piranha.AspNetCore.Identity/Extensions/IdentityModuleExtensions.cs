@@ -168,6 +168,11 @@ public static class IdentityModuleExtensions
         // middleware).
         services.AddSingleton<AuthRateLimiters>();
 
+        // Structured audit logging for the events above, plus lockouts and
+        // rate-limit hits (see ISecurityAuditLogger).
+        services.AddHttpContextAccessor();
+        services.AddScoped<ISecurityAuditLogger, SecurityAuditLogger>();
+
         return services;
     }
 
