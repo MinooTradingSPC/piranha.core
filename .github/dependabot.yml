@@ -62,6 +62,24 @@ updates:
       - dependency-name: "Microsoft.Extensions.Localization"
         update-types:
           - "version-update:semver-major"
+      - dependency-name: "Microsoft.EntityFrameworkCore*"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "Npgsql.EntityFrameworkCore.PostgreSQL"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "MySql.EntityFrameworkCore"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "Microsoft.AspNetCore.Identity.EntityFrameworkCore"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "Microsoft.AspNetCore.Mvc.NewtonsoftJson"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+        update-types:
+          - "version-update:semver-major"
 
   # npm — Piranha.Manager frontend (Vue 2, DOMPurify, gulp build pipeline)
   - package-ecosystem: "npm"
