@@ -91,5 +91,26 @@ public class Module : IModule
             Policy = Permissions.Roles,
             Css = "fas fa-eye-slash"
         });
+
+        // Every signed-in Manager user gets this, unlike the items above,
+        // so it's its own top-level group rather than living under
+        // "System" (which is otherwise all admin-only capabilities).
+        Menu.Items.Add(new MenuItem
+        {
+            InternalId = "Account",
+            Name = "Account",
+            Css = "fas fa-user-shield",
+            Items = new MenuItemList
+            {
+                new MenuItem
+                {
+                    InternalId = "AccountSecurity",
+                    Name = "Security",
+                    Route = "~/manager/account/security",
+                    Policy = Piranha.Manager.Permission.Admin,
+                    Css = "fas fa-shield-alt"
+                }
+            }
+        });
     }
 }

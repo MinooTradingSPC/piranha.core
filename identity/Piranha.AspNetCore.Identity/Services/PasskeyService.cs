@@ -220,6 +220,28 @@ public sealed class PasskeyService : IPasskeyService
         return true;
     }
 
+    /// <inheritdoc />
+    public async Task<bool> RenamePasskeyAsync(Guid userId, Guid passkeyId, string deviceName)
+    {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            return false;
+        }
+
+        var passkey = await _db.Passkeys
+            .FirstOrDefaultAsync(p => p.Id == passkeyId && p.UserId == userId);
+
+        if (passkey == null)
+        {
+            return false;
+        }
+
+        passkey.DeviceName = deviceName.Trim();
+        await _db.SaveChangesAsync();
+
+        return true;
+    }
+
     private PasskeyChallenge CreateChallenge(string purpose, Guid? userId, string optionsJson)
     {
         var payload = new ChallengePayload
