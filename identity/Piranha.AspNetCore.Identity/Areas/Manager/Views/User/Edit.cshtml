@@ -121,6 +121,30 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card" v-if="isEditingSelf">
+                <div class="card-header">
+                    <span class="title">@Localizer.General["Passkeys"]</span>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">@Localizer.General["Sign in with Windows Hello, Touch ID, a security key, or your device's screen lock instead of a password."]</p>
+                    <ul class="list-group mb-3" v-if="passkeys.length > 0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center" v-for="passkey in passkeys" :key="passkey.id">
+                            <div>
+                                <strong>{{ passkey.deviceName }}</strong>
+                                <div class="text-muted small">@Localizer.General["Added"] {{ passkey.created }}<span v-if="passkey.lastUsed"> &middot; @Localizer.General["Last used"] {{ passkey.lastUsed }}</span></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger btn-icon" v-on:click.prevent="removePasskey(passkey.id)" title="@Localizer.General["Delete"]">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </li>
+                    </ul>
+                    <p v-else-if="!passkeysLoading" class="text-muted">@Localizer.General["No passkeys registered yet."]</p>
+                    <button type="button" class="btn btn-primary" :disabled="registeringPasskey" v-on:click.prevent="registerPasskey()">
+                        <i class="fas fa-plus"></i> @Localizer.General["Add a passkey"]
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </form>

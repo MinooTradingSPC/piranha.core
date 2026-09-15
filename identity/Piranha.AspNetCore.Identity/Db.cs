@@ -26,6 +26,11 @@ public abstract class Db<T> :
     where T : Db<T>
 {
     /// <summary>
+    /// Gets/sets the registered passkeys set.
+    /// </summary>
+    public DbSet<Passkey> Passkeys { get; set; }
+
+    /// <summary>
     ///     Gets/sets whether the db context as been initialized. This
     ///     is only performed once in the application lifecycle.
     /// </summary>
@@ -78,6 +83,17 @@ public abstract class Db<T> :
         mb.Entity<IdentityUserLogin<Guid>>().ToTable("Piranha_UserLogins");
         mb.Entity<IdentityRoleClaim<Guid>>().ToTable("Piranha_RoleClaims");
         mb.Entity<IdentityUserToken<Guid>>().ToTable("Piranha_UserTokens");
+
+        mb.Entity<Passkey>(entity =>
+        {
+            entity.ToTable("Piranha_Passkeys");
+            entity.HasKey(p => p.Id);
+            entity.HasIndex(p => p.CredentialId).IsUnique();
+            entity.HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
     }
 
     /// <summary>

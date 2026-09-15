@@ -41,4 +41,8 @@
     <None Remove="assets\piranha.useredit.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Fido2" Version="4.0.1" />
+  </ItemGroup>
+
 </Project>
