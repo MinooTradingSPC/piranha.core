@@ -188,6 +188,31 @@ internal class PostRepository : IPostRepository
     }
 
     /// <summary>
+    /// Gets the post models with the specified ids.
+    /// </summary>
+    /// <typeparam name="T">The model type</typeparam>
+    /// <param name="ids">The unique ids</param>
+    /// <returns>The post models</returns>
+    public async Task<IEnumerable<T>> GetByIds<T>(params Guid[] ids) where T : Models.PostBase
+    {
+        var ret = new List<T>();
+        var posts = await GetQuery<T>()
+            .Where(p => ids.Contains(p.Id))
+            .ToListAsync()
+            .ConfigureAwait(false);
+
+        foreach (var post in posts)
+        {
+            var model = await _contentService.TransformAsync<T>(post, App.PostTypes.GetById(post.PostTypeId), ProcessAsync).ConfigureAwait(false);
+            if (model != null)
+            {
+                ret.Add(model);
+            }
+        }
+        return ret;
+    }
+
+    /// <summary>
     /// Gets the post model with the specified slug.
     /// </summary>
     /// <typeparam name="T">The model type</typeparam>
