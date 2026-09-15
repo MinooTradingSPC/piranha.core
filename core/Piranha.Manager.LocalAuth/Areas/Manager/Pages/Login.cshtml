@@ -43,21 +43,244 @@
                 }
 
                 <div class="card-body card-body-form">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="username" class="col-form-label col-form-label-lg">@Localizer.General["Username"]</label>
                         <input autofocus id="username" required name="username" type="text" class="form-control form-control-lg text-center" placeholder="@Localizer.General["Username"].Value.ToLower()">
                     </div>
-                    <div class="form-group">
+                    <div class="mb-4">
                         <label for="password" class="col-form-label col-form-label-lg">@Localizer.General["Password"]</label>
                         <input name="password" required type="password" class="form-control form-control-lg text-center" placeholder="@Localizer.General["Password"].Value.ToLower()">
                     </div>
-                    <button class="btn btn-lg btn-block btn-primary" type="submit">
+                    <button class="btn btn-lg btn-primary w-100" type="submit">
                         <i class="fas fa-check"></i>
                     </button>
+                    @if (Model.PasskeysEnabled)
+                    {
+                        <div class="mt-3 text-center">
+                            <a href="#" id="passkey-login-link">@Localizer.General["Sign in with a passkey instead"]</a>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <a href="#" id="totp-login-link">@Localizer.General["Sign in with an authenticator app code"]</a>
+                        </div>
+                        <div id="totp-login-form" style="display:none" class="mt-3">
+                            <label for="totp-code" class="col-form-label">@Localizer.General["Authenticator code"]</label>
+                            <input id="totp-code" inputmode="numeric" maxlength="6" type="text" class="form-control form-control-lg text-center" placeholder="000000">
+                            <button id="totp-login-submit" type="button" class="btn btn-lg btn-primary w-100 mt-2">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <a href="#" id="recovery-login-link">@Localizer.General["Email me a sign-in code"]</a>
+                        </div>
+                        <div id="recovery-login-form" style="display:none" class="mt-3">
+                            <p class="text-muted small">@Localizer.General["If that email has an account, we've sent it a code. Check your inbox."]</p>
+                            <label for="recovery-code" class="col-form-label">@Localizer.General["Sign-in code"]</label>
+                            <input id="recovery-code" inputmode="numeric" maxlength="6" type="text" class="form-control form-control-lg text-center" placeholder="000000">
+                            <button id="recovery-login-submit" type="button" class="btn btn-lg btn-primary w-100 mt-2">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                        <p id="passkey-login-error" class="error-message" style="display:none"></p>
+                    }
                 </div>
             </div>
         </form>
     </div>
+    @if (Model.PasskeysEnabled)
+    {
+        <script>
+            (function () {
+                'use strict';
+
+                var jsonHeaders = { 'Content-Type': 'application/json' };
+
+                function showError(message) {
+                    var el = document.getElementById('passkey-login-error');
+                    el.textContent = message;
+                    el.style.display = 'block';
+                }
+
+                function redirectAfterSignIn(verifyResult) {
+                    if (verifyResult.promptStrongMethodSetup) {
+                        window.location = '@Url.Content("~/manager/account/security")' + '?setup=1';
+                        return;
+                    }
+                    window.location = verifyResult.returnUrl;
+                }
+
+                document.getElementById('passkey-login-link').addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    if (!window.PublicKeyCredential) {
+                        showError('This browser doesn\'t support passkeys.');
+                        return;
+                    }
+
+                    var email = document.getElementById('username').value;
+                    if (!email) {
+                        showError('Enter your email above first, then click "Sign in with a passkey" again.');
+                        return;
+                    }
+
+                    fetch('@Url.Content("~/manager/auth/options")', {
+                        method: 'post',
+                        headers: jsonHeaders,
+                        body: JSON.stringify({ email: email })
+                    })
+                        .then(function (response) { return response.json(); })
+                        .then(function (optionsResult) {
+                            if (optionsResult.methods.indexOf('passkey') === -1) {
+                                showError('No passkey is registered for this account. Please sign in with your password instead.');
+                                return null;
+                            }
+
+                            return fetch('@Url.Content("~/manager/auth/passkey/assertion-options")', {
+                                method: 'post',
+                                headers: jsonHeaders,
+                                body: JSON.stringify({ token: optionsResult.token })
+                            })
+                                .then(function (response) { return response.json(); })
+                                .then(function (challenge) {
+                                    var options = PublicKeyCredential.parseRequestOptionsFromJSON(JSON.parse(challenge.optionsJson));
+
+                                    return navigator.credentials.get({ publicKey: options })
+                                        .then(function (credential) {
+                                            return fetch('@Url.Content("~/manager/auth/verify")', {
+                                                method: 'post',
+                                                headers: jsonHeaders,
+                                                body: JSON.stringify({
+                                                    token: optionsResult.token,
+                                                    method: 'passkey',
+                                                    assertionToken: challenge.token,
+                                                    assertionResponse: credential.toJSON()
+                                                })
+                                            });
+                                        });
+                                })
+                                .then(function (response) { return response.json(); })
+                                .then(function (verifyResult) {
+                                    if (!verifyResult.succeeded) {
+                                        showError('The code you entered is incorrect or has expired.');
+                                        return;
+                                    }
+                                    redirectAfterSignIn(verifyResult);
+                                });
+                        })
+                        .catch(function (error) {
+                            console.log('error:', error);
+                            showError('The passkey sign-in could not be completed. Please try your password instead.');
+                        });
+                });
+
+                function getFlowToken(email) {
+                    return fetch('@Url.Content("~/manager/auth/options")', {
+                        method: 'post',
+                        headers: jsonHeaders,
+                        body: JSON.stringify({ email: email })
+                    }).then(function (response) { return response.json(); });
+                }
+
+                document.getElementById('totp-login-link').addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    var email = document.getElementById('username').value;
+                    if (!email) {
+                        showError('Enter your email above first, then click "Sign in with an authenticator app code" again.');
+                        return;
+                    }
+
+                    getFlowToken(email).then(function (optionsResult) {
+                        if (optionsResult.methods.indexOf('totp') === -1) {
+                            showError('No authenticator app is registered for this account. Please sign in with your password instead.');
+                            return;
+                        }
+
+                        document.getElementById('totp-login-form').style.display = 'block';
+                        document.getElementById('totp-login-form').dataset.token = optionsResult.token;
+                        document.getElementById('totp-code').focus();
+                    }).catch(function (error) {
+                        console.log('error:', error);
+                        showError('The authenticator sign-in could not be completed. Please try your password instead.');
+                    });
+                });
+
+                document.getElementById('totp-login-submit').addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    var token = document.getElementById('totp-login-form').dataset.token;
+                    var code = document.getElementById('totp-code').value;
+
+                    fetch('@Url.Content("~/manager/auth/verify")', {
+                        method: 'post',
+                        headers: jsonHeaders,
+                        body: JSON.stringify({ token: token, method: 'totp', code: code })
+                    })
+                        .then(function (response) { return response.json(); })
+                        .then(function (verifyResult) {
+                            if (!verifyResult.succeeded) {
+                                showError('The code you entered is incorrect or has expired.');
+                                return;
+                            }
+                            redirectAfterSignIn(verifyResult);
+                        })
+                        .catch(function (error) {
+                            console.log('error:', error);
+                            showError('The authenticator sign-in could not be completed. Please try your password instead.');
+                        });
+                });
+
+                document.getElementById('recovery-login-link').addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    var email = document.getElementById('username').value;
+                    if (!email) {
+                        showError('Enter your email above first, then click "Email me a sign-in code" again.');
+                        return;
+                    }
+
+                    getFlowToken(email).then(function (optionsResult) {
+                        return fetch('@Url.Content("~/manager/auth/email-otp/request")', {
+                            method: 'post',
+                            headers: jsonHeaders,
+                            body: JSON.stringify({ token: optionsResult.token })
+                        }).then(function () {
+                            document.getElementById('recovery-login-form').style.display = 'block';
+                            document.getElementById('recovery-login-form').dataset.token = optionsResult.token;
+                            document.getElementById('recovery-code').focus();
+                        });
+                    }).catch(function (error) {
+                        console.log('error:', error);
+                        showError('The sign-in code could not be sent. Please try your password instead.');
+                    });
+                });
+
+                document.getElementById('recovery-login-submit').addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    var token = document.getElementById('recovery-login-form').dataset.token;
+                    var code = document.getElementById('recovery-code').value;
+
+                    fetch('@Url.Content("~/manager/auth/verify")', {
+                        method: 'post',
+                        headers: jsonHeaders,
+                        body: JSON.stringify({ token: token, method: 'email-otp', code: code })
+                    })
+                        .then(function (response) { return response.json(); })
+                        .then(function (verifyResult) {
+                            if (!verifyResult.succeeded) {
+                                showError('The code you entered is incorrect or has expired.');
+                                return;
+                            }
+                            redirectAfterSignIn(verifyResult);
+                        })
+                        .catch(function (error) {
+                            console.log('error:', error);
+                            showError('The sign-in could not be completed. Please try your password instead.');
+                        });
+                });
+            })();
+        </script>
+    }
     <script>
         (function () {
             'use strict';

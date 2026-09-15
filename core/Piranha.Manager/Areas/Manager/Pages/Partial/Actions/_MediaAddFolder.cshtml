@@ -3,7 +3,7 @@
 
 @if ((await Auth.AuthorizeAsync(User, Permission.MediaAddFolder)).Succeeded)
 {
-    <button class="btn btn-primary btn-labeled" data-toggle="modal" data-target="#mediaFolderModal">
+    <button class="btn btn-primary btn-labeled" data-bs-toggle="modal" data-bs-target="#mediaFolderModal">
         <i class="fas fa-plus"></i>@Localizer.Media["Add folder"]
     </button>
 }
