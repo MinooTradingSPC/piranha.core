@@ -35,14 +35,17 @@ public sealed class PasskeyController : Controller
 {
     private readonly IPasskeyService _passkeys;
     private readonly UserManager<User> _userManager;
+    private readonly ISecurityAuditLogger _auditLogger;
 
     /// <summary>
     /// Default constructor.
     /// </summary>
-    public PasskeyController(IPasskeyService passkeys, UserManager<User> userManager)
+    public PasskeyController(IPasskeyService passkeys, UserManager<User> userManager,
+        ISecurityAuditLogger auditLogger)
     {
         _passkeys = passkeys;
         _userManager = userManager;
+        _auditLogger = auditLogger;
     }
 
     /// <summary>
@@ -109,6 +112,8 @@ public sealed class PasskeyController : Controller
             return BadRequest("The passkey could not be registered. Please try again.");
         }
 
+        _auditLogger.LogEvent(SecurityAuditEvent.MethodEnrolled, "passkey", SecurityAuditResult.Success, user.Id);
+
         return await List();
     }
 
@@ -148,6 +153,11 @@ public sealed class PasskeyController : Controller
         }
 
         var removed = await _passkeys.RemovePasskeyAsync(user.Id, id);
+
+        if (removed)
+        {
+            _auditLogger.LogEvent(SecurityAuditEvent.MethodRevoked, "passkey", SecurityAuditResult.Success, user.Id);
+        }
 
         return removed ? Ok() : NotFound();
     }

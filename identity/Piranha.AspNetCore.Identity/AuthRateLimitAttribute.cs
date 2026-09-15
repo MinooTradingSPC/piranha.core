@@ -56,6 +56,9 @@ public sealed class AuthRateLimitAttribute : Attribute, IAsyncActionFilter
             using var lease = limiter.AttemptAcquire(key);
             if (!lease.IsAcquired)
             {
+                context.HttpContext.RequestServices.GetRequiredService<ISecurityAuditLogger>()
+                    .LogEvent(SecurityAuditEvent.SuspiciousRepeatedAttempts, _policy, SecurityAuditResult.RateLimited);
+
                 context.Result = new StatusCodeResult(StatusCodes.Status429TooManyRequests);
                 return;
             }
