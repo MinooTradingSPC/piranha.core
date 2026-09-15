@@ -41,6 +41,7 @@ public sealed class PasskeyAuthController : Controller
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly IPasskeyService _passkeys;
+    private readonly ITotpService _totp;
     private readonly IDataProtector _protector;
     private readonly ILogger<PasskeyAuthController> _logger;
 
@@ -48,12 +49,13 @@ public sealed class PasskeyAuthController : Controller
     /// Default constructor.
     /// </summary>
     public PasskeyAuthController(UserManager<User> userManager, SignInManager<User> signInManager,
-        IPasskeyService passkeys, IDataProtectionProvider dataProtectionProvider,
+        IPasskeyService passkeys, ITotpService totp, IDataProtectionProvider dataProtectionProvider,
         ILogger<PasskeyAuthController> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _passkeys = passkeys;
+        _totp = totp;
         _protector = dataProtectionProvider.CreateProtector(FlowTokenPurpose);
         _logger = logger;
     }
@@ -64,23 +66,28 @@ public sealed class PasskeyAuthController : Controller
     /// email matches an account.
     /// </summary>
     [HttpPost("options")]
-    [PasskeyRateLimit(IdentityModuleExtensions.PasskeyRateLimitPolicies.AuthOptions)]
+    [AuthRateLimit(IdentityModuleExtensions.AuthRateLimitPolicies.AuthOptions)]
     public async Task<AuthOptionsResponse> Options([FromBody] AuthOptionsRequest request)
     {
         var email = request?.Email?.Trim();
         var user = string.IsNullOrEmpty(email) ? null : await _userManager.FindByEmailAsync(email);
 
-        // "password" is always offered: every account that exists today has
-        // one (there is no other way to have created it yet), and offering
-        // it unconditionally for an unknown email keeps this response
-        // identical either way. Once email-otp/TOTP land, they take over
-        // as the fallback for accounts with no password (see the design
-        // doc, §6.4).
-        var methods = new List<string> { "password" };
+        // Ordered strongest-first (design doc §6.5: passkey > totp >
+        // password). "password" is always offered: every account that
+        // exists today has one (there is no other way to have created it
+        // yet), and offering it unconditionally for an unknown email keeps
+        // this response identical either way. Once email-otp lands, it
+        // takes over as the fallback for accounts with no password.
+        var methods = new List<string>();
         if (user != null && await UserHasPasskeyAsync(user))
         {
-            methods.Insert(0, "passkey");
+            methods.Add("passkey");
         }
+        if (user != null && (await _totp.GetStatusAsync(user.Id)).Enrolled)
+        {
+            methods.Add("totp");
+        }
+        methods.Add("password");
 
         return new AuthOptionsResponse
         {
@@ -95,7 +102,7 @@ public sealed class PasskeyAuthController : Controller
     /// error, when the account doesn't exist or has no passkeys.
     /// </summary>
     [HttpPost("passkey/assertion-options")]
-    [PasskeyRateLimit(IdentityModuleExtensions.PasskeyRateLimitPolicies.AuthOptions)]
+    [AuthRateLimit(IdentityModuleExtensions.AuthRateLimitPolicies.AuthOptions)]
     public async Task<IActionResult> PasskeyAssertionOptions([FromBody] AuthAssertionOptionsRequest request)
     {
         var email = UnprotectFlow(request?.Token);
@@ -115,7 +122,7 @@ public sealed class PasskeyAuthController : Controller
     /// Every failure, for whatever reason, returns the same generic message.
     /// </summary>
     [HttpPost("verify")]
-    [PasskeyRateLimit(IdentityModuleExtensions.PasskeyRateLimitPolicies.AuthVerify)]
+    [AuthRateLimit(IdentityModuleExtensions.AuthRateLimitPolicies.AuthVerify)]
     public async Task<AuthVerifyResponse> Verify([FromBody] AuthVerifyRequest request, [FromQuery] string returnUrl = null)
     {
         var email = UnprotectFlow(request?.Token);
@@ -148,6 +155,7 @@ public sealed class PasskeyAuthController : Controller
         {
             "password" => await VerifyPasswordAsync(user, request.Password),
             "passkey" => await VerifyPasskeyAsync(user, request),
+            "totp" => await _totp.VerifyCodeAsync(user.Id, request.Code),
             _ => false
         };
 

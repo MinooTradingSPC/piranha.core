@@ -72,7 +72,7 @@ public sealed class PasskeyController : Controller
     /// Begins a new passkey registration ceremony for the current user.
     /// </summary>
     [HttpPost("register/options")]
-    [PasskeyRateLimit(IdentityModuleExtensions.PasskeyRateLimitPolicies.PasskeyRegister)]
+    [AuthRateLimit(IdentityModuleExtensions.AuthRateLimitPolicies.PasskeyRegister)]
     public async Task<IActionResult> BeginRegistration()
     {
         var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -90,7 +90,7 @@ public sealed class PasskeyController : Controller
     /// Completes a passkey registration ceremony for the current user.
     /// </summary>
     [HttpPost("register/complete")]
-    [PasskeyRateLimit(IdentityModuleExtensions.PasskeyRateLimitPolicies.PasskeyRegister)]
+    [AuthRateLimit(IdentityModuleExtensions.AuthRateLimitPolicies.PasskeyRegister)]
     public async Task<IActionResult> CompleteRegistration([FromBody] CompletePasskeyRegistrationRequest request)
     {
         var user = await _userManager.GetUserAsync(HttpContext.User);

@@ -11,7 +11,11 @@ piranha.useredit= new Vue({
         currentUserName: null,
         passkeys: [],
         passkeysLoading: false,
-        registeringPasskey: false
+        registeringPasskey: false,
+        totpStatus: { enrolled: false, confirmedAt: null },
+        totpEnrollment: null,
+        totpConfirmCode: "",
+        totpBusy: false
     },
     computed: {
         // Passkeys are self-service: registering one has to happen in the
@@ -30,6 +34,7 @@ piranha.useredit= new Vue({
 
             if (this.isEditingSelf) {
                 this.loadPasskeys();
+                this.loadTotpStatus();
             }
         },
         load: function (id, isNew) {
@@ -145,6 +150,119 @@ piranha.useredit= new Vue({
                         .catch(function (error) { console.log("error:", error); });
                 }
             });
+        },
+        loadTotpStatus: function () {
+            var self = this;
+
+            fetch(piranha.baseUrl + "manager/api/totp")
+                .then(function (response) { return response.json(); })
+                .then(function (result) { self.totpStatus = result; })
+                .catch(function (error) { console.log("error:", error); });
+        },
+        beginTotpEnrollment: function () {
+            var self = this;
+            var password = null;
+
+            if (self.totpStatus.enrolled) {
+                password = window.prompt("Enter your password to set up a new authenticator:");
+                if (!password) {
+                    return;
+                }
+            }
+
+            self.totpBusy = true;
+
+            fetch(piranha.baseUrl + "manager/api/totp/enroll", {
+                method: "post",
+                headers: Object.assign({ "Content-Type": "application/json" }, piranha.utils.antiForgeryHeaders()),
+                body: JSON.stringify({ password: password })
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        return response.json().then(function (msg) { throw new Error(msg); });
+                    }
+                    return response.json();
+                })
+                .then(function (result) {
+                    self.totpEnrollment = result;
+                    self.totpConfirmCode = "";
+                    self.totpBusy = false;
+                })
+                .catch(function (error) {
+                    self.totpBusy = false;
+                    piranha.notifications.push({
+                        body: error.message || "The authenticator could not be set up.",
+                        type: "danger",
+                        hide: true
+                    });
+                });
+        },
+        confirmTotpEnrollment: function () {
+            var self = this;
+            self.totpBusy = true;
+
+            fetch(piranha.baseUrl + "manager/api/totp/confirm", {
+                method: "post",
+                headers: Object.assign({ "Content-Type": "application/json" }, piranha.utils.antiForgeryHeaders()),
+                body: JSON.stringify({ token: self.totpEnrollment.token, code: self.totpConfirmCode })
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        return response.json().then(function (msg) { throw new Error(msg); });
+                    }
+                    return response.json();
+                })
+                .then(function (result) {
+                    self.totpStatus = result;
+                    self.totpEnrollment = null;
+                    self.totpBusy = false;
+
+                    piranha.notifications.push({
+                        body: "The authenticator app was confirmed.",
+                        type: "success",
+                        hide: true
+                    });
+                })
+                .catch(function (error) {
+                    self.totpBusy = false;
+                    piranha.notifications.push({
+                        body: error.message || "The code is incorrect or has expired.",
+                        type: "danger",
+                        hide: true
+                    });
+                });
+        },
+        cancelTotpEnrollment: function () {
+            // Nothing has been persisted yet - the pending secret only
+            // lives inside the (now discarded) enrollment token.
+            this.totpEnrollment = null;
+            this.totpConfirmCode = "";
+        },
+        revokeTotp: function () {
+            var self = this;
+            var password = window.prompt("Enter your password to remove your authenticator:");
+            if (!password) {
+                return;
+            }
+
+            fetch(piranha.baseUrl + "manager/api/totp", {
+                method: "delete",
+                headers: Object.assign({ "Content-Type": "application/json" }, piranha.utils.antiForgeryHeaders()),
+                body: JSON.stringify({ password: password })
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        return response.json().then(function (msg) { throw new Error(msg); });
+                    }
+                    self.loadTotpStatus();
+                })
+                .catch(function (error) {
+                    piranha.notifications.push({
+                        body: error.message || "The authenticator could not be removed.",
+                        type: "danger",
+                        hide: true
+                    });
+                });
         },
         getRoleRows: function () {
             var roleRows = Array();

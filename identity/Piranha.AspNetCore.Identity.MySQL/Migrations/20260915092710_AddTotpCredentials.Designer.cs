@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Piranha.AspNetCore.Identity.MySQL;
 
@@ -10,9 +11,11 @@ using Piranha.AspNetCore.Identity.MySQL;
 namespace Piranha.AspNetCore.Identity.MySQL.Migrations
 {
     [DbContext(typeof(IdentityMySQLDb))]
-    partial class IdentityMySQLDbModelSnapshot : ModelSnapshot
+    [Migration("20260915092710_AddTotpCredentials")]
+    partial class AddTotpCredentials
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

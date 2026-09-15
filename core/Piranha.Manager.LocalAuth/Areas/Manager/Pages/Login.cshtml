@@ -59,6 +59,16 @@
                         <div class="mt-3 text-center">
                             <a href="#" id="passkey-login-link">@Localizer.General["Sign in with a passkey instead"]</a>
                         </div>
+                        <div class="mt-2 text-center">
+                            <a href="#" id="totp-login-link">@Localizer.General["Sign in with an authenticator app code"]</a>
+                        </div>
+                        <div id="totp-login-form" style="display:none" class="mt-3">
+                            <label for="totp-code" class="col-form-label">@Localizer.General["Authenticator code"]</label>
+                            <input id="totp-code" inputmode="numeric" maxlength="6" type="text" class="form-control form-control-lg text-center" placeholder="000000">
+                            <button id="totp-login-submit" type="button" class="btn btn-lg btn-primary w-100 mt-2">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
                         <p id="passkey-login-error" class="error-message" style="display:none"></p>
                     }
                 </div>
@@ -140,6 +150,63 @@
                         .catch(function (error) {
                             console.log('error:', error);
                             showError('The passkey sign-in could not be completed. Please try your password instead.');
+                        });
+                });
+
+                function getFlowToken(email) {
+                    return fetch('@Url.Content("~/manager/auth/options")', {
+                        method: 'post',
+                        headers: jsonHeaders,
+                        body: JSON.stringify({ email: email })
+                    }).then(function (response) { return response.json(); });
+                }
+
+                document.getElementById('totp-login-link').addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    var email = document.getElementById('username').value;
+                    if (!email) {
+                        showError('Enter your email above first, then click "Sign in with an authenticator app code" again.');
+                        return;
+                    }
+
+                    getFlowToken(email).then(function (optionsResult) {
+                        if (optionsResult.methods.indexOf('totp') === -1) {
+                            showError('No authenticator app is registered for this account. Please sign in with your password instead.');
+                            return;
+                        }
+
+                        document.getElementById('totp-login-form').style.display = 'block';
+                        document.getElementById('totp-login-form').dataset.token = optionsResult.token;
+                        document.getElementById('totp-code').focus();
+                    }).catch(function (error) {
+                        console.log('error:', error);
+                        showError('The authenticator sign-in could not be completed. Please try your password instead.');
+                    });
+                });
+
+                document.getElementById('totp-login-submit').addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    var token = document.getElementById('totp-login-form').dataset.token;
+                    var code = document.getElementById('totp-code').value;
+
+                    fetch('@Url.Content("~/manager/auth/verify")', {
+                        method: 'post',
+                        headers: jsonHeaders,
+                        body: JSON.stringify({ token: token, method: 'totp', code: code })
+                    })
+                        .then(function (response) { return response.json(); })
+                        .then(function (verifyResult) {
+                            if (!verifyResult.succeeded) {
+                                showError('The code you entered is incorrect or has expired.');
+                                return;
+                            }
+                            window.location = verifyResult.returnUrl;
+                        })
+                        .catch(function (error) {
+                            console.log('error:', error);
+                            showError('The authenticator sign-in could not be completed. Please try your password instead.');
                         });
                 });
             })();

@@ -57,6 +57,11 @@ public interface IDb
     DbSet<Passkey> Passkeys { get; set; }
 
     /// <summary>
+    /// Gets/sets the confirmed TOTP authenticator credentials set.
+    /// </summary>
+    DbSet<TotpCredential> TotpCredentials { get; set; }
+
+    /// <summary>
     /// Saves the changes made to the context.
     /// </summary>
     /// <returns></returns>

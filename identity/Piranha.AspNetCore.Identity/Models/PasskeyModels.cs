@@ -71,7 +71,7 @@ public sealed class AuthVerifyRequest
     public string Token { get; set; }
 
     /// <summary>
-    /// "password" or "passkey".
+    /// "password", "passkey", or "totp".
     /// </summary>
     public string Method { get; set; }
 
@@ -79,6 +79,12 @@ public sealed class AuthVerifyRequest
     /// Required when <see cref="Method"/> is "password".
     /// </summary>
     public string Password { get; set; }
+
+    /// <summary>
+    /// Required when <see cref="Method"/> is "totp": the 6-digit code from
+    /// the user's authenticator app.
+    /// </summary>
+    public string Code { get; set; }
 
     /// <summary>
     /// Required when <see cref="Method"/> is "passkey": the token from
