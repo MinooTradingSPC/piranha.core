@@ -20,7 +20,7 @@
     "@vue/compiler-sfc": "^3.5.40",
     "bootstrap": "^5.3.8",
     "dompurify": "^3.4.12",
-    "dropzone": "5.9.3",
+    "dropzone": "6.3.4",
     "easymde": "^2.21.0",
     "gulp": "^5.0.1",
     "gulp-clean-css": "^4.3.0",
