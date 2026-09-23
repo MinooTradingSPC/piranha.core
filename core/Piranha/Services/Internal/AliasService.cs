@@ -64,7 +64,7 @@ internal sealed class AliasService : IAliasService
         {
             return await _repo.GetAll(siteId.Value).ConfigureAwait(false);
         }
-        return null;
+        return Enumerable.Empty<Alias>();
     }
 
     /// <summary>
@@ -138,6 +138,11 @@ internal sealed class AliasService : IAliasService
             {
                 siteId = site.Id;
             }
+        }
+
+        if (!siteId.HasValue || string.IsNullOrWhiteSpace(url))
+        {
+            return Enumerable.Empty<Alias>();
         }
         return await _repo.GetByRedirectUrl(url, siteId.Value).ConfigureAwait(false);
     }

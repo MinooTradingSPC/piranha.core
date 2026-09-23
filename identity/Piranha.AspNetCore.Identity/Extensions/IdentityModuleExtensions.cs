@@ -8,6 +8,7 @@
  *
  */
 
+using Fido2NetLib;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.FileProviders;
 using Piranha;
 using Piranha.AspNetCore.Identity;
 using Piranha.AspNetCore.Identity.Data;
+using Piranha.AspNetCore.Identity.Services;
 using Piranha.Manager;
 using Piranha.Manager.LocalAuth;
 
@@ -26,17 +28,36 @@ using Module = Piranha.AspNetCore.Identity.Module;
 public static class IdentityModuleExtensions
 {
     /// <summary>
+    /// Rate limiter policy names for the Manager passkey/auth endpoints.
+    /// Kept internal to the module so the policies and their consumers
+    /// can't drift apart.
+    /// </summary>
+    internal static class AuthRateLimitPolicies
+    {
+        public const string AuthOptions = "PiranhaAuthOptions";
+        public const string AuthVerify = "PiranhaAuthVerify";
+        public const string PasskeyRegister = "PiranhaPasskeyRegister";
+        public const string TotpEnroll = "PiranhaTotpEnroll";
+        public const string EmailOtpRequest = "PiranhaEmailOtpRequest";
+    }
+
+    /// <summary>
     /// Adds the Piranha identity module.
     /// </summary>
     /// <param name="services">The current service collection</param>
     /// <param name="dbOptions">Options for configuring the database</param>
     /// <param name="identityOptions">Optional options for identity</param>
     /// <param name="cookieOptions">Optional options for cookies</param>
+    /// <param name="passkeyOptions">Optional options for WebAuthn/passkey sign-in. The
+    /// default configuration only works for local development - hosts serving the
+    /// Manager over a real domain must set <see cref="Fido2Configuration.ServerDomain"/>
+    /// and <see cref="Fido2Configuration.Origins"/>.</param>
     /// <returns>The services</returns>
     public static IServiceCollection AddPiranhaIdentity<T>(this IServiceCollection services,
         Action<DbContextOptionsBuilder> dbOptions,
         Action<IdentityOptions> identityOptions = null,
-        Action<CookieAuthenticationOptions> cookieOptions = null)
+        Action<CookieAuthenticationOptions> cookieOptions = null,
+        Action<Fido2Configuration> passkeyOptions = null)
         where T : Db<T>
     {
         services
@@ -125,6 +146,69 @@ public static class IdentityModuleExtensions
         services.ConfigureApplicationCookie(cookieOptions != null ? cookieOptions : SetDefaultCookieOptions);
         services.AddScoped<ISecurity, IdentitySecurity>();
 
+        // Passkey/WebAuthn support
+        var fido2Config = new Fido2Configuration();
+        (passkeyOptions ?? SetDefaultPasskeyOptions).Invoke(fido2Config);
+        services.AddSingleton(fido2Config);
+        services.AddSingleton<IFido2>(sp => new Fido2NetLib.Fido2(sp.GetRequiredService<Fido2Configuration>(), null));
+        services.AddScoped<IPasskeyService, PasskeyService>();
+        services.AddScoped<IPasskeyLoginSupport, PasskeyLoginSupport>();
+
+        // TOTP authenticator-app support
+        services.AddScoped<ITotpService, TotpService>();
+
+        // Email-otp recovery/bootstrap sign-in. IEmailSender is optional -
+        // see AddPiranhaSmtpEmailSender() and IEmailSender's own doc comment.
+        services.AddScoped<IRecoveryService, RecoveryService>();
+
+        // Per-IP rate limiting for the anonymous auth-discovery/verification
+        // and authenticated passkey-registration/TOTP-enrollment endpoints.
+        // Applied via AuthRateLimitAttribute as an MVC filter (see its own
+        // doc comment for why, instead of the ASP.NET Core rate-limiting
+        // middleware).
+        services.AddSingleton<AuthRateLimiters>();
+
+        // Structured audit logging for the events above, plus lockouts and
+        // rate-limit hits (see ISecurityAuditLogger).
+        services.AddHttpContextAccessor();
+        services.AddScoped<ISecurityAuditLogger, SecurityAuditLogger>();
+
+        return services;
+    }
+
+    /// <summary>
+    /// Sets the default passkey/WebAuthn options if none was provided. These
+    /// defaults only work for local development over https://localhost - any
+    /// other host must configure <see cref="Fido2Configuration.ServerDomain"/>
+    /// and <see cref="Fido2Configuration.Origins"/> to match the real domain
+    /// the Manager is served from.
+    /// </summary>
+    private static void SetDefaultPasskeyOptions(Fido2Configuration options)
+    {
+        options.ServerDomain = "localhost";
+        options.ServerName = "Piranha Manager";
+        options.Origins = new HashSet<string> { "https://localhost" };
+    }
+
+    /// <summary>
+    /// Registers the default, SMTP-backed <see cref="IEmailSender"/>, used
+    /// to deliver email-otp recovery codes. Optional - without it, recovery
+    /// codes are generated and logged but never actually sent, though the
+    /// sign-in flow's responses stay generic either way. Call this after
+    /// <see cref="AddPiranhaIdentity{T}"/>.
+    /// </summary>
+    /// <param name="services">The current service collection</param>
+    /// <param name="options">The SMTP options</param>
+    /// <returns>The services</returns>
+    public static IServiceCollection AddPiranhaSmtpEmailSender(this IServiceCollection services,
+        Action<SmtpOptions> options)
+    {
+        var smtpOptions = new SmtpOptions();
+        options.Invoke(smtpOptions);
+
+        services.AddSingleton(smtpOptions);
+        services.AddScoped<IEmailSender, SmtpEmailSender>();
+
         return services;
     }
 
@@ -136,14 +220,16 @@ public static class IdentityModuleExtensions
     /// <param name="identityOptions">Optional options for identity</param>
     /// <param name="cookieOptions">Optional options for cookies</param>
     /// <returns>The services</returns>
+    /// <param name="passkeyOptions">Optional options for WebAuthn/passkey sign-in</param>
     public static IServiceCollection AddPiranhaIdentityWithSeed<T, TSeed>(this IServiceCollection services,
         Action<DbContextOptionsBuilder> dbOptions,
         Action<IdentityOptions> identityOptions = null,
-        Action<CookieAuthenticationOptions> cookieOptions = null)
+        Action<CookieAuthenticationOptions> cookieOptions = null,
+        Action<Fido2Configuration> passkeyOptions = null)
         where T : Db<T>
         where TSeed : class, IIdentitySeed
     {
-        services = AddPiranhaIdentity<T>(services, dbOptions, identityOptions, cookieOptions);
+        services = AddPiranhaIdentity<T>(services, dbOptions, identityOptions, cookieOptions, passkeyOptions);
         services.AddScoped<IIdentitySeed, TSeed>();
 
         return services;
@@ -156,14 +242,16 @@ public static class IdentityModuleExtensions
     /// <param name="dbOptions">Options for configuring the database</param>
     /// <param name="identityOptions">Optional options for identity</param>
     /// <param name="cookieOptions">Optional options for cookies</param>
+    /// <param name="passkeyOptions">Optional options for WebAuthn/passkey sign-in</param>
     /// <returns>The services</returns>
     public static IServiceCollection AddPiranhaIdentityWithSeed<T>(this IServiceCollection services,
         Action<DbContextOptionsBuilder> dbOptions,
         Action<IdentityOptions> identityOptions = null,
-        Action<CookieAuthenticationOptions> cookieOptions = null)
+        Action<CookieAuthenticationOptions> cookieOptions = null,
+        Action<Fido2Configuration> passkeyOptions = null)
         where T : Db<T>
     {
-        return AddPiranhaIdentityWithSeed<T, DefaultIdentitySeed>(services, dbOptions, identityOptions, cookieOptions);
+        return AddPiranhaIdentityWithSeed<T, DefaultIdentitySeed>(services, dbOptions, identityOptions, cookieOptions, passkeyOptions);
     }
 
     /// <summary>
