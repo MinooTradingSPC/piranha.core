@@ -10,7 +10,7 @@
                 </a>
                 <a href="#" v-else>
                     {{ item.title }}
-                    <span v-if="item.isCopy" class="badge badge-warning">{{ piranha.resources.texts.copy }}</span>
+                    <span v-if="item.isCopy" class="badge text-bg-warning">{{ piranha.resources.texts.copy }}</span>
                 </a>
                 <div class="content-blocker"></div>
             </div>

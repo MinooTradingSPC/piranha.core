@@ -22,17 +22,26 @@ namespace Piranha.Manager.LocalAuth.Areas.Manager.Pages
     {
         private readonly ISecurity _service;
         private readonly ManagerLocalizer _localizer;
+        private readonly IPasskeyLoginSupport _passkeySupport;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="service">The current security service</param>
         /// <param name="localizer">The manager localizer</param>
-        public LoginModel(ISecurity service, ManagerLocalizer localizer)
+        /// <param name="passkeySupport">The optional passkey login support service,
+        /// only provided when the host has Piranha.AspNetCore.Identity configured</param>
+        public LoginModel(ISecurity service, ManagerLocalizer localizer, IPasskeyLoginSupport passkeySupport = null)
         {
             _service = service;
             _localizer = localizer;
+            _passkeySupport = passkeySupport;
         }
+
+        /// <summary>
+        /// Gets if passkey sign-in should be offered on this page.
+        /// </summary>
+        public bool PasskeysEnabled => _passkeySupport?.IsEnabled ?? false;
 
         /// <summary>
         /// Gets/sets the model for binding form data.
@@ -84,7 +93,7 @@ namespace Piranha.Manager.LocalAuth.Areas.Manager.Pages
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
-            ReturnUrl = returnUrl;
+            ReturnUrl = Url.IsLocalUrl(returnUrl) ? returnUrl : null;
         }
 
         /// <summary>
@@ -102,9 +111,9 @@ namespace Piranha.Manager.LocalAuth.Areas.Manager.Pages
                 return Page();
             }
 
-            if (!string.IsNullOrEmpty(returnUrl))
+            if (Url.IsLocalUrl(returnUrl))
             {
-                return LocalRedirect($"~/manager/login/auth?returnUrl={ returnUrl }");
+                return LocalRedirect($"~/manager/login/auth?returnUrl={ Uri.EscapeDataString(returnUrl) }");
             }
             return LocalRedirect("~/manager/login/auth");
         }

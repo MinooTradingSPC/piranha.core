@@ -130,7 +130,7 @@
                                     <div class="block-body has-media-picker rounded" :class="{ empty: primaryImage.id === null }">
                                         <img class="rounded" :src="primaryImageUrl">
                                         <div class="media-picker">
-                                            <div class="btn-group float-right">
+                                            <div class="btn-group float-end">
                                                 <button v-on:click.prevent="selectPrimaryImage" class="btn btn-primary text-center">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
@@ -138,7 +138,7 @@
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </div>
-                                            <div class="card text-left">
+                                            <div class="card text-start">
                                                 <div class="card-body" v-if="primaryImage.id === null">
                                                     &nbsp;
                                                 </div>
@@ -156,7 +156,7 @@
                                 <label>@Localizer.Content["Excerpt"]</label>
                                 <div v-if="useHtmlExcerpt" class="block text-block ingress" :class="{ empty: isExcerptEmpty }">
                                     <div id="excerpt-toolbar" class="component-toolbar"></div>
-                                    <div id="excerpt-body" class="block-body html-block" contenteditable="true" v-html="excerpt" v-on:blur="onExcerptBlur">
+                                    <div id="excerpt-body" class="block-body htms-block" contenteditable="true" v-html="excerpt" v-on:blur="onExcerptBlur">
                                     </div>
                                 </div>
                                 <textarea v-else v-model="excerpt" rows="9" maxlength="255" class="form-control" style="height:218px"></textarea>

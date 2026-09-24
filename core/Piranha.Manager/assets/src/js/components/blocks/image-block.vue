@@ -2,8 +2,8 @@
     <div class="block-body has-media-picker rounded" :class="{ empty: isEmpty }">
         <img class="rounded" :src="mediaUrl">
         <div class="media-picker">
-            <div class="btn-group float-right">
-                <button :id="uid + '-aspect'" class="btn btn-info btn-aspect text-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="btn-group float-end">
+                <button :id="uid + '-aspect'" class="btn btn-info btn-aspect text-center" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i v-if="model.aspect.value === 0" class="fas fa-cog"></i>
                     <img v-else :src="iconUrl">
                 </button>
@@ -33,7 +33,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="card text-left">
+            <div class="card text-start">
                 <div class="card-body" v-if="isEmpty">
                     &nbsp;
                 </div>

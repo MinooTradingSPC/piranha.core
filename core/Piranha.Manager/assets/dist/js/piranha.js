@@ -1,9 +1,155 @@
+/*global
+    piranha
+*/
+
+piranha.theme = new function () {
+    var storageKey = "piranha-admin-theme";
+    var legacyStorageKey = "piranha.manager.theme";
+    var themes = ["light", "dark"];
+
+    this.storageKey = storageKey;
+
+    this.current = function () {
+        var theme = document.documentElement.getAttribute("data-manager-theme");
+        return themes.indexOf(theme) !== -1 ? theme : "light";
+    };
+
+    this.set = function (theme, persist) {
+        if (themes.indexOf(theme) === -1) {
+            return;
+        }
+
+        document.documentElement.setAttribute("data-bs-theme", theme);
+        document.documentElement.setAttribute("data-manager-theme", theme);
+
+        if (persist !== false) {
+            try {
+                localStorage.setItem(storageKey, theme);
+                localStorage.setItem(legacyStorageKey, theme);
+            } catch (error) {
+                // Keep the active theme for this page when storage is unavailable.
+            }
+        }
+
+        // Vuetify applications mounted by independent Manager modules often create
+        // their own framework instance. Switching the generated theme class keeps
+        // those applications in sync even when they do not subscribe to our event.
+        document.querySelectorAll(".v-theme--light, .v-theme--dark").forEach(function (element) {
+            element.classList.remove("v-theme--light", "v-theme--dark");
+            element.classList.add("v-theme--" + theme);
+        });
+
+        document.querySelectorAll("[data-manager-theme-value]").forEach(function (button) {
+            var isActive = button.getAttribute("data-manager-theme-value") === theme;
+            button.classList.toggle("active", isActive);
+            button.setAttribute("aria-pressed", isActive ? "true" : "false");
+        });
+
+        window.dispatchEvent(new CustomEvent("piranha:theme-changed", {
+            detail: {
+                theme: theme,
+                storageKey: storageKey
+            }
+        }));
+    };
+
+    this.init = function () {
+        var self = this;
+
+        document.querySelectorAll("[data-manager-theme-value]").forEach(function (button) {
+            button.addEventListener("click", function () {
+                self.set(button.getAttribute("data-manager-theme-value"));
+            });
+        });
+
+        self.set(self.current(), false);
+    };
+};
+
+piranha.theme.init();
+
+/*global
+    bootstrap, jQuery
+*/
+
+// Bootstrap 5 no longer exposes jQuery plugins. Keep the Manager's existing
+// modal calls working while templates and extensions move to the native API.
+(function ($) {
+    if (!$ || !window.bootstrap || !bootstrap.Modal) {
+        return;
+    }
+
+    $.fn.modal = function (action) {
+        return this.each(function () {
+            var instance = bootstrap.Modal.getOrCreateInstance(this);
+
+            if (action === "hide") {
+                instance.hide();
+            } else if (action === "dispose") {
+                instance.dispose();
+            } else if (action === "toggle") {
+                instance.toggle();
+            } else {
+                instance.show();
+            }
+        });
+    };
+})(window.jQuery);
+
+/*global
+    Vue
+*/
+
+// Compatibility replacement for the abandoned Vue-2-only vuejs-datepicker.
+// It keeps the existing component contract while using the browser date input.
+var vuejsDatepicker = {
+    props: {
+        value: null,
+        modelValue: null,
+        format: String,
+        mondayFirst: Boolean,
+        typeable: Boolean,
+        bootstrapStyling: Boolean
+    },
+    emits: ["input", "update:modelValue", "closed"],
+    computed: {
+        inputValue: function () {
+            var value = this.modelValue !== undefined ? this.modelValue : this.value;
+
+            if (!value) {
+                return "";
+            }
+
+            if (value instanceof Date) {
+                return value.getFullYear() + "-" +
+                    String(value.getMonth() + 1).padStart(2, "0") + "-" +
+                    String(value.getDate()).padStart(2, "0");
+            }
+
+            return String(value).substring(0, 10);
+        }
+    },
+    methods: {
+        update: function (event) {
+            var value = event.target.value;
+            var date = value ? new Date(value + "T00:00:00") : null;
+
+            this.$emit("input", date);
+            this.$emit("update:modelValue", date);
+            this.$emit("closed", date);
+        }
+    },
+    template: "<div class=\"vdp-datepicker\"><input type=\"date\" class=\"form-control\" :value=\"inputValue\" @change=\"update\"></div>"
+};
+
+Vue.component("datepicker", vuejsDatepicker);
 
 //
 // Setting up a common event bus
 // for all Vue apps in Piranha
 //
 Vue.prototype.eventBus = new Vue();
+
 /*global
     piranha
 */
@@ -375,6 +521,41 @@ piranha.utils = {
     strLength: function (str) {
         return str != null ? str.length : 0;
     },
+    languageRegion: function (culture) {
+        var neutralRegions = {
+            af: "ZA", ar: "SA", bg: "BG", bs: "BA", ca: "ES", cs: "CZ",
+            da: "DK", de: "DE", el: "GR", en: "GB", es: "ES", fa: "IR",
+            fi: "FI", fr: "FR", he: "IL", hi: "IN", hr: "HR", hu: "HU",
+            id: "ID", it: "IT", ja: "JP", ka: "GE", ko: "KR", ky: "KG",
+            nb: "NO", nl: "NL", nn: "NO", no: "NO", pl: "PL", pt: "PT",
+            ro: "RO", ru: "RU", si: "LK", sr: "RS", sv: "SE", th: "TH",
+            tr: "TR", uk: "UA", vi: "VN", zh: "CN"
+        };
+        var parts = String(culture || "").replace("_", "-").split("-");
+        var language = (parts[0] || "").toLowerCase();
+        var region = parts.find(function (part, index) {
+            return index > 0 && /^[a-z]{2}$/i.test(part);
+        });
+
+        region = (region || neutralRegions[language] || "").toUpperCase();
+        return /^[A-Z]{2}$/.test(region) ? region : null;
+    },
+    languageFlag: function (culture) {
+        var region = piranha.utils.languageRegion(culture);
+        if (!region) {
+            return "\uD83C\uDF10";
+        }
+
+        return String.fromCodePoint(region.charCodeAt(0) + 127397, region.charCodeAt(1) + 127397);
+    },
+    languageFlagUrl: function (culture, size) {
+        var region = piranha.utils.languageRegion(culture);
+        if (!region) {
+            return null;
+        }
+
+        return "https://flagsapi.com/" + region + "/flat/" + (size || 16) + ".png";
+    },
     antiForgery: function () {
         const cookies = document.cookie.split(";");
         for (let i = 0; i < cookies.length; i++) {
@@ -474,6 +655,212 @@ $(window).scroll(function () {
         }
     });
 });
+
+/*global
+    piranha
+*/
+
+piranha.managerLanguage = new function () {
+    var storageKey = "piranha-admin-language";
+    var cookieName = "piranha.manager.culture";
+
+    function normalize(culture) {
+        return String(culture || "").replace("_", "-").toLowerCase();
+    }
+
+    function findAvailable(culture) {
+        var requested = normalize(culture);
+        var requestedLanguage = requested.split("-")[0];
+        var buttons = Array.from(document.querySelectorAll("[data-manager-language-value]"));
+
+        return buttons.find(function (button) {
+            return normalize(button.getAttribute("data-manager-language-value")) === requested;
+        }) || buttons.find(function (button) {
+            return normalize(button.getAttribute("data-manager-language-value")).split("-")[0] === requestedLanguage;
+        });
+    }
+
+    var maxScale = 1.3;
+    var minScale = 0.85;
+    var minOpacity = 0.55;
+    var carouselFrame = null;
+
+    function carouselContainer() {
+        return document.querySelector(".manager-language-chooser");
+    }
+
+    function updateCarouselScale() {
+        var container = carouselContainer();
+        if (!container) {
+            return;
+        }
+
+        var rect = container.getBoundingClientRect();
+        if (rect.width === 0) {
+            return;
+        }
+
+        var centerX = rect.left + rect.width / 2;
+        var halfWidth = rect.width / 2;
+
+        Array.from(container.querySelectorAll("[data-manager-language-value]")).forEach(function (button) {
+            if (getComputedStyle(button).display === "none") {
+                return;
+            }
+
+            var buttonRect = button.getBoundingClientRect();
+            var buttonCenter = buttonRect.left + buttonRect.width / 2;
+            var ratio = Math.min(Math.abs(buttonCenter - centerX) / halfWidth, 1);
+            var scale = maxScale - ratio * (maxScale - minScale);
+            var opacity = 1 - ratio * (1 - minOpacity);
+
+            button.style.transform = "scale(" + scale.toFixed(3) + ")";
+            button.style.opacity = opacity.toFixed(3);
+        });
+    }
+
+    function requestCarouselUpdate() {
+        if (carouselFrame) {
+            return;
+        }
+
+        carouselFrame = window.requestAnimationFrame(function () {
+            carouselFrame = null;
+            updateCarouselScale();
+        });
+    }
+
+    function centerCarouselButton(button, smooth) {
+        if (!button) {
+            return;
+        }
+
+        button.scrollIntoView({
+            behavior: smooth ? "smooth" : "auto",
+            block: "nearest",
+            inline: "center"
+        });
+    }
+
+    function initCarousel(selected) {
+        var container = carouselContainer();
+        if (!container) {
+            return;
+        }
+
+        container.addEventListener("scroll", requestCarouselUpdate, { passive: true });
+        window.addEventListener("resize", requestCarouselUpdate);
+
+        container.addEventListener("wheel", function (event) {
+            var delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+            if (delta === 0) {
+                return;
+            }
+
+            event.preventDefault();
+            container.scrollLeft += delta;
+        }, { passive: false });
+
+        var navbar = document.querySelector(".navbar-left");
+        if (navbar) {
+            navbar.addEventListener("transitionend", function (event) {
+                if (event.propertyName === "width") {
+                    centerCarouselButton(container.querySelector(".active"), false);
+                    requestCarouselUpdate();
+                }
+            });
+        }
+
+        centerCarouselButton(selected, false);
+        requestCarouselUpdate();
+    }
+
+    function store(culture) {
+        try {
+            localStorage.setItem(storageKey, culture);
+        } catch (error) {
+            // Keep the selected language for this page when storage is unavailable.
+        }
+
+        var path = (piranha.baseUrl || "/") + "manager";
+        var secure = window.location.protocol === "https:" ? "; Secure" : "";
+        document.cookie = cookieName + "=" + encodeURIComponent(culture) +
+            "; Path=" + path + "; Max-Age=31536000; SameSite=Lax" + secure;
+    }
+
+    this.set = function (culture, persist, reload) {
+        var selected = findAvailable(culture);
+        if (!selected) {
+            return;
+        }
+
+        var selectedCulture = selected.getAttribute("data-manager-language-value");
+        document.documentElement.setAttribute("lang", selectedCulture);
+
+        document.querySelectorAll("[data-manager-language-value]").forEach(function (button) {
+            var isActive = button === selected;
+            button.classList.toggle("active", isActive);
+            button.setAttribute("aria-pressed", isActive ? "true" : "false");
+        });
+
+        centerCarouselButton(selected, persist !== false);
+        requestCarouselUpdate();
+
+        if (persist !== false) {
+            store(selectedCulture);
+        }
+
+        if (reload) {
+            window.location.reload();
+        }
+    };
+
+    this.init = function () {
+        var self = this;
+        var storedCulture = null;
+        var documentCulture = document.documentElement.getAttribute("lang") || "";
+
+        document.querySelectorAll("[data-manager-language-flag]").forEach(function (flag) {
+            var url = piranha.utils.languageFlagUrl(flag.getAttribute("data-manager-language-flag"), 24);
+            if (url) {
+                flag.src = url;
+            }
+        });
+
+        try {
+            storedCulture = localStorage.getItem(storageKey);
+        } catch (error) {
+            // Use the current document culture when storage is unavailable.
+        }
+
+        var selected = findAvailable(storedCulture || documentCulture);
+        if (!selected) {
+            selected = document.querySelector("[data-manager-language-value]");
+        }
+        if (!selected) {
+            return;
+        }
+
+        var selectedCulture = selected.getAttribute("data-manager-language-value");
+        if (storedCulture && normalize(selectedCulture) !== normalize(documentCulture)) {
+            store(selectedCulture);
+            window.location.reload();
+            return;
+        }
+
+        self.set(selectedCulture, false, false);
+        initCarousel(selected);
+
+        document.querySelectorAll("[data-manager-language-value]").forEach(function (button) {
+            button.addEventListener("click", function () {
+                self.set(button.getAttribute("data-manager-language-value"), true, true);
+            });
+        });
+    };
+};
+
+piranha.managerLanguage.init();
+
 /*global
     piranha
 */
@@ -578,6 +965,9 @@ piranha.notifications = new Vue({
         items: [],
     },
     methods: {
+        sanitize: function (html) {
+            return DOMPurify.sanitize(html || '', {USE_PROFILES: {html: true}});
+        },
         unauthorized: function() {
             this.push({
                 type: "danger",
@@ -1395,6 +1785,126 @@ piranha.resources = new function() {
     };
 };
 /*global
+    piranha, Vue, Vuetify
+*/
+
+piranha.vuetify = new function () {
+    var colors = {
+        light: {
+            background: "#f2f2f2",
+            surface: "#ffffff",
+            primary: "#007eaa",
+            secondary: "#6c757d",
+            success: "#439700",
+            info: "#17a2b8",
+            warning: "#f0ad4e",
+            error: "#a94441"
+        },
+        dark: {
+            background: "#121212",
+            surface: "#1e1e1e",
+            primary: "#42a5f5",
+            secondary: "#78909c",
+            success: "#66bb6a",
+            info: "#29b6f6",
+            warning: "#ffa726",
+            error: "#ef5350"
+        }
+    };
+
+    this.theme = {
+        defaultTheme: piranha.theme ? piranha.theme.current() : "light",
+        themes: {
+            light: {
+                dark: false,
+                colors: colors.light
+            },
+            dark: {
+                dark: true,
+                colors: colors.dark
+            }
+        }
+    };
+
+    this.create = function (options) {
+        if (!window.Vuetify || !Vuetify.createVuetify) {
+            return null;
+        }
+
+        return Vuetify.createVuetify(Object.assign({
+            components: Vuetify.components,
+            directives: Vuetify.directives,
+            theme: this.theme
+        }, options || {}));
+    };
+
+    this.mount = function (selector) {
+        var target = document.querySelector(selector);
+
+        if (!target || !window.Vue || !Vue.createApp || !window.Vuetify) {
+            return null;
+        }
+
+        var vuetify = this.create();
+        if (!vuetify) {
+            return null;
+        }
+
+        var app = Vue.createApp({
+            render: function () {
+                return Vue.h(Vuetify.VApp, {
+                    class: "piranha-vuetify-runtime"
+                });
+            }
+        });
+
+        app.use(vuetify);
+        this.framework = vuetify;
+        this.app = app;
+        this.instance = app.mount(target);
+
+        return this.instance;
+    };
+
+    this.applyTheme = function (theme) {
+        var root = document.documentElement;
+        var selectedTheme = theme === "dark" ? "dark" : "light";
+        var selectedColors = colors[selectedTheme];
+
+        root.setAttribute("data-piranha-theme", "vuetify");
+        root.style.setProperty("--piranha-theme-background", selectedColors.background);
+        root.style.setProperty("--piranha-theme-surface", selectedColors.surface);
+        root.style.setProperty("--piranha-theme-primary", selectedColors.primary);
+        root.style.setProperty("--piranha-theme-secondary", selectedColors.secondary);
+        root.style.setProperty("--piranha-theme-success", selectedColors.success);
+        root.style.setProperty("--piranha-theme-info", selectedColors.info);
+        root.style.setProperty("--piranha-theme-warning", selectedColors.warning);
+        root.style.setProperty("--piranha-theme-error", selectedColors.error);
+    };
+
+    this.setTheme = function (theme) {
+        var selectedTheme = theme === "dark" ? "dark" : "light";
+        this.theme.defaultTheme = selectedTheme;
+
+        if (this.framework &&
+            this.framework.theme &&
+            this.framework.theme.global &&
+            this.framework.theme.global.name) {
+            this.framework.theme.global.name.value = selectedTheme;
+        }
+
+        this.applyTheme(selectedTheme);
+    };
+};
+
+piranha.vuetify.applyTheme(piranha.theme ? piranha.theme.current() : "light");
+piranha.vuetify.mount("#piranha-vuetify-app");
+
+window.addEventListener("piranha:theme-changed", function (event) {
+    piranha.vuetify.setTheme(event.detail.theme);
+});
+
+/*global
     piranha, tinymce
 */
 
@@ -1406,7 +1916,7 @@ piranha.editor = {
     },
     addInlineMarkdown: function (id, value, update) {
         var preview = $("#" + id).parent().find(".markdown-preview");
-        var simplemde = new SimpleMDE({
+        var simplemde = new EasyMDE({
             element: document.getElementById(id),
             status: false,
             spellChecker: true,
@@ -1485,6 +1995,7 @@ $(document).on('focusin', function (e) {
         e.stopImmediatePropagation();
     }
 });
+
 Vue.component("page-item", {
   props: ["item"],
   methods: {
@@ -1492,5 +2003,5 @@ Vue.component("page-item", {
       item.isExpanded = !item.isExpanded;
     }
   },
-  template: "\n<li :data-id=\"item.id\" class=\"dd-item\" :class=\"{ expanded: item.isExpanded || item.items.length === 0 }\">\n    <div class=\"sitemap-item expanded\">\n        <div class=\"link\">\n            <span class=\"actions\">\n                <a v-if=\"item.items.length > 0 && item.isExpanded\" v-on:click.prevent=\"toggleItem(item)\" class=\"expand\" href=\"#\"><i class=\"fas fa-minus\"></i></a>\n                <a v-if=\"item.items.length > 0 && !item.isExpanded\" v-on:click.prevent=\"toggleItem(item)\" class=\"expand\" href=\"#\"><i class=\"fas fa-plus\"></i></a>\n            </span>\n            <a href=\"#\" v-on:click.prevent=\"piranha.pagepicker.select(item)\">\n                {{ item.title }}\n            </a>\n        </div>\n        <div class=\"type d-none d-md-block\">\n            {{ item.typeName }}\n        </div>\n    </div>\n    <ol class=\"dd-list\" v-if=\"item.items.length > 0\">\n        <page-item v-for=\"child in item.items\" v-bind:key=\"child.id\" v-bind:item=\"child\">\n        </page-item>\n    </ol>\n</li>\n"
+  template: "\n    <li :data-id=\"item.id\" class=\"dd-item\" :class=\"{ expanded: item.isExpanded || item.items.length === 0 }\">\n        <div class=\"sitemap-item expanded\">\n            <div class=\"link\">\n                <span class=\"actions\">\n                    <a v-if=\"item.items.length > 0 && item.isExpanded\" v-on:click.prevent=\"toggleItem(item)\" class=\"expand\" href=\"#\"><i class=\"fas fa-minus\"></i></a>\n                    <a v-if=\"item.items.length > 0 && !item.isExpanded\" v-on:click.prevent=\"toggleItem(item)\" class=\"expand\" href=\"#\"><i class=\"fas fa-plus\"></i></a>\n                </span>\n                <a href=\"#\" v-on:click.prevent=\"piranha.pagepicker.select(item)\">\n                    {{ item.title }}\n                </a>\n            </div>\n            <div class=\"type d-none d-md-block\">\n                {{ item.typeName }}\n            </div>\n        </div>\n        <ol class=\"dd-list\" v-if=\"item.items.length > 0\">\n            <page-item v-for=\"child in item.items\" v-bind:key=\"child.id\" v-bind:item=\"child\">\n            </page-item>\n        </ol>\n    </li>\n"
 });
