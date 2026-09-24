@@ -1,4 +1,4 @@
-## [1.0.8] — 2026-09-23
+## [1.0.9] — 2026-09-24
 
 ### 🚀 Features
 
@@ -2107,7 +2107,7 @@
 - Update publish pipeline again `(b1779c7f)` — Håkan Edling
 - Changed signing to not use subscription id `(e7aae168)` — Håkan Edling
 - Updated az sign in command `(aa5bac04)` — Håkan Edling
-- piranha.core: Squash MinooTrading fork changes onto upstream e095c504a `(3b823258)` — Ahmad Minoo
+- piranha.core: Add passwordless Manager sign-in and harden the fork `(166be8db)` — Ahmad Minoo
 
 ### 📝 Documentation
 
