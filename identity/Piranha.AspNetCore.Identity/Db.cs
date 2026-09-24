@@ -26,6 +26,21 @@ public abstract class Db<T> :
     where T : Db<T>
 {
     /// <summary>
+    /// Gets/sets the registered passkeys set.
+    /// </summary>
+    public DbSet<Passkey> Passkeys { get; set; }
+
+    /// <summary>
+    /// Gets/sets the confirmed TOTP authenticator credentials set.
+    /// </summary>
+    public DbSet<TotpCredential> TotpCredentials { get; set; }
+
+    /// <summary>
+    /// Gets/sets the email recovery codes set.
+    /// </summary>
+    public DbSet<RecoveryToken> RecoveryTokens { get; set; }
+
+    /// <summary>
     ///     Gets/sets whether the db context as been initialized. This
     ///     is only performed once in the application lifecycle.
     /// </summary>
@@ -42,6 +57,13 @@ public abstract class Db<T> :
     /// <param name="options">Configuration options</param>
     protected Db(DbContextOptions<T> options) : base(options)
     {
+        // Don't touch the database when created by the EF Core tools,
+        // e.g. when scaffolding migrations with `dotnet ef`
+        if (System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name == "ef")
+        {
+            return;
+        }
+        
         if (IsInitialized)
         {
             return;
@@ -78,6 +100,39 @@ public abstract class Db<T> :
         mb.Entity<IdentityUserLogin<Guid>>().ToTable("Piranha_UserLogins");
         mb.Entity<IdentityRoleClaim<Guid>>().ToTable("Piranha_RoleClaims");
         mb.Entity<IdentityUserToken<Guid>>().ToTable("Piranha_UserTokens");
+
+        mb.Entity<Passkey>(entity =>
+        {
+            entity.ToTable("Piranha_Passkeys");
+            entity.HasKey(p => p.Id);
+            entity.HasIndex(p => p.CredentialId).IsUnique();
+            entity.HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        mb.Entity<TotpCredential>(entity =>
+        {
+            entity.ToTable("Piranha_TotpCredentials");
+            entity.HasKey(t => t.Id);
+            entity.HasIndex(t => t.UserId).IsUnique();
+            entity.HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        mb.Entity<RecoveryToken>(entity =>
+        {
+            entity.ToTable("Piranha_RecoveryTokens");
+            entity.HasKey(r => r.Id);
+            entity.HasIndex(r => r.UserId);
+            entity.HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
     }
 
     /// <summary>

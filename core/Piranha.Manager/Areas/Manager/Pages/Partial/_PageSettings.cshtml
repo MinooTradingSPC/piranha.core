@@ -6,9 +6,7 @@
             <!-- Header -->
             <div class="modal-header border-bottom-0">
                 <h5 class="modal-title"><i class="fas fa-cog"></i> @Localizer.General["Settings"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <!-- Tabs -->
@@ -39,7 +37,7 @@
                             <div class="block-body has-media-picker rounded" :class="{ empty: primaryImage.id === null }">
                                 <img class="rounded" :src="primaryImageUrl">
                                 <div class="media-picker">
-                                    <div class="btn-group float-right">
+                                    <div class="btn-group float-end">
                                         <button v-on:click.prevent="selectPrimaryImage" class="btn btn-primary text-center">
                                             <i class="fas fa-plus"></i>
                                         </button>
@@ -47,7 +45,7 @@
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
-                                    <div class="card text-left">
+                                    <div class="card text-start">
                                         <div class="card-body" v-if="primaryImage.id === null">
                                             &nbsp;
                                         </div>
@@ -105,7 +103,7 @@
                         <label>@Localizer.Content["Excerpt"]</label>
                         <div v-if="useHtmlExcerpt" class="block text-block ingress" :class="{ empty: isExcerptEmpty, readonly: isCopy }">
                             <div id="excerpt-toolbar" class="component-toolbar"></div>
-                            <div id="excerpt-body" class="block-body html-block" contenteditable="true" v-html="excerpt" v-on:blur="onExcerptBlur">
+                            <div id="excerpt-body" class="block-body htms-block" contenteditable="true" v-html="excerpt" v-on:blur="onExcerptBlur">
                             </div>
                             <div class="content-blocker"></div>
                         </div>
@@ -174,9 +172,9 @@
                     <div class="form-group">
                         <div class="d-flex">
                             <label><strong>@Localizer.Content["Meta priority"]</strong></label>
-                            <span class="ml-auto">{{ metaPriorityDescription }}</span>
+                            <span class="ms-auto">{{ metaPriorityDescription }}</span>
                         </div>
-                        <input v-model="metaPriority" type="range"  class="custom-range" min="0" max="1" step="0.1">
+                        <input v-model="metaPriority" type="range"  class="form-range" min="0" max="1" step="0.1">
                         <small>@Localizer.Content["Search engine priority, compared to other content in the same site."]</small>
                     </div>
                 </div>

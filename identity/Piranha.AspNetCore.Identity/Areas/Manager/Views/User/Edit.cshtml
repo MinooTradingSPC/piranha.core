@@ -121,6 +121,12 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card" v-if="isEditingSelf">
+                <div class="card-body">
+                    <a href="@Url.Content("~/manager/account/security")"><i class="fas fa-shield-alt"></i> @Localizer.General["Manage your passkeys and authenticator app"]</a>
+                </div>
+            </div>
         </div>
     </div>
 </form>

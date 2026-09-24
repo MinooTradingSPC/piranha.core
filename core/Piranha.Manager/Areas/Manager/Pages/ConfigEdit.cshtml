@@ -66,6 +66,19 @@
                     <li class="list-group-item">
                         <div class="row align-items-end">
                             <div class="col-md-8">
+                                <strong class="d-block">@Localizer.Config["Menu width"]</strong>
+                                <span class="text-secondary">
+                                    @Localizer.Config["The width in pixels of the expanded manager menu, between {0} and {1}.", Piranha.Config.ManagerMenuWidthMin, Piranha.Config.ManagerMenuWidthMax]
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <input v-model.number="model.managerMenuWidth" class="form-control" type="number" min="@Piranha.Config.ManagerMenuWidthMin" max="@Piranha.Config.ManagerMenuWidthMax" step="10">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row align-items-end">
+                            <div class="col-md-8">
                                 <strong class="d-block">@Localizer.Config["Hierarchical page slugs"]</strong>
                                 <span class="text-secondary">
                                     @Localizer.Config["If page slugs should take their parent slug into account when being generated. This is prefered for larger sitemaps."]

@@ -18,6 +18,7 @@ public class ConfigModel
     public bool HierarchicalPageSlugs { get; set; }
     public int ExpandedSitemapLevels { get; set; }
     public int ManagerPageSize { get; set; }
+    public int ManagerMenuWidth { get; set; }
     public int ArchivePageSize { get; set; }
     public bool CommentsApprove { get; set; }
     public int CommentsCloseAfterDays { get; set; }

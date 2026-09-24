@@ -10,6 +10,7 @@ piranha.config = new Vue({
             hierarchicalPageSlugs: null,
             expandedSitemapLevels: null,
             managerPageSize: null,
+            managerMenuWidth: null,
             archivePageSize: null,
             commentsApprove: null,
             commentsCloseAfterDays: null,
@@ -35,6 +36,7 @@ piranha.config = new Vue({
                     self.model.hierarchicalPageSlugs = result.hierarchicalPageSlugs;
                     self.model.expandedSitemapLevels = result.expandedSitemapLevels;
                     self.model.managerPageSize = result.managerPageSize;
+                    self.model.managerMenuWidth = result.managerMenuWidth;
                     self.model.archivePageSize = result.archivePageSize;
                     self.model.commentsApprove = result.commentsApprove;
                     self.model.commentsCloseAfterDays = result.commentsCloseAfterDays;
@@ -61,6 +63,7 @@ piranha.config = new Vue({
                         hierarchicalPageSlugs: self.model.hierarchicalPageSlugs,
                         expandedSitemapLevels: self.model.expandedSitemapLevels,
                         managerPageSize: self.model.managerPageSize,
+                        managerMenuWidth: self.model.managerMenuWidth,
                         archivePageSize: self.model.archivePageSize,
                         commentsApprove: self.model.commentsApprove,
                         commentsCloseAfterDays: self.model.commentsCloseAfterDays,
@@ -79,6 +82,8 @@ piranha.config = new Vue({
                 .then(function (response) { return response.json(); })
                 .then(function (result) {
                     if (result.status !== 400) {
+                        piranha.menu.setWidth(self.model.managerMenuWidth);
+
                         // Push status to notification hub
                         piranha.notifications.push(result.status);
                     } else {

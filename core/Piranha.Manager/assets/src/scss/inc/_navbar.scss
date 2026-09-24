@@ -3,16 +3,35 @@
 
 .navbar {
     &.navbar-left {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
         width: 3rem;
         height: 100%;
+        box-sizing: border-box;
+        align-items: stretch;
         padding: .5rem 0;
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: hidden;
         transition: width ease-in-out .2s;
+
+        > .navbar-brand {
+            flex: 0 0 auto;
+        }
+
+        > .navbar-nav {
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        > .manager-preferences {
+            flex: 0 0 auto;
+        }
 
         &.active, &:hover {
             width: 200px;
+            width: var(--manager-menu-width, 200px);
         }
 
         a:hover {
@@ -45,6 +64,70 @@
 
             .navbar-text {
                 display: block;
+            }
+
+            &.nav-group {
+                > .nav-header {
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    margin: 0;
+                    color: $white;
+                    font-family: "Open Sans", sans-serif;
+                    font-size: 1rem;
+                    font-weight: 300;
+                    text-align: start;
+                    white-space: nowrap;
+                    background: none;
+                    border: 0;
+                    border-top: solid 1px rgba(255,255,255,.2);
+                    border-radius: 0;
+                    cursor: pointer;
+
+                    > i:first-child {
+                        color: $yellow;
+                    }
+
+                    &:hover {
+                        background: lighten($gray-800, 5%);
+                    }
+
+                    &:focus-visible {
+                        outline: 2px solid $blue;
+                        outline-offset: -2px;
+                    }
+                }
+
+                .nav-header-title {
+                    flex: 1 1 auto;
+                    min-width: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .nav-group-toggle {
+                    flex: 0 0 auto;
+                    width: 1rem;
+                    font-size: .7rem;
+                    color: $gray-500;
+                    transition: transform ease-in-out .15s;
+                }
+
+                > .nav-group-items {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                }
+
+                &.collapsed {
+                    .nav-group-toggle {
+                        transform: rotate(-90deg);
+                    }
+
+                    > .nav-group-items {
+                        display: none;
+                    }
+                }
             }
 
             &.nav-header {

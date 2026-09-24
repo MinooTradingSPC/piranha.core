@@ -1,0 +1,94 @@
+@inject Piranha.IApi Api
+@inject Piranha.Manager.ManagerLocalizer Localizer
+@{
+    var module = Piranha.App.Modules.Get<Piranha.Manager.Module>();
+    var prerelease = Piranha.Utils.IsPreRelease(typeof(Piranha.Manager.Module).Assembly) ? "pre-release" : "";
+    var version = Piranha.Utils.GetAssemblyVersionHash(typeof(Piranha.Manager.Module).Assembly);
+    var displayVersion = Piranha.Utils.GetAssemblyVersion(typeof(Piranha.Manager.Module).Assembly);
+
+    // Brand the page with the default site's title, logo and description.
+    // Keep the built-in values when the site doesn't set them, including
+    // the "Default Site" title seeded on a new install.
+    var site = await Api.Sites.GetDefaultAsync();
+    var name = !string.IsNullOrWhiteSpace(site?.Title) && site.Title != "Default Site" ? site.Title : "Piranha CMS";
+    var logoUrl = site?.Logo?.Media?.PublicUrl;
+    var lead = !string.IsNullOrWhiteSpace(site?.Description)
+        ? site.Description
+        : Localizer.General["Manage the pages, posts and media of your site."].Value;
+
+    // Pages opt in to listing the extra sign-in methods they offer.
+    var passkeysEnabled = ViewData["PasskeysEnabled"] as bool? ?? false;
+}
+<!doctype html>
+<html lang="en" class="login-page" style="min-height:100%;background:#07080a">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#07080a">
+    <meta name="color-scheme" content="dark">
+
+    <link rel="preload" href="~/manager/assets/webfonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="~/manager/assets/webfonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="~/manager/assets/css/slim.min.css?v=@version">
+    <link rel="icon" href="~/manager/assets/img/logo.png">
+    @foreach (var style in module.Styles) {
+        <link href="@Url.Content(style)" rel="stylesheet" type="text/css" />
+    }
+
+    <title>@ViewData["Title"] - @name</title>
+</head>
+<body id="login" class="@prerelease">
+    <canvas id="login-bg" aria-hidden="true"></canvas>
+    @if (!string.IsNullOrEmpty(prerelease))
+    {
+    <div class="pre-release">Pre-release</div>
+    }
+    <div class="login-shell">
+        <header class="login-topbar">
+            <span class="login-brandmark">
+                @if (!string.IsNullOrEmpty(logoUrl))
+                {
+                    <img class="logo" src="@Url.Content(logoUrl)" alt="">
+                }
+                else
+                {
+                    <span class="logo" aria-hidden="true"></span>
+                }
+                @name
+            </span>
+            <p class="login-label login-status">@Localizer.General["Version"] @displayVersion</p>
+        </header>
+
+        <main class="login-main">
+            <section class="login-brand">
+                <div class="login-brand-body">
+                    <p class="login-label">@Localizer.General["Content manager"]</p>
+                    <h2 class="login-display">
+                        <span class="line"><span>@name</span></span>
+                        <span class="line"><span>@Localizer.General["Manager"].</span></span>
+                    </h2>
+                    <p class="login-lead">@lead</p>
+                </div>
+            </section>
+
+            <section class="login-panel @(!ViewContext.ModelState.IsValid ? "has-error" : "")">
+                <div class="login-panel-inner">
+                    <p class="login-label">@name</p>
+                    <h1 class="login-heading">@ViewData["Title"]</h1>
+                    @if (ViewData["Subtitle"] is string subtitle)
+                    {
+                        <p class="login-subheading">@subtitle</p>
+                    }
+                    @RenderBody()
+                </div>
+                <footer class="login-footer">
+                    <span class="login-label">&copy; @DateTime.Now.Year @name</span>
+                    <span class="login-label"><i class="fas fa-lock" aria-hidden="true"></i>@Localizer.General["Secure sign-in"]</span>
+                </footer>
+            </section>
+        </main>
+    </div>
+    @RenderSection("Scripts", required: false)
+    <script src="~/manager/assets/js/piranha.login.min.js?v=@version"></script>
+</body>
+</html>

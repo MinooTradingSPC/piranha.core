@@ -38,6 +38,7 @@ public class ConfigService
                 HierarchicalPageSlugs = config.HierarchicalPageSlugs,
                 ExpandedSitemapLevels = config.ManagerExpandedSitemapLevels,
                 ManagerPageSize = config.ManagerPageSize,
+                ManagerMenuWidth = config.ManagerMenuWidth,
                 DefaultCollapsedBlocks = config.ManagerDefaultCollapsedBlocks,
                 DefaultCollapsedBlockGroupHeaders = config.ManagerDefaultCollapsedBlockGroupHeaders,
                 ArchivePageSize = config.ArchivePageSize,
@@ -66,6 +67,7 @@ public class ConfigService
             config.HierarchicalPageSlugs = model.HierarchicalPageSlugs;
             config.ManagerExpandedSitemapLevels = model.ExpandedSitemapLevels;
             config.ManagerPageSize = model.ManagerPageSize;
+            config.ManagerMenuWidth = model.ManagerMenuWidth;
             config.ManagerDefaultCollapsedBlocks = model.DefaultCollapsedBlocks;
             config.ManagerDefaultCollapsedBlockGroupHeaders = model.DefaultCollapsedBlockGroupHeaders;
             config.ArchivePageSize = model.ArchivePageSize;
