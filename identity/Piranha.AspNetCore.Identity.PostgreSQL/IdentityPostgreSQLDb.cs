@@ -18,5 +18,8 @@ public class IdentityPostgreSQLDb : Db<IdentityPostgreSQLDb>
     /// Default constructor.
     /// </summary>
     /// <param name="options">Configuration options</param>
-    public IdentityPostgreSQLDb(DbContextOptions<IdentityPostgreSQLDb> options) : base(options) { }
+    public IdentityPostgreSQLDb(DbContextOptions<IdentityPostgreSQLDb> options) : base(options)
+    {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    }
 }

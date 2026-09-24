@@ -28,7 +28,13 @@ internal sealed class DistributedCache : ICache
         _cache = cache;
         _jsonSettings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All
+            // TypeNameHandling.Auto only embeds $type when the concrete type differs from the
+            // declared type (i.e. for polymorphic fields such as PageBase / PostBase).
+            // Combined with PiranhaTypesBinder, which whitelists only Piranha assemblies,
+            // this prevents RCE via cache poisoning: an attacker-controlled $type value
+            // that names a non-Piranha gadget class is rejected at bind time.
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = new PiranhaTypesBinder()
         };
     }
 
@@ -47,7 +53,7 @@ internal sealed class DistributedCache : ICache
     /// <inheritdoc />
     public async Task SetAsync<T>(string key, T value, CancellationToken cancellationToken = default)
     {
-        await _cache.SetStringAsync(key, JsonConvert.SerializeObject(value, _jsonSettings), cancellationToken).ConfigureAwait(false);
+        await _cache.SetStringAsync(key, JsonConvert.SerializeObject(value, typeof(T), _jsonSettings), cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

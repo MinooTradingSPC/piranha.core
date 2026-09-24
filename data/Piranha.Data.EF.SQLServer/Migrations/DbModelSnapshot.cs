@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Piranha.Data.EF.SQLServer;
 
+#nullable disable
+
 namespace Piranha.Data.EF.SQLServer.Migrations
 {
     [DbContext(typeof(SQLServerDb))]
@@ -15,9 +17,10 @@ namespace Piranha.Data.EF.SQLServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "8.0.31")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Piranha.Data.Alias", b =>
                 {
@@ -52,7 +55,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("SiteId", "AliasUrl")
                         .IsUnique();
 
-                    b.ToTable("Piranha_Aliases");
+                    b.ToTable("Piranha_Aliases", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Block", b =>
@@ -84,7 +87,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Piranha_Blocks");
+                    b.ToTable("Piranha_Blocks", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.BlockField", b =>
@@ -117,7 +120,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("BlockId", "FieldId", "SortOrder")
                         .IsUnique();
 
-                    b.ToTable("Piranha_BlockFields");
+                    b.ToTable("Piranha_BlockFields", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Category", b =>
@@ -150,7 +153,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("BlogId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("Piranha_Categories");
+                    b.ToTable("Piranha_Categories", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Content", b =>
@@ -188,7 +191,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Piranha_Content");
+                    b.ToTable("Piranha_Content", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentBlock", b =>
@@ -215,7 +218,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("ContentId");
 
-                    b.ToTable("Piranha_ContentBlocks");
+                    b.ToTable("Piranha_ContentBlocks", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentBlockField", b =>
@@ -248,7 +251,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("BlockId", "FieldId", "SortOrder")
                         .IsUnique();
 
-                    b.ToTable("Piranha_ContentBlockFields");
+                    b.ToTable("Piranha_ContentBlockFields", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentBlockFieldTranslation", b =>
@@ -266,7 +269,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("Piranha_ContentBlockFieldTranslations");
+                    b.ToTable("Piranha_ContentBlockFieldTranslations", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentField", b =>
@@ -303,7 +306,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("ContentId", "RegionId", "FieldId", "SortOrder");
 
-                    b.ToTable("Piranha_ContentFields");
+                    b.ToTable("Piranha_ContentFields", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentFieldTranslation", b =>
@@ -321,7 +324,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("Piranha_ContentFieldTranslations");
+                    b.ToTable("Piranha_ContentFieldTranslations", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentGroup", b =>
@@ -355,7 +358,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Piranha_ContentGroups");
+                    b.ToTable("Piranha_ContentGroups", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentTaxonomy", b =>
@@ -370,7 +373,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("TaxonomyId");
 
-                    b.ToTable("Piranha_ContentTaxonomies");
+                    b.ToTable("Piranha_ContentTaxonomies", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentTranslation", b =>
@@ -396,7 +399,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("Piranha_ContentTranslations");
+                    b.ToTable("Piranha_ContentTranslations", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.ContentType", b =>
@@ -424,7 +427,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Piranha_ContentTypes");
+                    b.ToTable("Piranha_ContentTypes", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Language", b =>
@@ -447,7 +450,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Piranha_Languages");
+                    b.ToTable("Piranha_Languages", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Media", b =>
@@ -509,7 +512,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("FolderId");
 
-                    b.ToTable("Piranha_Media");
+                    b.ToTable("Piranha_Media", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.MediaFolder", b =>
@@ -535,7 +538,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Piranha_MediaFolders");
+                    b.ToTable("Piranha_MediaFolders", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.MediaVersion", b =>
@@ -566,7 +569,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                         .IsUnique()
                         .HasFilter("[Height] IS NOT NULL");
 
-                    b.ToTable("Piranha_MediaVersions");
+                    b.ToTable("Piranha_MediaVersions", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Page", b =>
@@ -697,7 +700,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("SiteId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("Piranha_Pages");
+                    b.ToTable("Piranha_Pages", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PageBlock", b =>
@@ -725,7 +728,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("PageId", "SortOrder")
                         .IsUnique();
 
-                    b.ToTable("Piranha_PageBlocks");
+                    b.ToTable("Piranha_PageBlocks", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PageComment", b =>
@@ -767,7 +770,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("Piranha_PageComments");
+                    b.ToTable("Piranha_PageComments", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PageField", b =>
@@ -804,7 +807,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("PageId", "RegionId", "FieldId", "SortOrder");
 
-                    b.ToTable("Piranha_PageFields");
+                    b.ToTable("Piranha_PageFields", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PagePermission", b =>
@@ -817,7 +820,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("PageId", "Permission");
 
-                    b.ToTable("Piranha_PagePermissions");
+                    b.ToTable("Piranha_PagePermissions", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PageRevision", b =>
@@ -839,7 +842,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("Piranha_PageRevisions");
+                    b.ToTable("Piranha_PageRevisions", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PageType", b =>
@@ -863,7 +866,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Piranha_PageTypes");
+                    b.ToTable("Piranha_PageTypes", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Param", b =>
@@ -895,7 +898,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("Key")
                         .IsUnique();
 
-                    b.ToTable("Piranha_Params");
+                    b.ToTable("Piranha_Params", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Post", b =>
@@ -1006,7 +1009,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("BlogId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("Piranha_Posts");
+                    b.ToTable("Piranha_Posts", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PostBlock", b =>
@@ -1034,7 +1037,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("PostId", "SortOrder")
                         .IsUnique();
 
-                    b.ToTable("Piranha_PostBlocks");
+                    b.ToTable("Piranha_PostBlocks", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PostComment", b =>
@@ -1077,7 +1080,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Piranha_PostComments");
+                    b.ToTable("Piranha_PostComments", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PostField", b =>
@@ -1114,7 +1117,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("PostId", "RegionId", "FieldId", "SortOrder");
 
-                    b.ToTable("Piranha_PostFields");
+                    b.ToTable("Piranha_PostFields", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PostPermission", b =>
@@ -1127,7 +1130,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("PostId", "Permission");
 
-                    b.ToTable("Piranha_PostPermissions");
+                    b.ToTable("Piranha_PostPermissions", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PostRevision", b =>
@@ -1149,7 +1152,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Piranha_PostRevisions");
+                    b.ToTable("Piranha_PostRevisions", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PostTag", b =>
@@ -1164,7 +1167,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("Piranha_PostTags");
+                    b.ToTable("Piranha_PostTags", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.PostType", b =>
@@ -1188,7 +1191,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Piranha_PostTypes");
+                    b.ToTable("Piranha_PostTypes", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Site", b =>
@@ -1247,7 +1250,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("Piranha_Sites");
+                    b.ToTable("Piranha_Sites", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.SiteField", b =>
@@ -1284,7 +1287,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasIndex("SiteId", "RegionId", "FieldId", "SortOrder");
 
-                    b.ToTable("Piranha_SiteFields");
+                    b.ToTable("Piranha_SiteFields", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.SiteType", b =>
@@ -1308,7 +1311,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Piranha_SiteTypes");
+                    b.ToTable("Piranha_SiteTypes", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Tag", b =>
@@ -1341,7 +1344,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("BlogId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("Piranha_Tags");
+                    b.ToTable("Piranha_Tags", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Taxonomy", b =>
@@ -1379,7 +1382,7 @@ namespace Piranha.Data.EF.SQLServer.Migrations
                     b.HasIndex("GroupId", "Type", "Slug")
                         .IsUnique();
 
-                    b.ToTable("Piranha_Taxonomies");
+                    b.ToTable("Piranha_Taxonomies", (string)null);
                 });
 
             modelBuilder.Entity("Piranha.Data.Alias", b =>
