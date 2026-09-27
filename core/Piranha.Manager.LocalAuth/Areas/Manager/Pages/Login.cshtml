@@ -1,79 +1,139 @@
 ﻿@page "~/manager/login"
 @model Piranha.Manager.LocalAuth.Areas.Manager.Pages.LoginModel
 @inject Piranha.Manager.ManagerLocalizer Localizer
+@*
+    The manager login page. Its look comes from the design picked on the
+    manager config page: the design's key selects the style and script files
+    loaded below, while the markup and the sign-in scripts (piranha.login.js
+    in Piranha.Manager) stay the same for every design. See the README for
+    adding a client's own designs.
+*@
 @{
     Layout = null;
+
     var module = Piranha.App.Modules.Get<Piranha.Manager.Module>();
     var prerelease = Piranha.Utils.IsPreRelease(typeof(Piranha.Manager.Module).Assembly) ? "pre-release" : "";
+    var version = Piranha.Utils.GetAssemblyVersionHash(typeof(Piranha.Manager.Module).Assembly);
+    var displayVersion = Piranha.Utils.GetAssemblyVersion(typeof(Piranha.Manager.Module).Assembly);
+    var name = Model.SiteName;
+
+    // Version the manager's own files so browsers pick up new builds.
+    string AssetUrl(string url) => Url.Content(url.StartsWith("~/manager/assets/") ? $"{url}?v={version}" : url);
 }
 <!doctype html>
-<html lang="en" style="min-height:100%">
+<html lang="en" class="login-page">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="~/manager/assets/css/slim.min.css">
+    <link rel="preload" href="~/manager/assets/webfonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="icon" href="~/manager/assets/img/logo.png">
-    @foreach (var style in module.Styles) {
-        <link href="@Url.Content(style)" rel="stylesheet" type="text/css" />
+    @foreach (var style in Model.Design.Styles)
+    {
+        <link rel="stylesheet" href="@AssetUrl(style)">
+    }
+    @foreach (var style in module.Styles)
+    {
+        <link rel="stylesheet" href="@Url.Content(style)">
     }
 
-    <title>@Localizer.General["Login"]</title>
+    <title>@Model.Title - @name</title>
 </head>
-<body id="login" class="@prerelease">
+<body id="login" class="login-design-@Model.Design.Id.ToLowerInvariant() @prerelease">
     @if (!string.IsNullOrEmpty(prerelease))
     {
     <div class="pre-release">Pre-release</div>
     }
-    <div class="container">
-        <form method="post" class="needs-validation" novalidate>
-            @Html.AntiForgeryToken()
-            <div class="card card-login @(!Model.ModelState.IsValid ? "has-error" : "")">
-                <div class="card-body card-body-logo">
-                    <div class="logo"></div>
-                    <p class="banner">
-                        Piranha CMS
-                        <small>@Localizer.General["Version"] @Piranha.Utils.GetAssemblyVersion(typeof(Piranha.Manager.Module).Assembly)</small>
-                    </p>
-                </div>
+    <div class="login-shell">
+        <header class="login-topbar">
+            <span class="login-brandmark">
+                <img class="logo" src="@Url.Content(string.IsNullOrEmpty(Model.LogoUrl) ? "~/manager/assets/img/logo.png" : Model.LogoUrl)" alt="">
+                @name
+            </span>
+            <p class="login-label login-status">@Localizer.General["Version"] @displayVersion</p>
+        </header>
 
-                @if (!Model.ModelState.IsValid)
-                {
-                    <p class="error-message">@string.Join("\r\n", ModelState.SelectMany(p => p.Value.Errors).Select(e => e.ErrorMessage))</p>
-                }
-
-                <div class="card-body card-body-form">
-                    <div class="form-group">
-                        <label for="username" class="col-form-label col-form-label-lg">@Localizer.General["Username"]</label>
-                        <input autofocus id="username" required name="username" type="text" class="form-control form-control-lg text-center" placeholder="@Localizer.General["Username"].Value.ToLower()">
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="col-form-label col-form-label-lg">@Localizer.General["Password"]</label>
-                        <input name="password" required type="password" class="form-control form-control-lg text-center" placeholder="@Localizer.General["Password"].Value.ToLower()">
-                    </div>
-                    <button class="btn btn-lg btn-block btn-primary" type="submit">
-                        <i class="fas fa-check"></i>
-                    </button>
+        <main class="login-main">
+            <section class="login-brand">
+                <div class="login-brand-body">
+                    <p class="login-label">@Localizer.General["Content manager"]</p>
+                    <h2 class="login-display">
+                        <span class="line"><span>@name</span></span>
+                        <span class="line"><span>@Localizer.General["Manager"].</span></span>
+                    </h2>
+                    <p class="login-lead">@Model.Lead</p>
                 </div>
-            </div>
-        </form>
-    </div>
-    <script>
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
+            </section>
+
+            <section class="login-panel @(Model.Errors.Any() ? "has-error" : "")">
+                <div class="login-panel-inner">
+                    <p class="login-label">@name</p>
+                    <h1 class="login-heading">@Model.Title</h1>
+                    <p class="login-subheading">@Model.Subtitle</p>
+                    <form method="post" class="needs-validation" novalidate>
+                        @Html.AntiForgeryToken()
+                        @if (Model.Errors.Any())
+                        {
+                            <p class="error-message" role="alert">@string.Join("\r\n", Model.Errors)</p>
                         }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
+
+                        <div class="login-field">
+                            <label for="username" class="login-label">@Localizer.General["Username"]</label>
+                            <input autofocus id="username" required name="username" type="text" autocomplete="username webauthn" class="form-control" placeholder="@Localizer.General["Username"].Value.ToLower()">
+                        </div>
+                        <div class="login-field">
+                            <label for="password" class="login-label">@Localizer.General["Password"]</label>
+                            <input id="password" name="password" required type="password" autocomplete="current-password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+                        </div>
+                        <div class="form-check">
+                            <input id="remember-username" type="checkbox" class="form-check-input">
+                            <label for="remember-username" class="form-check-label">@Localizer.General["Remember my username"]</label>
+                        </div>
+                        <button class="btn-login" type="submit">@Localizer.General["Login"] <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                        @if (Model.PasskeysEnabled)
+                        {
+                            <div class="login-divider"><span class="login-label">@Localizer.General["Or"]</span></div>
+                            <div class="login-methods">
+                                <a href="#" id="passkey-login-link" class="login-method"><i class="fas fa-fingerprint" aria-hidden="true"></i>@Localizer.General["Sign in with a passkey instead"]</a>
+                                <a href="#" id="totp-login-link" class="login-method"><i class="fas fa-mobile-screen" aria-hidden="true"></i>@Localizer.General["Sign in with an authenticator app code"]</a>
+                                <div id="totp-login-form" style="display:none" class="login-subform">
+                                    <label for="totp-code" class="login-label">@Localizer.General["Authenticator code"]</label>
+                                    <input id="totp-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" type="text" class="form-control login-code" placeholder="000000">
+                                    <button id="totp-login-submit" type="button" class="btn-login">@Localizer.General["Login"]</button>
+                                </div>
+                                <a href="#" id="recovery-login-link" class="login-method"><i class="fas fa-envelope" aria-hidden="true"></i>@Localizer.General["Email me a sign-in code"]</a>
+                                <div id="recovery-login-form" style="display:none" class="login-subform">
+                                    <p class="login-note">@Localizer.General["If that email has an account, we've sent it a code. Check your inbox."]</p>
+                                    <label for="recovery-code" class="login-label">@Localizer.General["Sign-in code"]</label>
+                                    <input id="recovery-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" type="text" class="form-control login-code" placeholder="000000">
+                                    <button id="recovery-login-submit" type="button" class="btn-login">@Localizer.General["Login"]</button>
+                                </div>
+                            </div>
+                            <p id="passkey-login-error" class="error-message" role="alert" style="display:none"></p>
+                        }
+                    </form>
+                </div>
+                <footer class="login-footer">
+                    <span class="login-label">&copy; @DateTime.Now.Year @name</span>
+                    @if (Model.PasskeysEnabled)
+                    {
+                        <span class="login-label login-slogan"><i class="fas fa-fingerprint" aria-hidden="true"></i>@Localizer.General["Secure, passwordless sign-in"]</span>
+                    }
+                    else
+                    {
+                        <span class="login-label login-slogan"><i class="fas fa-lock" aria-hidden="true"></i>@Localizer.General["Secure sign-in"]</span>
+                    }
+                </footer>
+            </section>
+        </main>
+        <p class="login-credit">
+            <a href="@module.PackageUrl" target="_blank" rel="noopener noreferrer">@Localizer.General["A security-hardened fork of Piranha CMS by {0}", module.Author]</a>
+        </p>
+    </div>
+    <script src="@AssetUrl("~/manager/assets/js/piranha.login.min.js")" data-base-url="@Url.Content("~/")"></script>
+    @foreach (var script in Model.Design.Scripts)
+    {
+        <script src="@AssetUrl(script)"></script>
+    }
 </body>
 </html>

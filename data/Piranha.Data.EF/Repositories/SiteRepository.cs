@@ -60,7 +60,7 @@ internal class SiteRepository : ISiteRepository
             models.Add(new Models.Site
             {
                 Id = site.Id,
-                LanguageId = site.LanguageId.HasValue ? site.LanguageId.Value : defaultLanguage.Id,
+                LanguageId = GetLanguageId(site, defaultLanguage),
                 SiteTypeId = site.SiteTypeId,
                 Title = site.Title,
                 InternalId = site.InternalId,
@@ -99,7 +99,7 @@ internal class SiteRepository : ISiteRepository
             return new Models.Site
             {
                 Id = site.Id,
-                LanguageId = site.LanguageId.HasValue ? site.LanguageId.Value : defaultLanguage.Id,
+                LanguageId = GetLanguageId(site, defaultLanguage),
                 SiteTypeId = site.SiteTypeId,
                 Title = site.Title,
                 InternalId = site.InternalId,
@@ -138,7 +138,7 @@ internal class SiteRepository : ISiteRepository
             return new Models.Site
             {
                 Id = site.Id,
-                LanguageId = site.LanguageId.HasValue ? site.LanguageId.Value : defaultLanguage.Id,
+                LanguageId = GetLanguageId(site, defaultLanguage),
                 SiteTypeId = site.SiteTypeId,
                 Title = site.Title,
                 InternalId = site.InternalId,
@@ -176,7 +176,7 @@ internal class SiteRepository : ISiteRepository
             return new Models.Site
             {
                 Id = site.Id,
-                LanguageId = site.LanguageId.HasValue ? site.LanguageId.Value : defaultLanguage.Id,
+                LanguageId = GetLanguageId(site, defaultLanguage),
                 SiteTypeId = site.SiteTypeId,
                 Title = site.Title,
                 InternalId = site.InternalId,
@@ -190,6 +190,11 @@ internal class SiteRepository : ISiteRepository
             };
         }
         return null;
+    }
+
+    private Guid GetLanguageId(Site site, Language defaultLanguage)
+    {
+        return site.LanguageId ?? defaultLanguage?.Id ?? Guid.Empty;
     }
 
     /// <summary>

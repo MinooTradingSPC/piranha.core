@@ -38,6 +38,8 @@ public class ConfigService
                 HierarchicalPageSlugs = config.HierarchicalPageSlugs,
                 ExpandedSitemapLevels = config.ManagerExpandedSitemapLevels,
                 ManagerPageSize = config.ManagerPageSize,
+                ManagerMenuWidth = config.ManagerMenuWidth,
+                LoginDesign = config.ManagerLoginDesign,
                 DefaultCollapsedBlocks = config.ManagerDefaultCollapsedBlocks,
                 DefaultCollapsedBlockGroupHeaders = config.ManagerDefaultCollapsedBlockGroupHeaders,
                 ArchivePageSize = config.ArchivePageSize,
@@ -66,6 +68,13 @@ public class ConfigService
             config.HierarchicalPageSlugs = model.HierarchicalPageSlugs;
             config.ManagerExpandedSitemapLevels = model.ExpandedSitemapLevels;
             config.ManagerPageSize = model.ManagerPageSize;
+            config.ManagerMenuWidth = model.ManagerMenuWidth;
+
+            // Only store designs the host has registered.
+            if (App.Modules.Get<Module>()?.LoginDesigns.Any(d => d.Id == model.LoginDesign) == true)
+            {
+                config.ManagerLoginDesign = model.LoginDesign;
+            }
             config.ManagerDefaultCollapsedBlocks = model.DefaultCollapsedBlocks;
             config.ManagerDefaultCollapsedBlockGroupHeaders = model.DefaultCollapsedBlockGroupHeaders;
             config.ArchivePageSize = model.ArchivePageSize;

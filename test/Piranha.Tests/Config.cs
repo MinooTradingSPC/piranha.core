@@ -33,6 +33,7 @@ public class Config : BaseTestsAsync
                     config.CommentsPageSize = 0;
                     config.HierarchicalPageSlugs = true;
                     config.ManagerExpandedSitemapLevels = 0;
+                    config.ManagerMenuWidth = 200;
                 }
             }
         });
@@ -134,6 +135,32 @@ public class Config : BaseTestsAsync
                 config.ManagerExpandedSitemapLevels = 3;
 
                 Assert.Equal(3, config.ManagerExpandedSitemapLevels);
+            }
+        }
+    }
+
+    [Fact]
+    public void ManagerMenuWidth() {
+        using (var api = CreateApi()) {
+            using (var config = new Piranha.Config(api)) {
+                Assert.Equal(200, config.ManagerMenuWidth);
+
+                config.ManagerMenuWidth = 280;
+
+                Assert.Equal(280, config.ManagerMenuWidth);
+            }
+        }
+    }
+
+    [Fact]
+    public void ManagerMenuWidthClamped() {
+        using (var api = CreateApi()) {
+            using (var config = new Piranha.Config(api)) {
+                config.ManagerMenuWidth = 10;
+                Assert.Equal(Piranha.Config.ManagerMenuWidthMin, config.ManagerMenuWidth);
+
+                config.ManagerMenuWidth = 5000;
+                Assert.Equal(Piranha.Config.ManagerMenuWidthMax, config.ManagerMenuWidth);
             }
         }
     }
