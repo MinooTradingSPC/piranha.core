@@ -7,7 +7,7 @@
                 <button v-on:click="selectStatus('scheduled')" class="btn btn-sm" :class="status === 'scheduled' ? 'btn-primary' : 'btn-light'" href="#">{{ piranha.resources.texts.scheduled }}</button>
             </div>
             <div v-if="postTypes.length > 1" class="btn-group" role="group">
-                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ piranha.resources.texts.all }}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div v-if="categories.length > 1" class="btn-group" role="group">
-                <button type="button" class="btn btn-sm dropdown-toggle" :class="category === piranha.resources.texts.allCategories ? 'btn-light' : 'btn-primary'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-sm dropdown-toggle" :class="category === piranha.resources.texts.allCategories ? 'btn-light' : 'btn-primary'" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ category }}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -23,13 +23,13 @@
                     <a v-on:click.prevent="selectCategory(category.title)" v-for="category in categories" v-bind:key="category.slug" href="#" class="dropdown-item">{{ category.title }}</a>
                 </div>
             </div>
-            <div v-if="postTypes.length > 1 && piranha.permissions.posts.add" class="btn-group float-right">
-                <button id="addPostGroup" class="btn btn-sm btn-primary btn-labeled dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i>{{ piranha.resources.texts.add }}</button>
+            <div v-if="postTypes.length > 1 && piranha.permissions.posts.add" class="btn-group float-end">
+                <button id="addPostGroup" class="btn btn-sm btn-primary btn-labeled dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i>{{ piranha.resources.texts.add }}</button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="addPostGroup">
                     <a class="dropdown-item" :href="piranha.baseUrl + type.addUrl + id + '/' + type.id" v-bind:key="'add-' + type.id" v-for="type in postTypes">{{ type.title }}</a>
                 </div>
             </div>
-            <a v-if="postTypes.length === 1 && piranha.permissions.posts.add" :href="piranha.baseUrl + postTypes[0].addUrl + id + '/' + postTypes[0].id" class="btn btn-sm btn-primary btn-labeled float-right"><i class="fas fa-plus"></i>{{ piranha.resources.texts.add }}</a>
+            <a v-if="postTypes.length === 1 && piranha.permissions.posts.add" :href="piranha.baseUrl + postTypes[0].addUrl + id + '/' + postTypes[0].id" class="btn btn-sm btn-primary btn-labeled float-end"><i class="fas fa-plus"></i>{{ piranha.resources.texts.add }}</a>
         </div>
         <table v-if="items.length > 0" class="table">
             <tbody>
@@ -38,8 +38,8 @@
                         <a :href="piranha.baseUrl + post.editUrl + post.id">{{ post.title }}</a>
                         <small v-if="post.status === 'published' || post.status === 'draft'" class="text-muted">| {{ post.published }}</small>
                         <small v-else-if="post.status === 'unpublished'" class="text-muted">| Unpublished</small>
-                        <span v-if="post.status === 'draft'" class="badge badge-info float-right">{{ piranha.resources.texts.draft }}</span>
-                        <span v-if="post.isScheduled" class="badge badge-info float-right">{{ piranha.resources.texts.scheduled }}</span>
+                        <span v-if="post.status === 'draft'" class="badge text-bg-info float-end">{{ piranha.resources.texts.draft }}</span>
+                        <span v-if="post.isScheduled" class="badge text-bg-info float-end">{{ piranha.resources.texts.scheduled }}</span>
                     </td>
                     <td>
                         {{ post.typeName }}

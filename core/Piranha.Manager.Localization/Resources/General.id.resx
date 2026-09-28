@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Username and/or password are incorrect.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Fork Piranha CMS dengan keamanan yang diperkuat, oleh {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Kode autentikator</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Pengelola konten</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Kirimi saya kode masuk lewat email</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Jika email tersebut memiliki akun, kami telah mengirimkan kode ke email itu. Periksa kotak masuk Anda.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Kelola halaman, postingan, dan media situs Anda.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Pengelola</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Atau</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Ingat nama pengguna saya</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Masuk dengan aman</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Masuk dengan aman tanpa kata sandi</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Masuk dengan kunci sandi</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Masuk dengan kode aplikasi autentikator</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Masuk dengan nama pengguna atau email Anda untuk melanjutkan.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Kode masuk</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Pra-rilis</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Browser ini tidak mendukung kunci sandi.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Masukkan nama pengguna atau email Anda di atas terlebih dahulu, lalu klik "Masuk dengan kunci sandi" lagi.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Tidak ada kunci sandi yang terdaftar untuk akun ini. Silakan masuk dengan kata sandi Anda.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Kode yang Anda masukkan salah atau sudah kedaluwarsa.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Proses masuk dengan kunci sandi tidak dapat diselesaikan. Silakan coba dengan kata sandi Anda.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Masukkan nama pengguna atau email Anda di atas terlebih dahulu, lalu klik "Masuk dengan kode aplikasi autentikator" lagi.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Tidak ada aplikasi autentikator yang terdaftar untuk akun ini. Silakan masuk dengan kata sandi Anda.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Proses masuk dengan aplikasi autentikator tidak dapat diselesaikan. Silakan coba dengan kata sandi Anda.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Masukkan nama pengguna atau email Anda di atas terlebih dahulu, lalu klik "Kirimi saya kode masuk lewat email" lagi.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Kode masuk tidak dapat dikirim. Silakan coba dengan kata sandi Anda.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Proses masuk tidak dapat diselesaikan. Silakan coba dengan kata sandi Anda.</value>
+  </data>
 </root>

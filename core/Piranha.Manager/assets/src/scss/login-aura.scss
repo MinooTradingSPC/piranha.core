@@ -1,0 +1,674 @@
+// "Aura" design of the manager login page, after the "Aura Systems | Core
+// Infrastructure" reference in .claude/designs/aura-systems-core-infrastructure-1:
+// a framed dark console on a deep slate field (#020617), with breathing orange
+// rings, a dot-matrix dither, faint structural grid lines and a vignette
+// behind a skeuomorphic glass card with an orange-tinted gradient border,
+// L-shaped corner brackets and pill controls. It styles the markup in
+// Login.cshtml and is the only style sheet the page loads, so it carries its
+// own fonts and icons.
+//
+// Palette and type come from the reference: orange primary (#F97316) and
+// accent (#EA580C), slate text, Inter for display and body, JetBrains Mono
+// for labels and metadata, 20px card radius and pill buttons. The source is
+// dark only, so this design doesn't follow the browser's light mode. White
+// on #F97316 or #EA580C fails WCAG AA, so the button uses a deeper orange
+// (#C2410C, 5.2:1) and the bright oranges are kept for icons, rings and glow.
+
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+
+// Inter and JetBrains Mono (SIL Open Font License, see
+// webfonts/Inter-OFL.txt and webfonts/JetBrainsMono-OFL.txt)
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(../webfonts/Inter-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url(../webfonts/JetBrainsMono-Variable.woff2) format("woff2");
+}
+
+@keyframes aura-rise {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes aura-breathe {
+    0%, 100% {
+        opacity: .75;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.06);
+    }
+}
+
+@keyframes aura-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .4;
+    }
+}
+
+@keyframes aura-shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+// Rings of orange light, fading outwards, as the reference's WebGL "magic
+// rings" draw them. Each layer is one ring with a soft outer glow.
+@function aura-ring($radius, $alpha) {
+    @return radial-gradient(circle at 50% 50%,
+        transparent calc(#{$radius} - 1px),
+        rgba(249, 115, 22, $alpha) $radius,
+        rgba(249, 115, 22, $alpha * .35) calc(#{$radius} + 2px),
+        transparent calc(#{$radius} + 10px));
+}
+
+html.login-page {
+    --aura-bg: #020617;
+    --aura-card: rgba(6, 11, 24, .9);
+    --aura-text: #fff;
+    --aura-body: #cbd5e1;
+    --aura-muted: #94a3b8;
+    --aura-meta: #7c8aa0;
+    --aura-stroke: rgba(255, 255, 255, .1);
+    --aura-stroke-soft: rgba(255, 255, 255, .05);
+    --aura-field: rgba(2, 6, 23, .6);
+    --aura-primary: #c2410c;
+    --aura-primary-hover: #b13a0b;
+    --aura-orange: #f97316;
+    --aura-orange-soft: #fb923c;
+    --aura-orange-pale: #fdba74;
+    --aura-focus: rgba(249, 115, 22, .4);
+    --aura-error: #fca5a5;
+    --aura-error-bg: rgba(239, 68, 68, .1);
+    --aura-error-stroke: rgba(239, 68, 68, .3);
+    --aura-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --aura-ease: cubic-bezier(.22, 1, .36, 1);
+
+    min-width: 0;
+    color-scheme: dark;
+    background: var(--aura-bg);
+}
+
+#login {
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    color: var(--aura-body);
+    font: 400 15px/1.5 "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--aura-bg);
+    // Structural grid lines
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, .02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .02) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    ::selection {
+        background: rgba(249, 115, 22, .3);
+        color: #fff;
+    }
+
+    // The breathing rings behind everything.
+    &::before {
+        content: "";
+        position: fixed;
+        inset: -10vmin;
+        z-index: 0;
+        pointer-events: none;
+        background:
+            aura-ring(28vmin, .55),
+            aura-ring(40vmin, .42),
+            aura-ring(52vmin, .32),
+            aura-ring(64vmin, .23),
+            aura-ring(76vmin, .16),
+            aura-ring(88vmin, .1),
+            aura-ring(100vmin, .06);
+        animation: aura-breathe 7s ease-in-out infinite;
+    }
+
+    // Dot-matrix dither over a soft vignette.
+    &::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+            url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='1' height='1' fill='%23ffffff' fill-opacity='.06'/%3E%3C/svg%3E") 0 0 / 4px 4px,
+            radial-gradient(circle at 50% 50%, transparent 20%, rgba(2, 6, 23, .85) 100%);
+    }
+
+    // Parts of the page markup this design leaves out.
+    .login-brand {
+        display: none;
+    }
+
+    .pre-release {
+        position: fixed;
+        top: 12px;
+        left: 50%;
+        z-index: 2;
+        transform: translateX(-50%);
+        padding: 2px 10px;
+        border: 1px solid rgba(249, 115, 22, .4);
+        border-radius: 9999px;
+        background: rgba(4, 8, 20, .8);
+        color: var(--aura-orange-pale);
+        font: 500 10px/1.6 var(--aura-mono);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+
+    // The framed console: side rails with small squares at the corners.
+    .login-shell {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 72rem;
+        min-height: 100vh;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+        padding: 32px 24px;
+        border-left: 1px solid var(--aura-stroke-soft);
+        border-right: 1px solid var(--aura-stroke-soft);
+        background:
+            linear-gradient(rgba(255, 255, 255, .2), rgba(255, 255, 255, .2)) left top / 4px 4px no-repeat,
+            linear-gradient(rgba(255, 255, 255, .2), rgba(255, 255, 255, .2)) right top / 4px 4px no-repeat,
+            linear-gradient(rgba(255, 255, 255, .2), rgba(255, 255, 255, .2)) left bottom / 4px 4px no-repeat,
+            linear-gradient(rgba(255, 255, 255, .2), rgba(255, 255, 255, .2)) right bottom / 4px 4px no-repeat;
+
+        > * {
+            animation: aura-rise 1.4s var(--aura-ease) both;
+        }
+
+        > .login-main {
+            animation-delay: .15s;
+        }
+
+        > .login-credit {
+            animation-delay: .3s;
+        }
+    }
+
+    // Header: the brand at the left, the version at the right.
+    .login-topbar {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 0 8px;
+    }
+
+    .login-brandmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        color: var(--aura-body);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+
+        img.logo {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(249, 115, 22, .35));
+        }
+    }
+
+    .login-topbar .login-status {
+        margin: 0;
+        padding: 4px 12px;
+        border: 1px solid var(--aura-stroke-soft);
+        border-radius: 9999px;
+        background: rgba(4, 8, 20, .8);
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, .05);
+        color: var(--aura-meta);
+        font: 400 12px/1.5 var(--aura-mono);
+        white-space: nowrap;
+    }
+
+    .login-main {
+        width: 100%;
+        max-width: 36rem;
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    // The glass card: the orange-tinted gradient border, an inner glow from
+    // the top and skeuomorphic inset highlights.
+    .login-panel {
+        position: relative;
+        width: 100%;
+        padding: 40px 40px 24px;
+        border: 1px solid transparent;
+        border-radius: 20px;
+        background:
+            radial-gradient(ellipse at top, rgba(249, 115, 22, .12), transparent 60%) padding-box,
+            linear-gradient(var(--aura-card), var(--aura-card)) padding-box,
+            linear-gradient(to bottom, rgba(249, 115, 22, .3), rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .02)) border-box;
+        backdrop-filter: blur(24px);
+        box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, .1),
+            inset 0 -1px 1px rgba(0, 0, 0, .8),
+            0 25px 50px -12px rgba(0, 0, 0, .8);
+
+        &.has-error {
+            animation: aura-shake .6s ease-in-out both;
+        }
+
+        // L-shaped corner brackets, brighter at the top.
+        &::before,
+        &::after,
+        .login-panel-inner::before,
+        .login-footer::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+        }
+
+        &::before {
+            top: -1px;
+            left: -1px;
+            border-top: 1px solid rgba(255, 255, 255, .3);
+            border-left: 1px solid rgba(255, 255, 255, .3);
+            border-top-left-radius: 20px;
+        }
+
+        &::after {
+            top: -1px;
+            right: -1px;
+            border-top: 1px solid rgba(255, 255, 255, .3);
+            border-right: 1px solid rgba(255, 255, 255, .3);
+            border-top-right-radius: 20px;
+        }
+
+        .login-panel-inner::before {
+            bottom: -1px;
+            left: -1px;
+            border-bottom: 1px solid var(--aura-stroke);
+            border-left: 1px solid var(--aura-stroke);
+            border-bottom-left-radius: 20px;
+        }
+
+        .login-footer::before {
+            bottom: -1px;
+            right: -1px;
+            border-bottom: 1px solid var(--aura-stroke);
+            border-right: 1px solid var(--aura-stroke);
+            border-bottom-right-radius: 20px;
+        }
+    }
+
+    .login-panel-inner {
+        text-align: center;
+    }
+
+    // The site name, as the reference's status indicator pill.
+    .login-panel-inner > .login-label:first-child {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        max-width: 100%;
+        margin: 0 0 20px;
+        padding: 4px 12px;
+        border: 1px solid var(--aura-stroke);
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, .03);
+        color: var(--aura-orange-pale);
+        font: 500 10px/1.6 var(--aura-mono);
+        letter-spacing: .14em;
+        text-transform: uppercase;
+
+        &::before {
+            content: "";
+            flex: none;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--aura-orange);
+            box-shadow: 0 0 8px rgba(249, 115, 22, .8);
+            animation: aura-pulse 2s ease-in-out infinite;
+        }
+    }
+
+    .login-heading {
+        margin: 0 0 12px;
+        color: var(--aura-text);
+        font-size: 36px;
+        font-weight: 500;
+        line-height: 1.15;
+        letter-spacing: -.025em;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+    }
+
+    .login-subheading {
+        max-width: 24rem;
+        margin: 0 auto 32px;
+        color: var(--aura-muted);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.65;
+    }
+
+    form {
+        text-align: left;
+    }
+
+    .login-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--aura-muted);
+        font: 500 11px/1.4 var(--aura-mono);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+
+    .login-field {
+        margin-bottom: 16px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 18px;
+        background: var(--aura-field);
+        color: var(--aura-text);
+        border: 1px solid var(--aura-stroke);
+        border-radius: 9999px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, .5);
+        font: inherit;
+        font-size: 14px;
+        transition: border-color .2s ease, box-shadow .2s ease;
+
+        &::placeholder {
+            color: var(--aura-meta);
+        }
+
+        &:focus {
+            outline: none;
+            border-color: rgba(249, 115, 22, .6);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, .5), 0 0 0 3px var(--aura-focus);
+        }
+    }
+
+    .was-validated .form-control:invalid {
+        border-color: var(--aura-error-stroke);
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 4px 4px 24px;
+        color: var(--aura-muted);
+        font-size: 13px;
+
+        .form-check-input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--aura-primary);
+        }
+    }
+
+    // Primary action: the reference's skeuomorphic orange pill.
+    .btn-login {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 32px;
+        background: var(--aura-primary);
+        color: #fff;
+        border: 0;
+        border-radius: 9999px;
+        box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, .3),
+            inset 0 -1px 1px rgba(0, 0, 0, .2),
+            0 4px 14px rgba(234, 88, 12, .3);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: .04em;
+        cursor: pointer;
+        transition: background-color .2s ease, box-shadow .2s ease, transform .2s var(--aura-ease);
+
+        &:hover {
+            background: var(--aura-primary-hover);
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, .3),
+                inset 0 -1px 1px rgba(0, 0, 0, .2),
+                0 6px 22px rgba(249, 115, 22, .45);
+            transform: translateY(-1px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--aura-orange-pale);
+            outline-offset: 3px;
+        }
+    }
+
+    .error-message {
+        margin: 0 0 16px;
+        padding: 10px 16px;
+        background: var(--aura-error-bg);
+        color: var(--aura-error);
+        border: 1px solid var(--aura-error-stroke);
+        border-radius: 14px;
+        font-size: 13px;
+        white-space: pre-line;
+    }
+
+    .login-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 24px 0 16px;
+
+        &::before,
+        &::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--aura-stroke);
+        }
+
+        .login-label {
+            margin: 0;
+            color: var(--aura-meta);
+            font-size: 10px;
+        }
+    }
+
+    .login-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    // Secondary actions: the reference's glass pills.
+    .login-method {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px 20px;
+        border: 1px solid var(--aura-stroke);
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, .05);
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, .05);
+        color: var(--aura-body);
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color .2s ease, color .2s ease;
+
+        i {
+            color: var(--aura-orange-soft);
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--aura-orange-pale);
+            outline-offset: 2px;
+        }
+    }
+
+    // The sign-in script shows these with display: block, so the spacing
+    // comes from margins rather than flex gaps.
+    .login-subform {
+        margin: 2px 0 6px;
+        padding: 16px;
+        border: 1px solid var(--aura-stroke-soft);
+        border-radius: 20px;
+        background: rgba(2, 6, 23, .4);
+
+        > * + * {
+            margin-top: 10px;
+        }
+
+        .login-label {
+            margin-bottom: 0;
+        }
+    }
+
+    .login-note {
+        margin: 0;
+        color: var(--aura-muted);
+        font-size: 13px;
+    }
+
+    .login-code {
+        font-family: var(--aura-mono);
+        letter-spacing: .4em;
+        text-align: center;
+    }
+
+    // The reference's bottom data strip, inside the card.
+    .login-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px 16px;
+        margin-top: 32px;
+        padding-top: 16px;
+        border-top: 1px solid var(--aura-stroke-soft);
+
+        .login-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            color: var(--aura-meta);
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+        i {
+            color: var(--aura-orange-soft);
+        }
+    }
+
+    .login-credit {
+        margin: 0;
+        font: 400 10px/1.6 var(--aura-mono);
+        letter-spacing: .08em;
+        text-align: center;
+        text-transform: uppercase;
+
+        a {
+            color: var(--aura-meta);
+            text-decoration: none;
+
+            &:hover {
+                color: var(--aura-orange-pale);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--aura-orange-pale);
+                outline-offset: 2px;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .login-shell {
+            gap: 24px;
+            padding: 20px 16px;
+        }
+
+        .login-panel {
+            padding: 32px 20px 20px;
+        }
+
+        .login-heading {
+            font-size: 28px;
+        }
+
+        .login-footer {
+            justify-content: center;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &::before,
+        .login-shell > *,
+        .login-panel.has-error,
+        .login-panel-inner > .login-label:first-child::before {
+            animation: none;
+        }
+
+        .btn-login:hover {
+            transform: none;
+        }
+    }
+}

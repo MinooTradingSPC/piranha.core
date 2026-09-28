@@ -34,8 +34,10 @@ public sealed class Config : IDisposable
     private static readonly string MANAGER_PAGE_SIZE = "ManagerPageSize";
     private static readonly string MANAGER_DEFAULT_COLLAPSED_BLOCKS = "ManagerDefaultCollapsedBlocks";
     private static readonly string MANAGER_DEFAULT_COLLAPSED_BLOCKGROUPHEADERS = "ManagerDefaultCollapsedBlockGroupHeaders";
+    private static readonly string MANAGER_MENU_WIDTH = "ManagerMenuWidth";
     private static readonly string MANAGER_OUTLINED = "ManagerOutlined";
     private static readonly string MANAGER_XHR_TIMEOUT = "ManagerXhrTimeout";
+    private static readonly string MANAGER_LOGIN_DESIGN = "ManagerLoginDesign";
     private static readonly string PAGES_HIERARCHICAL_SLUGS = "HierarchicalPageSlugs";
     private static readonly string PAGE_REVISIONS = "PageRevisions";
     private static readonly string POST_REVISIONS = "PostRevisions";
@@ -177,6 +179,27 @@ public sealed class Config : IDisposable
     }
 
     /// <summary>
+    /// The smallest allowed width in pixels of the expanded manager menu.
+    /// </summary>
+    public const int ManagerMenuWidthMin = 160;
+
+    /// <summary>
+    /// The largest allowed width in pixels of the expanded manager menu.
+    /// </summary>
+    public const int ManagerMenuWidthMax = 480;
+
+    /// <summary>
+    /// Gets/sets the width in pixels of the expanded menu in the manager
+    /// interface. Values outside of the allowed range are clamped. The
+    /// default value is 200.
+    /// </summary>
+    public int ManagerMenuWidth
+    {
+        get => Math.Clamp(GetParam(MANAGER_MENU_WIDTH, 200), ManagerMenuWidthMin, ManagerMenuWidthMax);
+        set => SetParam(MANAGER_MENU_WIDTH, Math.Clamp(value, ManagerMenuWidthMin, ManagerMenuWidthMax));
+    }
+
+    /// <summary>
     /// Gets/sets if elements in the manager should be outline with borders
     /// to provide stronger visual guidance. The default value is false.
     /// </summary>
@@ -195,6 +218,16 @@ public sealed class Config : IDisposable
     {
         get => GetParam(MANAGER_XHR_TIMEOUT, 30);
         set => SetParam(MANAGER_XHR_TIMEOUT, value);
+    }
+
+    /// <summary>
+    /// Gets/sets the key of the design used for the manager login page.
+    /// The default value is "Default".
+    /// </summary>
+    public string ManagerLoginDesign
+    {
+        get => GetParam(MANAGER_LOGIN_DESIGN, "Default");
+        set => SetParam(MANAGER_LOGIN_DESIGN, value);
     }
 
     /// <summary>

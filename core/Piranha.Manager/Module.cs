@@ -99,9 +99,41 @@ public sealed class Module : IModule
     };
 
     /// <summary>
+    /// The login page designs that can be picked on the config page. Add a
+    /// client's own designs here at startup.
+    /// </summary>
+    public List<LoginDesign> LoginDesigns { get; private set; } = new List<LoginDesign> {
+        new LoginDesign {
+            Id = LoginDesign.DefaultId,
+            Title = "Default",
+            Styles = { "~/manager/assets/css/login-default.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-default.rtl.min.css" }
+        },
+        new LoginDesign {
+            Id = "Verdant",
+            Title = "Verdant Syntax",
+            Styles = { "~/manager/assets/css/login-verdant.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-verdant.rtl.min.css" }
+        },
+        new LoginDesign {
+            Id = "Aura",
+            Title = "Aura Systems",
+            Styles = { "~/manager/assets/css/login-aura.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-aura.rtl.min.css" }
+        },
+        new LoginDesign {
+            Id = "NeuroSync",
+            Title = "NeuroSync",
+            Styles = { "~/manager/assets/css/login-neurosync.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-neurosync.rtl.min.css" },
+            Scripts = { "~/manager/assets/js/login-neurosync.min.js" }
+        }
+    };
+
+    /// <summary>
     /// Gets the Author
     /// </summary>
-    public string Author => "Piranha";
+    public string Author => "Kiarash Minoo";
 
     /// <summary>
     /// Gets the Name
@@ -121,12 +153,12 @@ public sealed class Module : IModule
     /// <summary>
     /// Gets the package url.
     /// </summary>
-    public string PackageUrl => "https://www.nuget.org/packages/Piranha.Manager";
+    public string PackageUrl => "https://github.com/MinooTradingSPC/piranha.core";
 
     /// <summary>
     /// Gets the icon url.
     /// </summary>
-    public string IconUrl => "https://piranhacms.org/assets/twitter-shield.png";
+    public string IconUrl => "https://raw.githubusercontent.com/MinooTradingSPC/piranha.core/master/Piranha.png";
 
     /// <summary>
     /// The assembly.

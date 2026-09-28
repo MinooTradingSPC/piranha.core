@@ -18,6 +18,41 @@ piranha.utils = {
     strLength: function (str) {
         return str != null ? str.length : 0;
     },
+    languageRegion: function (culture) {
+        var neutralRegions = {
+            af: "ZA", ar: "SA", bg: "BG", bs: "BA", ca: "ES", cs: "CZ",
+            da: "DK", de: "DE", el: "GR", en: "GB", es: "ES", fa: "IR",
+            fi: "FI", fr: "FR", he: "IL", hi: "IN", hr: "HR", hu: "HU",
+            id: "ID", it: "IT", ja: "JP", ka: "GE", ko: "KR", ky: "KG",
+            nb: "NO", nl: "NL", nn: "NO", no: "NO", pl: "PL", pt: "PT",
+            ro: "RO", ru: "RU", si: "LK", sr: "RS", sv: "SE", th: "TH",
+            tr: "TR", uk: "UA", vi: "VN", zh: "CN"
+        };
+        var parts = String(culture || "").replace("_", "-").split("-");
+        var language = (parts[0] || "").toLowerCase();
+        var region = parts.find(function (part, index) {
+            return index > 0 && /^[a-z]{2}$/i.test(part);
+        });
+
+        region = (region || neutralRegions[language] || "").toUpperCase();
+        return /^[A-Z]{2}$/.test(region) ? region : null;
+    },
+    languageFlag: function (culture) {
+        var region = piranha.utils.languageRegion(culture);
+        if (!region) {
+            return "\uD83C\uDF10";
+        }
+
+        return String.fromCodePoint(region.charCodeAt(0) + 127397, region.charCodeAt(1) + 127397);
+    },
+    languageFlagUrl: function (culture, size) {
+        var region = piranha.utils.languageRegion(culture);
+        if (!region) {
+            return null;
+        }
+
+        return "https://flagsapi.com/" + region + "/flat/" + (size || 16) + ".png";
+    },
     antiForgery: function () {
         const cookies = document.cookie.split(";");
         for (let i = 0; i < cookies.length; i++) {

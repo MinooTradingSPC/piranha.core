@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Ім'я користувача та/або пароль неправильні.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Захищений форк Piranha CMS від {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Код із застосунку автентифікації</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Керування вмістом</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Надіслати код для входу на пошту</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Якщо з цією адресою пов'язаний обліковий запис, ми надіслали на неї код. Перевірте пошту.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Керуйте сторінками, публікаціями та медіафайлами вашого сайту.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Панель керування</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Або</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Запам'ятати ім'я користувача</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Безпечний вхід</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Безпечний вхід без пароля</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Увійти за допомогою ключа доступу</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Увійти за допомогою коду із застосунку автентифікації</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Щоб продовжити, увійдіть за допомогою імені користувача або електронної пошти.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Код для входу</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Попередня версія</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Цей браузер не підтримує ключі доступу.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Спочатку введіть ім'я користувача або електронну пошту вище, а потім знову натисніть «Увійти за допомогою ключа доступу».</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Для цього облікового запису не зареєстровано ключ доступу. Увійдіть за допомогою пароля.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Введений код неправильний або термін його дії минув.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Не вдалося виконати вхід за допомогою ключа доступу. Спробуйте увійти з паролем.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Спочатку введіть ім'я користувача або електронну пошту вище, а потім знову натисніть «Увійти за допомогою коду із застосунку автентифікації».</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Для цього облікового запису не зареєстровано застосунок автентифікації. Увійдіть за допомогою пароля.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Не вдалося виконати вхід через застосунок автентифікації. Спробуйте увійти з паролем.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Спочатку введіть ім'я користувача або електронну пошту вище, а потім знову натисніть «Надіслати код для входу на пошту».</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Не вдалося надіслати код для входу. Спробуйте увійти з паролем.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Не вдалося виконати вхід. Спробуйте увійти з паролем.</value>
+  </data>
 </root>

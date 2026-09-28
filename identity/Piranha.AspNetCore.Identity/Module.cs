@@ -36,7 +36,7 @@ public class Module : IModule
     /// <summary>
     /// Gets the Author
     /// </summary>
-    public string Author => "Piranha";
+    public string Author => "Kiarash Minoo";
 
     /// <summary>
     /// Gets the Name
@@ -56,12 +56,12 @@ public class Module : IModule
     /// <summary>
     /// Gets the package url.
     /// </summary>
-    public string PackageUrl => "https://www.nuget.org/packages/Piranha.AspNetCore.Identity";
+    public string PackageUrl => "https://github.com/MinooTradingSPC/piranha.core";
 
     /// <summary>
     /// Gets the icon url.
     /// </summary>
-    public string IconUrl => "https://piranhacms.org/assets/twitter-shield.png";
+    public string IconUrl => "https://raw.githubusercontent.com/MinooTradingSPC/piranha.core/master/Piranha.png";
 
     /// <summary>
     /// Initializes the module.
@@ -90,6 +90,27 @@ public class Module : IModule
             Route = "~/manager/roles",
             Policy = Permissions.Roles,
             Css = "fas fa-eye-slash"
+        });
+
+        // Every signed-in Manager user gets this, unlike the items above,
+        // so it's its own top-level group rather than living under
+        // "System" (which is otherwise all admin-only capabilities).
+        Menu.Items.Add(new MenuItem
+        {
+            InternalId = "Account",
+            Name = "Account",
+            Css = "fas fa-user-shield",
+            Items = new MenuItemList
+            {
+                new MenuItem
+                {
+                    InternalId = "AccountSecurity",
+                    Name = "Security",
+                    Route = "~/manager/account/security",
+                    Policy = Piranha.Manager.Permission.Admin,
+                    Css = "fas fa-shield-alt"
+                }
+            }
         });
     }
 }
