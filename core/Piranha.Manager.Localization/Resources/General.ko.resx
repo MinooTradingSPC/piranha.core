@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Username and/or password are incorrect.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>{0}의 보안 강화 Piranha CMS 포크</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>인증 코드</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>콘텐츠 관리자</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>이메일로 로그인 코드 받기</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>해당 이메일로 등록된 계정이 있으면 코드를 보냈습니다. 받은편지함을 확인하세요.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>사이트의 페이지, 게시물, 미디어를 관리합니다.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>관리자</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>또는</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>사용자 이름 기억하기</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>안전한 로그인</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>비밀번호 없는 안전한 로그인</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>대신 패스키로 로그인</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>인증 앱 코드로 로그인</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>계속하려면 사용자 이름 또는 이메일로 로그인하세요.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>로그인 코드</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>프리릴리스</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>이 브라우저는 패스키를 지원하지 않습니다.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>먼저 위에 사용자 이름 또는 이메일을 입력한 다음 "대신 패스키로 로그인"을 다시 클릭하세요.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>이 계정에 등록된 패스키가 없습니다. 대신 비밀번호로 로그인하세요.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>입력한 코드가 올바르지 않거나 만료되었습니다.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>패스키 로그인을 완료할 수 없습니다. 대신 비밀번호를 사용해 보세요.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>먼저 위에 사용자 이름 또는 이메일을 입력한 다음 "인증 앱 코드로 로그인"을 다시 클릭하세요.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>이 계정에 등록된 인증 앱이 없습니다. 대신 비밀번호로 로그인하세요.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>인증 앱 로그인을 완료할 수 없습니다. 대신 비밀번호를 사용해 보세요.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>먼저 위에 사용자 이름 또는 이메일을 입력한 다음 "이메일로 로그인 코드 받기"를 다시 클릭하세요.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>로그인 코드를 보낼 수 없습니다. 대신 비밀번호를 사용해 보세요.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>로그인을 완료할 수 없습니다. 대신 비밀번호를 사용해 보세요.</value>
+  </data>
 </root>

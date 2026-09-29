@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Nazwa użytkownika i/lub hasło są nieprawidłowe.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Fork Piranha CMS ze wzmocnionymi zabezpieczeniami, autor: {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Kod z aplikacji uwierzytelniającej</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Zarządzanie treścią</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Wyślij mi kod logowania e-mailem</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Jeśli z tym adresem e-mail jest powiązane konto, wysłaliśmy na niego kod. Sprawdź skrzynkę odbiorczą.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Zarządzaj stronami, wpisami i multimediami swojej witryny.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Panel administracyjny</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>lub</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Zapamiętaj moją nazwę użytkownika</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Bezpieczne logowanie</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Bezpieczne logowanie bez hasła</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Zamiast tego zaloguj się kluczem dostępu</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Zaloguj się kodem z aplikacji uwierzytelniającej</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Zaloguj się nazwą użytkownika lub adresem e-mail, aby kontynuować.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Kod logowania</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Wersja przedpremierowa</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Ta przeglądarka nie obsługuje kluczy dostępu.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Najpierw wpisz powyżej nazwę użytkownika lub adres e-mail, a następnie ponownie kliknij „Zamiast tego zaloguj się kluczem dostępu”.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Dla tego konta nie zarejestrowano klucza dostępu. Zaloguj się hasłem.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Wprowadzony kod jest nieprawidłowy lub wygasł.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Nie udało się zalogować kluczem dostępu. Spróbuj zamiast tego użyć hasła.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Najpierw wpisz powyżej nazwę użytkownika lub adres e-mail, a następnie ponownie kliknij „Zaloguj się kodem z aplikacji uwierzytelniającej”.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Dla tego konta nie zarejestrowano aplikacji uwierzytelniającej. Zaloguj się hasłem.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Nie udało się zalogować przez aplikację uwierzytelniającą. Spróbuj zamiast tego użyć hasła.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Najpierw wpisz powyżej nazwę użytkownika lub adres e-mail, a następnie ponownie kliknij „Wyślij mi kod logowania e-mailem”.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Nie udało się wysłać kodu logowania. Spróbuj zamiast tego użyć hasła.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Nie udało się dokończyć logowania. Spróbuj zamiast tego użyć hasła.</value>
+  </data>
 </root>

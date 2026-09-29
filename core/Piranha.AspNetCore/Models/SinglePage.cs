@@ -36,6 +36,14 @@ public class SinglePage<T> : Microsoft.AspNetCore.Mvc.RazorPages.PageModel where
     public T Data { get; set; }
 
     /// <summary>
+    /// Gets the site theme selected in the config, or null when the site
+    /// uses its own look.
+    /// </summary>
+    public SiteTheme Theme => (_theme ??= new Lazy<SiteTheme>(() => App.SiteThemes.GetCurrent(_api))).Value;
+
+    private Lazy<SiteTheme> _theme;
+
+    /// <summary>
     /// Default constructor.
     /// </summary>
     /// <param name="api">The current api</param>

@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Användarnamn och/eller lösenord är felaktigt.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>En säkerhetsförstärkt fork av Piranha CMS, skapad av {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Kod från autentiseringsappen</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Innehållshantering</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Skicka en inloggningskod via e-post</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Om det finns ett konto för den e-postadressen har vi skickat en kod dit. Kolla din inkorg.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Hantera sidor, inlägg och media på din webbplats.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Eller</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Kom ihåg mitt användarnamn</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Säker inloggning</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Säker, lösenordsfri inloggning</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Logga in med en lösenordsnyckel i stället</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Logga in med en kod från en autentiseringsapp</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Logga in med ditt användarnamn eller din e-postadress för att fortsätta.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Inloggningskod</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Förhandsversion</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Den här webbläsaren har inte stöd för lösenordsnycklar.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Ange först ditt användarnamn eller din e-postadress ovan och klicka sedan på ”Logga in med en lösenordsnyckel i stället” igen.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Det finns ingen lösenordsnyckel registrerad för det här kontot. Logga in med ditt lösenord i stället.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Koden du angav är felaktig eller har gått ut.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Inloggningen med lösenordsnyckel kunde inte slutföras. Försök med ditt lösenord i stället.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Ange först ditt användarnamn eller din e-postadress ovan och klicka sedan på ”Logga in med en kod från en autentiseringsapp” igen.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Det finns ingen autentiseringsapp registrerad för det här kontot. Logga in med ditt lösenord i stället.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Inloggningen med autentiseringsappen kunde inte slutföras. Försök med ditt lösenord i stället.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Ange först ditt användarnamn eller din e-postadress ovan och klicka sedan på ”Skicka en inloggningskod via e-post” igen.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Inloggningskoden kunde inte skickas. Försök med ditt lösenord i stället.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Inloggningen kunde inte slutföras. Försök med ditt lösenord i stället.</value>
+  </data>
 </root>

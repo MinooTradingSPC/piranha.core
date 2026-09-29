@@ -19,17 +19,17 @@
         <div :id="model.meta.uid" class="accordion sortable" :class="model.items.length !== 0 ? 'mb-3' : ''">
             <div class="card" :key="item.uid" v-for="(item) in model.items">
                 <div class="card-header">
-                    <a href="#" :data-toggle="!model.meta.expanded ? 'collapse' : false" :data-target="'#body' + item.uid">
+                    <a href="#" :data-bs-toggle="!model.meta.expanded ? 'collapse' : false" :data-bs-target="'#body' + item.uid">
                         <div class="handle">
                             <i class="fas fa-ellipsis-v"></i>
                         </div>
                         {{ item.title }}
                     </a>
-                    <span class="actions float-right">
+                    <span class="actions float-end">
                         <a v-on:click.prevent="removeItem(item)" href="#" class="danger"><i class="fas fa-trash"></i></a>
                     </span>
                 </div>
-                <div :id="'body' + item.uid" :class="{ 'collapse' : !model.meta.expanded }" :data-parent="'#' + model.meta.uid">
+                <div :id="'body' + item.uid" :class="{ 'collapse' : !model.meta.expanded }" :data-bs-parent="'#' + model.meta.uid">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group" :class="{ 'col-sm-6': field.meta.isHalfWidth, 'col-sm-12': !field.meta.isHalfWidth }" v-bind:key="field.meta.uid" v-for="field in item.fields">

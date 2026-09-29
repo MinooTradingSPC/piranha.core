@@ -8,6 +8,7 @@
  *
  */
 
+using Fido2NetLib;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,15 +25,17 @@ public static class IdentityStartupExtensions
     /// <param name="dbOptions">The db options</param>
     /// <param name="identityOptions">The optional identity options</param>
     /// <param name="cookieOptions">The optional cookie options</param>
+    /// <param name="passkeyOptions">The optional WebAuthn/passkey options</param>
     /// <typeparam name="T">The DbContext type</typeparam>
     /// <returns>The builder</returns>
     public static PiranhaServiceBuilder UseIdentity<T>(this PiranhaServiceBuilder serviceBuilder,
         Action<DbContextOptionsBuilder> dbOptions,
         Action<IdentityOptions> identityOptions = null,
-        Action<CookieAuthenticationOptions> cookieOptions = null)
+        Action<CookieAuthenticationOptions> cookieOptions = null,
+        Action<Fido2Configuration> passkeyOptions = null)
         where T : Db<T>
     {
-        serviceBuilder.Services.AddPiranhaIdentity<T>(dbOptions, identityOptions, cookieOptions);
+        serviceBuilder.Services.AddPiranhaIdentity<T>(dbOptions, identityOptions, cookieOptions, passkeyOptions);
 
         return serviceBuilder;
     }
@@ -44,15 +47,17 @@ public static class IdentityStartupExtensions
     /// <param name="dbOptions">The db options</param>
     /// <param name="identityOptions">The optional identity options</param>
     /// <param name="cookieOptions">The optional cookie options</param>
+    /// <param name="passkeyOptions">The optional WebAuthn/passkey options</param>
     /// <typeparam name="T">The DbContext type</typeparam>
     /// <returns>The builder</returns>
     public static PiranhaServiceBuilder UseIdentityWithSeed<T>(this PiranhaServiceBuilder serviceBuilder,
         Action<DbContextOptionsBuilder> dbOptions,
         Action<IdentityOptions> identityOptions = null,
-        Action<CookieAuthenticationOptions> cookieOptions = null)
+        Action<CookieAuthenticationOptions> cookieOptions = null,
+        Action<Fido2Configuration> passkeyOptions = null)
         where T : Db<T>
     {
-        serviceBuilder.Services.AddPiranhaIdentityWithSeed<T>(dbOptions, identityOptions, cookieOptions);
+        serviceBuilder.Services.AddPiranhaIdentityWithSeed<T>(dbOptions, identityOptions, cookieOptions, passkeyOptions);
 
         return serviceBuilder;
     }
@@ -64,17 +69,19 @@ public static class IdentityStartupExtensions
     /// <param name="dbOptions">The db options</param>
     /// <param name="identityOptions">The optional identity options</param>
     /// <param name="cookieOptions">The optional cookie options</param>
+    /// <param name="passkeyOptions">The optional WebAuthn/passkey options</param>
     /// <typeparam name="T">The DbContext type</typeparam>
     /// <typeparam name="TSeed">The seed type</typeparam>
     /// <returns>The builder</returns>
     public static PiranhaServiceBuilder UseIdentityWithSeed<T, TSeed>(this PiranhaServiceBuilder serviceBuilder,
         Action<DbContextOptionsBuilder> dbOptions,
         Action<IdentityOptions> identityOptions = null,
-        Action<CookieAuthenticationOptions> cookieOptions = null)
+        Action<CookieAuthenticationOptions> cookieOptions = null,
+        Action<Fido2Configuration> passkeyOptions = null)
         where T : Db<T>
         where TSeed : class, IIdentitySeed
     {
-        serviceBuilder.Services.AddPiranhaIdentityWithSeed<T, TSeed>(dbOptions, identityOptions, cookieOptions);
+        serviceBuilder.Services.AddPiranhaIdentityWithSeed<T, TSeed>(dbOptions, identityOptions, cookieOptions, passkeyOptions);
 
         return serviceBuilder;
     }

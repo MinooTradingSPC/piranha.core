@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Käyttäjätunnus ja/tai salasana on virheellinen.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Piranha CMS:n tietoturvaltaan vahvistettu haara. Tekijä: {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Todennuskoodi</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Sisällönhallinta</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Lähetä kirjautumiskoodi sähköpostiini</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Jos sähköpostiosoitteella on tili, lähetimme siihen koodin. Tarkista saapuneet viestisi.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Hallitse sivustosi sivuja, artikkeleita ja mediaa.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Hallinta</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Tai</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Muista käyttäjätunnukseni</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Turvallinen kirjautuminen</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Turvallinen kirjautuminen ilman salasanaa</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Kirjaudu pääsyavaimella</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Kirjaudu todennussovelluksen koodilla</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Jatka kirjautumalla sisään käyttäjätunnuksella tai sähköpostiosoitteella.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Kirjautumiskoodi</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Esiversio</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Tämä selain ei tue pääsyavaimia.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Kirjoita ensin käyttäjätunnuksesi tai sähköpostiosoitteesi yllä olevaan kenttään ja napsauta sitten uudelleen ”Kirjaudu pääsyavaimella”.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Tälle tilille ei ole rekisteröity pääsyavainta. Kirjaudu salasanallasi.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Antamasi koodi on virheellinen tai vanhentunut.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Kirjautumista pääsyavaimella ei voitu suorittaa loppuun. Kokeile salasanaasi.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Kirjoita ensin käyttäjätunnuksesi tai sähköpostiosoitteesi yllä olevaan kenttään ja napsauta sitten uudelleen ”Kirjaudu todennussovelluksen koodilla”.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Tälle tilille ei ole rekisteröity todennussovellusta. Kirjaudu salasanallasi.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Kirjautumista todennussovelluksella ei voitu suorittaa loppuun. Kokeile salasanaasi.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Kirjoita ensin käyttäjätunnuksesi tai sähköpostiosoitteesi yllä olevaan kenttään ja napsauta sitten uudelleen ”Lähetä kirjautumiskoodi sähköpostiini”.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Kirjautumiskoodia ei voitu lähettää. Kokeile salasanaasi.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Kirjautumista ei voitu suorittaa loppuun. Kokeile salasanaasi.</value>
+  </data>
 </root>

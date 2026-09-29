@@ -1,0 +1,1390 @@
+// "Ecosystem" theme of the manager interface, after the "Ecosystem
+// Visualization" reference in .claude/designs/manager/ecosystem-visualization:
+// a soft grey field (#d8dadf) with a peach and white ambient glow and a faint
+// noise grain, frosted white cards with 16px corners and thin white edges,
+// warm orange actions with a soft orange glow, and the reference's slate
+// card (#53617a to #3a445c) as the left menu. Layout and geometry stay those
+// of full.min.css; this sheet only changes colours, type, radii, borders and
+// shadows.
+//
+// Palette and type come from the reference: orange primary (#E48B59) and
+// accent (#ED7B46), slate surface (#53617A), text #111827 and #4B5563, border
+// #D8DADF, Inter for display and body, JetBrains Mono for labels and
+// metadata, 8px controls, 16px cards and pill badges. The reference is light,
+// which is the native mode here. Dark mode keeps the same orange, type and
+// shapes on deep slate surfaces taken from the menu card (#171c27 page,
+// #272f40 cards).
+//
+// White on #E48B59 or #ED7B46 fails WCAG AA, so filled buttons, badges and
+// switches use a deeper orange (#C05020 to #A8431B, 4.8:1 with white) and
+// links use #B04A1D (5:1 on the cards). The bright oranges stay for icons,
+// chart-like accents, glows and focus halos. The reference's #D8DADF border
+// is too faint for form controls, so inputs get #8791A3 (3.2:1 on white).
+
+// Inter and JetBrains Mono (SIL Open Font License, see
+// webfonts/Inter-OFL.txt and webfonts/JetBrainsMono-OFL.txt)
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(../webfonts/Inter-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url(../webfonts/JetBrainsMono-Variable.woff2) format("woff2");
+}
+
+// Every rule is written for both modes, so it has the same weight as the
+// dark-mode rules in inc/_theme.scss and wins by coming later.
+$modes: ':root[data-bs-theme="light"], :root[data-bs-theme="dark"]';
+
+// The reference's grain, baked into a tile at the given opacity.
+@function eco-noise($opacity) {
+    @return url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='#{$opacity}'/%3E%3C/svg%3E");
+}
+
+$font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+// Tokens
+
+:root[data-bs-theme="light"] {
+    --eco-body-bg: #e2e4e9;
+    --eco-glow-warm: rgba(235, 214, 203, .9);
+    --eco-glow-cool: rgba(247, 248, 251, .95);
+    --eco-noise: #{eco-noise(.05)};
+    --eco-vignette: rgba(83, 97, 122, .08);
+    --eco-surface: rgba(255, 255, 255, .74);
+    --eco-surface-solid: #f8f9fb;
+    --eco-surface-2: #eceef2;
+    --eco-surface-3: #dde1e8;
+    --eco-field: #fff;
+    --eco-edge: rgba(255, 255, 255, .8);
+    --eco-line: rgba(83, 97, 122, .14);
+    --eco-line-solid: #d8dadf;
+    --eco-control-border: #8791a3;
+    --eco-text: #1e293b;
+    --eco-text-strong: #111827;
+    --eco-muted: #4b5563;
+    --eco-subtle: #626b79;
+    --eco-primary: #c05020;
+    --eco-primary-end: #a8431b;
+    --eco-primary-hover: #a8431b;
+    --eco-primary-hover-end: #933a17;
+    --eco-accent: #e48b59;
+    --eco-accent-2: #ed7b46;
+    --eco-icon: #c05020;
+    --eco-link: #b04a1d;
+    --eco-link-rgb: 176, 74, 29;
+    --eco-link-hover: #8f3a15;
+    --eco-link-hover-rgb: 143, 58, 21;
+    --eco-tint: #f7e4d9;
+    --eco-tint-text: #7a3414;
+    --eco-focus: rgba(228, 139, 89, .45);
+    --eco-focus-line: #c05020;
+    --eco-success: #2e7d4f;
+    --eco-danger: #b4382f;
+    --eco-info: #4a6b85;
+    --eco-warning: #e48b59;
+    --eco-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 12px 32px rgba(15, 23, 42, .06);
+    --eco-shadow-lg: 0 30px 60px rgba(0, 0, 0, .12);
+    --eco-top-bg: rgba(248, 249, 251, .72);
+    --eco-menu-top: #53617a;
+    --eco-menu-bottom: #3a445c;
+    --eco-menu-text: #eef2f7;
+    --eco-menu-icon: rgba(255, 255, 255, .66);
+    --eco-menu-hover: rgba(255, 255, 255, .08);
+    --eco-menu-active: rgba(255, 255, 255, .15);
+    --eco-menu-accent: #f3b08a;
+    --eco-menu-line: rgba(255, 255, 255, .12);
+    --eco-scroll: rgba(83, 97, 122, .4);
+}
+
+:root[data-bs-theme="dark"] {
+    --eco-body-bg: #171c27;
+    --eco-glow-warm: rgba(237, 123, 70, .1);
+    --eco-glow-cool: rgba(83, 97, 122, .3);
+    --eco-noise: #{eco-noise(.035)};
+    --eco-vignette: rgba(0, 0, 0, .25);
+    --eco-surface: rgba(39, 47, 64, .88);
+    --eco-surface-solid: #262e3f;
+    --eco-surface-2: #1e2533;
+    --eco-surface-3: #333c51;
+    --eco-field: #1c2230;
+    --eco-edge: rgba(255, 255, 255, .07);
+    --eco-line: rgba(255, 255, 255, .09);
+    --eco-line-solid: #364056;
+    --eco-control-border: #76839b;
+    --eco-text: #e3e8ef;
+    --eco-text-strong: #f8fafc;
+    --eco-muted: #aeb8c7;
+    --eco-subtle: #97a2b4;
+    --eco-primary: #c05020;
+    --eco-primary-end: #a8431b;
+    --eco-primary-hover: #a8431b;
+    --eco-primary-hover-end: #933a17;
+    --eco-accent: #e48b59;
+    --eco-accent-2: #ed7b46;
+    --eco-icon: #f0a57a;
+    --eco-link: #f0a57a;
+    --eco-link-rgb: 240, 165, 122;
+    --eco-link-hover: #f7c4a6;
+    --eco-link-hover-rgb: 247, 196, 166;
+    --eco-tint: rgba(237, 123, 70, .16);
+    --eco-tint-text: #f7c4a6;
+    --eco-focus: rgba(237, 123, 70, .4);
+    --eco-focus-line: #f0a57a;
+    --eco-success: #2e7d4f;
+    --eco-danger: #b4382f;
+    --eco-info: #4a6b85;
+    --eco-warning: #e48b59;
+    --eco-shadow: 0 1px 2px rgba(0, 0, 0, .2), 0 12px 32px rgba(0, 0, 0, .3);
+    --eco-shadow-lg: 0 30px 60px rgba(0, 0, 0, .45);
+    --eco-top-bg: rgba(23, 28, 39, .82);
+    --eco-menu-top: #3a445c;
+    --eco-menu-bottom: #252c3b;
+    --eco-menu-text: #eef2f7;
+    --eco-menu-icon: rgba(255, 255, 255, .62);
+    --eco-menu-hover: rgba(255, 255, 255, .07);
+    --eco-menu-active: rgba(255, 255, 255, .13);
+    --eco-menu-accent: #f3b08a;
+    --eco-menu-line: rgba(255, 255, 255, .1);
+    --eco-scroll: rgba(174, 184, 199, .3);
+
+    // The page grey that Bootstrap utilities such as .bg-light draw.
+    --bs-light-rgb: 30, 37, 51;
+}
+
+:root[data-bs-theme="light"] {
+    --bs-light-rgb: 236, 238, 242;
+}
+
+// Bootstrap variables
+
+#{$modes} {
+    --bs-body-bg: var(--eco-body-bg);
+    --bs-body-color: var(--eco-text);
+    --bs-emphasis-color: var(--eco-text-strong);
+    --bs-secondary-color: var(--eco-muted);
+    --bs-tertiary-color: var(--eco-subtle);
+    --bs-secondary-bg: var(--eco-surface-2);
+    --bs-tertiary-bg: var(--eco-surface-2);
+    --bs-body-font-family: #{$font-sans};
+    --bs-font-sans-serif: #{$font-sans};
+    --bs-font-monospace: #{$font-mono};
+    --bs-primary: #c05020;
+    --bs-primary-rgb: 192, 80, 32;
+    --bs-link-color: var(--eco-link);
+    --bs-link-color-rgb: var(--eco-link-rgb);
+    --bs-link-hover-color: var(--eco-link-hover);
+    --bs-link-hover-color-rgb: var(--eco-link-hover-rgb);
+    --bs-border-color: var(--eco-line-solid);
+    --bs-border-color-translucent: var(--eco-line);
+    --bs-border-radius: 8px;
+    --bs-border-radius-sm: 6px;
+    --bs-border-radius-lg: 12px;
+    --bs-border-radius-xl: 16px;
+    --bs-border-radius-xxl: 24px;
+    --bs-border-radius-pill: 9999px;
+    --bs-focus-ring-color: var(--eco-focus);
+    --bs-highlight-bg: var(--eco-tint);
+
+    scrollbar-color: var(--eco-scroll) transparent;
+
+    ::selection {
+        background: rgba(228, 139, 89, .3);
+    }
+
+    // Page
+
+    body {
+        color: var(--eco-text);
+        font-family: $font-sans;
+        -webkit-font-smoothing: antialiased;
+        background-color: var(--eco-body-bg);
+        background-image:
+            var(--eco-noise),
+            radial-gradient(ellipse 60% 50% at 85% 0%, var(--eco-glow-warm), transparent 70%),
+            radial-gradient(ellipse 55% 60% at 10% 30%, var(--eco-glow-cool), transparent 70%),
+            radial-gradient(ellipse 70% 60% at 60% 100%, var(--eco-glow-warm), transparent 75%),
+            radial-gradient(circle at 50% 50%, transparent 55%, var(--eco-vignette) 100%);
+        background-size: 200px 200px, auto, auto, auto, auto;
+        background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--eco-text-strong);
+        font-family: $font-sans;
+        font-weight: 600;
+        letter-spacing: -.01em;
+    }
+
+    a {
+        color: var(--eco-link);
+
+        &:hover {
+            color: var(--eco-link-hover);
+        }
+    }
+
+    .text-secondary,
+    .text-muted {
+        color: var(--eco-muted) !important;
+    }
+
+    code {
+        color: var(--eco-link);
+        font-family: $font-mono;
+    }
+
+    div.pre-release {
+        background: var(--eco-primary);
+    }
+
+    // Left menu: the reference's slate card.
+
+    .navbar.navbar-left.bg-dark {
+        background-image: linear-gradient(160deg, var(--eco-menu-top), var(--eco-menu-bottom));
+        box-shadow: inset -1px 0 0 rgba(255, 255, 255, .06), 4px 0 24px rgba(15, 23, 42, .12);
+
+        > .navbar-nav {
+            scrollbar-color: rgba(255, 255, 255, .28) transparent;
+        }
+
+        .nav-item {
+            a {
+                color: var(--eco-menu-text);
+                transition: background-color .15s ease, color .15s ease;
+
+                i {
+                    color: var(--eco-menu-icon);
+                    transition: color .15s ease;
+                }
+
+                &:hover {
+                    background: var(--eco-menu-hover);
+                    color: #fff;
+
+                    i {
+                        color: var(--eco-menu-accent);
+                    }
+                }
+
+                &:focus-visible {
+                    outline: 2px solid var(--eco-menu-accent);
+                    outline-offset: -2px;
+                }
+            }
+
+            &.nav-group {
+                > .nav-header {
+                    color: #fff;
+                    font-family: $font-sans;
+                    font-weight: 500;
+                    letter-spacing: -.005em;
+                    border-top-color: var(--eco-menu-line);
+                    transition: background-color .15s ease;
+
+                    > i:first-child {
+                        color: var(--eco-menu-accent);
+                    }
+
+                    &:hover {
+                        background: var(--eco-menu-hover);
+                    }
+
+                    &:focus-visible {
+                        outline-color: var(--eco-menu-accent);
+                    }
+                }
+
+                .nav-group-toggle {
+                    color: var(--eco-menu-icon);
+                }
+            }
+
+            &.nav-header {
+                font-family: $font-sans;
+                font-weight: 500;
+                border-top-color: var(--eco-menu-line);
+
+                i {
+                    color: var(--eco-menu-accent);
+                }
+
+                span, a {
+                    color: #fff;
+                }
+            }
+
+            &.active {
+                a {
+                    background: var(--eco-menu-active);
+                    color: #fff;
+                    box-shadow: inset 3px 0 0 var(--eco-accent);
+
+                    // The arrow into the page is drawn in the page colour.
+                    &:after {
+                        border-right-color: var(--eco-body-bg);
+                    }
+
+                    i {
+                        color: var(--eco-menu-accent);
+                    }
+                }
+            }
+        }
+    }
+
+    .manager-preferences {
+        border-top-color: var(--eco-menu-line);
+    }
+
+    .manager-icon-chooser {
+        button {
+            color: var(--eco-menu-text);
+            background: rgba(255, 255, 255, .07);
+            border-color: rgba(255, 255, 255, .16);
+            border-radius: 8px;
+
+            &:hover,
+            &:focus-visible {
+                color: #fff;
+                background: rgba(255, 255, 255, .14);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--eco-menu-accent);
+                outline-offset: 1px;
+            }
+
+            &.active {
+                color: #fff;
+                background: linear-gradient(135deg, var(--eco-primary), var(--eco-primary-end));
+                border-color: transparent;
+                box-shadow: 0 4px 12px rgba(237, 123, 70, .3);
+            }
+        }
+    }
+
+    // Top bar and breadcrumb
+
+    .top {
+        background: var(--eco-top-bg);
+        box-shadow: inset 0 -1px 0 var(--eco-line);
+
+        .top-nav {
+            background: var(--eco-top-bg);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+        }
+
+        .breadcrumb {
+            background: transparent;
+            color: var(--eco-muted);
+            font-family: $font-mono;
+            font-size: .8125rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+
+            .breadcrumb-item {
+                color: var(--eco-muted);
+
+                &.active {
+                    color: var(--eco-text-strong);
+                }
+
+                a {
+                    color: var(--eco-link);
+                }
+            }
+        }
+    }
+
+    .breadcrumb {
+        --bs-breadcrumb-divider-color: var(--eco-accent);
+        --bs-breadcrumb-item-active-color: var(--eco-text-strong);
+    }
+
+    // Cards
+
+    .card {
+        --bs-card-color: var(--eco-text);
+        --bs-card-border-radius: 16px;
+        --bs-card-inner-border-radius: 15px;
+
+        .card-header {
+            color: var(--eco-muted);
+            font-family: $font-mono;
+            font-size: .8125rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            border-bottom-color: transparent;
+        }
+
+        .card-body {
+            background-color: var(--eco-surface);
+            color: var(--eco-text);
+            border-radius: 16px;
+            box-shadow: inset 0 0 0 1px var(--eco-edge), var(--eco-shadow);
+        }
+    }
+
+    .bg-light .accordion .card-header,
+    .accordion .card-header {
+        background-color: var(--eco-surface-solid);
+        color: var(--eco-text);
+    }
+
+    .bg-light .accordion .card-body {
+        border-color: var(--eco-surface-solid);
+    }
+
+    #config .card-body .list-group .list-group-item {
+        border-color: var(--eco-line);
+    }
+
+    .list-group {
+        --bs-list-group-bg: transparent;
+        --bs-list-group-color: var(--eco-text);
+        --bs-list-group-border-color: var(--eco-line);
+        --bs-list-group-action-hover-bg: var(--eco-surface-2);
+        --bs-list-group-action-hover-color: var(--eco-text-strong);
+        --bs-list-group-active-bg: var(--eco-primary);
+        --bs-list-group-active-border-color: var(--eco-primary);
+        --bs-list-group-active-color: #fff;
+    }
+
+    .list-group-item {
+        background-color: var(--bs-list-group-bg);
+        color: var(--eco-text);
+    }
+
+    .alert {
+        border-radius: 12px;
+    }
+
+    .alert-info {
+        --bs-alert-bg: rgba(83, 97, 122, .1);
+        --bs-alert-color: var(--eco-text);
+        --bs-alert-border-color: rgba(83, 97, 122, .25);
+    }
+
+    // Buttons
+
+    .btn {
+        --bs-btn-border-radius: 8px;
+        --bs-btn-font-family: #{$font-sans};
+        --bs-btn-font-weight: 500;
+        --bs-btn-focus-box-shadow: 0 0 0 .2rem var(--eco-focus);
+        transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
+
+        &:focus-visible {
+            outline: 2px solid var(--eco-focus-line);
+            outline-offset: 1px;
+        }
+    }
+
+    .btn-sm {
+        --bs-btn-border-radius: 6px;
+    }
+
+    // The reference's "Motrew" button: an orange gradient with a warm glow.
+    .btn-primary {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: var(--eco-primary);
+        --bs-btn-border-color: transparent;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: var(--eco-primary-hover);
+        --bs-btn-hover-border-color: transparent;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: var(--eco-primary-hover-end);
+        --bs-btn-active-border-color: transparent;
+        --bs-btn-disabled-color: #fff;
+        --bs-btn-disabled-bg: var(--eco-primary);
+        --bs-btn-disabled-border-color: transparent;
+        background-image: linear-gradient(135deg, var(--eco-primary), var(--eco-primary-end));
+        box-shadow: 0 6px 14px rgba(237, 123, 70, .28);
+
+        &:hover,
+        &:focus-visible {
+            background-image: linear-gradient(135deg, var(--eco-primary-hover), var(--eco-primary-hover-end));
+            box-shadow: 0 8px 18px rgba(237, 123, 70, .36);
+        }
+
+        &:disabled,
+        &.disabled {
+            box-shadow: none;
+        }
+    }
+
+    .btn-success {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: var(--eco-success);
+        --bs-btn-border-color: var(--eco-success);
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #266841;
+        --bs-btn-hover-border-color: #266841;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #215b39;
+        --bs-btn-active-border-color: #215b39;
+        --bs-btn-disabled-color: #fff;
+        --bs-btn-disabled-bg: var(--eco-success);
+        --bs-btn-disabled-border-color: var(--eco-success);
+    }
+
+    .btn-danger {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: var(--eco-danger);
+        --bs-btn-border-color: var(--eco-danger);
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #982f28;
+        --bs-btn-hover-border-color: #982f28;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #852922;
+        --bs-btn-active-border-color: #852922;
+        --bs-btn-disabled-color: #fff;
+        --bs-btn-disabled-bg: var(--eco-danger);
+        --bs-btn-disabled-border-color: var(--eco-danger);
+    }
+
+    // Slate, as the reference's "ertads" card.
+    .btn-secondary,
+    .btn-info {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: #53617a;
+        --bs-btn-border-color: #53617a;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #46526a;
+        --bs-btn-hover-border-color: #46526a;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #3a445c;
+        --bs-btn-active-border-color: #3a445c;
+        --bs-btn-disabled-color: #fff;
+        --bs-btn-disabled-bg: #53617a;
+        --bs-btn-disabled-border-color: #53617a;
+    }
+
+    .btn-warning {
+        --bs-btn-color: #1f2937;
+        --bs-btn-bg: var(--eco-warning);
+        --bs-btn-border-color: var(--eco-warning);
+        --bs-btn-hover-color: #111827;
+        --bs-btn-hover-bg: #ed7b46;
+        --bs-btn-hover-border-color: #ed7b46;
+        --bs-btn-active-color: #111827;
+        --bs-btn-active-bg: #df6431;
+        --bs-btn-active-border-color: #df6431;
+    }
+
+    // The reference's glass "Adelhorn" button.
+    .btn-light,
+    .btn-white {
+        --bs-btn-color: var(--eco-text);
+        --bs-btn-bg: var(--eco-surface-solid);
+        --bs-btn-border-color: var(--eco-line);
+        --bs-btn-hover-color: var(--eco-text-strong);
+        --bs-btn-hover-bg: var(--eco-surface-3);
+        --bs-btn-hover-border-color: var(--eco-line);
+        --bs-btn-active-color: var(--eco-text-strong);
+        --bs-btn-active-bg: var(--eco-surface-3);
+        --bs-btn-active-border-color: var(--eco-line);
+    }
+
+    .btn.btn-light {
+        background: var(--bs-btn-bg);
+
+        &:hover,
+        &:active {
+            background: var(--bs-btn-hover-bg);
+        }
+    }
+
+    .card-body .btn.btn-light {
+        --bs-btn-bg: var(--eco-surface-2);
+        background: var(--bs-btn-bg);
+
+        &:hover,
+        &:active {
+            background: var(--eco-surface-3);
+        }
+    }
+
+    .btn-outline-primary {
+        --bs-btn-color: var(--eco-link);
+        --bs-btn-border-color: var(--eco-primary);
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: var(--eco-primary);
+        --bs-btn-hover-border-color: var(--eco-primary);
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: var(--eco-primary-hover);
+        --bs-btn-active-border-color: var(--eco-primary-hover);
+    }
+
+    .btn-outline-secondary,
+    .btn-outline-light {
+        --bs-btn-color: var(--eco-muted);
+        --bs-btn-border-color: var(--eco-control-border);
+        --bs-btn-hover-color: var(--eco-text-strong);
+        --bs-btn-hover-bg: var(--eco-surface-3);
+        --bs-btn-hover-border-color: var(--eco-control-border);
+        --bs-btn-active-color: var(--eco-text-strong);
+        --bs-btn-active-bg: var(--eco-surface-3);
+        --bs-btn-active-border-color: var(--eco-control-border);
+    }
+
+    .btn-outline-danger {
+        --bs-btn-color: var(--eco-danger);
+        --bs-btn-border-color: var(--eco-danger);
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: var(--eco-danger);
+        --bs-btn-hover-border-color: var(--eco-danger);
+    }
+
+    .btn-outline-success {
+        --bs-btn-color: var(--eco-success);
+        --bs-btn-border-color: var(--eco-success);
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: var(--eco-success);
+        --bs-btn-hover-border-color: var(--eco-success);
+    }
+
+    .btn-close:focus {
+        box-shadow: 0 0 0 .2rem var(--eco-focus);
+    }
+
+    button.switch {
+        background-color: var(--eco-control-border);
+
+        &[aria-pressed="true"] {
+            background-color: var(--eco-primary);
+            background-image: linear-gradient(135deg, var(--eco-primary), var(--eco-primary-end));
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--eco-focus-line);
+            outline-offset: 2px;
+        }
+    }
+
+    // Forms
+
+    .form-control,
+    .form-select {
+        background-color: var(--eco-field);
+        color: var(--eco-text);
+        border-color: var(--eco-control-border);
+        border-radius: 8px;
+        transition: border-color .15s ease, box-shadow .15s ease;
+
+        &:focus {
+            background-color: var(--eco-field);
+            color: var(--eco-text);
+            border-color: var(--eco-focus-line);
+            box-shadow: 0 0 0 .2rem var(--eco-focus);
+        }
+
+        &::placeholder {
+            color: var(--eco-subtle);
+        }
+
+        &:disabled,
+        &[readonly] {
+            background-color: var(--eco-surface-2);
+        }
+    }
+
+    .form-control::placeholder {
+        color: var(--eco-subtle);
+    }
+
+    .form-control-sm,
+    .form-select-sm {
+        border-radius: 6px;
+    }
+
+    .form-group:not(.form-check) {
+        > label {
+            color: var(--eco-text-strong);
+            font-weight: 600;
+        }
+
+        &.title .form-control-lg {
+            font-family: $font-sans;
+            font-weight: 600;
+            letter-spacing: -.02em;
+            border-color: var(--eco-control-border);
+        }
+    }
+
+    .form-check-input {
+        border-color: var(--eco-control-border);
+        background-color: var(--eco-field);
+
+        &:checked {
+            background-color: var(--eco-primary);
+            border-color: var(--eco-primary);
+        }
+
+        &:focus {
+            border-color: var(--eco-focus-line);
+            box-shadow: 0 0 0 .2rem var(--eco-focus);
+        }
+    }
+
+    .input-group .input-group-text {
+        background-color: var(--eco-surface-2);
+        color: var(--eco-muted);
+        border-color: var(--eco-control-border);
+    }
+
+    .select2-container--default {
+        .select2-selection--single,
+        .select2-selection--multiple {
+            background-color: var(--eco-field);
+            border-color: var(--eco-control-border);
+            border-radius: 8px;
+        }
+
+        .select2-selection--single .select2-selection__rendered {
+            color: var(--eco-text);
+        }
+
+        .select2-selection--multiple .select2-selection__choice {
+            background-color: var(--eco-tint);
+            border-color: transparent;
+            border-radius: 9999px;
+            color: var(--eco-tint-text);
+        }
+
+        &.select2-container--focus .select2-selection--multiple,
+        &.select2-container--open .select2-selection--single {
+            border-color: var(--eco-focus-line);
+            box-shadow: 0 0 0 .2rem var(--eco-focus);
+        }
+
+        .select2-search--dropdown .select2-search__field {
+            background-color: var(--eco-field);
+            color: var(--eco-text);
+            border-color: var(--eco-control-border);
+            border-radius: 6px;
+        }
+
+        .select2-results__option--highlighted[aria-selected],
+        .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: var(--eco-primary);
+            color: #fff;
+        }
+
+        .select2-results__option[aria-selected="true"],
+        .select2-results__option--selected {
+            background-color: var(--eco-surface-3);
+        }
+    }
+
+    .select2-dropdown {
+        background-color: var(--eco-surface-solid);
+        color: var(--eco-text);
+        border-color: var(--eco-line-solid);
+        border-radius: 8px;
+    }
+
+    .html-field {
+        background-color: var(--eco-field);
+        border-color: var(--eco-control-border);
+        border-radius: 8px;
+    }
+
+    .media-field .media-picker .card .card-body {
+        background-color: var(--eco-field);
+        border-color: var(--eco-control-border);
+        border-radius: 8px;
+        box-shadow: none;
+    }
+
+    .color-field .color-preview {
+        border-color: var(--eco-control-border);
+    }
+
+    .field {
+        background-color: transparent;
+        color: var(--eco-text);
+    }
+
+    // Tables
+
+    .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: var(--eco-text);
+        --bs-table-border-color: var(--eco-line);
+        --bs-table-hover-bg: var(--eco-surface-3);
+        --bs-table-hover-color: var(--eco-text-strong);
+
+        thead th {
+            color: var(--eco-muted);
+            font-family: $font-mono;
+            font-size: .8125rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            border-bottom-color: var(--eco-line);
+        }
+
+        tbody tr {
+            background-color: var(--eco-surface);
+            border-top-color: var(--eco-body-bg);
+
+            td:first-child {
+                a, span.title {
+                    font-family: $font-sans;
+                    font-weight: 500;
+
+                    i {
+                        color: var(--eco-icon);
+                    }
+                }
+            }
+        }
+
+        tr.selected {
+            background: var(--eco-primary);
+            color: #fff;
+
+            a {
+                color: #fff;
+            }
+        }
+
+        tr.droppable.active {
+            background: var(--eco-tint);
+        }
+    }
+
+    .card-body .table tbody tr {
+        background-color: var(--eco-surface-2);
+        border-top-color: var(--eco-surface-solid);
+    }
+
+    // Tabs, pills and dropdowns
+
+    .nav-tabs {
+        --bs-nav-tabs-border-color: var(--eco-line-solid);
+        --bs-nav-tabs-border-radius: 8px;
+        --bs-nav-tabs-link-hover-border-color: transparent transparent var(--eco-line-solid);
+        --bs-nav-tabs-link-active-color: var(--eco-text-strong);
+        --bs-nav-tabs-link-active-bg: var(--eco-surface-solid);
+        --bs-nav-tabs-link-active-border-color: var(--eco-line-solid) var(--eco-line-solid) var(--eco-surface-solid);
+        --bs-nav-link-color: var(--eco-muted);
+        --bs-nav-link-hover-color: var(--eco-link);
+
+        .nav-link.active {
+            box-shadow: inset 0 2px 0 var(--eco-accent);
+        }
+    }
+
+    .nav-tabs-inverted .nav-link.active {
+        background-color: var(--eco-surface-solid);
+        color: var(--eco-text-strong);
+    }
+
+    .nav-pills {
+        --bs-nav-pills-border-radius: 9999px;
+        --bs-nav-pills-link-active-bg: var(--eco-primary);
+        --bs-nav-pills-link-active-color: #fff;
+        --bs-nav-link-color: var(--eco-muted);
+        --bs-nav-link-hover-color: var(--eco-link);
+
+        .nav-link.active {
+            background-image: linear-gradient(135deg, var(--eco-primary), var(--eco-primary-end));
+            box-shadow: 0 4px 12px rgba(237, 123, 70, .25);
+        }
+
+        &.nav-pills-card {
+            background-color: var(--eco-surface);
+            color: var(--eco-text);
+            border-radius: 16px 16px 0 0;
+        }
+    }
+
+    .nav-link:focus-visible {
+        outline: 2px solid var(--eco-focus-line);
+        outline-offset: 1px;
+        box-shadow: none;
+    }
+
+    .dropdown-menu {
+        --bs-dropdown-bg: var(--eco-surface-solid);
+        --bs-dropdown-color: var(--eco-text);
+        --bs-dropdown-border-color: var(--eco-line);
+        --bs-dropdown-border-radius: 12px;
+        --bs-dropdown-inner-border-radius: 11px;
+        --bs-dropdown-divider-bg: var(--eco-line);
+        --bs-dropdown-link-color: var(--eco-text);
+        --bs-dropdown-link-hover-color: var(--eco-tint-text);
+        --bs-dropdown-link-hover-bg: var(--eco-tint);
+        --bs-dropdown-link-active-color: #fff;
+        --bs-dropdown-link-active-bg: var(--eco-primary);
+        --bs-dropdown-header-color: var(--eco-muted);
+        background-color: var(--eco-surface-solid);
+        color: var(--eco-text);
+        box-shadow: var(--eco-shadow-lg);
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        background-color: var(--eco-tint);
+        color: var(--eco-tint-text);
+    }
+
+    .dropdown-item.active,
+    .dropdown-item:active {
+        background-color: var(--eco-primary);
+        color: #fff;
+    }
+
+    // Modals
+
+    .modal-content {
+        --bs-modal-bg: var(--eco-surface-solid);
+        --bs-modal-color: var(--eco-text);
+        --bs-modal-border-color: var(--eco-edge);
+        --bs-modal-border-radius: 16px;
+        --bs-modal-inner-border-radius: 15px;
+        --bs-modal-header-border-color: var(--eco-line);
+        --bs-modal-footer-border-color: var(--eco-line);
+        --bs-modal-box-shadow: var(--eco-shadow-lg);
+        background-color: var(--eco-surface-solid);
+        color: var(--eco-text);
+        box-shadow: var(--eco-shadow-lg);
+    }
+
+    .modal-header .modal-title {
+        color: var(--eco-text-strong);
+        font-weight: 600;
+        letter-spacing: -.01em;
+
+        i {
+            color: var(--eco-icon);
+        }
+    }
+
+    .modal-backdrop {
+        --bs-backdrop-bg: #1b2130;
+        --bs-backdrop-opacity: .4;
+    }
+
+    .bg-light,
+    .modal-body.bg-light {
+        background-color: var(--eco-surface-2) !important;
+    }
+
+    // Badges
+
+    .badge {
+        --bs-badge-border-radius: 9999px;
+        --bs-badge-font-weight: 600;
+        letter-spacing: .04em;
+    }
+
+    .text-bg-primary {
+        background-color: var(--eco-primary) !important;
+        color: #fff !important;
+    }
+
+    .text-bg-info,
+    .text-bg-secondary {
+        background-color: #53617a !important;
+        color: #fff !important;
+    }
+
+    .text-bg-success {
+        background-color: var(--eco-success) !important;
+        color: #fff !important;
+    }
+
+    .text-bg-danger {
+        background-color: var(--eco-danger) !important;
+        color: #fff !important;
+    }
+
+    .text-bg-warning {
+        background-color: var(--eco-warning) !important;
+        color: #1f2937 !important;
+    }
+
+    .text-bg-light {
+        background-color: var(--eco-surface-3) !important;
+        color: var(--eco-text) !important;
+    }
+
+    .btn-badge .badge,
+    .nav-link .badge {
+        border-color: var(--eco-surface-solid);
+    }
+
+    // Blocks
+
+    .block {
+        border-radius: 12px;
+
+        .block-header {
+            color: var(--eco-subtle);
+
+            .title strong {
+                font-family: $font-mono;
+                font-weight: 600;
+                letter-spacing: .06em;
+            }
+        }
+
+        &.collapsed {
+            border-color: var(--eco-line-solid);
+        }
+
+        &:hover,
+        &:focus-within {
+            border-color: var(--eco-control-border);
+        }
+
+        &.danger {
+            border-color: var(--eco-danger);
+        }
+
+        .actions .btn,
+        .custom-actions .btn {
+            background-color: var(--eco-surface-2);
+            color: var(--eco-muted);
+
+            &:hover {
+                background-color: var(--eco-surface-3);
+                color: var(--eco-text-strong);
+            }
+
+            &.danger {
+                color: var(--eco-danger);
+
+                &:hover {
+                    background-color: var(--eco-danger);
+                    color: #fff;
+                }
+            }
+
+            &.add {
+                color: var(--eco-icon);
+
+                &:hover {
+                    background-color: var(--eco-primary);
+                    color: #fff;
+                }
+            }
+
+            &.selected {
+                background-color: var(--eco-surface-3) !important;
+            }
+        }
+    }
+
+    .blocks.blocks-outline {
+        .block {
+            border-color: var(--eco-line-solid);
+
+            .block {
+                border-color: transparent;
+            }
+
+            &.danger {
+                border-color: var(--eco-danger);
+            }
+
+            &.block-group:hover:not(.danger),
+            &:focus-within {
+                border-color: var(--eco-control-border);
+            }
+        }
+    }
+
+    .blocks .block-group .empty-info,
+    .blocks .block-group-horizontal .empty-info {
+        background-color: var(--eco-surface-solid);
+        color: var(--eco-muted);
+        border-color: var(--eco-control-border);
+    }
+
+    .html-block .empty:not(:focus-within),
+    .html-column-block .empty:not(:focus-within) {
+        background-color: var(--eco-surface-2);
+        border-radius: 8px;
+    }
+
+    .text-block .block-body textarea {
+        color: var(--eco-text);
+        font-family: $font-mono;
+    }
+
+    .quote-block .blockquote {
+        .blockquote-body {
+            color: var(--eco-muted);
+            font-family: $font-sans;
+        }
+
+        *[data-placeholder]:empty:after {
+            color: var(--eco-subtle);
+        }
+    }
+
+    .markdown-block .markdown-field .editor-toolbar:not(.fullscreen) {
+        border-color: var(--eco-control-border);
+        border-radius: 8px 8px 0 0;
+    }
+
+    // Block groups
+
+    .block.block-group {
+        background-color: var(--eco-surface-2);
+        border-radius: 16px;
+
+        .block-header {
+            color: var(--eco-muted);
+        }
+
+        .block {
+            background-color: var(--eco-surface-solid);
+        }
+
+        .actions .btn {
+            background-color: var(--eco-surface-solid);
+        }
+
+        .list-group-item {
+            background-color: var(--eco-surface-solid);
+            color: var(--eco-text);
+            border-color: var(--eco-surface-2);
+            border-bottom-color: var(--eco-surface-2);
+
+            .handle {
+                color: var(--eco-subtle);
+                border-right-color: var(--eco-surface-2);
+            }
+
+            &:first-child {
+                border-top-left-radius: 12px;
+                border-top-right-radius: 12px;
+            }
+
+            &:last-child {
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+            }
+
+            &.active {
+                background-color: var(--eco-surface-solid);
+                border-color: var(--eco-surface-2);
+                color: var(--eco-text-strong);
+                box-shadow: inset 3px 0 0 var(--eco-accent);
+
+                .handle {
+                    border-color: var(--eco-surface-2);
+                }
+            }
+        }
+    }
+
+    .block.block-group-horizontal .block-group-header,
+    .block.block-group-vertical .block-group-header {
+        background-color: var(--eco-surface-2);
+        border-radius: 12px;
+    }
+
+    // Block picker
+
+    .blocktype-category {
+        color: var(--eco-muted);
+        font-family: $font-mono;
+        font-size: .8125rem;
+        font-weight: 600;
+        letter-spacing: .06em;
+    }
+
+    .blocktype-list .blocktype .btn {
+        background-color: var(--eco-surface-solid);
+        color: var(--eco-text);
+        border-color: var(--eco-line);
+        border-radius: 12px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+
+        i {
+            color: var(--eco-icon);
+        }
+
+        &:hover {
+            background-color: var(--eco-tint);
+            color: var(--eco-tint-text);
+            border-color: transparent;
+        }
+    }
+
+    // Sitemap
+
+    .sitemap-item {
+        background-color: var(--eco-surface-solid);
+        color: var(--eco-text);
+        border-radius: 10px;
+
+        .handle {
+            color: var(--eco-subtle);
+            border-right-color: var(--eco-body-bg);
+        }
+
+        .actions .expand {
+            background-color: var(--eco-primary);
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        .link a,
+        .link span.title {
+            font-family: $font-sans;
+            font-weight: 500;
+        }
+
+        .type,
+        .date {
+            color: var(--eco-muted);
+        }
+    }
+
+    // Regions and media
+
+    .region .card-body,
+    .media-details {
+        background-color: var(--eco-surface-2);
+    }
+
+    .accordion > .card {
+        border-color: var(--eco-surface-2);
+        border-radius: 12px;
+
+        .card-body {
+            background-color: var(--eco-surface-2);
+            border-top-color: var(--eco-surface-2);
+            box-shadow: none;
+        }
+    }
+
+    .accordion.sortable .card-header .handle {
+        color: var(--eco-subtle);
+        border-right-color: var(--eco-surface-2);
+    }
+
+    // Empty states
+
+    .empty-info {
+        color: var(--eco-muted);
+        font-family: $font-sans;
+        font-weight: 400;
+        letter-spacing: -.01em;
+        border-color: var(--eco-control-border);
+        border-radius: 16px;
+    }
+
+    // Notifications
+
+    #notification-hub .notification {
+        border-radius: 12px;
+        box-shadow: var(--eco-shadow-lg);
+
+        &.notification-primary,
+        &.notification-warning {
+            background: var(--eco-primary);
+            color: #fff;
+
+            &::before {
+                border-right-color: var(--eco-primary);
+            }
+        }
+
+        &.notification-success {
+            background: var(--eco-success);
+            color: #fff;
+
+            &::before {
+                border-right-color: var(--eco-success);
+            }
+        }
+
+        &.notification-danger {
+            background: var(--eco-danger);
+            color: #fff;
+
+            &::before {
+                border-right-color: var(--eco-danger);
+            }
+        }
+
+        &.notification-info,
+        &.notification-secondary {
+            background: #53617a;
+            color: #fff;
+
+            &::before {
+                border-right-color: #53617a;
+            }
+        }
+
+        code {
+            background: rgba(255, 255, 255, .2);
+            color: inherit;
+        }
+    }
+
+    .progress {
+        --bs-progress-bg: var(--eco-surface-3);
+        --bs-progress-bar-bg: var(--eco-primary);
+        --bs-progress-border-radius: 9999px;
+    }
+
+    .page-link {
+        --bs-pagination-color: var(--eco-link);
+        --bs-pagination-active-bg: var(--eco-primary);
+        --bs-pagination-active-border-color: var(--eco-primary);
+    }
+}
+
+// Dark-mode details that differ from the shared rules.
+
+:root[data-bs-theme="dark"] {
+    color-scheme: dark;
+
+    .top .top-nav {
+        background: var(--eco-top-bg);
+    }
+
+    .block.block-group-horizontal .block .block-header {
+        background: rgba(0, 0, 0, .2);
+    }
+
+    .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .alert-info {
+        --bs-alert-bg: rgba(83, 97, 122, .25);
+        --bs-alert-border-color: rgba(174, 184, 199, .25);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #{$modes} {
+        .btn,
+        .form-control,
+        .form-select,
+        .navbar.navbar-left .nav-item a,
+        .navbar.navbar-left .nav-item a i {
+            transition: none;
+        }
+    }
+}

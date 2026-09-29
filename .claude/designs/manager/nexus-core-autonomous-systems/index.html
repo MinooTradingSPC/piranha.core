@@ -1,0 +1,318 @@
+﻿<!doctype html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Core - Autonomous Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link id="all-fonts-link-font-bricolage" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&display=swap"><style id="all-fonts-style-font-bricolage">.font-bricolage { font-family: 'Bricolage Grotesque', sans-serif !important; }</style></head>
+<body class="bg-[#050505] text-white font-sans antialiased min-h-screen flex items-center justify-center p-4 md:p-8" style="background-image: radial-gradient(circle at 50% 0%, #00e5ff15 0%, transparent 70%); font-family: 'Inter', sans-serif;">
+
+    <div class="w-full max-w-[1280px] bg-[#0a0a0a] border border-white/10 rounded-[20px] shadow-2xl overflow-hidden flex flex-col relative z-10">
+        
+        <!-- Header -->
+        <header class="flex items-center justify-between px-8 py-5 border-b border-white/5">
+            <div class="flex items-center gap-2 text-white">
+                <iconify-icon icon="solar:cpu-linear" style="font-size: 1.25rem;" stroke-width="1.5"></iconify-icon>
+                <span class="font-mono text-xs tracking-widest font-semibold uppercase font-sans">NEXUS.CORE</span>
+            </div>
+            
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#" class="font-mono text-xs text-white/50 hover:text-white uppercase tracking-widest transition-colors font-sans">Platform</a>
+                <a href="#" class="font-mono text-xs text-white/50 hover:text-white uppercase tracking-widest transition-colors font-sans">Modules</a>
+                <a href="#" class="font-mono text-xs text-white/50 hover:text-white uppercase tracking-widest transition-colors font-sans">Metrics</a>
+                <a href="#" class="font-mono text-xs text-white/50 hover:text-white uppercase tracking-widest transition-colors font-sans">API</a>
+                <a href="#" class="font-mono text-xs text-white/50 hover:text-white uppercase tracking-widest transition-colors font-sans">Enterprise</a>
+            </nav>
+
+            <div class="flex items-center gap-6">
+                <a href="#" class="font-mono text-xs text-white/60 hover:text-white uppercase tracking-widest hidden sm:block font-sans">Authenticate</a>
+                <button class="border border-white/20 hover:border-[#00e5ff] hover:text-[#00e5ff] text-white px-4 py-2 rounded uppercase font-mono text-xs tracking-widest transition-all font-sans">
+                    Initialize
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Hero -->
+        <main class="flex flex-col lg:flex-row border-b border-white/5">
+            
+            <!-- Left Column: Copy -->
+            <div class="lg:w-1/2 p-8 lg:p-14 border-r border-white/5 flex flex-col justify-center relative">
+                
+                <div class="inline-flex items-center gap-2 border border-white/10 rounded-full px-3 py-1 w-fit mb-8 bg-white/5">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#00e5ff]" style="box-shadow: 0 0 8px #00e5ff;"></div>
+                    <span class="font-mono text-[10px] text-white/60 tracking-widest uppercase font-sans">Network Secure · v2.1</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl lg:text-[52px] uppercase leading-[1.1] text-white mb-6 font-bricolage font-light tracking-tighter" style="font-family: 'Inter', sans-serif;">
+                    Orchestrate <br> Systems <br>
+                    <span class="text-[#00e5ff] font-bricolage font-light tracking-tighter">Intelligently</span>
+                </h1>
+
+                <p class="text-sm text-white/50 max-w-[400px] leading-relaxed mb-10 font-sans">
+                    NEXUS.CORE initiates neural nodes that process, route, and optimize data streams across your architecture with absolute precision and limitless scalability.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-20">
+                    <button class="bg-[#00e5ff] hover:bg-[#00cce5] text-black px-6 py-3.5 rounded uppercase font-mono text-xs font-semibold tracking-widest transition-colors flex items-center gap-2 w-full sm:w-auto justify-center font-sans">
+                        Commence Sync
+                        <iconify-icon icon="solar:arrow-right-linear" style="font-size: 1rem;" stroke-width="1.5"></iconify-icon>
+                    </button>
+                    <button class="border border-white/10 hover:bg-white/5 text-white px-6 py-3.5 rounded uppercase font-mono text-xs tracking-widest transition-colors flex items-center gap-2 w-full sm:w-auto justify-center font-sans">
+                        <iconify-icon icon="solar:play-circle-linear" style="font-size: 1.1rem;" stroke-width="1.5"></iconify-icon>
+                        View Telemetry
+                    </button>
+                </div>
+
+                <div class="mt-auto pt-8">
+                    <p class="font-mono text-[10px] text-white/40 tracking-widest uppercase mb-4 font-sans">Integrated with networks:</p>
+                    <div class="flex flex-wrap items-center gap-6 sm:gap-10 opacity-60 grayscale">
+                        <span class="font-serif italic text-base tracking-wider text-white/80 font-sans">Cybernet</span>
+                        <span class="font-semibold tracking-tighter text-sm text-white/80 font-sans">DATAGRID</span>
+                        <span class="font-mono lowercase text-sm tracking-wide text-white/80 font-sans">sys.logic</span>
+                        <span class="font-medium text-sm tracking-tight text-white/80 font-sans">Aethra</span>
+                        <span class="font-serif uppercase text-xs tracking-widest text-white/80 font-sans">VORTEX</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: WebGL / Graphic -->
+            <div class="lg:w-1/2 relative bg-[#060606] min-h-[400px] lg:min-h-0 overflow-hidden flex items-center justify-center p-8">
+                
+                <!-- Top Labels -->
+                <div class="absolute top-8 left-8 right-8 flex justify-between items-center z-20">
+                    <span class="font-mono text-[10px] text-white/40 tracking-widest uppercase font-sans">// Neural Net Grid</span>
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-[#00e5ff] animate-pulse"></div>
+                        <span class="font-mono text-[10px] text-[#00e5ff] tracking-widest uppercase font-sans">Synced</span>
+                    </div>
+                </div>
+
+                <!-- Floating UI Label -->
+                <div class="absolute top-[20%] left-[50%] -translate-x-[50%] z-20 flex flex-col items-center">
+                    <div class="border border-white/20 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-sm flex flex-col items-center border-t-[#00e5ff]">
+                        <span class="font-mono text-xs text-[#00e5ff] font-sans">Logic Core</span>
+                        <span class="font-mono text-[10px] text-white/60 mt-1 font-sans">Main Processor</span>
+                    </div>
+                    <!-- Connecting Line -->
+                    <div class="w-px h-16 bg-gradient-to-b from-white/20 to-transparent"></div>
+                </div>
+
+                <!-- WebGL Container -->
+                <div id="webgl-container" class="absolute inset-0 z-10 pointer-events-none"></div>
+
+            </div>
+        </main>
+
+        <!-- Footer Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-white/5 bg-[#0a0a0a]">
+            
+            <div class="p-6 md:p-8 flex flex-col items-center justify-center text-center">
+                <span class="text-3xl text-[#00e5ff] font-semibold tracking-tight font-sans">84</span>
+                <span class="font-mono text-[10px] text-white/40 tracking-widest uppercase mt-3 font-sans">Nodes Active</span>
+            </div>
+            
+            <div class="p-6 md:p-8 flex flex-col items-center justify-center text-center">
+                <span class="text-3xl text-[#00e5ff] font-semibold tracking-tight font-sans">3.2M</span>
+                <span class="font-mono text-[10px] text-white/40 tracking-widest uppercase mt-3 font-sans">Req/Sec</span>
+            </div>
+            
+            <div class="p-6 md:p-8 flex flex-col items-center justify-center text-center col-span-2 md:col-span-1">
+                <span class="text-3xl text-[#00e5ff] font-semibold tracking-tight font-sans">914</span>
+                <span class="font-mono text-[10px] text-white/40 tracking-widest uppercase mt-3 font-sans">Cycles Saved</span>
+            </div>
+            
+            <div class="p-6 md:p-8 flex flex-col items-center justify-center text-center">
+                <span class="text-3xl text-[#00e5ff] font-semibold tracking-tight font-sans">99.99%</span>
+                <span class="font-mono text-[10px] text-white/40 tracking-widest uppercase mt-3 font-sans">Stability</span>
+            </div>
+            
+            <div class="p-6 md:p-8 flex flex-col items-center justify-center text-center">
+                <span class="text-3xl text-[#00e5ff] font-semibold tracking-tight font-sans">256+</span>
+                <span class="font-mono text-[10px] text-white/40 tracking-widest uppercase mt-3 font-sans">Integrations</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- WebGL Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('webgl-container');
+            if (!container) return;
+
+            // Scene setup
+            const scene = new THREE.Scene();
+            
+            // Isometric Camera setup
+            const aspect = container.clientWidth / container.clientHeight;
+            const d = 15;
+            const camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
+            camera.position.set(20, 20, 20);
+            camera.lookAt(scene.position);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 20, 10);
+            scene.add(directionalLight);
+
+            const coreLight = new THREE.PointLight(0x00e5ff, 2, 20);
+            coreLight.position.set(0, 2, 0);
+            scene.add(coreLight);
+
+            // Materials
+            const darkMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x111111, 
+                roughness: 0.8,
+                metalness: 0.2
+            });
+            const accentMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x00e5ff, 
+                emissive: 0x00e5ff,
+                emissiveIntensity: 0.5,
+                roughness: 0.2,
+                metalness: 0.8
+            });
+            const wireframeMaterial = new THREE.LineBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.3 });
+            const gridMaterial = new THREE.LineBasicMaterial({ color: 0x333333, transparent: true, opacity: 0.3 });
+
+            // Geometry Group to hold everything
+            const group = new THREE.Group();
+            scene.add(group);
+
+            // 1. Base Grid (Floor)
+            const gridHelper = new THREE.GridHelper(30, 15, 0x333333, 0x1a1a1a);
+            gridHelper.position.y = -2;
+            group.add(gridHelper);
+
+            // 2. Main Platform
+            const platformGeo = new THREE.BoxGeometry(14, 1.5, 14);
+            const platform = new THREE.Mesh(platformGeo, darkMaterial);
+            platform.position.y = -1;
+            
+            // Platform edges
+            const edges = new THREE.EdgesGeometry(platformGeo);
+            const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x333333 }));
+            platform.add(line);
+            group.add(platform);
+
+            // 3. Middle Tier
+            const midTierGeo = new THREE.BoxGeometry(8, 1, 8);
+            const midTier = new THREE.Mesh(midTierGeo, darkMaterial);
+            midTier.position.y = 0.25;
+            
+            const midEdges = new THREE.EdgesGeometry(midTierGeo);
+            const midLine = new THREE.LineSegments(midEdges, new THREE.LineBasicMaterial({ color: 0x444444 }));
+            midTier.add(midLine);
+            group.add(midTier);
+
+            // 4. Glowing Core
+            const coreGeo = new THREE.BoxGeometry(3, 1, 3);
+            const core = new THREE.Mesh(coreGeo, accentMaterial);
+            core.position.y = 1.25;
+            group.add(core);
+
+            // 5. Holographic Rings (Wireframe Cylinders)
+            const ringGeo = new THREE.CylinderGeometry(4.5, 4.5, 1.5, 32, 1, true);
+            const ring1 = new THREE.LineSegments(new THREE.EdgesGeometry(ringGeo), wireframeMaterial);
+            ring1.position.y = 4;
+            group.add(ring1);
+
+            const ring2 = new THREE.LineSegments(new THREE.EdgesGeometry(ringGeo), wireframeMaterial);
+            ring2.position.y = 7;
+            group.add(ring2);
+
+            // 6. Floating Data Nodes
+            const nodes = [];
+            const nodeGeo = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+            for(let i=0; i<6; i++) {
+                const node = new THREE.Mesh(nodeGeo, accentMaterial);
+                
+                // Random position around the center
+                const angle = (i / 6) * Math.PI * 2;
+                const radius = 8 + Math.random() * 2;
+                node.position.x = Math.cos(angle) * radius;
+                node.position.z = Math.sin(angle) * radius;
+                node.position.y = Math.random() * 4 + 1;
+                
+                // Add wireframe box around node
+                const nodeEdges = new THREE.EdgesGeometry(nodeGeo);
+                const nodeWire = new THREE.LineSegments(nodeEdges, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
+                nodeWire.scale.set(1.5, 1.5, 1.5);
+                node.add(nodeWire);
+
+                // Store initial Y for bouncing animation
+                node.userData.startY = node.position.y;
+                node.userData.speed = 0.02 + Math.random() * 0.02;
+                node.userData.offset = Math.random() * Math.PI * 2;
+
+                group.add(node);
+                nodes.push(node);
+            }
+
+            // Small decorative elements on platform
+            const decorGeo = new THREE.BoxGeometry(0.8, 0.4, 1.5);
+            const decorMat = new THREE.MeshStandardMaterial({ color: 0x00e5ff });
+            for(let i=0; i<3; i++) {
+                const decor = new THREE.Mesh(decorGeo, decorMat);
+                decor.position.set(4, 0.25, -2 + i * 2);
+                group.add(decor);
+            }
+
+            // Animation Loop
+            const clock = new THREE.Clock();
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = clock.getElapsedTime();
+
+                // Rotate group slowly
+                group.rotation.y = Math.sin(time * 0.1) * 0.1;
+
+                // Animate Rings
+                ring1.rotation.y = time * 0.5;
+                ring2.rotation.y = -time * 0.3;
+                
+                // Pulse core emissive
+                const pulse = (Math.sin(time * 3) + 1) * 0.5; // 0 to 1
+                accentMaterial.emissiveIntensity = 0.3 + pulse * 0.7;
+                coreLight.intensity = 1 + pulse;
+
+                // Bounce nodes
+                nodes.forEach(node => {
+                    node.position.y = node.userData.startY + Math.sin(time * 2 + node.userData.offset) * 0.5;
+                    node.rotation.x += 0.01;
+                    node.rotation.y += 0.01;
+                });
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                if(!container) return;
+                const newAspect = container.clientWidth / container.clientHeight;
+                camera.left = -d * newAspect;
+                camera.right = d * newAspect;
+                camera.top = d;
+                camera.bottom = -d;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        });
+    </script>
+
+</body></html>
