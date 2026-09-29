@@ -136,6 +136,14 @@ public interface IPostService
     Task<T> GetByIdAsync<T>(Guid id) where T : PostBase;
 
     /// <summary>
+    /// Gets the post models with the specified ids.
+    /// </summary>
+    /// <typeparam name="T">The model type</typeparam>
+    /// <param name="ids">The unique ids</param>
+    /// <returns>The post models</returns>
+    Task<IEnumerable<T>> GetByIdsAsync<T>(params Guid[] ids) where T : PostBase;
+
+    /// <summary>
     /// Gets the draft for the post model with the specified id.
     /// </summary>
     /// <param name="id">The unique id</param>

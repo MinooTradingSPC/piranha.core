@@ -111,20 +111,8 @@ internal sealed class PostService : IPostService
             }
         }
 
-        var models = new List<T>();
         var posts = await _repo.GetAll(blogId, index, pageSize).ConfigureAwait(false);
-        var pages = new List<PageInfo>();
-
-        foreach (var postId in posts)
-        {
-            var post = await GetByIdAsync<T>(postId, pages).ConfigureAwait(false);
-
-            if (post != null)
-            {
-                models.Add(post);
-            }
-        }
-        return models;
+        return await GetByIdsAsync<T>(posts.ToArray()).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -144,21 +132,9 @@ internal sealed class PostService : IPostService
     /// <returns>The posts</returns>
     public async Task<IEnumerable<T>> GetAllBySiteIdAsync<T>(Guid? siteId = null) where T : PostBase
     {
-        var models = new List<T>();
         var posts = await _repo.GetAllBySiteId((await EnsureSiteIdAsync(siteId).ConfigureAwait(false)).Value)
             .ConfigureAwait(false);
-        var pages = new List<PageInfo>();
-
-        foreach (var postId in posts)
-        {
-            var post = await GetByIdAsync<T>(postId, pages).ConfigureAwait(false);
-
-            if (post != null)
-            {
-                models.Add(post);
-            }
-        }
-        return models;
+        return await GetByIdsAsync<T>(posts.ToArray()).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -278,6 +254,85 @@ internal sealed class PostService : IPostService
     public Task<T> GetByIdAsync<T>(Guid id) where T : PostBase
     {
         return GetByIdAsync<T>(id, new List<PageInfo>());
+    }
+
+    /// <summary>
+    /// Gets the post models with the specified ids in a single batch query.
+    /// </summary>
+    /// <typeparam name="T">The model type</typeparam>
+    /// <param name="ids">The unique ids</param>
+    /// <returns>The post models in the same order as the input ids</returns>
+    public async Task<IEnumerable<T>> GetByIdsAsync<T>(params Guid[] ids) where T : PostBase
+    {
+        var ret = new List<T>();
+        var notCached = new List<Guid>();
+
+        foreach (var id in ids)
+        {
+            PostBase model = null;
+
+            if (typeof(T) == typeof(PostInfo))
+            {
+                model = _cache == null ? null : await _cache.GetAsync<PostInfo>($"PostInfo_{id}").ConfigureAwait(false);
+            }
+            else if (!typeof(DynamicPost).IsAssignableFrom(typeof(T)))
+            {
+                model = _cache == null ? null : await _cache.GetAsync<PostBase>(id.ToString()).ConfigureAwait(false);
+
+                if (model != null)
+                {
+                    await _factory.InitAsync(model, App.PostTypes.GetById(model.TypeId)).ConfigureAwait(false);
+                }
+            }
+
+            if (model == null)
+            {
+                notCached.Add(id);
+            }
+            else if (model is T typedModel)
+            {
+                ret.Add(typedModel);
+            }
+        }
+
+        if (notCached.Count > 0)
+        {
+            var blogPages = new List<PageInfo>();
+            var models = await _repo.GetByIds<T>(notCached.ToArray()).ConfigureAwait(false);
+
+            foreach (var model in models)
+            {
+                var blog = blogPages.FirstOrDefault(p => p.Id == model.BlogId);
+
+                if (blog == null)
+                {
+                    blog = await _pageService.GetByIdAsync<PageInfo>(model.BlogId).ConfigureAwait(false);
+                    if (blog != null)
+                    {
+                        blogPages.Add(blog);
+                    }
+                }
+
+                await OnLoadAsync(model, blog).ConfigureAwait(false);
+
+                if (model is T typedModel)
+                {
+                    ret.Add(typedModel);
+                }
+            }
+        }
+
+        // Return results in the same order as the requested ids
+        var sorted = new List<T>();
+        foreach (var id in ids)
+        {
+            var model = ret.FirstOrDefault(m => m.Id == id);
+            if (model != null)
+            {
+                sorted.Add(model);
+            }
+        }
+        return sorted;
     }
 
     /// <summary>

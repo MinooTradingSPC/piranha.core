@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Der findes ingen bruger med det indtastede brugernavn og password.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>En sikkerhedshærdet fork af Piranha CMS af {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Godkendelseskode</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Indholdsstyring</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Send mig en loginkode på e-mail</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Hvis der findes en konto med den e-mailadresse, har vi sendt en kode til den. Tjek din indbakke.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Administrer sider, indlæg og medier på dit website.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Eller</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Husk mit brugernavn</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Sikkert login</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Sikkert login uden adgangskode</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Log på med en adgangsnøgle i stedet</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Log på med en kode fra en godkendelsesapp</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Log på med dit brugernavn eller din e-mail for at fortsætte.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Loginkode</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Forhåndsversion</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Denne browser understøtter ikke adgangsnøgler.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Indtast først dit brugernavn eller din e-mail ovenfor, og klik derefter på »Log på med en adgangsnøgle i stedet« igen.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Der er ikke registreret nogen adgangsnøgle for denne konto. Log i stedet på med din adgangskode.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Den indtastede kode er forkert eller udløbet.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Login med adgangsnøgle kunne ikke gennemføres. Prøv i stedet med din adgangskode.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Indtast først dit brugernavn eller din e-mail ovenfor, og klik derefter på »Log på med en kode fra en godkendelsesapp« igen.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Der er ikke registreret nogen godkendelsesapp for denne konto. Log i stedet på med din adgangskode.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Login med godkendelsesapp kunne ikke gennemføres. Prøv i stedet med din adgangskode.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Indtast først dit brugernavn eller din e-mail ovenfor, og klik derefter på »Send mig en loginkode på e-mail« igen.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Loginkoden kunne ikke sendes. Prøv i stedet med din adgangskode.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Login kunne ikke gennemføres. Prøv i stedet med din adgangskode.</value>
+  </data>
 </root>

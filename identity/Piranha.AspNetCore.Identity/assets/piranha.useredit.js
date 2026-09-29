@@ -10,6 +10,16 @@ piranha.useredit= new Vue({
         userModel: null,
         currentUserName: null
     },
+    computed: {
+        // Passkey/authenticator app management lives on its own page
+        // (Account > Security) since it's always self-service - this just
+        // decides whether to show a link to it, never when an admin edits
+        // someone else's account.
+        isEditingSelf: function () {
+            return !this.isNew && this.userModel &&
+                this.currentUserName === this.userModel.user.userName;
+        }
+    },
     methods: {
         bind: function (result) {
             this.userModel = result;
@@ -58,7 +68,7 @@ piranha.useredit= new Vue({
             .then(function (result) {
                 if (ok) {
                     self.bind(result);
-                    
+
                     piranha.notifications.push({
                         body: piranha.resources.texts.userIsSaved,
                         type: "success",
@@ -103,7 +113,7 @@ piranha.useredit= new Vue({
                         headers: piranha.utils.antiForgeryHeaders(),
                         body: JSON.stringify(userId)
                     })
-                    .then(function (response) { 
+                    .then(function (response) {
                         ok = response.ok;
                         return response.json();
                     })

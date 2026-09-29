@@ -1,0 +1,730 @@
+// "Verdant" design of the manager login page, after the "Verdant Syntax |
+// Precision Botanical Architecture" reference in .claude/designs: a split
+// screen with an immersive deep-forest panel on the left, carrying the brand
+// headline over grid lines and gradient waves, and the sign-in form in a
+// pressed-glass card on warm sand on the right. A 1px container frame with
+// square corner markers holds both. Below 992px the panels stack.
+//
+// The palette is the reference's: warm sand (#F6F5F2), obsidian (#1C201C),
+// deep forest (#151914) and deep shadow (#1B241A). Its metadata grey
+// (#767873) is too light for text on sand (4.1:1), so text uses #5f615b and
+// the grey is kept for icons and lines. Type is Playfair Display for
+// headlines, Inter for body and JetBrains Mono for uppercase labels. The
+// headline lines rise from a mask with a 4 degree tilt, like the
+// reference's staggered text reveal.
+
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+
+// Inter, JetBrains Mono and Playfair Display (SIL Open Font License, see
+// webfonts/Inter-OFL.txt, webfonts/JetBrainsMono-OFL.txt and
+// webfonts/PlayfairDisplay-OFL.txt)
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(../webfonts/Inter-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url(../webfonts/JetBrainsMono-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "Playfair Display";
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(../webfonts/PlayfairDisplay-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "Playfair Display";
+    font-style: italic;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(../webfonts/PlayfairDisplay-Italic-Variable.woff2) format("woff2");
+}
+
+// Power4.out, the reference's reveal ease.
+$verdant-ease: cubic-bezier(.165, .84, .44, 1);
+$verdant-serif: "Playfair Display", Georgia, serif;
+$verdant-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+// Gradient waves standing in for the reference's hero photograph.
+$verdant-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 900' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23c9d3bf' stroke-width='1'%3E%3Cpath opacity='.18' d='M-40 620C120 520 240 700 400 600S640 420 840 520'/%3E%3Cpath opacity='.14' d='M-40 660C140 560 260 740 420 640S660 460 840 560'/%3E%3Cpath opacity='.11' d='M-40 700C160 600 280 780 440 680S680 500 840 600'/%3E%3Cpath opacity='.08' d='M-40 740C180 640 300 820 460 720S700 540 840 640'/%3E%3Cpath opacity='.12' d='M-40 300C140 220 300 380 460 300S700 160 840 240'/%3E%3Cpath opacity='.08' d='M-40 340C160 260 320 420 480 340S720 200 840 280'/%3E%3C/g%3E%3C/svg%3E");
+
+html.login-page {
+    --verdant-bg: #F6F5F2;
+    --verdant-card-top: #FFFFFF;
+    --verdant-card-bottom: #F8F7F4;
+    --verdant-card-stroke-top: rgba(0, 0, 0, .09);
+    --verdant-card-stroke-bottom: rgba(0, 0, 0, .02);
+    --verdant-card-highlight: rgba(255, 255, 255, 1);
+    --verdant-card-shadow: rgba(0, 0, 0, .05);
+    --verdant-text: #1C201C;
+    --verdant-muted: #5f615b;
+    --verdant-line: #767873;
+    --verdant-rule: rgba(0, 0, 0, .06);
+    --verdant-field: #FFFFFF;
+    --verdant-field-stroke: rgba(0, 0, 0, .1);
+    --verdant-placeholder: #767873;
+    --verdant-primary: #1C201C;
+    --verdant-primary-hover: #2d332c;
+    --verdant-on-primary: #FFFFFF;
+    --verdant-focus: rgba(28, 32, 28, .18);
+    --verdant-marker: #F6F5F2;
+    --verdant-marker-stroke: rgba(0, 0, 0, .15);
+    --verdant-error: #b42318;
+    --verdant-error-bg: #fdf1ef;
+
+    min-width: 0;
+    color-scheme: light dark;
+    background: var(--verdant-bg);
+
+    @media (prefers-color-scheme: dark) {
+        --verdant-bg: #151914;
+        --verdant-card-top: #1f251e;
+        --verdant-card-bottom: #1b201a;
+        --verdant-card-stroke-top: rgba(255, 255, 255, .14);
+        --verdant-card-stroke-bottom: rgba(255, 255, 255, .03);
+        --verdant-card-highlight: rgba(255, 255, 255, .08);
+        --verdant-card-shadow: rgba(0, 0, 0, .35);
+        --verdant-text: #F6F5F2;
+        --verdant-muted: #a6a8a1;
+        --verdant-line: #8b8d86;
+        --verdant-rule: rgba(255, 255, 255, .08);
+        --verdant-field: #151914;
+        --verdant-field-stroke: rgba(255, 255, 255, .12);
+        --verdant-placeholder: #8b8d86;
+        --verdant-primary: #F6F5F2;
+        --verdant-primary-hover: #e4e2dc;
+        --verdant-on-primary: #1C201C;
+        --verdant-focus: rgba(246, 245, 242, .22);
+        --verdant-marker: #151914;
+        --verdant-marker-stroke: rgba(255, 255, 255, .2);
+        --verdant-error: #f4a898;
+        --verdant-error-bg: rgba(180, 35, 24, .18);
+    }
+}
+
+@keyframes verdant-reveal {
+    from {
+        transform: translateY(110%) rotate(4deg);
+    }
+    to {
+        transform: none;
+    }
+}
+
+@keyframes verdant-rise {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+#login {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--verdant-bg);
+    color: var(--verdant-text);
+    font: 300 15px/1.6 "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    ::selection {
+        background: #1B241A;
+        color: #fff;
+    }
+
+    .pre-release {
+        display: none;
+    }
+
+    // The 1400px container frame with its top corner markers.
+    .login-shell {
+        position: relative;
+        max-width: 1400px;
+        min-height: 100vh;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid var(--verdant-rule);
+        border-right: 1px solid var(--verdant-rule);
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 30;
+            width: 5px;
+            height: 5px;
+            background: var(--verdant-marker);
+            border: 1px solid var(--verdant-marker-stroke);
+        }
+
+        &::before {
+            left: -3px;
+        }
+
+        &::after {
+            right: -3px;
+        }
+    }
+
+    // Header floating over the forest panel.
+    .login-topbar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 28px 24px;
+        color: rgba(255, 255, 255, .9);
+        pointer-events: none;
+
+        @media (min-width: 768px) {
+            padding: 32px 48px;
+        }
+
+        @media (min-width: 992px) {
+            right: 41.6667%;
+        }
+    }
+
+    .login-brandmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-family: $verdant-serif;
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: -.01em;
+
+        img.logo {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+    }
+
+    .login-label {
+        font-family: $verdant-mono;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: .16em;
+        line-height: 1.2;
+        text-transform: uppercase;
+    }
+
+    .login-topbar .login-status {
+        margin: 0;
+        color: rgba(255, 255, 255, .7);
+    }
+
+    .login-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: 992px) {
+            flex-direction: row;
+        }
+    }
+
+    // Immersive forest panel: gradient waves, a dark wash from the bottom
+    // and the reference's four vertical grid lines.
+    .login-brand {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        min-height: 360px;
+        padding: 120px 24px 40px;
+        overflow: hidden;
+        color: #fff;
+        background:
+            linear-gradient(to top, rgba(10, 12, 10, .95) 0%, rgba(10, 12, 10, .45) 45%, rgba(10, 12, 10, .1) 100%),
+            $verdant-waves center / 100% 100% no-repeat,
+            radial-gradient(ellipse 70% 55% at 18% 12%, #4a5a43 0%, transparent 70%),
+            radial-gradient(ellipse 60% 50% at 88% 38%, #36432f 0%, transparent 70%),
+            radial-gradient(ellipse 90% 60% at 50% 100%, #1B241A 0%, transparent 75%),
+            #151914;
+
+        @media (min-width: 768px) {
+            padding: 140px 48px 64px;
+        }
+
+        @media (min-width: 992px) {
+            flex: 0 0 58.3333%;
+            min-height: 100vh;
+            border-right: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0 24px;
+            pointer-events: none;
+            opacity: .2;
+            background:
+                linear-gradient(#fff, #fff) left top / 1px 100% no-repeat,
+                linear-gradient(#fff, #fff) right top / 1px 100% no-repeat;
+
+            @media (min-width: 768px) {
+                inset: 0 48px;
+                background:
+                    linear-gradient(#fff, #fff) left top / 1px 100% no-repeat,
+                    linear-gradient(#fff, #fff) 33.333% top / 1px 100% no-repeat,
+                    linear-gradient(#fff, #fff) 66.666% top / 1px 100% no-repeat,
+                    linear-gradient(#fff, #fff) right top / 1px 100% no-repeat;
+            }
+        }
+    }
+
+    .login-brand-body {
+        position: relative;
+        z-index: 1;
+        max-width: 640px;
+
+        > .login-label {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 0 0 28px;
+            color: rgba(255, 255, 255, .7);
+
+            &::before {
+                content: "";
+                width: 32px;
+                height: 1px;
+                background: currentColor;
+            }
+        }
+    }
+
+    .login-display {
+        margin: 0 0 32px;
+        font-family: $verdant-serif;
+        font-size: clamp(44px, 6vw, 88px);
+        font-weight: 400;
+        line-height: 1.05;
+        letter-spacing: -.02em;
+        text-shadow: 0 4px 24px rgba(0, 0, 0, .25);
+
+        .line {
+            display: block;
+            overflow: hidden;
+            padding-bottom: .1em;
+
+            > span {
+                display: inline-block;
+                transform-origin: top left;
+                animation: verdant-reveal 1.2s $verdant-ease both;
+            }
+
+            + .line > span {
+                animation-delay: .09s;
+            }
+
+            &:last-child > span {
+                font-style: italic;
+            }
+        }
+    }
+
+    // The reference's translucent grid box.
+    .login-lead {
+        max-width: 380px;
+        margin: 0;
+        padding: 20px 24px;
+        border: 1px solid transparent;
+        border-radius: 16px;
+        color: rgba(255, 255, 255, .82);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.7;
+        background:
+            linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .4)) padding-box,
+            linear-gradient(145deg, rgba(255, 255, 255, .22) 0%, rgba(255, 255, 255, .02) 100%) border-box;
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+    }
+
+    // Sand panel with the sign-in card.
+    .login-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        padding: 40px 16px 24px;
+        background: var(--verdant-bg);
+
+        @media (min-width: 576px) {
+            padding: 56px 32px 24px;
+        }
+
+        @media (min-width: 992px) {
+            padding: 96px 48px 72px;
+        }
+    }
+
+    // Pressed-glass card: a 1px gradient stroke around a white gradient
+    // surface, with a highlight along its top edge.
+    .login-panel-inner {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        margin: 0 auto;
+        padding: 32px 24px 28px;
+        border: 1px solid transparent;
+        border-radius: 24px;
+        background:
+            linear-gradient(180deg, var(--verdant-card-top) 0%, var(--verdant-card-bottom) 100%) padding-box,
+            linear-gradient(180deg, var(--verdant-card-stroke-top) 0%, var(--verdant-card-stroke-bottom) 100%) border-box;
+        box-shadow:
+            inset 0 2px 4px var(--verdant-card-highlight),
+            inset 0 -1px 2px rgba(0, 0, 0, .03),
+            0 10px 30px var(--verdant-card-shadow);
+        animation: verdant-rise .8s $verdant-ease .15s both;
+
+        @media (min-width: 576px) {
+            padding: 40px 40px 32px;
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--verdant-card-highlight), transparent);
+            opacity: .8;
+        }
+
+        // Site name, shown as the reference's "01 // Framework" marker.
+        > .login-label:first-child {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 28px;
+            color: var(--verdant-muted);
+
+            &::before {
+                content: "";
+                width: 8px;
+                height: 8px;
+                flex: none;
+                background: var(--verdant-text);
+            }
+        }
+    }
+
+    .login-heading {
+        margin: 0 0 8px;
+        font-family: $verdant-serif;
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -.02em;
+    }
+
+    .login-subheading {
+        margin: 0 0 28px;
+        color: var(--verdant-muted);
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    .login-field {
+        margin-bottom: 16px;
+
+        .login-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--verdant-muted);
+        }
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 14px;
+        background: var(--verdant-field);
+        color: var(--verdant-text);
+        border: 1px solid var(--verdant-field-stroke);
+        border-radius: 12px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, .04);
+        font: 400 15px/1.4 "Inter", system-ui, sans-serif;
+        transition: border-color .2s ease, box-shadow .2s ease;
+
+        &::placeholder {
+            color: var(--verdant-placeholder);
+            font-weight: 300;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--verdant-text);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, .04), 0 0 0 3px var(--verdant-focus);
+        }
+    }
+
+    .was-validated .form-control:invalid {
+        border-color: var(--verdant-error);
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 4px 0 24px;
+        color: var(--verdant-muted);
+        font-size: 14px;
+        font-weight: 400;
+
+        .form-check-input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--verdant-primary);
+        }
+    }
+
+    // Pill action with the reference's sliding arrow.
+    .btn-login {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 13px 20px;
+        background: var(--verdant-primary);
+        color: var(--verdant-on-primary);
+        border: 1px solid transparent;
+        border-radius: 9999px;
+        box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, .18),
+            inset 0 -1px 1px rgba(0, 0, 0, .3),
+            0 4px 12px rgba(0, 0, 0, .15);
+        font: 500 15px/1.2 "Inter", system-ui, sans-serif;
+        letter-spacing: .01em;
+        cursor: pointer;
+        transition: background-color .25s ease;
+
+        i {
+            font-size: 13px;
+            transition: transform .25s ease;
+        }
+
+        &:hover {
+            background: var(--verdant-primary-hover);
+
+            i {
+                transform: translateX(3px);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--verdant-text);
+            outline-offset: 3px;
+        }
+    }
+
+    .error-message {
+        margin: 0 0 20px;
+        padding: 12px 14px;
+        background: var(--verdant-error-bg);
+        color: var(--verdant-error);
+        border: 1px solid currentColor;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 400;
+        white-space: pre-line;
+    }
+
+    .login-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 28px 0 8px;
+
+        &::before,
+        &::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--verdant-rule);
+        }
+
+        .login-label {
+            color: var(--verdant-muted);
+        }
+    }
+
+    // Spec-table rows: text on the left, icon on the right, a hairline
+    // between them.
+    .login-methods {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .login-method {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 2px;
+        border-bottom: 1px solid var(--verdant-rule);
+        color: var(--verdant-text);
+        font-size: 14px;
+        font-weight: 400;
+        text-decoration: none;
+        transition: border-color .2s ease;
+
+        i {
+            color: var(--verdant-line);
+            font-size: 14px;
+            transition: transform .25s ease, color .2s ease;
+        }
+
+        &:hover {
+            border-color: var(--verdant-line);
+
+            i {
+                color: var(--verdant-text);
+                transform: translateX(-3px);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--verdant-text);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+    }
+
+    .login-subform {
+        padding: 16px 0 8px;
+
+        .login-label {
+            color: var(--verdant-muted);
+        }
+    }
+
+    // The script shows the sub forms by setting display: block.
+    #totp-login-form,
+    #recovery-login-form {
+        > * + * {
+            margin-top: 10px;
+        }
+    }
+
+    .login-note {
+        margin: 0;
+        color: var(--verdant-muted);
+        font-size: 13px;
+        font-weight: 400;
+    }
+
+    .login-code {
+        font-family: $verdant-mono;
+        letter-spacing: .4em;
+        text-align: center;
+    }
+
+    #passkey-login-error {
+        margin: 16px 0 0;
+    }
+
+    .login-footer {
+        width: 100%;
+        max-width: 440px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--verdant-rule);
+
+        .login-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--verdant-muted);
+            font-size: 10px;
+        }
+
+        i {
+            color: var(--verdant-line);
+        }
+    }
+
+    .login-credit {
+        margin: 0;
+        padding: 0 16px 24px;
+        background: var(--verdant-bg);
+        text-align: center;
+
+        @media (min-width: 992px) {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 41.6667%;
+            padding: 0 48px 28px;
+            background: none;
+        }
+
+        a {
+            color: var(--verdant-muted);
+            font-family: $verdant-mono;
+            font-size: 10px;
+            letter-spacing: .08em;
+            text-decoration: none;
+            text-transform: uppercase;
+
+            &:hover {
+                color: var(--verdant-text);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--verdant-text);
+                outline-offset: 3px;
+            }
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .login-display .line > span,
+        .login-panel-inner {
+            animation: none;
+        }
+
+        .btn-login i,
+        .login-method i {
+            transition: none;
+        }
+    }
+}

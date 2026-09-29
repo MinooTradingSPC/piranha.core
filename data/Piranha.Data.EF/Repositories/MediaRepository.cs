@@ -8,6 +8,8 @@
  *
  */
 
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Piranha.Data;
 using Piranha.Data.EF;
@@ -113,6 +115,33 @@ internal class MediaRepository : IMediaRepository
                 Created = f.Created
             })
             .FirstOrDefaultAsync(f => f.Id == id);
+
+    /// <summary>
+    /// Gets the media folders with the given ids in a single query.
+    /// </summary>
+    /// <param name="ids">The unique ids</param>
+    /// <returns>The media folders</returns>
+    public async Task<IEnumerable<Models.MediaFolder>> GetFoldersByIds(IEnumerable<Guid> ids)
+    {
+        var idArray = ids as Guid[] ?? ids.ToArray();
+        if (idArray.Length == 0)
+        {
+            return Enumerable.Empty<Models.MediaFolder>();
+        }
+
+        return await _db.MediaFolders
+            .AsNoTracking()
+            .Where(f => idArray.Contains(f.Id))
+            .Select(f => new Models.MediaFolder
+            {
+                Id = f.Id,
+                ParentId = f.ParentId,
+                Name = f.Name,
+                Created = f.Created
+            })
+            .ToListAsync()
+            .ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Gets the hierarchical media structure.
@@ -277,12 +306,40 @@ internal class MediaRepository : IMediaRepository
     /// <param name="id">The unique id</param>
     public async Task DeleteFolder(Guid id)
     {
+        if (_db is DbContext context)
+        {
+            using (var transaction = await context.Database.BeginTransactionAsync(IsolationLevel.Serializable).ConfigureAwait(false))
+            {
+                await DeleteEmptyFolder(id).ConfigureAwait(false);
+                await transaction.CommitAsync().ConfigureAwait(false);
+            }
+        }
+        else
+        {
+            await DeleteEmptyFolder(id).ConfigureAwait(false);
+        }
+    }
+
+    private async Task DeleteEmptyFolder(Guid id)
+    {
         var folder = await _db.MediaFolders
             .FirstOrDefaultAsync(f => f.Id == id)
             .ConfigureAwait(false);
 
         if (folder != null)
         {
+            var hasMedia = await _db.Media
+                .AnyAsync(m => m.FolderId == id)
+                .ConfigureAwait(false);
+            var hasChildFolders = await _db.MediaFolders
+                .AnyAsync(f => f.ParentId == id)
+                .ConfigureAwait(false);
+
+            if (hasMedia || hasChildFolders)
+            {
+                throw new ValidationException("The media folder must be empty before it can be deleted.");
+            }
+
             _db.MediaFolders.Remove(folder);
             await _db.SaveChangesAsync().ConfigureAwait(false);
         }

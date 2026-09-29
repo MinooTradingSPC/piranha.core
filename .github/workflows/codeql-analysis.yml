@@ -1,56 +1,102 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: [master, ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [master]
   schedule:
-    - cron: '0 9 * * 0'
+    # Was twice daily with no push trigger at all — for a full-solution
+    # restore+build+CodeQL(csharp+javascript) run, that's the single most
+    # expensive schedule in the org. Weekly is plenty for a safety net.
+    - cron: '0 20 * * 6'   # Saturday 20:00 UTC (~00:00 Asia/Dubai Sunday)
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   analyse:
     name: Analyse
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+      issues: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        # We must fetch at least the immediate parents so that if this is
-        # a pull request then we can checkout the head.
-        fetch-depth: 2
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
-    # If this run was triggered by a pull request event, then checkout
-    # the head of the pull request instead of the merge commit.
-    - run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: csharp, javascript
+          config-file: .github/codeql/codeql-config.yml
 
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        config-file: ./.github/codeql/codeql-config.yml
-      # Override language selection by uncommenting this and choosing your languages
-      # with:
-      #   languages: go, javascript, csharp, python, cpp, java
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
 
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+      - name: Build
+        run: |
+          dotnet restore
+          dotnet build --no-restore -c Release
 
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
 
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
+      - name: Create issues for new CodeQL alerts
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Ensure labels exist (safe to run repeatedly)
+          gh label create "security" --color "d73a4a" --description "Security vulnerability" 2>/dev/null || true
+          gh label create "codeql"   --color "e4e669" --description "Found by CodeQL analysis" 2>/dev/null || true
 
-    #- run: |
-    #   make bootstrap
-    #   make release
+          # Cache all existing codeql-labelled issue titles (open + closed) for deduplication
+          existing=$(gh issue list --label "codeql" --state all --limit 500 --json title --jq '[.[].title]')
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+          # Fetch all currently open code scanning alerts (up to 100)
+          gh api "repos/${{ github.repository }}/code-scanning/alerts?state=open&per_page=100" \
+            --jq '.[] | @base64' | \
+          while IFS= read -r encoded; do
+            alert=$(printf '%s' "$encoded" | base64 -d)
+            number=$(printf '%s' "$alert" | jq -r '.number')
+            description=$(printf '%s' "$alert" | jq -r '.rule.description')
+            title="[CodeQL #${number}] ${description}"
+
+            # Only create if no issue (open or closed) already carries this title
+            already=$(printf '%s' "$existing" | jq --arg t "$title" 'map(select(. == $t)) | length')
+            if [ "$already" -eq 0 ]; then
+              severity=$(printf '%s' "$alert" | jq -r '.rule.severity // "warning"')
+              rule=$(printf '%s'     "$alert" | jq -r '.rule.id')
+              url=$(printf '%s'      "$alert" | jq -r '.html_url')
+              path=$(printf '%s'     "$alert" | jq -r '.most_recent_instance.location.path // "unknown"')
+              line=$(printf '%s'     "$alert" | jq -r '.most_recent_instance.location.start_line // ""')
+
+              # Build body via printf into a temp file to avoid YAML pipe-character conflicts
+              body_file=$(mktemp)
+              printf '## CodeQL Security Finding\n\n'                           > "$body_file"
+              printf '| Field    | Value |\n'                                  >> "$body_file"
+              printf '|----------|-------|\n'                                  >> "$body_file"
+              printf '| Alert    | [#%s](%s) |\n'    "$number" "$url"         >> "$body_file"
+              printf '| Rule     | `%s` |\n'          "$rule"                 >> "$body_file"
+              printf '| Severity | %s |\n'            "$severity"             >> "$body_file"
+              printf '| File     | `%s` |\n'          "${path}${line:+:$line}" >> "$body_file"
+              printf '\n[View full details on the Security tab](%s)\n' "$url"  >> "$body_file"
+
+              gh issue create \
+                --title "$title" \
+                --body-file "$body_file" \
+                --label "security" \
+                --label "codeql"
+              rm -f "$body_file"
+              echo "Created issue: $title"
+            else
+              echo "Issue already exists for alert #${number} — skipping"
+            fi
+          done

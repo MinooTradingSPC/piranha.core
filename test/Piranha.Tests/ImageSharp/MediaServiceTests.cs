@@ -15,6 +15,8 @@ namespace Piranha.Tests.ImageSharp;
 [Collection("Integration tests")]
 public class MediaServiceTests : BaseTestsAsync
 {
+    public class MediaOnBeforeSaveException : Exception { }
+
     private Guid imageId;
 
     public override async Task InitializeAsync()
@@ -64,6 +66,72 @@ public class MediaServiceTests : BaseTestsAsync
 
             Assert.NotNull(url);
             Assert.Equal($"~/uploads/{imageId}-HLD_Screenshot_01_mech_1080_640.png", url);
+        }
+    }
+
+    [Fact]
+    public async Task GetScaledConcurrently()
+    {
+        var urls = await Task.WhenAll(Enumerable.Range(0, 8)
+            .Select(async _ =>
+            {
+                using (var api = CreateApi())
+                {
+                    return await api.Media.EnsureVersionAsync(imageId, 640);
+                }
+            }));
+
+        Assert.All(urls, url => Assert.EndsWith($"/uploads/{imageId}-HLD_Screenshot_01_mech_1080_640.png", url));
+    }
+
+    [Fact]
+    public async Task FailedReplacementKeepsOriginalAndVersions()
+    {
+        using (var api = CreateApi())
+        {
+            var media = await api.Media.GetByIdAsync(imageId);
+            var versionUrl = await api.Media.EnsureVersionAsync(imageId, 640);
+
+            Assert.NotNull(media);
+            Assert.NotNull(versionUrl);
+
+            Piranha.App.Hooks.Media.RegisterOnBeforeSave(m => throw new MediaOnBeforeSaveException());
+            try
+            {
+                using (var stream = File.OpenRead("../../../Assets/HLD_Screenshot_01_rise_1080.png"))
+                {
+                    var replacement = new Models.StreamMediaContent
+                    {
+                        Id = imageId,
+                        Filename = "HLD_Screenshot_01_rise_1080.png",
+                        Data = stream
+                    };
+
+                    await Assert.ThrowsAsync<MediaOnBeforeSaveException>(async () =>
+                    {
+                        await api.Media.SaveAsync(replacement);
+                    });
+                }
+            }
+            finally
+            {
+                Piranha.App.Hooks.Media.Clear();
+            }
+
+            using (var session = await _storage.OpenAsync())
+            {
+                using (var original = new MemoryStream())
+                {
+                    Assert.True(await session.GetAsync(media, media.Filename, original));
+                    Assert.True(original.Length > 0);
+                }
+
+                using (var version = new MemoryStream())
+                {
+                    Assert.True(await session.GetAsync(media, "HLD_Screenshot_01_mech_1080_640.png", version));
+                    Assert.True(version.Length > 0);
+                }
+            }
         }
     }
 
