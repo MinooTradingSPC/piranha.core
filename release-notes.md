@@ -1,4 +1,4 @@
-## [1.0.15] — 2026-09-29
+## [1.0.16] — 2026-10-06
 
 ### 🚀 Features
 
@@ -2107,7 +2107,7 @@
 - Update publish pipeline again `(b1779c7f)` — Håkan Edling
 - Changed signing to not use subscription id `(e7aae168)` — Håkan Edling
 - Updated az sign in command `(aa5bac04)` — Håkan Edling
-- piranha.core: Add passwordless sign-in, themes, login designs and harden the fork `(ebcc8fa3)` — Ahmad Minoo
+- piranha.core: Add passwordless manager login, selectable themes and hardening `(4dc5b46d)` — Ahmad Minoo
 
 ### 📝 Documentation
 
