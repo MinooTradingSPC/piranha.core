@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) .NET Foundation and Contributors
  *
  * This software may be modified and distributed under the terms
@@ -99,9 +99,114 @@ public sealed class Module : IModule
     };
 
     /// <summary>
+    /// The login page designs that can be picked on the config page. Add a
+    /// client's own designs here at startup.
+    /// </summary>
+    public List<LoginDesign> LoginDesigns { get; private set; } = new List<LoginDesign> {
+        new LoginDesign {
+            Id = LoginDesign.DefaultId,
+            Title = "Default",
+            Styles = { "~/manager/assets/css/login-default.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-default.rtl.min.css" }
+        },
+        new LoginDesign {
+            Id = "Verdant",
+            Title = "Verdant Syntax",
+            Styles = { "~/manager/assets/css/login-verdant.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-verdant.rtl.min.css" }
+        },
+        new LoginDesign {
+            Id = "Aura",
+            Title = "Aura Systems",
+            Styles = { "~/manager/assets/css/login-aura.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-aura.rtl.min.css" }
+        },
+        new LoginDesign {
+            Id = "NeuroSync",
+            Title = "NeuroSync",
+            Styles = { "~/manager/assets/css/login-neurosync.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-neurosync.rtl.min.css" },
+            Scripts = { "~/manager/assets/js/login-neurosync.min.js" }
+        },
+        new LoginDesign {
+            Id = "Auralis",
+            Title = "Auralis Ember",
+            Styles = { "~/manager/assets/css/login-auralis.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-auralis.rtl.min.css" },
+            Scripts = { "~/manager/assets/js/login-auralis.min.js" }
+        },
+        new LoginDesign {
+            Id = "AuralisIndigo",
+            Title = "Auralis Indigo",
+            Styles = { "~/manager/assets/css/login-auralis-indigo.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-auralis-indigo.rtl.min.css" },
+            Scripts = { "~/manager/assets/js/login-auralis-indigo.min.js" }
+        },
+        new LoginDesign {
+            Id = "Ecosystem",
+            Title = "Ecosystem",
+            Styles = { "~/manager/assets/css/login-ecosystem.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-ecosystem.rtl.min.css" }
+        },
+        new LoginDesign {
+            Id = "Lumina",
+            Title = "Lumina",
+            Styles = { "~/manager/assets/css/login-lumina.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-lumina.rtl.min.css" },
+            Scripts = { "~/manager/assets/js/login-lumina.min.js" }
+        },
+        new LoginDesign {
+            Id = "Nexus",
+            Title = "Nexus Core",
+            Styles = { "~/manager/assets/css/login-nexus.min.css" },
+            RtlStyles = { "~/manager/assets/css/login-nexus.rtl.min.css" },
+            Scripts = { "~/manager/assets/js/login-nexus.min.js" }
+        }
+    };
+
+    /// <summary>
+    /// The manager interface themes that can be picked on the config page.
+    /// Add a client's own themes here at startup. The config page only shows
+    /// the theme dropdown while the list has at least one theme.
+    /// </summary>
+    public List<ManagerTheme> Themes { get; private set; } = new List<ManagerTheme> {
+        Theme("Aura", "Aura Systems", "aura"),
+        Theme("Auralis", "Auralis Ember", "auralis"),
+        Theme("AuralisIndigo", "Auralis Indigo", "auralis-indigo"),
+        Theme("Ecosystem", "Ecosystem", "ecosystem"),
+        Theme("Lumina", "Lumina", "lumina"),
+        Theme("NeuroSync", "NeuroSync", "neurosync"),
+        Theme("Nexus", "Nexus Core", "nexus"),
+        Theme("Verdant", "Verdant Syntax", "verdant")
+    };
+
+    // A built-in theme's files are assets/dist/css/manager-{file}.min.css
+    // and its right-to-left mirror, both built by gulp min:css.
+    private static ManagerTheme Theme(string id, string title, string file)
+    {
+        return new ManagerTheme
+        {
+            Id = id,
+            Title = title,
+            Styles = { $"~/manager/assets/css/manager-{file}.min.css" },
+            RtlStyles = { $"~/manager/assets/css/manager-{file}.rtl.min.css" }
+        };
+    }
+
+    /// <summary>
+    /// Gets the registered theme with the given key.
+    /// </summary>
+    /// <param name="id">The theme key stored in the config</param>
+    /// <returns>The theme, or null to use the built-in look</returns>
+    public ManagerTheme GetTheme(string id)
+    {
+        return string.IsNullOrEmpty(id) ? null : Themes.FirstOrDefault(t => t.Id == id);
+    }
+
+    /// <summary>
     /// Gets the Author
     /// </summary>
-    public string Author => "Piranha";
+    public string Author => "Kiarash Minoo";
 
     /// <summary>
     /// Gets the Name
@@ -121,12 +226,12 @@ public sealed class Module : IModule
     /// <summary>
     /// Gets the package url.
     /// </summary>
-    public string PackageUrl => "https://www.nuget.org/packages/Piranha.Manager";
+    public string PackageUrl => "https://github.com/MinooTradingSPC/piranha.core";
 
     /// <summary>
     /// Gets the icon url.
     /// </summary>
-    public string IconUrl => "https://piranhacms.org/assets/twitter-shield.png";
+    public string IconUrl => "https://raw.githubusercontent.com/MinooTradingSPC/piranha.core/master/Piranha.png";
 
     /// <summary>
     /// The assembly.

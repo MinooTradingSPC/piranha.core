@@ -15,30 +15,30 @@
                     <i v-else-if="media.type === 'Resource'" class="fas fa-box-open"></i>
                     {{ media.filename }}
                 </h5>
-                <button type="button" class="close" v-on:click.prevent="close">&times;</button>
+                <button type="button" class="btn-close ms-auto" v-on:click.prevent="close" aria-label="Close"></button>
             </div>
 
             <!-- Tabs -->
             <ul class="nav nav-tabs">
                 <li v-if="media.contentType !== 'application/pdf'" class="nav-item">
-                    <a class="nav-link active" data-toggle="pill" href="#pills-preview"><i class="far fa-eye"></i> @Localizer.General["Preview"]</a>
+                    <a class="nav-link active" data-bs-toggle="pill" href="#pills-preview"><i class="far fa-eye"></i> @Localizer.General["Preview"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" :class="{ 'active': media.contentType === 'application/pdf' }" data-toggle="pill" href="#pills-details"><i class="fas fa-info-circle"></i> @Localizer.General["Details"]</a>
+                    <a class="nav-link" :class="{ 'active': media.contentType === 'application/pdf' }" data-bs-toggle="pill" href="#pills-details"><i class="fas fa-info-circle"></i> @Localizer.General["Details"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#pills-meta"><i class="fas fa-th-list"></i> @Localizer.General["Meta"]</a>
+                    <a class="nav-link" data-bs-toggle="pill" href="#pills-meta"><i class="fas fa-th-list"></i> @Localizer.General["Meta"]</a>
                 </li>
                 @if ((await Auth.AuthorizeAsync(User, Permission.MediaEdit)).Succeeded)
                 {
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#pills-update"><i class="far fa-edit"></i> @Localizer.General["Update"]</a>
+                    <a class="nav-link" data-bs-toggle="pill" href="#pills-update"><i class="far fa-edit"></i> @Localizer.General["Update"]</a>
                 </li>
                 }
                 @foreach (var action in Piranha.Manager.Actions.Modals.MediaPreview)
                 {
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#@action.Uid"><i class="@action.Css"></i> @action.Title</a>
+                    <a class="nav-link" data-bs-toggle="pill" href="#@action.Uid"><i class="@action.Css"></i> @action.Title</a>
                 </li>
                 }
             </ul>
@@ -135,7 +135,7 @@
                                     <td><input type="text"class="form-control form-control-sm" v-model="property.value"></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-right" colspan="2">
+                                    <td class="text-end" colspan="2">
                                         <button v-on:click.prevent="saveMeta(media)" class="btn btn-sm btn-success btn-labeled">
                                             <i class="fas fa-check"></i>@Localizer.General["Save"]
                                         </button>

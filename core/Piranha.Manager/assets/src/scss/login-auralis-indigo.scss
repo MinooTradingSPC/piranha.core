@@ -1,0 +1,927 @@
+// "Auralis Indigo" design of the manager login page, after the "Auralis -
+// Neural Audio Engine" reference in
+// .claude/designs/manager/auralis-neural-audio-engine-2: a white page with a
+// flowing indigo and cyan plasma on the right (drawn by
+// login-auralis-indigo.js) seen through five vertical glass slices that fade
+// from opaque white to clear. The brand sits at the left as the reference's
+// hero: a tinted pill badge, a light Geist headline with tight tracking whose
+// last line runs from indigo to cyan, and a grey lead. The form floats on the
+// glass at the right in a frosted white card with an 8px radius, a dark pill
+// primary action and the reference's outlined indigo pills for the other
+// sign-in methods. Everything rises in with the reference's staggered
+// entrance. It styles the markup in Login.cshtml and is the only style sheet
+// the page loads, so it carries its own fonts and icons.
+//
+// Palette and type come from the reference: indigo primary (#4F46E5), cyan
+// accent (#06B6D4), white background, #1C1C1E for the dark pill, #111827 text,
+// #4B5563 secondary text and #E5E7EB rules, with Geist for display and body
+// and JetBrains Mono for labels and metadata. Without WebGL a still CSS
+// gradient in the same colours takes the plasma's place.
+//
+// The reference is light only. When the browser prefers dark, the page turns
+// near-black (#0B0B12), the glass slices and the card turn smoky dark, the
+// dark pill becomes white with #111827 text, and the indigo text colours
+// lighten to #A5B4FC and #818CF8.
+//
+// Contrast substitutions: the reference's indigo-500 (#6366F1) secondary text
+// is 4.5:1 on white only by a hair, so the outlined pills use #4F46E5
+// (6.3:1). Cyan #06B6D4 is 2.4:1 on white, below the 3:1 the headline needs as
+// large text, so its gradient ends at cyan-600 (#0891B2, 3.7:1). #E5E7EB is
+// too faint for input borders, so they use #8A8FA3 (3.2:1).
+
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+
+// Geist and JetBrains Mono (SIL Open Font License, see
+// webfonts/Geist-OFL.txt and webfonts/JetBrainsMono-OFL.txt)
+@font-face {
+    font-family: "Geist";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(../webfonts/Geist-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url(../webfonts/JetBrainsMono-Variable.woff2) format("woff2");
+}
+
+$au-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+$au-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+// The reference's entrance ease.
+$au-ease: cubic-bezier(.16, 1, .3, 1);
+
+html.login-page {
+    --au-bg: #fff;
+    --au-slice: 255, 255, 255;
+    --au-slice-line: rgba(255, 255, 255, .6);
+    --au-text: #111827;
+    --au-body: #4b5563;
+    --au-muted: #6b7280;
+    --au-rule: #e5e7eb;
+    --au-card: rgba(255, 255, 255, .8);
+    --au-card-stroke: rgba(255, 255, 255, .85);
+    --au-card-shadow: 0 1px 2px rgba(17, 24, 39, .04), 0 24px 48px -20px rgba(49, 46, 129, .28);
+    --au-field: rgba(255, 255, 255, .92);
+    --au-field-stroke: #8a8fa3;
+    --au-indigo: #4f46e5;
+    --au-indigo-text: #4f46e5;
+    --au-indigo-strong: #4338ca;
+    --au-indigo-soft: rgba(238, 242, 255, .6);
+    --au-indigo-soft-strong: #eef2ff;
+    --au-indigo-stroke: rgba(199, 210, 254, .8);
+    --au-indigo-stroke-strong: #a5b4fc;
+    --au-cyan: #06b6d4;
+    --au-gradient-end: #0891b2;
+    --au-pill: #1c1c1e;
+    --au-pill-hover: #000;
+    --au-on-pill: #fff;
+    --au-pill-shadow: rgba(0, 0, 0, .1);
+    --au-pill-shadow-hover: rgba(0, 0, 0, .2);
+    --au-focus: rgba(79, 70, 229, .25);
+    --au-error: #b91c1c;
+    --au-error-bg: #fef2f2;
+    --au-error-stroke: #fecaca;
+    --au-selection-bg: #e0e7ff;
+    --au-selection-text: #312e81;
+
+    min-width: 0;
+    color-scheme: light dark;
+    background: var(--au-bg);
+
+    @media (prefers-color-scheme: dark) {
+        --au-bg: #0b0b12;
+        --au-slice: 11, 11, 18;
+        --au-slice-line: rgba(255, 255, 255, .1);
+        --au-text: #f3f4f6;
+        --au-body: #b4b9c6;
+        --au-muted: #9ca3af;
+        --au-rule: rgba(255, 255, 255, .1);
+        --au-card: rgba(15, 15, 22, .8);
+        --au-card-stroke: rgba(255, 255, 255, .1);
+        --au-card-shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 24px 48px -20px rgba(0, 0, 0, .8);
+        --au-field: rgba(11, 11, 18, .7);
+        --au-field-stroke: #6b6f85;
+        --au-indigo-text: #a5b4fc;
+        --au-indigo-strong: #c7d2fe;
+        --au-indigo-soft: rgba(79, 70, 229, .14);
+        --au-indigo-soft-strong: rgba(79, 70, 229, .24);
+        --au-indigo-stroke: rgba(129, 140, 248, .35);
+        --au-indigo-stroke-strong: #818cf8;
+        --au-gradient-end: #22d3ee;
+        --au-pill: #fff;
+        --au-pill-hover: #e0e7ff;
+        --au-on-pill: #111827;
+        --au-pill-shadow: rgba(79, 70, 229, .2);
+        --au-pill-shadow-hover: rgba(79, 70, 229, .35);
+        --au-focus: rgba(129, 140, 248, .4);
+        --au-error: #fca5a5;
+        --au-error-bg: rgba(239, 68, 68, .12);
+        --au-error-stroke: rgba(248, 113, 113, .35);
+        --au-selection-bg: rgba(79, 70, 229, .5);
+        --au-selection-text: #fff;
+    }
+}
+
+@keyframes au-rise {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes au-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes au-shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+// One glass slice boundary at $index of five: a soft white shadow to its
+// left and a hairline, as the reference's bordered slices draw them.
+@function au-slice-edge($index) {
+    @return linear-gradient(to right, transparent calc(100% - 16px), rgba(var(--au-slice), .9) calc(100% - 1px), var(--au-slice-line) calc(100% - 1px))
+        calc(var(--au-fx-width) * #{$index * .2} - 16px) 0 / 17px 100% no-repeat;
+}
+
+#login {
+    // Width of the effect area at the right of the page.
+    --au-fx-width: 120vw;
+
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    background: var(--au-bg);
+    color: var(--au-text);
+    font: 400 16px/1.6 $au-sans;
+    -webkit-font-smoothing: antialiased;
+
+    @media (min-width: 768px) {
+        --au-fx-width: 70vw;
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    ::selection {
+        background: var(--au-selection-bg);
+        color: var(--au-selection-text);
+    }
+
+    .pre-release {
+        position: fixed;
+        top: 12px;
+        left: 50%;
+        z-index: 3;
+        transform: translateX(-50%);
+        padding: 2px 12px;
+        border: 1px solid var(--au-indigo-stroke);
+        border-radius: 9999px;
+        background: var(--au-indigo-soft-strong);
+        color: var(--au-indigo-text);
+        font: 600 11px/1.6 $au-mono;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+
+    .login-shell {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 88rem;
+        min-height: 100vh;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0 24px;
+
+        @media (min-width: 576px) {
+            padding: 0 32px;
+        }
+
+        @media (min-width: 768px) {
+            padding: 0 48px;
+        }
+
+        @media (min-width: 992px) {
+            padding: 0 64px;
+        }
+    }
+
+    // Header: the uppercase brand with the indigo degree sign, the version
+    // at the right as the reference's "Sign in" link.
+    .login-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 32px 0;
+        animation: au-drop .8s $au-ease .1s both;
+    }
+
+    .login-brandmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        color: var(--au-text);
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: -.025em;
+        text-transform: uppercase;
+        overflow-wrap: anywhere;
+
+        img.logo {
+            width: 28px;
+            height: 28px;
+            flex: none;
+            object-fit: contain;
+        }
+
+        &::after {
+            content: "\00b0";
+            margin-left: -6px;
+            color: var(--au-indigo);
+            font-size: 20px;
+            line-height: 1;
+        }
+    }
+
+    .login-topbar .login-status {
+        margin: 0;
+        color: var(--au-body);
+        font: 500 14px/1.4 $au-sans;
+        letter-spacing: 0;
+        text-transform: none;
+        white-space: nowrap;
+    }
+
+    .login-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        padding: 24px 0 48px;
+
+        @media (min-width: 992px) {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
+            align-items: center;
+            gap: 64px;
+            padding: 48px 0 72px;
+        }
+
+        @media (min-width: 1200px) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 28rem);
+            gap: 96px;
+        }
+    }
+
+    // The hero at the left.
+    .login-brand-body {
+        max-width: 42rem;
+
+        > .login-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 100%;
+            margin: 0 0 32px;
+            padding: 6px 14px;
+            border: 1px solid var(--au-indigo-stroke);
+            border-radius: 9999px;
+            background: var(--au-indigo-soft);
+            box-shadow: 0 1px 2px rgba(17, 24, 39, .05);
+            color: var(--au-indigo-text);
+            font: 500 12px/1.4 $au-sans;
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            animation: au-rise .8s $au-ease .22s both;
+
+            &::before {
+                content: "\f130";
+                font: var(--fa-font-solid);
+                font-size: 13px;
+            }
+        }
+    }
+
+    .login-display {
+        margin: 0;
+        color: var(--au-text);
+        font-size: clamp(40px, 7vw, 80px);
+        font-weight: 300;
+        line-height: 1.05;
+        letter-spacing: -.05em;
+        overflow-wrap: anywhere;
+        animation: au-rise .8s $au-ease .34s both;
+
+        .line {
+            display: block;
+            padding-bottom: .04em;
+
+            &:last-child > span {
+                background: linear-gradient(to right, var(--au-indigo), var(--au-gradient-end));
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+    }
+
+    .login-lead {
+        max-width: 28rem;
+        margin: 28px 0 0;
+        color: var(--au-body);
+        font-size: 16px;
+        line-height: 1.625;
+        animation: au-rise .8s $au-ease .46s both;
+
+        @media (min-width: 768px) {
+            font-size: 18px;
+        }
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    // The form: a frosted card on the glass slices.
+    .login-panel {
+        position: relative;
+        width: 100%;
+        max-width: 28rem;
+        padding: 32px 24px 20px;
+        border: 1px solid var(--au-card-stroke);
+        border-radius: 8px;
+        background: var(--au-card);
+        box-shadow: var(--au-card-shadow);
+        -webkit-backdrop-filter: blur(20px) saturate(1.2);
+        backdrop-filter: blur(20px) saturate(1.2);
+        animation: au-rise .8s $au-ease .58s both;
+
+        @media (min-width: 576px) {
+            padding: 40px 36px 24px;
+        }
+
+        &.has-error {
+            animation: au-rise .8s $au-ease .58s both, au-shake .6s ease-in-out 1.2s both;
+        }
+    }
+
+    // The site name, set like the reference's wordmark.
+    .login-panel-inner > .login-label:first-child {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        margin: 0 0 20px;
+        color: var(--au-indigo-text);
+        font-size: 12px;
+        letter-spacing: .14em;
+
+        &::after {
+            content: "\00b0";
+            font-size: 14px;
+            line-height: 1;
+        }
+    }
+
+    .login-heading {
+        margin: 0 0 8px;
+        color: var(--au-text);
+        font-size: 32px;
+        font-weight: 300;
+        line-height: 1.1;
+        letter-spacing: -.035em;
+    }
+
+    .login-subheading {
+        margin: 0 0 28px;
+        color: var(--au-body);
+        font-size: 15px;
+        line-height: 1.6;
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    .login-label {
+        display: block;
+        margin: 0 0 8px;
+        color: var(--au-body);
+        font: 600 12px/1.2 $au-mono;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    .login-field {
+        margin-bottom: 16px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 14px;
+        background: var(--au-field);
+        color: var(--au-text);
+        border: 1px solid var(--au-field-stroke);
+        border-radius: 8px;
+        font: 400 15px/1.4 $au-sans;
+        transition: border-color .2s ease, box-shadow .2s ease;
+
+        &::placeholder {
+            color: var(--au-muted);
+            opacity: 1;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--au-indigo-stroke-strong);
+            box-shadow: 0 0 0 3px var(--au-focus);
+        }
+
+        &:-webkit-autofill {
+            -webkit-text-fill-color: var(--au-text);
+            -webkit-box-shadow: 0 0 0 1000px var(--au-indigo-soft-strong) inset;
+            caret-color: var(--au-text);
+        }
+    }
+
+    .was-validated .form-control:invalid {
+        border-color: var(--au-error);
+
+        &:focus {
+            box-shadow: 0 0 0 3px var(--au-error-stroke);
+        }
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 4px 0 24px;
+        color: var(--au-body);
+        font-size: 14px;
+
+        .form-check-input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            flex: none;
+            accent-color: var(--au-indigo);
+            cursor: pointer;
+
+            &:focus-visible {
+                outline: 2px solid var(--au-indigo-stroke-strong);
+                outline-offset: 2px;
+            }
+        }
+
+        .form-check-label {
+            cursor: pointer;
+        }
+    }
+
+    // Primary action: the reference's dark "Begin building today" pill.
+    .btn-login {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 28px;
+        background: var(--au-pill);
+        color: var(--au-on-pill);
+        border: 0;
+        border-radius: 9999px;
+        box-shadow: 0 10px 15px -3px var(--au-pill-shadow), 0 4px 6px -4px var(--au-pill-shadow);
+        font: 500 14px/1.2 $au-sans;
+        cursor: pointer;
+        transition: background-color .3s ease, box-shadow .3s ease, transform .3s $au-ease;
+
+        i {
+            font-size: 13px;
+            opacity: .8;
+            transition: transform .3s $au-ease;
+        }
+
+        &:hover {
+            background: var(--au-pill-hover);
+            box-shadow: 0 10px 15px -3px var(--au-pill-shadow-hover), 0 4px 6px -4px var(--au-pill-shadow-hover);
+            transform: translateY(-2px);
+
+            i {
+                transform: translateX(3px);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--au-indigo);
+            outline-offset: 3px;
+        }
+
+        &:disabled,
+        &[aria-busy="true"] {
+            opacity: .55;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+    }
+
+    .error-message {
+        margin: 0 0 20px;
+        padding: 10px 14px;
+        background: var(--au-error-bg);
+        color: var(--au-error);
+        border: 1px solid var(--au-error-stroke);
+        border-radius: 8px;
+        font-size: 14px;
+        white-space: pre-line;
+    }
+
+    #passkey-login-error {
+        margin: 16px 0 0;
+    }
+
+    .login-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 24px 0 16px;
+
+        &::before,
+        &::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--au-rule);
+        }
+
+        .login-label {
+            margin: 0;
+            color: var(--au-muted);
+            font-size: 11px;
+        }
+    }
+
+    .login-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    // Other methods: the reference's outlined "Talk to Sales" pills.
+    .login-method {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 11px 20px;
+        border: 1px solid var(--au-indigo-stroke);
+        border-radius: 9999px;
+        background: rgba(var(--au-slice), .4);
+        color: var(--au-indigo-text);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.3;
+        text-align: center;
+        text-decoration: none;
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        transition: background-color .3s ease, border-color .3s ease, color .3s ease;
+
+        i {
+            flex: none;
+            font-size: 14px;
+        }
+
+        &:hover {
+            background: var(--au-indigo-soft-strong);
+            border-color: var(--au-indigo-stroke-strong);
+            color: var(--au-indigo-strong);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--au-indigo);
+            outline-offset: 2px;
+        }
+    }
+
+    // The sign-in script shows these by clearing their inline display, so
+    // the spacing comes from margins rather than flex gaps.
+    .login-subform {
+        margin: 0 0 4px;
+        padding: 16px;
+        border: 1px solid var(--au-indigo-stroke);
+        border-radius: 8px;
+        background: var(--au-indigo-soft);
+
+        > * + * {
+            margin-top: 10px;
+        }
+
+        .login-label {
+            margin-bottom: 0;
+        }
+
+        .btn-login {
+            padding: 12px 24px;
+        }
+    }
+
+    .login-note {
+        margin: 0;
+        color: var(--au-body);
+        font-size: 14px;
+    }
+
+    .login-code {
+        font-family: $au-mono;
+        font-size: 16px;
+        letter-spacing: .4em;
+        text-align: center;
+    }
+
+    // The reference's feature row, inside the card.
+    .login-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px 16px;
+        margin-top: 28px;
+        padding-top: 16px;
+        border-top: 1px solid var(--au-rule);
+
+        .login-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            color: var(--au-muted);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: .06em;
+        }
+
+        i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            flex: none;
+            border-radius: 50%;
+            background: var(--au-indigo-soft-strong);
+            color: var(--au-indigo);
+            font-size: 12px;
+        }
+    }
+
+    .login-credit {
+        margin: 0;
+        padding: 0 0 32px;
+        font: 500 11px/1.6 $au-mono;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        animation: au-rise .8s $au-ease .7s both;
+
+        a {
+            color: var(--au-muted);
+            text-decoration: none;
+            transition: color .2s ease;
+
+            &:hover {
+                color: var(--au-indigo-text);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--au-indigo);
+                outline-offset: 2px;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .login-panel {
+            margin: 0 auto;
+        }
+
+        .login-brand-body {
+            margin: 0 auto;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .login-topbar {
+            padding: 24px 0;
+        }
+
+        .login-brand-body > .login-label {
+            margin-bottom: 24px;
+        }
+
+        .login-lead {
+            margin-top: 20px;
+        }
+
+        .login-heading {
+            font-size: 28px;
+        }
+
+        .login-footer {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 359.98px) {
+        .login-shell {
+            padding: 0 16px;
+        }
+
+        .login-panel {
+            padding: 28px 16px 16px;
+        }
+
+        .login-topbar .login-status {
+            font-size: 12px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &::before,
+        .login-topbar,
+        .login-brand-body > .login-label,
+        .login-display,
+        .login-lead,
+        .login-panel,
+        .login-panel.has-error,
+        .login-credit {
+            animation: none;
+        }
+
+        #login-bg,
+        .btn-login,
+        .btn-login i,
+        .login-method {
+            transition: none;
+        }
+
+        .btn-login:hover,
+        .btn-login:hover i {
+            transform: none;
+        }
+    }
+}
+
+// The fallback plasma, the WebGL canvas over it and the glass slices on top
+// share one box at the right of the page. On narrow screens it is wider than
+// the page and shifted right, as in the reference. In right-to-left pages the
+// whole effect is mirrored as one piece to the left, so rtlcss leaves these
+// rules alone rather than flipping each position and gradient separately.
+/*rtl:begin:ignore*/
+@keyframes au-drift {
+    0%, 100% {
+        background-position: 0% 0%, 100% 30%, 40% 100%, 0 0;
+    }
+    50% {
+        background-position: 30% 20%, 70% 60%, 80% 70%, 0 0;
+    }
+}
+
+#login::before,
+#login #login-bg,
+#login::after {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: var(--au-fx-width);
+    height: 100%;
+    pointer-events: none;
+    transform: translateX(10%);
+
+    @media (min-width: 768px) {
+        transform: none;
+    }
+}
+
+#login::before {
+    content: "";
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 60% 45% at 50% 50%, rgba(6, 182, 212, .85), transparent 70%),
+        radial-gradient(ellipse 55% 50% at 50% 50%, rgba(79, 70, 229, .95), transparent 72%),
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(38, 26, 128, .9), transparent 75%),
+        linear-gradient(to right, transparent, rgba(79, 70, 229, .6));
+    background-size: 90% 70%, 90% 80%, 100% 90%, 100% 100%;
+    background-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 55%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 55%);
+    animation: au-drift 24s ease-in-out infinite;
+}
+
+#login:has(#login-bg.is-ready)::before {
+    opacity: 0;
+    animation: none;
+}
+
+#login #login-bg {
+    z-index: 0;
+    display: block;
+    opacity: 0;
+    transition: opacity 1.2s $au-ease;
+
+    &.is-ready {
+        opacity: 1;
+    }
+}
+
+// Five glass slices, from opaque at the left to nearly clear at the right,
+// over one blur.
+#login::after {
+    content: "";
+    z-index: 0;
+    background:
+        au-slice-edge(1),
+        au-slice-edge(2),
+        au-slice-edge(3),
+        au-slice-edge(4),
+        linear-gradient(to right, rgba(var(--au-slice), 1), rgba(var(--au-slice), .85)) 0 0 / 20% 100% no-repeat,
+        linear-gradient(to right, rgba(var(--au-slice), .85), rgba(var(--au-slice), .65)) 25% 0 / 20% 100% no-repeat,
+        linear-gradient(to right, rgba(var(--au-slice), .65), rgba(var(--au-slice), .4)) 50% 0 / 20% 100% no-repeat,
+        linear-gradient(to right, rgba(var(--au-slice), .4), rgba(var(--au-slice), .15)) 75% 0 / 20% 100% no-repeat,
+        linear-gradient(to right, rgba(var(--au-slice), .15), rgba(var(--au-slice), .02)) 100% 0 / 20% 100% no-repeat;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+html[dir="rtl"] #login::before,
+html[dir="rtl"] #login #login-bg,
+html[dir="rtl"] #login::after {
+    right: auto;
+    left: 0;
+    transform: translateX(-10%) scaleX(-1);
+
+    @media (min-width: 768px) {
+        transform: scaleX(-1);
+    }
+}
+
+// On narrow screens the hero text runs over the clearer slices, so the
+// plasma is toned down there to keep the text readable.
+@media (max-width: 991.98px) {
+    #login::before,
+    #login #login-bg.is-ready {
+        opacity: .5;
+    }
+
+    #login:has(#login-bg.is-ready)::before {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #login::before {
+        animation: none;
+    }
+
+    #login #login-bg {
+        transition: none;
+    }
+}
+/*rtl:end:ignore*/

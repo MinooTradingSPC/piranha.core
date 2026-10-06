@@ -1,0 +1,1522 @@
+// "Verdant" theme of the manager UI, after the "Verdant Syntax | Precision
+// Botanical Architecture" reference in
+// .claude/designs/login/verdant-syntax-precision-botanical-architecture, and
+// the companion of login-verdant.scss. The left menu is the reference's
+// immersive deep-forest panel (#151914 over #1B241A) with sage icons, and the
+// work area is warm sand (#F6F5F2) with white pressed-glass cards: a gradient
+// surface from #FFFFFF to #F8F7F4, a 1px hairline stroke, an inner top
+// highlight and a soft ambient shadow. Faint vertical grid lines run behind
+// the content, like the reference's 12-column axis.
+//
+// Type follows the login page: Playfair Display for titles and headings,
+// Inter for body and controls, and JetBrains Mono in uppercase with wide
+// tracking for labels, breadcrumbs, card headers and table heads. Primary
+// actions are obsidian (#1C201C) pills, links and success states are forest
+// green, and there are no saturated colours.
+//
+// The reference is light, so light mode follows it. Dark mode keeps the same
+// shapes and type on the forest palette: deep forest page, #1f251e cards,
+// sand text and sand pills with obsidian labels, as login-verdant.scss does
+// under prefers-color-scheme: dark.
+//
+// Contrast substitutions: the reference's metadata grey (#767873) is 4.1:1 on
+// sand, so text uses #5f615b (5.8:1) and the grey is kept for icons and
+// lines. Hairline strokes stay on cards, but form controls and switches get
+// a #8c8e88 border (3.3:1 on white) so they meet the 3:1 rule for UI parts.
+// In dark mode the success, danger, info and warning fills are light tints
+// with deep forest labels, because the saturated shades fail with white text
+// on a dark page.
+
+// Inter, JetBrains Mono and Playfair Display (SIL Open Font License, see
+// webfonts/Inter-OFL.txt, webfonts/JetBrainsMono-OFL.txt and
+// webfonts/PlayfairDisplay-OFL.txt)
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(../webfonts/Inter-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url(../webfonts/JetBrainsMono-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "Playfair Display";
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(../webfonts/PlayfairDisplay-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "Playfair Display";
+    font-style: italic;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(../webfonts/PlayfairDisplay-Italic-Variable.woff2) format("woff2");
+}
+
+$vd-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+$vd-serif: "Playfair Display", Georgia, serif;
+$vd-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+// Every component rule is written under both modes so that the dark ones
+// carry :root[data-bs-theme="dark"] and win over inc/_theme.scss.
+$vd-root: ':root[data-bs-theme="light"], :root[data-bs-theme="dark"]';
+
+// Uppercase monospace label, the reference's "01 // Framework" style.
+@mixin vd-label($size: 12px) {
+    font-family: $vd-mono;
+    font-size: $size;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+// Pressed-glass surface: gradient fill, 1px stroke drawn as a shadow so the
+// box keeps its size, inner top highlight and a soft drop shadow.
+@mixin vd-glass {
+    background: linear-gradient(180deg, var(--vd-surface) 0%, var(--vd-surface-2) 100%);
+    box-shadow:
+        0 0 0 1px var(--vd-stroke),
+        inset 0 2px 4px var(--vd-highlight),
+        0 8px 20px var(--vd-shadow);
+}
+
+@mixin vd-btn($bg, $fg) {
+    --bs-btn-color: var(#{$fg});
+    --bs-btn-bg: var(#{$bg});
+    --bs-btn-border-color: var(#{$bg});
+    --bs-btn-hover-color: var(#{$fg});
+    --bs-btn-hover-bg: color-mix(in srgb, var(#{$bg}) 86%, var(--vd-mix));
+    --bs-btn-hover-border-color: color-mix(in srgb, var(#{$bg}) 86%, var(--vd-mix));
+    --bs-btn-active-color: var(#{$fg});
+    --bs-btn-active-bg: color-mix(in srgb, var(#{$bg}) 78%, var(--vd-mix));
+    --bs-btn-active-border-color: color-mix(in srgb, var(#{$bg}) 78%, var(--vd-mix));
+    --bs-btn-disabled-color: var(#{$fg});
+    --bs-btn-disabled-bg: var(#{$bg});
+    --bs-btn-disabled-border-color: var(#{$bg});
+}
+
+@mixin vd-btn-outline($c, $fg) {
+    --bs-btn-color: var(#{$c});
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: var(#{$c});
+    --bs-btn-hover-color: var(#{$fg});
+    --bs-btn-hover-bg: var(#{$c});
+    --bs-btn-hover-border-color: var(#{$c});
+    --bs-btn-active-color: var(#{$fg});
+    --bs-btn-active-bg: var(#{$c});
+    --bs-btn-active-border-color: var(#{$c});
+    --bs-btn-disabled-color: var(#{$c});
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: var(#{$c});
+}
+
+// Tokens -------------------------------------------------------------------
+
+:root[data-bs-theme="light"] {
+    color-scheme: light;
+
+    --vd-bg: #F6F5F2;
+    --vd-bg-alt: #EFEDE8;
+    --vd-surface: #FFFFFF;
+    --vd-surface-2: #F8F7F4;
+    --vd-text: #1C201C;
+    --vd-muted: #5f615b;
+    --vd-line: #767873;
+    --vd-rule: rgba(0, 0, 0, .06);
+    --vd-stroke: rgba(0, 0, 0, .09);
+    --vd-control: #8c8e88;
+    --vd-soft: #dcdad4;
+    --vd-hover: rgba(0, 0, 0, .04);
+    --vd-highlight: rgba(255, 255, 255, 1);
+    --vd-shadow: rgba(0, 0, 0, .04);
+    --vd-grid: rgba(0, 0, 0, .035);
+    --vd-mix: #000;
+
+    --vd-accent: #2f4a2b;
+    --vd-accent-hover: #1B241A;
+    --vd-primary: #1C201C;
+    --vd-on-primary: #FFFFFF;
+    --vd-success: #2f5a2e;
+    --vd-on-success: #FFFFFF;
+    --vd-danger: #9f2a1f;
+    --vd-on-danger: #FFFFFF;
+    --vd-info: #3c5a66;
+    --vd-on-info: #FFFFFF;
+    --vd-warning: #c8a15a;
+    --vd-on-warning: #1C201C;
+    --vd-focus: rgba(47, 74, 43, .3);
+    --vd-selected: #1B241A;
+    --vd-on-selected: #FFFFFF;
+
+    --vd-menu-bg: #151914;
+    --vd-menu-bg-2: #1B241A;
+
+    --bs-body-bg: #F6F5F2;
+    --bs-body-bg-rgb: 246, 245, 242;
+    --bs-body-color: #1C201C;
+    --bs-body-color-rgb: 28, 32, 28;
+    --bs-emphasis-color: #1C201C;
+    --bs-emphasis-color-rgb: 28, 32, 28;
+    --bs-secondary-color: #5f615b;
+    --bs-secondary-color-rgb: 95, 97, 91;
+    --bs-secondary-rgb: 95, 97, 91;
+    --bs-secondary-bg: #EFEDE8;
+    --bs-tertiary-bg: #EFEDE8;
+    --bs-tertiary-color: #767873;
+    --bs-border-color: rgba(0, 0, 0, .09);
+    --bs-border-color-translucent: rgba(0, 0, 0, .09);
+    --bs-link-color: #2f4a2b;
+    --bs-link-color-rgb: 47, 74, 43;
+    --bs-link-hover-color: #1B241A;
+    --bs-link-hover-color-rgb: 27, 36, 26;
+    --bs-primary: #1C201C;
+    --bs-primary-rgb: 28, 32, 28;
+    --bs-success: #2f5a2e;
+    --bs-success-rgb: 47, 90, 46;
+    --bs-danger: #9f2a1f;
+    --bs-danger-rgb: 159, 42, 31;
+    --bs-info: #3c5a66;
+    --bs-info-rgb: 60, 90, 102;
+    --bs-warning: #c8a15a;
+    --bs-warning-rgb: 200, 161, 90;
+    --bs-light-rgb: 239, 237, 232;
+    --bs-dark-rgb: 21, 25, 20;
+}
+
+:root[data-bs-theme="dark"] {
+    color-scheme: dark;
+
+    --vd-bg: #151914;
+    --vd-bg-alt: #111510;
+    --vd-surface: #1f251e;
+    --vd-surface-2: #1b201a;
+    --vd-text: #F6F5F2;
+    --vd-muted: #a6a8a1;
+    --vd-line: #8b8d86;
+    --vd-rule: rgba(255, 255, 255, .08);
+    --vd-stroke: rgba(255, 255, 255, .12);
+    --vd-control: #6f736c;
+    --vd-soft: #2c332b;
+    --vd-hover: rgba(255, 255, 255, .05);
+    --vd-highlight: rgba(255, 255, 255, .06);
+    --vd-shadow: rgba(0, 0, 0, .3);
+    --vd-grid: rgba(255, 255, 255, .03);
+    --vd-mix: #fff;
+
+    --vd-accent: #a8bd97;
+    --vd-accent-hover: #c9d3bf;
+    --vd-primary: #F6F5F2;
+    --vd-on-primary: #1C201C;
+    --vd-success: #9fbf8f;
+    --vd-on-success: #151914;
+    --vd-danger: #e79a8c;
+    --vd-on-danger: #151914;
+    --vd-info: #8fb3c0;
+    --vd-on-info: #151914;
+    --vd-warning: #d9b56e;
+    --vd-on-warning: #151914;
+    --vd-focus: rgba(168, 189, 151, .35);
+    --vd-selected: #36432f;
+    --vd-on-selected: #F6F5F2;
+
+    --vd-menu-bg: #10130f;
+    --vd-menu-bg-2: #151914;
+
+    --bs-body-bg: #151914;
+    --bs-body-bg-rgb: 21, 25, 20;
+    --bs-body-color: #F6F5F2;
+    --bs-body-color-rgb: 246, 245, 242;
+    --bs-emphasis-color: #F6F5F2;
+    --bs-emphasis-color-rgb: 246, 245, 242;
+    --bs-secondary-color: #a6a8a1;
+    --bs-secondary-color-rgb: 166, 168, 161;
+    --bs-secondary-rgb: 166, 168, 161;
+    --bs-secondary-bg: #1f251e;
+    --bs-tertiary-bg: #1b201a;
+    --bs-tertiary-color: #8b8d86;
+    --bs-border-color: rgba(255, 255, 255, .12);
+    --bs-border-color-translucent: rgba(255, 255, 255, .12);
+    --bs-link-color: #a8bd97;
+    --bs-link-color-rgb: 168, 189, 151;
+    --bs-link-hover-color: #c9d3bf;
+    --bs-link-hover-color-rgb: 201, 211, 191;
+    --bs-primary: #F6F5F2;
+    --bs-primary-rgb: 246, 245, 242;
+    --bs-success: #9fbf8f;
+    --bs-success-rgb: 159, 191, 143;
+    --bs-danger: #e79a8c;
+    --bs-danger-rgb: 231, 154, 140;
+    --bs-info: #8fb3c0;
+    --bs-info-rgb: 143, 179, 192;
+    --bs-warning: #d9b56e;
+    --bs-warning-rgb: 217, 181, 110;
+    --bs-light-rgb: 31, 37, 30;
+    --bs-dark-rgb: 16, 19, 15;
+}
+
+#{$vd-root} {
+    --bs-body-font-family: #{$vd-sans};
+    --bs-font-sans-serif: #{$vd-sans};
+    --bs-font-monospace: #{$vd-mono};
+    --bs-border-radius: .625rem;
+    --bs-border-radius-sm: .5rem;
+    --bs-border-radius-lg: 1rem;
+    --bs-border-radius-xl: 1.5rem;
+    --bs-border-radius-pill: 9999px;
+    --bs-focus-ring-color: var(--vd-focus);
+
+    // Menu tokens, the same deep forest in both modes.
+    --vd-menu-text: #d8d9d3;
+    --vd-menu-icon: #8b8d86;
+    --vd-menu-accent: #c9d3bf;
+    --vd-menu-hover: rgba(255, 255, 255, .06);
+    --vd-menu-active: rgba(255, 255, 255, .09);
+    --vd-menu-rule: rgba(255, 255, 255, .1);
+
+    scrollbar-color: var(--vd-line) transparent;
+
+    ::selection {
+        background: #1B241A;
+        color: #fff;
+    }
+
+    // Page ----------------------------------------------------------------
+
+    body {
+        background-color: var(--vd-bg);
+        // The reference's persistent vertical grid lines, fixed behind the
+        // content. Background only, so nothing intercepts clicks.
+        background-image:
+            linear-gradient(90deg, var(--vd-grid) 1px, transparent 1px);
+        background-size: 25% 100%;
+        background-attachment: fixed;
+        color: var(--vd-text);
+        font-family: $vd-sans;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, .h1, .h2, .h3, .modal-title {
+        font-family: $vd-serif;
+        font-weight: 400;
+        letter-spacing: -.01em;
+    }
+
+    a {
+        color: var(--vd-accent);
+
+        &:hover {
+            color: var(--vd-accent-hover);
+        }
+    }
+
+    .text-muted,
+    .text-secondary {
+        color: var(--vd-muted) !important;
+    }
+
+    .text-primary {
+        color: var(--vd-accent) !important;
+    }
+
+    code {
+        color: var(--vd-accent);
+        font-family: $vd-mono;
+    }
+
+    div.pre-release {
+        background: var(--vd-warning);
+        color: var(--vd-on-warning);
+        @include vd-label(12px);
+    }
+
+    // Left menu -----------------------------------------------------------
+
+    .navbar.navbar-left.bg-dark {
+        background-color: var(--vd-menu-bg) !important;
+        background-image:
+            radial-gradient(ellipse 140% 45% at 0% 0%, rgba(74, 90, 67, .35) 0%, transparent 70%),
+            linear-gradient(180deg, var(--vd-menu-bg) 0%, var(--vd-menu-bg-2) 100%);
+        box-shadow: inset -1px 0 0 var(--vd-menu-rule);
+
+        .nav-item {
+            a {
+                color: var(--vd-menu-text);
+                transition: color .15s ease, background-color .15s ease;
+
+                i {
+                    color: var(--vd-menu-icon);
+                    transition: color .15s ease;
+                }
+
+                &:hover {
+                    background: var(--vd-menu-hover);
+                    color: #fff;
+
+                    i {
+                        color: var(--vd-menu-accent);
+                    }
+                }
+
+                &:focus-visible {
+                    outline: 2px solid var(--vd-menu-accent);
+                    outline-offset: -2px;
+                }
+            }
+
+            &.active a {
+                background: var(--vd-menu-active);
+                color: #fff;
+                box-shadow: inset 2px 0 0 var(--vd-menu-accent);
+
+                i {
+                    color: #fff;
+                }
+
+                &:after {
+                    border-right-color: var(--vd-bg);
+                }
+            }
+
+            &.nav-group {
+                > .nav-header {
+                    color: #F6F5F2;
+                    font-family: $vd-sans;
+                    font-weight: 400;
+                    border-top-color: var(--vd-menu-rule);
+
+                    > i:first-child {
+                        color: var(--vd-menu-accent);
+                    }
+
+                    &:hover {
+                        background: var(--vd-menu-hover);
+                    }
+
+                    &:focus-visible {
+                        outline-color: var(--vd-menu-accent);
+                    }
+                }
+
+                .nav-group-toggle {
+                    color: var(--vd-menu-icon);
+                }
+
+                &.current > .nav-header .nav-header-title {
+                    color: #fff;
+                }
+            }
+
+            &.nav-header {
+                font-family: $vd-sans;
+                font-weight: 400;
+                border-top-color: var(--vd-menu-rule);
+
+                i {
+                    color: var(--vd-menu-accent);
+                }
+
+                span, a {
+                    color: #F6F5F2;
+                }
+            }
+        }
+
+        .manager-preferences {
+            border-top-color: var(--vd-menu-rule);
+        }
+
+        .manager-icon-chooser button {
+            color: var(--vd-menu-text);
+            background: rgba(255, 255, 255, .05);
+            border-color: rgba(255, 255, 255, .14);
+            border-radius: 9999px;
+
+            &:hover,
+            &:focus-visible {
+                color: #fff;
+                background: rgba(255, 255, 255, .12);
+            }
+
+            &:focus-visible {
+                box-shadow: 0 0 0 2px var(--vd-menu-accent);
+            }
+
+            &.active {
+                color: #1C201C;
+                background: #F6F5F2;
+                border-color: #F6F5F2;
+                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .9), 0 2px 6px rgba(0, 0, 0, .3);
+            }
+        }
+    }
+
+    // Toolbar and breadcrumb ----------------------------------------------
+
+    .top {
+        background: var(--vd-bg);
+        box-shadow: inset 0 -1px 0 var(--vd-rule);
+
+        .top-nav {
+            background: color-mix(in srgb, var(--vd-bg) 82%, transparent);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+        }
+
+        .breadcrumb {
+            --bs-breadcrumb-divider-color: var(--vd-line);
+            --bs-breadcrumb-item-active-color: var(--vd-text);
+            background: var(--vd-bg);
+            color: var(--vd-muted);
+            @include vd-label(13px);
+
+            .breadcrumb-item.active {
+                color: var(--vd-text);
+            }
+
+            a {
+                color: var(--vd-muted);
+
+                &:hover {
+                    color: var(--vd-text);
+                }
+            }
+        }
+    }
+
+    // Cards ---------------------------------------------------------------
+
+    .card {
+        --bs-card-bg: transparent;
+        --bs-card-cap-bg: transparent;
+        --bs-card-color: var(--vd-text);
+        --bs-card-border-color: var(--vd-stroke);
+        color: var(--vd-text);
+
+        .card-header {
+            color: var(--vd-muted);
+            background: transparent;
+            border-bottom-color: var(--vd-rule);
+            @include vd-label(12px);
+        }
+
+        .card-body {
+            @include vd-glass;
+            color: var(--vd-text);
+            border-radius: 1rem;
+        }
+    }
+
+    .accordion {
+        > .card {
+            border-color: var(--vd-rule);
+
+            .card-body {
+                background: var(--vd-bg-alt);
+                border-top-color: var(--vd-rule);
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+
+        .card-header {
+            background: var(--vd-surface);
+            color: var(--vd-text);
+        }
+
+        &.sortable .card-header .handle {
+            color: var(--vd-line);
+            border-right-color: var(--vd-rule);
+        }
+    }
+
+    .bg-light .accordion {
+        .card-header {
+            background: var(--vd-surface);
+        }
+
+        .card-body {
+            border-color: var(--vd-surface);
+        }
+    }
+
+    #config .card-body .list-group .list-group-item {
+        border-color: var(--vd-rule);
+    }
+
+    // Buttons -------------------------------------------------------------
+
+    .btn {
+        --bs-btn-border-radius: 9999px;
+        --bs-btn-font-family: #{$vd-sans};
+        --bs-btn-font-weight: 500;
+        --bs-btn-focus-box-shadow: 0 0 0 .2rem var(--vd-focus);
+        transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+
+        &:focus-visible {
+            outline: 2px solid var(--vd-text);
+            outline-offset: 2px;
+        }
+    }
+
+    .input-group .btn,
+    .btn-group-vertical .btn {
+        --bs-btn-border-radius: var(--bs-border-radius);
+    }
+
+    .btn-primary {
+        @include vd-btn(--vd-primary, --vd-on-primary);
+        box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, .18),
+            inset 0 -1px 1px rgba(0, 0, 0, .3),
+            0 4px 12px rgba(0, 0, 0, .12);
+    }
+
+    .btn-success {
+        @include vd-btn(--vd-success, --vd-on-success);
+    }
+
+    .btn-danger {
+        @include vd-btn(--vd-danger, --vd-on-danger);
+    }
+
+    .btn-info {
+        @include vd-btn(--vd-info, --vd-on-info);
+    }
+
+    .btn-warning {
+        @include vd-btn(--vd-warning, --vd-on-warning);
+    }
+
+    .btn-secondary,
+    .btn-dark {
+        @include vd-btn(--vd-muted, --vd-bg);
+    }
+
+    .btn-light,
+    .btn.btn-light,
+    .card-body .btn.btn-light {
+        --bs-btn-color: var(--vd-text);
+        --bs-btn-bg: var(--vd-surface);
+        --bs-btn-border-color: var(--vd-stroke);
+        --bs-btn-hover-color: var(--vd-text);
+        --bs-btn-hover-bg: var(--vd-bg-alt);
+        --bs-btn-hover-border-color: var(--vd-control);
+        --bs-btn-active-color: var(--vd-text);
+        --bs-btn-active-bg: var(--vd-bg-alt);
+        --bs-btn-active-border-color: var(--vd-control);
+        --bs-btn-disabled-color: var(--vd-muted);
+        --bs-btn-disabled-bg: var(--vd-surface);
+        --bs-btn-disabled-border-color: var(--vd-stroke);
+        background: linear-gradient(180deg, var(--vd-surface) 0%, var(--vd-surface-2) 100%);
+        box-shadow: inset 0 1px 1px var(--vd-highlight), 0 2px 5px var(--vd-shadow);
+
+        &:hover,
+        &.active,
+        &:active {
+            background: var(--vd-bg-alt);
+        }
+    }
+
+    .card-body .btn.btn-light {
+        background: var(--vd-bg);
+    }
+
+    .btn-outline-primary {
+        @include vd-btn-outline(--vd-primary, --vd-on-primary);
+    }
+
+    .btn-outline-secondary,
+    .btn-outline-dark,
+    .btn-outline-light {
+        @include vd-btn-outline(--vd-muted, --vd-bg);
+    }
+
+    .btn-outline-success {
+        @include vd-btn-outline(--vd-success, --vd-on-success);
+    }
+
+    .btn-outline-danger {
+        @include vd-btn-outline(--vd-danger, --vd-on-danger);
+    }
+
+    .btn-outline-info {
+        @include vd-btn-outline(--vd-info, --vd-on-info);
+    }
+
+    .btn-outline-warning {
+        @include vd-btn-outline(--vd-warning, --vd-on-warning);
+    }
+
+    .btn-link {
+        --bs-btn-color: var(--vd-accent);
+        --bs-btn-hover-color: var(--vd-accent-hover);
+        --bs-btn-active-color: var(--vd-accent-hover);
+    }
+
+    .btn-close:focus {
+        box-shadow: 0 0 0 .2rem var(--vd-focus);
+    }
+
+    button.switch {
+        background-color: var(--vd-control);
+
+        span {
+            background: #fff;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+        }
+
+        &[aria-pressed="true"] {
+            background-color: var(--vd-success);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--vd-text);
+            outline-offset: 2px;
+        }
+    }
+
+    // Forms ---------------------------------------------------------------
+
+    .form-control,
+    .form-select {
+        background-color: var(--vd-surface);
+        color: var(--vd-text);
+        border-color: var(--vd-control);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, .04);
+        transition: border-color .2s ease, box-shadow .2s ease;
+
+        &::placeholder {
+            color: var(--vd-line);
+            opacity: 1;
+        }
+
+        &:focus {
+            background-color: var(--vd-surface);
+            color: var(--vd-text);
+            border-color: var(--vd-accent);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, .04), 0 0 0 3px var(--vd-focus);
+        }
+
+        &:disabled,
+        &[readonly] {
+            background-color: var(--vd-bg-alt);
+        }
+    }
+
+    .form-select {
+        border-radius: var(--bs-border-radius);
+    }
+
+    .form-check-input {
+        background-color: var(--vd-surface);
+        border-color: var(--vd-control);
+
+        &:checked {
+            background-color: var(--vd-accent);
+            border-color: var(--vd-accent);
+        }
+
+        &:focus {
+            border-color: var(--vd-accent);
+            box-shadow: 0 0 0 3px var(--vd-focus);
+        }
+    }
+
+    .form-group:not(.form-check) {
+        &.title .form-control-lg {
+            font-family: $vd-serif;
+            font-weight: 400;
+            letter-spacing: -.01em;
+            border-color: var(--vd-control);
+        }
+
+        > label {
+            color: var(--vd-text);
+            font-weight: 600;
+        }
+    }
+
+    .form-label,
+    label {
+        color: var(--vd-text);
+    }
+
+    .input-group .input-group-text {
+        background: var(--vd-bg-alt);
+        color: var(--vd-muted);
+        border-color: var(--vd-control);
+    }
+
+    .select2-container--default {
+        .select2-selection--single,
+        .select2-selection--multiple {
+            background-color: var(--vd-surface);
+            border-color: var(--vd-control);
+            border-radius: var(--bs-border-radius);
+
+            .select2-selection__rendered {
+                color: var(--vd-text);
+            }
+
+            .select2-selection__placeholder {
+                color: var(--vd-line);
+            }
+
+            .select2-selection__choice {
+                background-color: var(--vd-bg-alt);
+                border-color: var(--vd-stroke);
+                color: var(--vd-text);
+                border-radius: 9999px;
+            }
+
+            .select2-selection__choice__remove {
+                color: var(--vd-muted);
+            }
+        }
+
+        .select2-selection--single .select2-selection__arrow b {
+            border-top-color: var(--vd-line);
+        }
+
+        &.select2-container--focus .select2-selection--multiple,
+        &.select2-container--focus .select2-selection--single,
+        &.select2-container--open .select2-selection--single,
+        &.select2-container--open .select2-selection--multiple {
+            border-color: var(--vd-accent);
+            box-shadow: 0 0 0 3px var(--vd-focus);
+        }
+
+        .select2-search--dropdown .select2-search__field {
+            background: var(--vd-surface);
+            color: var(--vd-text);
+            border-color: var(--vd-control);
+        }
+
+        .select2-results__option--highlighted[aria-selected],
+        .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: var(--vd-selected);
+            color: var(--vd-on-selected);
+        }
+
+        .select2-results__option[aria-selected="true"],
+        .select2-results__option--selected {
+            background-color: var(--vd-bg-alt);
+            color: var(--vd-text);
+        }
+    }
+
+    .form-group .select2-container--default {
+        .select2-selection--single,
+        .select2-selection--multiple {
+            border-color: var(--vd-control);
+        }
+
+        .select2-selection--multiple .select2-selection__choice {
+            background-color: var(--vd-bg-alt);
+            border-color: var(--vd-stroke);
+        }
+    }
+
+    .select2-dropdown {
+        background: var(--vd-surface);
+        color: var(--vd-text);
+        border-color: var(--vd-control);
+        box-shadow: 0 10px 30px var(--vd-shadow);
+    }
+
+    // Tables --------------------------------------------------------------
+
+    .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: var(--vd-text);
+        --bs-table-border-color: var(--vd-rule);
+        --bs-table-hover-bg: var(--vd-hover);
+        --bs-table-hover-color: var(--vd-text);
+        --bs-table-active-bg: var(--vd-hover);
+        color: var(--vd-text);
+
+        thead th {
+            color: var(--vd-muted);
+            border-bottom-color: var(--vd-rule);
+            @include vd-label(11px);
+        }
+
+        tbody tr {
+            background-color: var(--vd-surface);
+            border-top-color: var(--vd-bg);
+
+            td:first-child {
+                a, span.title {
+                    font-family: $vd-sans;
+                    font-weight: 500;
+                    letter-spacing: -.005em;
+
+                    i {
+                        color: var(--vd-line);
+                    }
+                }
+            }
+        }
+
+        tr.droppable.active {
+            background: var(--vd-bg-alt);
+        }
+
+        tr.selected {
+            background: var(--vd-selected);
+            color: var(--vd-on-selected);
+
+            > * {
+                color: var(--vd-on-selected);
+            }
+
+            a {
+                color: var(--vd-on-selected);
+            }
+        }
+    }
+
+    .card-body .table tbody tr {
+        background-color: var(--vd-bg);
+        border-top-color: var(--vd-surface);
+    }
+
+    // Tabs, pills and dropdowns -------------------------------------------
+
+    .nav-tabs {
+        --bs-nav-tabs-border-color: var(--vd-rule);
+        --bs-nav-tabs-link-hover-border-color: transparent transparent var(--vd-rule);
+        --bs-nav-tabs-link-active-color: var(--vd-text);
+        --bs-nav-tabs-link-active-bg: var(--vd-surface);
+        --bs-nav-tabs-link-active-border-color: var(--vd-stroke) var(--vd-stroke) var(--vd-surface);
+
+        .nav-link {
+            color: var(--vd-muted);
+
+            &:hover {
+                color: var(--vd-text);
+            }
+
+            &.active {
+                color: var(--vd-text);
+                background-color: var(--vd-surface);
+            }
+        }
+    }
+
+    .nav-tabs-inverted .nav-link.active {
+        background-color: var(--vd-surface);
+        color: var(--vd-text);
+    }
+
+    .nav-pills {
+        --bs-nav-pills-border-radius: 9999px;
+        --bs-nav-pills-link-active-color: var(--vd-on-primary);
+        --bs-nav-pills-link-active-bg: var(--vd-primary);
+
+        .nav-link {
+            color: var(--vd-muted);
+
+            &:hover {
+                color: var(--vd-text);
+            }
+
+            &.active {
+                color: var(--vd-on-primary);
+                background-color: var(--vd-primary);
+            }
+        }
+
+        &.nav-pills-card {
+            @include vd-glass;
+            border-radius: 1rem 1rem 0 0;
+        }
+    }
+
+    .dropdown-menu {
+        --bs-dropdown-bg: var(--vd-surface);
+        --bs-dropdown-color: var(--vd-text);
+        --bs-dropdown-border-color: var(--vd-stroke);
+        --bs-dropdown-border-radius: .75rem;
+        --bs-dropdown-link-color: var(--vd-text);
+        --bs-dropdown-link-hover-color: var(--vd-text);
+        --bs-dropdown-link-hover-bg: var(--vd-hover);
+        --bs-dropdown-link-active-color: var(--vd-on-selected);
+        --bs-dropdown-link-active-bg: var(--vd-selected);
+        --bs-dropdown-divider-bg: var(--vd-rule);
+        --bs-dropdown-header-color: var(--vd-muted);
+        background-color: var(--vd-surface);
+        color: var(--vd-text);
+        box-shadow: inset 0 1px 1px var(--vd-highlight), 0 10px 30px var(--vd-shadow);
+
+        .dropdown-header {
+            @include vd-label(11px);
+        }
+    }
+
+    .dropdown-item {
+        color: var(--vd-text);
+
+        &:hover,
+        &:focus {
+            background-color: var(--vd-hover);
+            color: var(--vd-text);
+        }
+
+        &.active,
+        &:active {
+            background-color: var(--vd-selected);
+            color: var(--vd-on-selected);
+        }
+    }
+
+    // Modals --------------------------------------------------------------
+
+    .modal-content {
+        --bs-modal-bg: var(--vd-surface);
+        --bs-modal-color: var(--vd-text);
+        --bs-modal-border-color: var(--vd-stroke);
+        background-color: var(--vd-surface);
+        color: var(--vd-text);
+        box-shadow: 0 10px 30px var(--vd-shadow);
+    }
+
+    .modal-header {
+        border-bottom-color: var(--vd-rule);
+
+        .modal-title i {
+            color: var(--vd-line);
+        }
+    }
+
+    .modal-footer {
+        border-top-color: var(--vd-rule);
+    }
+
+    .bg-light,
+    .modal-body.bg-light {
+        background-color: var(--vd-bg) !important;
+    }
+
+    .modal-backdrop {
+        --bs-backdrop-bg: #0a0c0a;
+    }
+
+    // Badges and list groups ----------------------------------------------
+
+    .badge {
+        font-family: $vd-mono;
+        font-weight: 500;
+        letter-spacing: .08em;
+        border-radius: 9999px;
+    }
+
+    .text-bg-primary {
+        color: var(--vd-on-primary) !important;
+        background-color: var(--vd-primary) !important;
+    }
+
+    .text-bg-success {
+        color: var(--vd-on-success) !important;
+        background-color: var(--vd-success) !important;
+    }
+
+    .text-bg-danger {
+        color: var(--vd-on-danger) !important;
+        background-color: var(--vd-danger) !important;
+    }
+
+    .text-bg-info {
+        color: var(--vd-on-info) !important;
+        background-color: var(--vd-info) !important;
+    }
+
+    .text-bg-warning {
+        color: var(--vd-on-warning) !important;
+        background-color: var(--vd-warning) !important;
+    }
+
+    .text-bg-light {
+        color: var(--vd-text) !important;
+        background-color: var(--vd-bg-alt) !important;
+    }
+
+    .text-bg-secondary,
+    .text-bg-dark {
+        color: var(--vd-bg) !important;
+        background-color: var(--vd-muted) !important;
+    }
+
+    .btn-badge .badge,
+    .nav-link .badge {
+        border-color: var(--vd-surface);
+    }
+
+    .list-group {
+        --bs-list-group-bg: var(--vd-surface);
+        --bs-list-group-color: var(--vd-text);
+        --bs-list-group-border-color: var(--vd-rule);
+        --bs-list-group-action-hover-bg: var(--vd-hover);
+        --bs-list-group-action-hover-color: var(--vd-text);
+        --bs-list-group-active-bg: var(--vd-selected);
+        --bs-list-group-active-color: var(--vd-on-selected);
+        --bs-list-group-active-border-color: var(--vd-selected);
+    }
+
+    .list-group-item {
+        background-color: var(--vd-surface);
+        color: var(--vd-text);
+        border-color: var(--vd-rule);
+    }
+
+    .card-body .list-group-flush .list-group-item {
+        background-color: transparent;
+    }
+
+    // Regions and fields --------------------------------------------------
+
+    .region .card-body {
+        background: var(--vd-bg-alt);
+        box-shadow: 0 0 0 1px var(--vd-rule);
+    }
+
+    .field {
+        background-color: transparent;
+        color: var(--vd-text);
+    }
+
+    .field-description {
+        color: var(--vd-muted);
+    }
+
+    .html-field {
+        background-color: var(--vd-surface);
+        border-color: var(--vd-control);
+        color: var(--vd-text);
+
+        &.empty:not(:focus-within) {
+            background-color: var(--vd-surface);
+        }
+    }
+
+    .media-field .media-picker .card .card-body,
+    .block .has-media-picker .media-picker.slide-in .card-body {
+        background: var(--vd-surface);
+        border-color: var(--vd-control);
+        box-shadow: none;
+        border-radius: var(--bs-border-radius);
+    }
+
+    .color-field .color-preview {
+        border-color: var(--vd-control);
+    }
+
+    .empty-info {
+        color: var(--vd-muted);
+        font-family: $vd-serif;
+        font-style: italic;
+        font-weight: 400;
+        border-color: var(--vd-line);
+        border-radius: 1rem;
+    }
+
+    // Blocks --------------------------------------------------------------
+
+    .block {
+        .block-header {
+            color: var(--vd-muted);
+
+            .title strong {
+                font-family: $vd-mono;
+                font-weight: 500;
+                letter-spacing: .1em;
+            }
+
+            .title i {
+                color: var(--vd-line);
+            }
+        }
+
+        &.collapsed {
+            border-color: var(--vd-control);
+        }
+
+        &:hover,
+        &:focus-within {
+            border-color: var(--vd-control);
+        }
+
+        &.danger {
+            border-color: var(--vd-danger);
+        }
+
+        .actions,
+        .custom-actions {
+            .btn {
+                background: var(--vd-bg-alt);
+                color: var(--vd-muted);
+                border: 1px solid var(--vd-stroke);
+
+                &:hover {
+                    background: var(--vd-soft);
+                    color: var(--vd-text);
+                }
+
+                &.danger {
+                    color: var(--vd-danger);
+
+                    &:hover {
+                        background: var(--vd-danger);
+                        color: var(--vd-on-danger);
+                    }
+                }
+
+                &.add {
+                    color: var(--vd-accent);
+
+                    &:hover {
+                        background: var(--vd-primary);
+                        color: var(--vd-on-primary);
+                    }
+                }
+
+                &.selected {
+                    background: var(--vd-soft) !important;
+                    color: var(--vd-text);
+                }
+            }
+        }
+    }
+
+    .blocks {
+        .block-group,
+        .block-group-horizontal {
+            .empty-info {
+                background: var(--vd-surface);
+                color: var(--vd-muted);
+                border-color: var(--vd-line);
+            }
+        }
+
+        &.blocks-outline .block {
+            border-color: var(--vd-control);
+
+            .block {
+                border-color: transparent;
+            }
+
+            &.danger {
+                border-color: var(--vd-danger);
+            }
+        }
+    }
+
+    .html-block,
+    .html-column-block,
+    .text-block,
+    .ingress {
+        .empty:not(:focus-within) {
+            background-color: var(--vd-bg-alt);
+        }
+    }
+
+    .ingress.empty:not(:focus-within) {
+        background-color: var(--vd-bg-alt);
+    }
+
+    .ingress.ingress-text {
+        font-family: $vd-sans;
+        font-weight: 300;
+    }
+
+    .text-block .block-body textarea {
+        color: var(--vd-text);
+        font-family: $vd-mono;
+    }
+
+    .quote-block .blockquote {
+        .blockquote-body {
+            font-family: $vd-serif;
+            font-style: italic;
+            color: var(--vd-muted);
+        }
+
+        *[data-placeholder]:empty:after {
+            color: var(--vd-line);
+        }
+    }
+
+    .image-block {
+        .empty {
+            background-color: var(--vd-bg-alt);
+        }
+
+        &.primary-image.primary-image-modal {
+            background: var(--vd-surface);
+            border-color: var(--vd-control);
+        }
+    }
+
+    .page-block,
+    .post-block,
+    .content-block {
+        .page-image {
+            background-color: var(--vd-bg-alt);
+        }
+
+        h3 {
+            font-family: $vd-serif;
+            font-weight: 400;
+        }
+    }
+
+    .separator-block hr {
+        border-color: var(--vd-control);
+    }
+
+    .markdown-block .markdown-field .editor-toolbar:not(.fullscreen) {
+        border-color: var(--vd-control);
+    }
+
+    .block-add {
+        i {
+            background: var(--vd-bg);
+            border-color: var(--vd-bg);
+            color: var(--vd-soft);
+        }
+    }
+
+    a.block-add {
+        &:hover,
+        &:focus-within,
+        &.active {
+            hr {
+                border-color: var(--vd-text);
+            }
+
+            i {
+                color: var(--vd-text);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--vd-accent);
+            outline-offset: 2px;
+        }
+    }
+
+    .bg-light .block-add {
+        i {
+            background: var(--vd-bg);
+            border-color: var(--vd-bg);
+            color: var(--vd-accent);
+        }
+
+        &:hover,
+        &:focus-within,
+        &.active {
+            i {
+                color: var(--vd-text);
+            }
+        }
+    }
+
+    .content-blocker {
+        background: var(--vd-surface);
+    }
+
+    // Block groups --------------------------------------------------------
+
+    .block.block-group {
+        background: var(--vd-bg-alt);
+
+        .block-header {
+            color: var(--vd-muted);
+        }
+
+        .block {
+            background: var(--vd-surface);
+        }
+
+        .actions .btn {
+            background: var(--vd-surface);
+        }
+
+        .list-group-item {
+            background: var(--vd-surface);
+            color: var(--vd-text);
+            border-color: var(--vd-bg-alt);
+            border-bottom-color: var(--vd-bg-alt);
+
+            .handle {
+                color: var(--vd-line);
+                border-right-color: var(--vd-bg-alt);
+            }
+
+            a {
+                color: var(--vd-text);
+            }
+
+            &.active {
+                border-color: var(--vd-bg-alt);
+                color: var(--vd-text);
+                box-shadow: inset 2px 0 0 var(--vd-accent);
+
+                .handle {
+                    border-color: var(--vd-soft);
+                }
+            }
+        }
+    }
+
+    .block.block-group-horizontal,
+    .block.block-group-vertical {
+        .block-group-header {
+            background: var(--vd-bg-alt);
+            border-radius: 1rem;
+        }
+    }
+
+    .block.block-group-horizontal .block .block-header {
+        background: color-mix(in srgb, var(--vd-surface) 40%, transparent);
+
+        .actions .btn.handle:hover {
+            background: var(--vd-soft);
+        }
+
+        .actions .btn.danger:hover {
+            background: var(--vd-danger);
+        }
+    }
+
+    // Block picker --------------------------------------------------------
+
+    .blocktype-category {
+        color: var(--vd-muted);
+        @include vd-label(11px);
+    }
+
+    .blocktype-list .blocktype .btn,
+    .blocktype .btn {
+        --bs-btn-border-radius: 1rem;
+        @include vd-glass;
+        color: var(--vd-text);
+        border-radius: 1rem;
+
+        i {
+            color: var(--vd-accent);
+            transition: transform .2s ease;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background: var(--vd-bg-alt);
+            color: var(--vd-text);
+
+            i {
+                transform: translateY(-2px);
+            }
+        }
+    }
+
+    // Sitemap -------------------------------------------------------------
+
+    .sitemap-item {
+        background: var(--vd-surface);
+        color: var(--vd-text);
+
+        .handle {
+            color: var(--vd-line);
+            border-right-color: var(--vd-bg);
+        }
+
+        .actions .expand {
+            background: var(--vd-primary);
+            color: var(--vd-on-primary);
+            border-radius: 50%;
+        }
+
+        .type,
+        .date {
+            color: var(--vd-muted);
+        }
+
+        .link {
+            a, span.title {
+                font-family: $vd-sans;
+                font-weight: 500;
+                letter-spacing: -.005em;
+            }
+        }
+    }
+
+    // Notifications -------------------------------------------------------
+
+    #notification-hub .notification {
+        border-radius: 1rem;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, .15), 0 10px 30px rgba(0, 0, 0, .2);
+
+        $vd-notifications: (
+            "primary": (--vd-primary, --vd-on-primary),
+            "success": (--vd-success, --vd-on-success),
+            "danger": (--vd-danger, --vd-on-danger),
+            "info": (--vd-info, --vd-on-info),
+            "warning": (--vd-warning, --vd-on-warning)
+        );
+
+        @each $name, $pair in $vd-notifications {
+            &.notification-#{$name} {
+                background: var(#{nth($pair, 1)});
+                color: var(#{nth($pair, 2)});
+
+                &::before {
+                    border-right-color: var(#{nth($pair, 1)});
+                }
+            }
+        }
+
+        code {
+            background: rgba(255, 255, 255, .25);
+            color: inherit;
+        }
+    }
+
+    // Alerts and progress -------------------------------------------------
+
+    .alert {
+        border-radius: 1rem;
+    }
+
+    .progress {
+        --bs-progress-bg: var(--vd-bg-alt);
+        --bs-progress-bar-bg: var(--vd-accent);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #{$vd-root} {
+        .blocktype .btn i,
+        .btn,
+        .form-control,
+        .form-select,
+        .navbar.navbar-left .nav-item a,
+        .navbar.navbar-left .nav-item a i {
+            transition: none;
+        }
+
+        .blocktype .btn:hover i,
+        .blocktype .btn:focus-visible i {
+            transform: none;
+        }
+    }
+}

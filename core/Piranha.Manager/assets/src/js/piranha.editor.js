@@ -10,7 +10,7 @@ piranha.editor = {
     },
     addInlineMarkdown: function (id, value, update) {
         var preview = $("#" + id).parent().find(".markdown-preview");
-        var simplemde = new SimpleMDE({
+        var simplemde = new EasyMDE({
             element: document.getElementById(id),
             status: false,
             spellChecker: true,

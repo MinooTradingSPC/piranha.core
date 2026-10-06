@@ -108,15 +108,10 @@ internal sealed class ArchiveService : IArchiveService
         // Get the id of the current posts
         var posts = await _repo.GetPosts(archiveId, pageSize.Value, model.CurrentPage, categoryId, tagId, year, month).ConfigureAwait(false);
 
-        // Get the posts
-        foreach (var postId in posts)
+        // Get all posts in a single batch query
+        foreach (var post in await _postService.GetByIdsAsync<T>(posts.ToArray()).ConfigureAwait(false))
         {
-            var post = await _postService.GetByIdAsync<T>(postId).ConfigureAwait(false);
-
-            if (post != null)
-            {
-                model.Posts.Add(post);
-            }
+            model.Posts.Add(post);
         }
         return model;
     }

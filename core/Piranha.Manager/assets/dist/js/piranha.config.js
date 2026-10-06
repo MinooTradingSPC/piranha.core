@@ -6,10 +6,15 @@ piranha.config = new Vue({
     el: "#config",
     data: {
         loading: true,
+        loadedTheme: "",
         model: {
             hierarchicalPageSlugs: null,
             expandedSitemapLevels: null,
             managerPageSize: null,
+            managerMenuWidth: null,
+            loginDesign: null,
+            theme: "",
+            siteTheme: "",
             archivePageSize: null,
             commentsApprove: null,
             commentsCloseAfterDays: null,
@@ -35,6 +40,11 @@ piranha.config = new Vue({
                     self.model.hierarchicalPageSlugs = result.hierarchicalPageSlugs;
                     self.model.expandedSitemapLevels = result.expandedSitemapLevels;
                     self.model.managerPageSize = result.managerPageSize;
+                    self.model.managerMenuWidth = result.managerMenuWidth;
+                    self.model.loginDesign = result.loginDesign;
+                    self.model.theme = result.theme || "";
+                    self.loadedTheme = self.model.theme;
+                    self.model.siteTheme = result.siteTheme || "";
                     self.model.archivePageSize = result.archivePageSize;
                     self.model.commentsApprove = result.commentsApprove;
                     self.model.commentsCloseAfterDays = result.commentsCloseAfterDays;
@@ -61,6 +71,10 @@ piranha.config = new Vue({
                         hierarchicalPageSlugs: self.model.hierarchicalPageSlugs,
                         expandedSitemapLevels: self.model.expandedSitemapLevels,
                         managerPageSize: self.model.managerPageSize,
+                        managerMenuWidth: self.model.managerMenuWidth,
+                        loginDesign: self.model.loginDesign,
+                        theme: self.model.theme,
+                        siteTheme: self.model.siteTheme,
                         archivePageSize: self.model.archivePageSize,
                         commentsApprove: self.model.commentsApprove,
                         commentsCloseAfterDays: self.model.commentsCloseAfterDays,
@@ -79,8 +93,15 @@ piranha.config = new Vue({
                 .then(function (response) { return response.json(); })
                 .then(function (result) {
                     if (result.status !== 400) {
+                        piranha.menu.setWidth(self.model.managerMenuWidth);
+
                         // Push status to notification hub
                         piranha.notifications.push(result.status);
+
+                        // A new theme's style sheets load with the page.
+                        if (self.model.theme !== self.loadedTheme) {
+                            window.location.reload();
+                        }
                     } else {
                         // Unauthorized request
                         piranha.notifications.unauthorized();

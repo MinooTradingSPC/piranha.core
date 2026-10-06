@@ -2,7 +2,7 @@
     <div class="block-body has-media-picker" :class="{ empty: isEmpty }">
         <video class="w-100 mx-100" :src="mediaUrl" controls></video>
         <div class="media-picker">
-            <div class="btn-group float-right">
+            <div class="btn-group float-end">
                 <button v-on:click.prevent="select" class="btn btn-primary text-center">
                     <i class="fas fa-plus"></i>
                 </button>
@@ -10,7 +10,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="card text-left">
+            <div class="card text-start">
                 <div class="card-body" v-if="isEmpty">
                     &nbsp;
                 </div>

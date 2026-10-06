@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Nombre de usuario y/o contraseña son incorrectos.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Un fork de Piranha CMS con seguridad reforzada, por {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Código de autenticación</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Gestor de contenidos</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Enviarme un código de inicio de sesión por email</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Si ese email tiene una cuenta, le hemos enviado un código. Revisa tu bandeja de entrada.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Gestiona las páginas, entradas y medios de tu sitio.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Administrador</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>O</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Recordar mi usuario</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Inicio de sesión seguro</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Inicio de sesión seguro y sin contraseña</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Iniciar sesión con una llave de acceso</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Iniciar sesión con un código de la app de autenticación</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Inicia sesión con tu usuario o email para continuar.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Código de inicio de sesión</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Versión preliminar</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Este navegador no admite llaves de acceso.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Primero introduce tu usuario o email arriba y luego vuelve a hacer clic en «Iniciar sesión con una llave de acceso».</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>No hay ninguna llave de acceso registrada para esta cuenta. Inicia sesión con tu contraseña.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>El código que has introducido es incorrecto o ha caducado.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>No se pudo completar el inicio de sesión con la llave de acceso. Prueba con tu contraseña.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Primero introduce tu usuario o email arriba y luego vuelve a hacer clic en «Iniciar sesión con un código de la app de autenticación».</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>No hay ninguna app de autenticación registrada para esta cuenta. Inicia sesión con tu contraseña.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>No se pudo completar el inicio de sesión con la app de autenticación. Prueba con tu contraseña.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Primero introduce tu usuario o email arriba y luego vuelve a hacer clic en «Enviarme un código de inicio de sesión por email».</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>No se pudo enviar el código de inicio de sesión. Prueba con tu contraseña.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>No se pudo completar el inicio de sesión. Prueba con tu contraseña.</value>
+  </data>
 </root>

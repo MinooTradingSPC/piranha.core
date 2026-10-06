@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Username and/or password are incorrect.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>'n Sekuriteitsversterkte fork van Piranha CMS deur {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Stawingskode</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Inhoudbestuur</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>E-pos my 'n aanmeldkode</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>As daardie e-posadres 'n rekening het, het ons 'n kode daarheen gestuur. Kyk in jou inkassie.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Bestuur jou webwerf se bladsye, plasings en media.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Beheerpaneel</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Of</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Onthou my gebruikersnaam</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Veilige aanmelding</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Veilige, wagwoordlose aanmelding</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Meld eerder met 'n wagwoordsleutel aan</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Meld aan met 'n kode van 'n stawingsapp</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Meld aan met jou gebruikersnaam of e-posadres om voort te gaan.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Aanmeldkode</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Voorvrystelling</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Hierdie blaaier ondersteun nie wagwoordsleutels nie.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Voer eers jou gebruikersnaam of e-posadres hierbo in en klik dan weer op “Meld eerder met 'n wagwoordsleutel aan”.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Geen wagwoordsleutel is vir hierdie rekening geregistreer nie. Meld eerder met jou wagwoord aan.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Die kode wat jy ingevoer het, is verkeerd of het verval.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Die aanmelding met 'n wagwoordsleutel kon nie voltooi word nie. Probeer eerder jou wagwoord.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Voer eers jou gebruikersnaam of e-posadres hierbo in en klik dan weer op “Meld aan met 'n kode van 'n stawingsapp”.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Geen stawingsapp is vir hierdie rekening geregistreer nie. Meld eerder met jou wagwoord aan.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Die aanmelding met die stawingsapp kon nie voltooi word nie. Probeer eerder jou wagwoord.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Voer eers jou gebruikersnaam of e-posadres hierbo in en klik dan weer op “E-pos my 'n aanmeldkode”.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Die aanmeldkode kon nie gestuur word nie. Probeer eerder jou wagwoord.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Die aanmelding kon nie voltooi word nie. Probeer eerder jou wagwoord.</value>
+  </data>
 </root>

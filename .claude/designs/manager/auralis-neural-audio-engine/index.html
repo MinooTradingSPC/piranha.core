@@ -1,0 +1,247 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralis - Neural Audio Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="antialiased text-gray-900 bg-white overflow-x-hidden min-h-screen flex flex-col selection:bg-orange-100 selection:text-orange-900" style="font-family: 'Geist', sans-serif;">
+
+    <!-- Background Effect Container -->
+    <div class="fixed inset-y-0 right-0 w-[120vw] md:w-[70vw] translate-x-[10%] md:translate-x-0 z-0 overflow-hidden pointer-events-none">
+
+        <!-- WebGL Animated Gradient Canvas -->
+        <canvas id="webgl-canvas" class="absolute inset-0 w-full h-full"></canvas>
+
+        <!-- Glass Slices Overlay -->
+        <div class="absolute inset-0 flex">
+            <!-- Slice 1: Seamless blend with body background -->
+            <div class="h-full flex-1 relative border-l border-transparent" style="background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 100%);"></div>
+
+            <!-- Slice 2 -->
+            <div class="h-full flex-1 relative border-l border-white/60 shadow-[-15px_0_30px_-10px_rgba(255,255,255,1)]" style="background: linear-gradient(to right, rgba(255,255,255,0.85), rgba(255,255,255,0.65)); backdrop-filter: blur(16px);"></div>
+
+            <!-- Slice 3 -->
+            <div class="h-full flex-1 relative border-l border-white/40 shadow-[-15px_0_30px_-10px_rgba(255,255,255,0.9)]" style="background: linear-gradient(to right, rgba(255,255,255,0.65), rgba(255,255,255,0.4)); backdrop-filter: blur(12px);"></div>
+
+            <!-- Slice 4 -->
+            <div class="h-full flex-1 relative border-l border-white/20 shadow-[-15px_0_30px_-10px_rgba(255,255,255,0.6)]" style="background: linear-gradient(to right, rgba(255,255,255,0.4), rgba(255,255,255,0.15)); backdrop-filter: blur(6px);"></div>
+
+            <!-- Slice 5 (Rightmost, most transparent) -->
+            <div class="h-full flex-1 relative border-l border-white/10 shadow-[-15px_0_30px_-10px_rgba(255,255,255,0.3)]" style="background: linear-gradient(to right, rgba(255,255,255,0.15), rgba(255,255,255,0.02)); backdrop-filter: blur(2px);"></div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="relative z-10 w-full max-w-[88rem] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 flex flex-col min-h-screen">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between py-8 anim-element" style="opacity: 0; transform: translateY(-10px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+            <div class="flex items-center gap-1 text-lg font-normal tracking-tight text-gray-900 uppercase">
+                AURALIS<span class="text-[#ea580c] text-xl leading-none">°</span>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-10 text-sm font-normal text-gray-600">
+                <a href="#" class="hover:text-gray-900 transition-colors">Platform</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Solutions</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Developers</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Company</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Docs</a>
+            </nav>
+
+            <div>
+                <a href="#" class="text-sm font-normal text-gray-600 hover:text-gray-900 transition-colors">Sign in</a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="flex-1 flex flex-col justify-center max-w-2xl pt-16 pb-24">
+
+            <!-- Badge -->
+            <div class="anim-element mb-8 w-max inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-normal text-orange-600 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] backdrop-blur-md" style="clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); border: 1px solid transparent; background: linear-gradient(rgba(255,237,213,0.6), rgba(255,237,213,0.6)) padding-box, linear-gradient(135deg, #fdba74, #fda4af) border-box; opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+                <iconify-icon icon="solar:microphone-3-linear" class="text-base" stroke-width="1.5"></iconify-icon>
+                Advanced Vocal Synthesis
+            </div>
+
+            <!-- Headline with Masked Reveal -->
+            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gray-900 leading-[1.05] font-light tracking-tighter gs-reveal-container">
+                <span class="inline-flex overflow-hidden pb-1 pt-1"><span class="gs-reveal-word translate-y-[110%] will-change-transform">Converse</span></span>
+                <span class="inline-flex overflow-hidden pb-1 pt-1"><span class="gs-reveal-word translate-y-[110%] will-change-transform">Naturally.</span></span><br>
+                <span class="inline-flex overflow-hidden pb-1 pt-1"><span class="gs-reveal-word translate-y-[110%] will-change-transform">Beyond</span></span>
+                <span class="inline-flex overflow-hidden pb-1 pt-1"><span class="gs-reveal-word translate-y-[110%] will-change-transform">Boundaries.</span></span><br>
+                <span class="inline-flex overflow-hidden pb-1 pt-1"><span class="gs-reveal-word translate-y-[110%] will-change-transform text-transparent bg-clip-text bg-gradient-to-r from-[#ea580c] to-[#e11d48]">Infinite Scale.</span></span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="anim-element mt-7 text-base md:text-lg text-gray-600 leading-relaxed max-w-[28rem]" style="opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); transition-delay: 0.3s;">
+                Generate highly realistic human audio instantly, replicating vocal signatures with stunning precision. Embed smoothly into applications, media, and interactive interfaces. Swift. Private. Broadcast-ready.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="anim-element mt-10 flex flex-wrap items-center gap-4" style="opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); transition-delay: 0.4s;">
+                <a href="#" class="inline-flex items-center justify-center gap-2 bg-[#1c1c1e] px-7 py-3.5 text-sm font-normal text-white hover:bg-black transition-all duration-300 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] hover:-translate-y-0.5" style="clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);">
+                    Start building today
+                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-lg opacity-80" stroke-width="1.5"></iconify-icon>
+                </a>
+                <a href="#" class="inline-flex items-center justify-center backdrop-blur-md px-7 py-3.5 text-sm font-normal text-orange-600 hover:text-orange-700 hover:-translate-y-0.5 transition-all duration-300 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]" style="clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); border: 1px solid transparent; background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)) padding-box, linear-gradient(135deg, #fdba74, #fda4af) border-box;">
+                    Contact Enterprise
+                </a>
+            </div>
+        </main>
+
+        <!-- Bottom Features Row -->
+        <div class="anim-element pb-12 pt-8 flex flex-col sm:flex-row gap-10 sm:gap-14 border-t border-transparent" style="opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); transition-delay: 0.5s;">
+
+            <!-- Feature 1 -->
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center bg-orange-50 text-orange-500 group-hover:scale-110 transition-transform duration-300 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]" style="clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);">
+                    <iconify-icon icon="solar:server-linear" class="text-xl" stroke-width="1.5"></iconify-icon>
+                </div>
+                <div>
+                    <h3 class="text-sm font-normal text-gray-900">Seamless Streaming</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Instant voice generation</p>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center bg-orange-50 text-orange-500 group-hover:scale-110 transition-transform duration-300 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]" style="clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);">
+                    <iconify-icon icon="solar:soundwave-linear" class="text-xl" stroke-width="1.5"></iconify-icon>
+                </div>
+                <div>
+                    <h3 class="text-sm font-normal text-gray-900">Vocal Cloning</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Studio-grade precision</p>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center bg-orange-50 text-orange-500 group-hover:scale-110 transition-transform duration-300 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]" style="clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);">
+                    <iconify-icon icon="solar:shield-check-linear" class="text-xl" stroke-width="1.5"></iconify-icon>
+                </div>
+                <div>
+                    <h3 class="text-sm font-normal text-gray-900">Enterprise-Ready</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Flawless commercial uptime</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts for WebGL and Animations -->
+    <script>
+        // --- WebGL Background Animation (Warm Palette Remix) ---
+        const canvas = document.getElementById('webgl-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const geometry = new THREE.PlaneGeometry(2, 2);
+
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                u_time: { value: 0.0 },
+                u_resolution: { value: new THREE.Vector2() }
+            },
+            vertexShader: `
+                void main() {
+                    gl_Position = vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform float u_time;
+                uniform vec2 u_resolution;
+
+                vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+                float snoise(vec2 v){
+                    const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+                    vec2 i  = floor(v + dot(v, C.yy) );
+                    vec2 x0 = v -   i + dot(i, C.xx);
+                    vec2 i1; i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                    vec4 x12 = x0.xyxy + C.xxzz; x12.xy -= i1;
+                    i = mod(i, 289.0);
+                    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+                    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+                    m = m*m ; m = m*m ;
+                    vec3 x = 2.0 * fract(p * C.www) - 1.0; vec3 h = abs(x) - 0.5;
+                    vec3 ox = floor(x + 0.5); vec3 a0 = x - ox;
+                    m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+                    vec3 g; g.x  = a0.x  * x0.x  + h.x  * x0.y;
+                    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+                    return 130.0 * dot(m, g);
+                }
+
+                void main() {
+                    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+
+                    float n = snoise(uv * 2.5 + vec2(u_time * 0.4, u_time * 0.5));
+                    float n2 = snoise(uv * 1.5 - vec2(u_time * 0.3, u_time * 0.2));
+
+                    // Warm Palette Colors
+                    vec3 colorOrange = vec3(0.91, 0.34, 0.04);  // Intense orange
+                    vec3 colorRose = vec3(0.88, 0.11, 0.28);    // Bright rose
+                    vec3 colorDeep = vec3(1.0, 0.85, 0.65);     // Deep blending warm base
+
+                    float mixVal = smoothstep(-0.6, 0.8, n);
+                    vec3 finalColor = mix(colorDeep, colorOrange, mixVal);
+
+                    float mixVal2 = smoothstep(-0.4, 0.9, n2);
+                    finalColor = mix(finalColor, colorRose, mixVal2 * 0.8);
+
+                    float alphaFade = smoothstep(-0.2, 0.6, uv.x);
+
+                    gl_FragColor = vec4(finalColor, alphaFade);
+                }
+            `
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        function resizeCanvas() {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function animateWebGL(time) {
+            material.uniforms.u_time.value = time * 0.002;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animateWebGL);
+        }
+        requestAnimationFrame(animateWebGL);
+
+        // --- GSAP Masked Reveal & standard entrance animations ---
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Headline Masked Reveal
+            gsap.to('.gs-reveal-word', {
+                y: '0%',
+                ease: 'power4.out',
+                duration: 1.2,
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: '.gs-reveal-container',
+                    start: 'top 85%',
+                }
+            });
+
+            // Standard opacity fades
+            const elements = document.querySelectorAll('.anim-element');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (index * 80));
+            });
+        });
+    </script>
+</body>
+</html>

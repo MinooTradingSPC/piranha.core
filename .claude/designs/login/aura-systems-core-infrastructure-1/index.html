@@ -1,0 +1,396 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<iframe title="Aura Systems | Core Infrastructure HTML preview" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot; class=&quot;antialiased bg-[#020617] text-slate-300&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Aura Systems | Core Infrastructure&lt;/title&gt;
+
+  &lt;!-- Tailwind CSS --&gt;
+  &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+
+  &lt;!-- Iconify --&gt;
+  &lt;script src=&quot;https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js&quot;&gt;&lt;/script&gt;
+
+  &lt;!-- Three.js &amp; GSAP --&gt;
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body class=&quot;min-h-screen overflow-x-hidden selection:bg-orange-500/30 font-sans&quot;&gt;
+
+  &lt;!-- =========================================
+       BACKGROUND TREATMENTS
+       ========================================= --&gt;
+
+  &lt;!-- WebGL Container (Magic Rings / Mesh Base) --&gt;
+  &lt;div id=&quot;magic-rings-container&quot; class=&quot;fixed inset-0 z-0 pointer-events-auto&quot;&gt;&lt;/div&gt;
+
+  &lt;!-- Dither / Dot-Matrix Overlay Texture --&gt;
+  &lt;div class=&quot;fixed inset-0 z-[1] pointer-events-none mix-blend-overlay opacity-30&quot;
+       style=&quot;background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 4 4%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect width=%224%22 height=%224%22 fill=%22transparent%22/%3E%3Crect width=%221%22 height=%221%22 fill=%22%23ffffff%22/%3E%3Crect x=%222%22 y=%222%22 width=%221%22 height=%221%22 fill=%22%23ffffff%22/%3E%3C/svg%3E'); background-size: 4px 4px;&quot;&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Vignette / Soft Falloff --&gt;
+  &lt;div class=&quot;fixed inset-0 z-[2] pointer-events-none&quot;
+       style=&quot;background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(2,6,23,0.85) 100%);&quot;&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Structural Grid Lines --&gt;
+  &lt;div class=&quot;fixed inset-0 z-[3] pointer-events-none&quot;
+       style=&quot;background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 4rem 4rem;&quot;&gt;
+  &lt;/div&gt;
+
+
+  &lt;!-- =========================================
+       MAIN INTERFACE
+       ========================================= --&gt;
+
+  &lt;!-- Framed Container --&gt;
+  &lt;main class=&quot;relative z-10 mx-auto max-w-6xl min-h-screen border-x border-white/5 flex flex-col justify-center items-center p-6 md:p-12&quot;&gt;
+
+    &lt;!-- Mini Corner Squares for Layout Rails --&gt;
+    &lt;div class=&quot;absolute top-0 left-[-2px] w-1 h-1 bg-white/20&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;absolute top-0 right-[-2px] w-1 h-1 bg-white/20&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;absolute bottom-0 left-[-2px] w-1 h-1 bg-white/20&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;absolute bottom-0 right-[-2px] w-1 h-1 bg-white/20&quot;&gt;&lt;/div&gt;
+
+    &lt;!-- Header / Nav Shell --&gt;
+    &lt;header class=&quot;absolute top-8 left-0 right-0 px-8 flex justify-between items-center hero-anim&quot;&gt;
+      &lt;div class=&quot;flex items-center gap-2&quot;&gt;
+        &lt;iconify-icon icon=&quot;solar:cpu-linear&quot; style=&quot;stroke-width: 1.5;&quot; class=&quot;text-orange-400 text-xl&quot;&gt;&lt;/iconify-icon&gt;
+        &lt;span class=&quot;text-xs font-medium tracking-widest text-slate-300 uppercase&quot;&gt;Sys_Core&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Pill Navigation --&gt;
+      &lt;nav class=&quot;hidden md:flex items-center gap-6 px-4 py-1.5 rounded-full bg-[#040814]/80 backdrop-blur-md border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;text-xs text-slate-400 hover:text-white transition-colors&quot;&gt;Topology&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;text-xs text-slate-400 hover:text-white transition-colors&quot;&gt;Integrations&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;text-xs text-slate-400 hover:text-white transition-colors&quot;&gt;Metrics&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;div class=&quot;text-xs font-mono text-slate-500&quot;&gt;v2.4.0&lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;!-- Floating Node Asset (Left) --&gt;
+    &lt;div class=&quot;absolute left-8 top-1/3 w-32 aspect-[3/4] p-1 bg-white/[0.02] border border-white/10 rounded-lg shadow-2xl backdrop-blur-xl hidden lg:block hero-anim&quot;&gt;
+      &lt;!-- Aura Asset: Architecture --&gt;
+      &lt;img src=&quot;https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/724142aa-44a6-48d3-9cf3-761e00d05b78_800w.jpg&quot;
+           class=&quot;w-full h-full object-cover rounded opacity-60 mix-blend-luminosity sepia-[.5] saturate-[2] -hue-rotate-[15deg]&quot; alt=&quot;Node Arch&quot;&gt;
+      &lt;!-- L-Brackets for asset --&gt;
+      &lt;div class=&quot;absolute -top-1 -left-1 w-2 h-2 border-t border-l border-orange-500/50&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;absolute -bottom-1 -right-1 w-2 h-2 border-b border-r border-orange-500/50&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;absolute bottom-3 left-3 flex items-center gap-1.5&quot;&gt;
+        &lt;div class=&quot;w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.8)]&quot;&gt;&lt;/div&gt;
+        &lt;span class=&quot;text-[9px] font-mono text-orange-200/80 tracking-wider&quot;&gt;NODE_Alpha&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Floating Node Asset (Right) --&gt;
+    &lt;div class=&quot;absolute right-8 bottom-1/3 w-40 aspect-video p-1 bg-white/[0.02] border border-white/10 rounded-lg shadow-2xl backdrop-blur-xl hidden lg:block hero-anim&quot;&gt;
+      &lt;!-- Aura Asset: Abstract Mesh/Wave --&gt;
+      &lt;img src=&quot;https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/e534354d-c5f2-4399-a1d9-2f50338e8c47_800w.jpg&quot;
+           class=&quot;w-full h-full object-cover rounded opacity-60 mix-blend-screen hue-rotate-[165deg] saturate-[1.5]&quot; alt=&quot;Node Data&quot;&gt;
+      &lt;div class=&quot;absolute top-2 right-2 text-[9px] font-mono text-slate-500&quot;&gt;RX_99.2%&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Central Hero Shell --&gt;
+    &lt;div class=&quot;relative group w-full max-w-xl hero-anim mt-12&quot;&gt;
+
+      &lt;!-- Gradient Border Wrapper --&gt;
+      &lt;div class=&quot;absolute -inset-[1px] bg-gradient-to-b from-orange-500/30 via-white/5 to-transparent rounded-[20px] opacity-80 pointer-events-none&quot;&gt;&lt;/div&gt;
+
+      &lt;!-- Inner Skeuomorphic Surface --&gt;
+      &lt;div class=&quot;relative bg-[#060b18]/90 backdrop-blur-2xl rounded-[20px] p-10 md:p-14 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-1px_1px_rgba(0,0,0,0.8),0_25px_50px_-12px_rgba(0,0,0,0.8)] flex flex-col items-center text-center overflow-hidden border border-white/5&quot;&gt;
+
+        &lt;!-- Subtle internal mesh glow --&gt;
+        &lt;div class=&quot;absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.12),transparent_60%)] pointer-events-none&quot;&gt;&lt;/div&gt;
+
+        &lt;!-- Indicator --&gt;
+
+
+        &lt;h1 class=&quot;text-4xl md:text-5xl font-medium tracking-tight text-white mb-5 drop-shadow-md leading-tight&quot;&gt;
+          System Orchestration
+        &lt;/h1&gt;
+
+        &lt;p class=&quot;text-sm text-slate-400 max-w-sm font-light mb-10 leading-relaxed&quot;&gt;
+          Deploy, scale, and monitor distributed infrastructure with real-time telemetric rings and active mesh routing.
+        &lt;/p&gt;
+
+        &lt;!-- CTA Group --&gt;
+        &lt;div class=&quot;flex flex-col sm:flex-row gap-4 w-full sm:w-auto&quot;&gt;
+          &lt;!-- Primary CTA (Skeuomorphic) --&gt;
+          &lt;button class=&quot;relative px-8 py-3 rounded-full bg-orange-600 text-white text-xs font-medium tracking-wide shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),inset_0_-1px_1px_rgba(0,0,0,0.2),0_4px_14px_rgba(234,88,12,0.3)] transition-all hover:bg-orange-500 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.5),0_6px_20px_rgba(234,88,12,0.4)] hover:-translate-y-[1px] flex items-center justify-center gap-2&quot;&gt;
+            Initialize Core
+            &lt;iconify-icon icon=&quot;solar:arrow-right-linear&quot; style=&quot;stroke-width: 1.5;&quot;&gt;&lt;/iconify-icon&gt;
+          &lt;/button&gt;
+
+          &lt;!-- Secondary CTA (Glass) --&gt;
+          &lt;button class=&quot;relative px-8 py-3 rounded-full bg-white/5 text-slate-300 text-xs font-medium tracking-wide border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] transition-all hover:bg-white/10 hover:text-white flex items-center justify-center&quot;&gt;
+            View Architecture
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Frame Corner Brackets (L-Shape) --&gt;
+      &lt;div class=&quot;absolute -top-[1px] -left-[1px] w-5 h-5 border-t border-l border-white/30 rounded-tl-[20px] pointer-events-none&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;absolute -top-[1px] -right-[1px] w-5 h-5 border-t border-r border-white/30 rounded-tr-[20px] pointer-events-none&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;absolute -bottom-[1px] -left-[1px] w-5 h-5 border-b border-l border-white/10 rounded-bl-[20px] pointer-events-none&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;absolute -bottom-[1px] -right-[1px] w-5 h-5 border-b border-r border-white/10 rounded-br-[20px] pointer-events-none&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Bottom Data Strip --&gt;
+    &lt;div class=&quot;absolute bottom-8 left-0 right-0 flex justify-between items-center px-8 text-[10px] font-mono text-slate-500 hero-anim&quot;&gt;
+      &lt;div class=&quot;flex items-center gap-4&quot;&gt;
+        &lt;span&gt;LATENCY: 12ms&lt;/span&gt;
+        &lt;span class=&quot;w-px h-3 bg-white/10&quot;&gt;&lt;/span&gt;
+        &lt;span&gt;NODES: 1,024&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div&gt;SECURE_TUNNEL_ACTIVE&lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/main&gt;
+
+  &lt;!-- =========================================
+       SCRIPTS (WebGL &amp; GSAP)
+       ========================================= --&gt;
+  &lt;script&gt;
+    // --- GSAP Animation ---
+    document.addEventListener(&quot;DOMContentLoaded&quot;, () =&gt; {
+      gsap.from(&quot;.hero-anim&quot;, {
+        y: 20,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 1.4,
+        ease: &quot;power3.out&quot;,
+        delay: 0.2
+      });
+    });
+
+    // --- WebGL Magic Rings (Translated from provided React Reference) ---
+    // Adapted for a &quot;Dark Orange Clean&quot; and &quot;Dither/Dot-Matrix&quot; atmospheric feel.
+    (function initMagicRings() {
+      const mount = document.getElementById('magic-rings-container');
+      if (!mount) return;
+
+      const vertexShader = `
+        void main() {
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `;
+
+      const fragmentShader = `
+        precision highp float;
+
+        uniform float uTime, uAttenuation, uLineThickness;
+        uniform float uBaseRadius, uRadiusStep, uScaleRate;
+        uniform float uOpacity, uNoiseAmount, uRotation, uRingGap;
+        uniform float uFadeIn, uFadeOut;
+        uniform float uMouseInfluence, uHoverAmount, uHoverScale, uParallax, uBurst;
+        uniform vec2 uResolution, uMouse;
+        uniform vec3 uColor, uColorTwo;
+        uniform int uRingCount;
+
+        const float HP = 1.5707963;
+        const float CYCLE = 3.45;
+
+        float fade(float t) {
+          return t &lt; uFadeIn ? smoothstep(0.0, uFadeIn, t) : 1.0 - smoothstep(uFadeOut, CYCLE - 0.2, t);
+        }
+
+        float ring(vec2 p, float ri, float cut, float t0, float px) {
+          float t = mod(uTime + t0, CYCLE);
+          float r = ri + t / CYCLE * uScaleRate;
+          float d = abs(length(p) - r);
+          float a = atan(abs(p.y), abs(p.x)) / HP;
+          float th = max(1.0 - a, 0.5) * px * uLineThickness;
+          float h = (1.0 - smoothstep(th, th * 1.5, d)) + 1.0;
+          d += pow(cut * a, 3.0) * r;
+          return h * exp(-uAttenuation * d) * fade(t);
+        }
+
+        void main() {
+          float px = 1.0 / min(uResolution.x, uResolution.y);
+          vec2 p = (gl_FragCoord.xy - 0.5 * uResolution.xy) * px;
+          float cr = cos(uRotation), sr = sin(uRotation);
+          p = mat2(cr, -sr, sr, cr) * p;
+          p -= uMouse * uMouseInfluence;
+          float sc = mix(1.0, uHoverScale, uHoverAmount) + uBurst * 0.3;
+          p /= sc;
+
+          vec3 c = vec3(0.0);
+          float rcf = max(float(uRingCount) - 1.0, 1.0);
+
+          for (int i = 0; i &lt; 10; i++) {
+            if (i &gt;= uRingCount) break;
+            float fi = float(i);
+            vec2 pr = p - fi * uParallax * uMouse;
+            vec3 rc = mix(uColor, uColorTwo, fi / rcf);
+            c = mix(c, rc, vec3(ring(pr, uBaseRadius + fi * uRadiusStep, pow(uRingGap, fi), i == 0 ? 0.0 : 2.95 * fi, px)));
+          }
+
+          c *= 1.0 + uBurst * 2.0;
+          float n = fract(sin(dot(gl_FragCoord.xy + uTime * 100.0, vec2(12.9898, 78.233))) * 43758.5453);
+          c += (n - 0.5) * uNoiseAmount;
+
+          // Render base color and alpha
+          gl_FragColor = vec4(c, max(c.r, max(c.g, c.b)) * uOpacity);
+        }
+      `;
+
+      // Configuration Object (Tuned for Dark Orange Mesh/Dither vibe)
+      const props = {
+        color: '#f97316',       // Bright primary orange
+        colorTwo: '#020617',    // Deep slate base
+        speed: 0.5,             // Slower, meditative breathing pulse
+        ringCount: 7,
+        attenuation: 12,
+        lineThickness: 1.5,
+        baseRadius: 0.3,
+        radiusStep: 0.12,
+        scaleRate: 0.08,
+        opacity: 0.8,
+        noiseAmount: 0.05,
+        rotation: 0,
+        ringGap: 1.5,
+        fadeIn: 0.7,
+        fadeOut: 0.5,
+        followMouse: true,
+        mouseInfluence: 0.1,    // Subtle pointer drift
+        hoverScale: 1.05,
+        parallax: 0.08,
+        clickBurst: true,
+      };
+
+      let renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
+      } catch (e) {
+        console.warn(&quot;WebGL not supported&quot;, e);
+        return;
+      }
+
+      renderer.setClearColor(0x000000, 0);
+      mount.appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 0.1, 10);
+      camera.position.z = 1;
+
+      const uniforms = {
+        uTime: { value: 0 },
+        uAttenuation: { value: 0 },
+        uResolution: { value: new THREE.Vector2() },
+        uColor: { value: new THREE.Color() },
+        uColorTwo: { value: new THREE.Color() },
+        uLineThickness: { value: 0 },
+        uBaseRadius: { value: 0 },
+        uRadiusStep: { value: 0 },
+        uScaleRate: { value: 0 },
+        uRingCount: { value: 0 },
+        uOpacity: { value: 1 },
+        uNoiseAmount: { value: 0 },
+        uRotation: { value: 0 },
+        uRingGap: { value: 1.6 },
+        uFadeIn: { value: 0.5 },
+        uFadeOut: { value: 0.75 },
+        uMouse: { value: new THREE.Vector2() },
+        uMouseInfluence: { value: 0 },
+        uHoverAmount: { value: 0 },
+        uHoverScale: { value: 1 },
+        uParallax: { value: 0 },
+        uBurst: { value: 0 },
+      };
+
+      const material = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms,
+        transparent: true
+      });
+
+      const quad = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
+      scene.add(quad);
+
+      const resize = () =&gt; {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        // Clamp DPR for dot-matrix/pixelated feel, and performance
+        const dpr = Math.min(window.devicePixelRatio, 1.5);
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(dpr);
+        uniforms.uResolution.value.set(w * dpr, h * dpr);
+      };
+
+      resize();
+      window.addEventListener('resize', resize);
+
+      let mouse = [0, 0];
+      let smoothMouse = [0, 0];
+      let hoverAmount = 0;
+      let isHovered = false;
+      let burst = 0;
+
+      const onMouseMove = (e) =&gt; {
+        const rect = mount.getBoundingClientRect();
+        mouse[0] = (e.clientX - rect.left) / rect.width - 0.5;
+        mouse[1] = -((e.clientY - rect.top) / rect.height - 0.5);
+      };
+
+      // We consider the whole document body as hoverable area for background reaction
+      document.body.addEventListener('mousemove', onMouseMove);
+      document.body.addEventListener('mouseenter', () =&gt; isHovered = true);
+      document.body.addEventListener('mouseleave', () =&gt; {
+        isHovered = false;
+        mouse[0] = 0;
+        mouse[1] = 0;
+      });
+      document.body.addEventListener('click', () =&gt; burst = 1);
+
+      let frameId;
+      const animate = (t) =&gt; {
+        frameId = requestAnimationFrame(animate);
+
+        smoothMouse[0] += (mouse[0] - smoothMouse[0]) * 0.05;
+        smoothMouse[1] += (mouse[1] - smoothMouse[1]) * 0.05;
+        hoverAmount += ((isHovered ? 1 : 0) - hoverAmount) * 0.05;
+        burst *= 0.92; // Decay burst
+        if (burst &lt; 0.001) burst = 0;
+
+        uniforms.uTime.value = t * 0.001 * props.speed;
+        uniforms.uAttenuation.value = props.attenuation;
+        uniforms.uColor.value.set(props.color);
+        uniforms.uColorTwo.value.set(props.colorTwo);
+        uniforms.uLineThickness.value = props.lineThickness;
+        uniforms.uBaseRadius.value = props.baseRadius;
+        uniforms.uRadiusStep.value = props.radiusStep;
+        uniforms.uScaleRate.value = props.scaleRate;
+        uniforms.uRingCount.value = props.ringCount;
+        uniforms.uOpacity.value = props.opacity;
+        uniforms.uNoiseAmount.value = props.noiseAmount;
+        uniforms.uRotation.value = (props.rotation * Math.PI) / 180;
+        uniforms.uRingGap.value = props.ringGap;
+        uniforms.uFadeIn.value = props.fadeIn;
+        uniforms.uFadeOut.value = props.fadeOut;
+        uniforms.uMouse.value.set(smoothMouse[0], smoothMouse[1]);
+        uniforms.uMouseInfluence.value = props.followMouse ? props.mouseInfluence : 0;
+        uniforms.uHoverAmount.value = hoverAmount;
+        uniforms.uHoverScale.value = props.hoverScale;
+        uniforms.uParallax.value = props.parallax;
+        uniforms.uBurst.value = props.clickBurst ? burst : 0;
+
+        renderer.render(scene, camera);
+      };
+
+      frameId = requestAnimationFrame(animate);
+    })();
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;" sandbox="allow-scripts" class="absolute left-0 top-0 border-0 bg-black" style="width: 1440px; height: 900px; transform: scale(0.585417); transform-origin: left top;"></iframe>
+</body>
+</html>

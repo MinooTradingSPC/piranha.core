@@ -52,6 +52,21 @@ public interface IDb
     DbSet<IdentityUserToken<Guid>> UserTokens { get; set; }
 
     /// <summary>
+    /// Gets/sets the registered passkeys set.
+    /// </summary>
+    DbSet<Passkey> Passkeys { get; set; }
+
+    /// <summary>
+    /// Gets/sets the confirmed TOTP authenticator credentials set.
+    /// </summary>
+    DbSet<TotpCredential> TotpCredentials { get; set; }
+
+    /// <summary>
+    /// Gets/sets the email recovery codes set.
+    /// </summary>
+    DbSet<RecoveryToken> RecoveryTokens { get; set; }
+
+    /// <summary>
     /// Saves the changes made to the context.
     /// </summary>
     /// <returns></returns>
