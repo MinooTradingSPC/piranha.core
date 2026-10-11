@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Uživatelské jméno a/nebo heslo jsou nesprávné.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Bezpečnostně zesílený fork Piranha CMS od {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Kód z ověřovací aplikace</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Správa obsahu</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Poslat přihlašovací kód e-mailem</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Pokud k tomuto e-mailu existuje účet, poslali jsme na něj kód. Zkontrolujte svou doručenou poštu.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Spravujte stránky, příspěvky a média svého webu.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Administrace</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Nebo</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Zapamatovat uživatelské jméno</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Zabezpečené přihlášení</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Zabezpečené přihlášení bez hesla</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Místo toho se přihlásit přístupovým klíčem</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Přihlásit se kódem z ověřovací aplikace</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Pro pokračování se přihlaste uživatelským jménem nebo e-mailem.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Přihlašovací kód</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Předběžná verze</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Tento prohlížeč nepodporuje přístupové klíče.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Nejprve výše zadejte uživatelské jméno nebo e-mail a poté znovu klikněte na „Místo toho se přihlásit přístupovým klíčem“.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>K tomuto účtu není zaregistrován žádný přístupový klíč. Přihlaste se prosím heslem.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Zadaný kód je nesprávný nebo vypršela jeho platnost.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Přihlášení přístupovým klíčem se nepodařilo dokončit. Zkuste to prosím heslem.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Nejprve výše zadejte uživatelské jméno nebo e-mail a poté znovu klikněte na „Přihlásit se kódem z ověřovací aplikace“.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>K tomuto účtu není zaregistrována žádná ověřovací aplikace. Přihlaste se prosím heslem.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Přihlášení přes ověřovací aplikaci se nepodařilo dokončit. Zkuste to prosím heslem.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Nejprve výše zadejte uživatelské jméno nebo e-mail a poté znovu klikněte na „Poslat přihlašovací kód e-mailem“.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Přihlašovací kód se nepodařilo odeslat. Zkuste to prosím heslem.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Přihlášení se nepodařilo dokončit. Zkuste to prosím heslem.</value>
+  </data>
 </root>

@@ -82,6 +82,14 @@ public interface IPostRepository
     Task<T> GetById<T>(Guid id) where T : PostBase;
 
     /// <summary>
+    /// Gets the post models with the specified ids.
+    /// </summary>
+    /// <typeparam name="T">The model type</typeparam>
+    /// <param name="ids">The unique ids</param>
+    /// <returns>The post models</returns>
+    Task<IEnumerable<T>> GetByIds<T>(params Guid[] ids) where T : PostBase;
+
+    /// <summary>
     /// Gets the post model with the specified slug.
     /// </summary>
     /// <typeparam name="T">The model type</typeparam>

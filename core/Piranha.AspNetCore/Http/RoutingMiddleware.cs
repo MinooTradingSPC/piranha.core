@@ -199,9 +199,18 @@ public class RoutingMiddleware : MiddlewareBase
             {
                 if (!page.IsPublished)
                 {
-                    // If the page isn't published, and this isn't a request for a draft, skip the request
-                    if (!context.Request.Query.ContainsKey("draft") || context.Request.Query["draft"] != "true")
+                    // Draft pages are only visible to authenticated users who explicitly
+                    // request them via ?draft=true. Unauthenticated visitors must be treated
+                    // identically to a "page not found" response to prevent:
+                    //   (a) information disclosure of unpublished content, and
+                    //   (b) timing-oracle enumeration of draft slugs.
+                    // Setting page=null before returning eliminates hook side-effects that
+                    // would otherwise fire (App.PageTypes.GetById, service.PageId assignment)
+                    // even on the early-return path.
+                    var isAuthenticated = context.User?.Identity?.IsAuthenticated == true;
+                    if (!isAuthenticated || !IsDraft(context))
                     {
+                        page = null;
                         await _next.Invoke(context);
                         return;
                     }
@@ -232,6 +241,20 @@ public class RoutingMiddleware : MiddlewareBase
                     if (post != null)
                     {
                         pos++;
+                    }
+                }
+
+                if (post != null)
+                {
+                    if (!post.IsPublished)
+                    {
+                        // Apply the same authentication-gate as pages: unpublished posts are
+                        // only accessible to authenticated users requesting ?draft=true.
+                        var isAuthenticated = context.User?.Identity?.IsAuthenticated == true;
+                        if (!isAuthenticated || !IsDraft(context))
+                        {
+                            post = null;
+                        }
                     }
                 }
 

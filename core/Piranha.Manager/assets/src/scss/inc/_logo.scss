@@ -1,4 +1,8 @@
 .navbar-brand {
+    // The logo reads left to right in every culture, so keep it at the left
+    // in the rtl build too: the collapsed menu shows its mark and the open
+    // menu the whole logo.
+    /*rtl:ignore*/
     background: url("../img/logo-menu.png") 0% 50% no-repeat;
     background-size: contain;
     width: 200px;

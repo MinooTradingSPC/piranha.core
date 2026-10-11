@@ -1,0 +1,317 @@
+// "Default" design of the manager login page: the sign-in form alone, in a
+// card in the middle of the screen, following the browser's light or dark
+// mode. It styles the markup in Login.cshtml and is the only style sheet the
+// page loads, so it carries its own fonts and icons.
+//
+// The colours come from the manager logo (img/logo.png): its navy outline
+// (#080838), royal blue ring (#0642ae to #0666f6), pale blue fill (#d8e8f8)
+// and orange circuit dots (#eea236). Orange is only used for icons, as it's
+// too light for text on white.
+
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+
+// Inter (SIL Open Font License, see webfonts/Inter-OFL.txt)
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(../webfonts/Inter-Variable.woff2) format("woff2");
+}
+
+html.login-page {
+    --login-bg: #eef4fc;
+    --login-card: #fff;
+    --login-text: #0a1240;
+    --login-muted: #4a5783;
+    --login-stroke: #d3e1f4;
+    --login-field: #fff;
+    --login-primary: #0642ae;
+    --login-primary-hover: #0a52cf;
+    --login-on-primary: #fff;
+    --login-accent: #e8962a;
+    --login-focus: rgba(6, 66, 174, .2);
+    --login-shadow: rgba(8, 8, 56, .08);
+    --login-error: #b91c1c;
+    --login-error-bg: #fef2f2;
+
+    color-scheme: light dark;
+    background: var(--login-bg);
+
+    @media (prefers-color-scheme: dark) {
+        --login-bg: #060a26;
+        --login-card: #0c1440;
+        --login-text: #e6effb;
+        --login-muted: #9fb2d8;
+        --login-stroke: #1d2a66;
+        --login-field: #070c2e;
+        --login-primary: #0a5ce6;
+        --login-primary-hover: #1864ec;
+        --login-on-primary: #fff;
+        --login-accent: #eea236;
+        --login-focus: rgba(84, 145, 247, .32);
+        --login-shadow: rgba(0, 0, 0, .35);
+        --login-error: #fca5a5;
+        --login-error-bg: rgba(185, 28, 28, .16);
+    }
+}
+
+#login {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background: var(--login-bg);
+    color: var(--login-text);
+    font: 400 15px/1.5 "Inter", system-ui, sans-serif;
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    // Parts of the page markup this design leaves out.
+    .pre-release,
+    .login-topbar .login-status,
+    .login-brand,
+    .login-panel-inner > .login-label:first-child {
+        display: none;
+    }
+
+    .login-shell {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .login-topbar {
+        display: flex;
+        justify-content: center;
+    }
+
+    .login-brandmark {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        color: var(--login-text);
+        font-size: 15px;
+        font-weight: 600;
+
+        img.logo {
+            max-height: 72px;
+            max-width: 160px;
+        }
+    }
+
+    .login-main {
+        width: 100%;
+    }
+
+    .login-panel {
+        width: 100%;
+        padding: 32px 32px 24px;
+        background: var(--login-card);
+        border: 1px solid var(--login-stroke);
+        border-radius: 14px;
+        border-top: 3px solid var(--login-primary);
+        box-shadow: 0 16px 48px var(--login-shadow);
+    }
+
+    .login-heading {
+        margin: 0 0 4px;
+        font-size: 22px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .login-subheading {
+        margin: 0 0 24px;
+        color: var(--login-muted);
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .login-label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .login-field {
+        margin-bottom: 14px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        background: var(--login-field);
+        color: var(--login-text);
+        border: 1px solid var(--login-stroke);
+        border-radius: 8px;
+        font: inherit;
+
+        &::placeholder {
+            color: var(--login-muted);
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--login-primary);
+            box-shadow: 0 0 0 3px var(--login-focus);
+        }
+    }
+
+    .was-validated .form-control:invalid {
+        border-color: var(--login-error);
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 4px 0 20px;
+        color: var(--login-muted);
+        font-size: 14px;
+    }
+
+    .btn-login {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 11px 16px;
+        background: var(--login-primary);
+        color: var(--login-on-primary);
+        border: 0;
+        border-radius: 8px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover {
+            background: var(--login-primary-hover);
+        }
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px var(--login-focus);
+        }
+    }
+
+    .error-message {
+        margin: 0 0 16px;
+        padding: 10px 12px;
+        background: var(--login-error-bg);
+        color: var(--login-error);
+        border-radius: 8px;
+        font-size: 14px;
+        white-space: pre-line;
+    }
+
+    .login-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0 12px;
+
+        &::before,
+        &::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--login-stroke);
+        }
+
+        .login-label {
+            margin: 0;
+            color: var(--login-muted);
+            font-size: 12px;
+        }
+    }
+
+    .login-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .login-method {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: var(--login-text);
+        font-size: 14px;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+
+        i {
+            color: var(--login-accent);
+        }
+    }
+
+    .login-subform {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 4px 0 8px;
+    }
+
+    .login-note {
+        margin: 0;
+        color: var(--login-muted);
+        font-size: 13px;
+    }
+
+    .login-code {
+        letter-spacing: .3em;
+        text-align: center;
+    }
+
+    .login-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 16px;
+        margin-top: 24px;
+
+        .login-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+            color: var(--login-muted);
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        i {
+            color: var(--login-accent);
+        }
+    }
+
+    .login-credit {
+        margin: 0;
+        font-size: 12px;
+        text-align: center;
+
+        a {
+            color: var(--login-muted);
+            text-decoration: none;
+
+            &:hover {
+                color: var(--login-text);
+                text-decoration: underline;
+                text-underline-offset: 3px;
+            }
+        }
+    }
+}

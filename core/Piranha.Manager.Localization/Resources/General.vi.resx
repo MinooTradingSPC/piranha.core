@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Tên người dùng và/hoặc mật khẩu không đúng.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Bản fork tăng cường bảo mật của Piranha CMS do {0} phát triển</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Mã ứng dụng xác thực</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Quản lý nội dung</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Gửi mã đăng nhập qua email</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Nếu email đó có tài khoản, chúng tôi đã gửi mã đến email đó. Hãy kiểm tra hộp thư của bạn.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Quản lý trang, bài viết và phương tiện trên trang web của bạn.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Trang quản trị</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Hoặc</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Ghi nhớ tên người dùng</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Đăng nhập an toàn</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Đăng nhập an toàn, không cần mật khẩu</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Đăng nhập bằng khóa truy cập</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Đăng nhập bằng mã từ ứng dụng xác thực</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Đăng nhập bằng tên người dùng hoặc email để tiếp tục.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Mã đăng nhập</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Bản phát hành trước</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Trình duyệt này không hỗ trợ khóa truy cập.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Trước tiên, hãy nhập tên người dùng hoặc email ở trên, sau đó nhấp lại vào “Đăng nhập bằng khóa truy cập”.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Tài khoản này chưa đăng ký khóa truy cập nào. Vui lòng đăng nhập bằng mật khẩu.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Mã bạn nhập không chính xác hoặc đã hết hạn.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Không thể hoàn tất đăng nhập bằng khóa truy cập. Vui lòng thử đăng nhập bằng mật khẩu.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Trước tiên, hãy nhập tên người dùng hoặc email ở trên, sau đó nhấp lại vào “Đăng nhập bằng mã từ ứng dụng xác thực”.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Tài khoản này chưa đăng ký ứng dụng xác thực nào. Vui lòng đăng nhập bằng mật khẩu.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Không thể hoàn tất đăng nhập bằng ứng dụng xác thực. Vui lòng thử đăng nhập bằng mật khẩu.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Trước tiên, hãy nhập tên người dùng hoặc email ở trên, sau đó nhấp lại vào “Gửi mã đăng nhập qua email”.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Không thể gửi mã đăng nhập. Vui lòng thử đăng nhập bằng mật khẩu.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Không thể hoàn tất đăng nhập. Vui lòng thử đăng nhập bằng mật khẩu.</value>
+  </data>
 </root>

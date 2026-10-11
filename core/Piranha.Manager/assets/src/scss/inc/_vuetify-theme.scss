@@ -1,0 +1,26 @@
+:root[data-piranha-theme="vuetify"] {
+    --v-theme-background: var(--piranha-theme-background);
+    --v-theme-surface: var(--piranha-theme-surface);
+    --v-theme-primary: var(--piranha-theme-primary);
+    --v-theme-secondary: var(--piranha-theme-secondary);
+    --v-theme-success: var(--piranha-theme-success);
+    --v-theme-info: var(--piranha-theme-info);
+    --v-theme-warning: var(--piranha-theme-warning);
+    --v-theme-error: var(--piranha-theme-error);
+}
+
+.piranha-vuetify-app {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.piranha-vuetify-runtime {
+    min-height: 0;
+    background: transparent;
+    color: inherit;
+}

@@ -15,6 +15,8 @@ namespace Piranha.Models;
 /// </summary>
 public abstract class MediaContent
 {
+    private Lazy<Task<Stream>> _lazyStream;
+
     /// <summary>
     /// Gets/sets the optional id. If this is empty a new media
     /// entry is created, otherwise the specified media
@@ -31,6 +33,38 @@ public abstract class MediaContent
     /// Gets/sets the filename.
     /// </summary>
     public string Filename { get; set; }
+
+    /// <summary>
+    /// Gets the content as a seekable stream. Non-seekable streams are
+    /// buffered into memory once, and every call, including concurrent ones,
+    /// returns the same instance. Creating the stream is thread-safe, but
+    /// using it is not: callers must not read or reposition it in parallel.
+    /// </summary>
+    /// <returns>The stream, or null if the content type has no data</returns>
+    internal Task<Stream> GetStream()
+    {
+        return LazyInitializer.EnsureInitialized(ref _lazyStream,
+            () => new Lazy<Task<Stream>>(CreateStream)).Value;
+    }
+
+    private async Task<Stream> CreateStream()
+    {
+        Stream stream = this switch
+        {
+            BinaryMediaContent binaryContent => new MemoryStream(binaryContent.Data),
+            StreamMediaContent streamContent => streamContent.Data,
+            _ => null
+        };
+
+        if (stream is not null && !stream.CanSeek)
+        {
+            var buffered = new MemoryStream();
+            await stream.CopyToAsync(buffered).ConfigureAwait(false);
+            return buffered;
+        }
+
+        return stream;
+    }
 }
 
 /// <summary>

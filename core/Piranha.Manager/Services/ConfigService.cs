@@ -38,6 +38,10 @@ public class ConfigService
                 HierarchicalPageSlugs = config.HierarchicalPageSlugs,
                 ExpandedSitemapLevels = config.ManagerExpandedSitemapLevels,
                 ManagerPageSize = config.ManagerPageSize,
+                ManagerMenuWidth = config.ManagerMenuWidth,
+                LoginDesign = config.ManagerLoginDesign,
+                Theme = config.ManagerTheme ?? "",
+                SiteTheme = config.SiteTheme ?? "",
                 DefaultCollapsedBlocks = config.ManagerDefaultCollapsedBlocks,
                 DefaultCollapsedBlockGroupHeaders = config.ManagerDefaultCollapsedBlockGroupHeaders,
                 ArchivePageSize = config.ArchivePageSize,
@@ -66,6 +70,34 @@ public class ConfigService
             config.HierarchicalPageSlugs = model.HierarchicalPageSlugs;
             config.ManagerExpandedSitemapLevels = model.ExpandedSitemapLevels;
             config.ManagerPageSize = model.ManagerPageSize;
+            config.ManagerMenuWidth = model.ManagerMenuWidth;
+
+            // Only store designs the host has registered.
+            if (App.Modules.Get<Module>()?.LoginDesigns.Any(d => d.Id == model.LoginDesign) == true)
+            {
+                config.ManagerLoginDesign = model.LoginDesign;
+            }
+
+            // An empty key picks the built-in look, any other key must be a
+            // registered theme.
+            if (string.IsNullOrEmpty(model.Theme))
+            {
+                config.ManagerTheme = null;
+            }
+            else if (App.Modules.Get<Module>()?.GetTheme(model.Theme) != null)
+            {
+                config.ManagerTheme = model.Theme;
+            }
+
+            // The same rule applies to the site theme.
+            if (string.IsNullOrEmpty(model.SiteTheme))
+            {
+                config.SiteTheme = null;
+            }
+            else if (App.SiteThemes.Get(model.SiteTheme) != null)
+            {
+                config.SiteTheme = model.SiteTheme;
+            }
             config.ManagerDefaultCollapsedBlocks = model.DefaultCollapsedBlocks;
             config.ManagerDefaultCollapsedBlockGroupHeaders = model.DefaultCollapsedBlockGroupHeaders;
             config.ArchivePageSize = model.ArchivePageSize;

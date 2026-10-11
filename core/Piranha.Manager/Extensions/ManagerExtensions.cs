@@ -15,8 +15,10 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
+using System.Globalization;
 using Piranha.Manager;
 using Piranha.Manager.Hubs;
+using Piranha.Manager.Localization;
 using Piranha.Manager.Services;
 
 public static class ManagerModuleExtensions
@@ -57,6 +59,12 @@ public static class ManagerModuleExtensions
 
         // Add localization service
         services.AddScoped<ManagerLocalizer>();
+
+        // Register the cultures the Manager UI has translations for
+        services.AddSingleton(new ManagerLocalizationOptions
+        {
+            SupportedCultures = ManagerCultures.SupportedCultures
+        });
 
         // Add session support
         services.AddSession();
@@ -128,6 +136,26 @@ public static class ManagerModuleExtensions
     /// <returns>The builder</returns>
     public static IApplicationBuilder UsePiranhaManager(this IApplicationBuilder builder) {
         return builder
+            .Use(async (context, next) =>
+            {
+                if (context.Request.Path.StartsWithSegments("/manager") &&
+                    context.Request.Cookies.TryGetValue("piranha.manager.culture", out var cultureName) &&
+                    !string.IsNullOrWhiteSpace(cultureName))
+                {
+                    try
+                    {
+                        var culture = CultureInfo.GetCultureInfo(cultureName);
+                        CultureInfo.CurrentCulture = culture;
+                        CultureInfo.CurrentUICulture = culture;
+                    }
+                    catch (CultureNotFoundException)
+                    {
+                        // Ignore invalid client-provided cultures.
+                    }
+                }
+
+                await next();
+            })
             .UseStaticFiles()
             .UseStaticFiles(new StaticFileOptions
             {

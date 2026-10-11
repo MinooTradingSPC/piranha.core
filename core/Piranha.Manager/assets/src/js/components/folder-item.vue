@@ -2,7 +2,7 @@
     <li class="dd-item expanded" :class="{ active: item.id === selected, expanded: item.isExpanded || item.items.length === 0 }" :data-id="item.id">
         <a v-if="!item.edit" class="droppable" v-on:click.prevent="piranha.media.load(item.id)" href="#" draggable="true" v-on:dragstart="piranha.media.drag($event, item)" v-on:dragover="piranha.media.dragover" v-on:dragleave="piranha.media.dragleave" v-on:drop="piranha.media.drop($event, item.id)">
             <i class="fas fa-folder"></i>{{ item.name }}
-            <span class="badge badge-light float-right">{{ item.mediaCount }}</span>
+            <span class="badge text-bg-light float-end">{{ item.mediaCount }}</span>
         </a>
         <form v-else v-on:submit.prevent="piranha.media.updateFolder()" class="d-flex">
             <i class="fas fa-folder"></i>

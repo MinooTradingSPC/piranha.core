@@ -58,6 +58,13 @@ public interface IMediaRepository
     Task<MediaFolder> GetFolderById(Guid id);
 
     /// <summary>
+    /// Gets the media folders with the given ids in a single query.
+    /// </summary>
+    /// <param name="ids">The unique ids</param>
+    /// <returns>The media folders</returns>
+    Task<IEnumerable<MediaFolder>> GetFoldersByIds(IEnumerable<Guid> ids);
+
+    /// <summary>
     /// Gets the hierarchical media structure.
     /// </summary>
     /// <returns>The media structure</returns>

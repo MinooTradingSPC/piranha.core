@@ -58,8 +58,8 @@
                         <tbody v-for="comment in filteredItems">
                             <tr>
                                 <td class="text-nowrap align-middle">
-                                    <img class="rounded mr-2" :src="comment.authorImage" :alt="comment.author">
-                                    <a class="mr-3" :href="'mailto:' + comment.email">{{ comment.author }}</a>
+                                    <img class="rounded me-2" :src="comment.authorImage" :alt="comment.author">
+                                    <a class="me-3" :href="'mailto:' + comment.email">{{ comment.author }}</a>
                                 </td>
                                 <td>{{ comment.body }}</td>
                                 <td class="align-middle">

@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Username and/or password are incorrect.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Ένα fork του Piranha CMS με ενισχυμένη ασφάλεια, από {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Κωδικός ελέγχου ταυτότητας</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Διαχείριση περιεχομένου</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Αποστολή κωδικού σύνδεσης με email</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Αν υπάρχει λογαριασμός με αυτό το email, του στείλαμε έναν κωδικό. Ελέγξτε τα εισερχόμενά σας.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Διαχειριστείτε τις σελίδες, τις αναρτήσεις και τα πολυμέσα του ιστότοπού σας.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Διαχείριση</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Ή</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Απομνημόνευση ονόματος χρήστη</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Ασφαλής σύνδεση</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Ασφαλής σύνδεση χωρίς κωδικό πρόσβασης</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Σύνδεση με κλειδί πρόσβασης</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Σύνδεση με κωδικό από εφαρμογή ελέγχου ταυτότητας</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Συνδεθείτε με το όνομα χρήστη ή το email σας για να συνεχίσετε.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Κωδικός σύνδεσης</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Προέκδοση</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Αυτό το πρόγραμμα περιήγησης δεν υποστηρίζει κλειδιά πρόσβασης.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Εισαγάγετε πρώτα το όνομα χρήστη ή το email σας παραπάνω και, στη συνέχεια, κάντε ξανά κλικ στο «Σύνδεση με κλειδί πρόσβασης».</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Δεν έχει καταχωριστεί κλειδί πρόσβασης για αυτόν τον λογαριασμό. Συνδεθείτε με τον κωδικό πρόσβασής σας.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Ο κωδικός που εισαγάγατε είναι λανθασμένος ή έχει λήξει.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Η σύνδεση με κλειδί πρόσβασης δεν ολοκληρώθηκε. Δοκιμάστε με τον κωδικό πρόσβασής σας.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Εισαγάγετε πρώτα το όνομα χρήστη ή το email σας παραπάνω και, στη συνέχεια, κάντε ξανά κλικ στο «Σύνδεση με κωδικό από εφαρμογή ελέγχου ταυτότητας».</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Δεν έχει καταχωριστεί εφαρμογή ελέγχου ταυτότητας για αυτόν τον λογαριασμό. Συνδεθείτε με τον κωδικό πρόσβασής σας.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Η σύνδεση μέσω εφαρμογής ελέγχου ταυτότητας δεν ολοκληρώθηκε. Δοκιμάστε με τον κωδικό πρόσβασής σας.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Εισαγάγετε πρώτα το όνομα χρήστη ή το email σας παραπάνω και, στη συνέχεια, κάντε ξανά κλικ στο «Αποστολή κωδικού σύνδεσης με email».</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Δεν ήταν δυνατή η αποστολή του κωδικού σύνδεσης. Δοκιμάστε με τον κωδικό πρόσβασής σας.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Η σύνδεση δεν ολοκληρώθηκε. Δοκιμάστε με τον κωδικό πρόσβασής σας.</value>
+  </data>
 </root>

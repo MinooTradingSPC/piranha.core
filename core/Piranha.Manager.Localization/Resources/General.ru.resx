@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Неверное имя пользователя или пароль.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>Защищённый форк Piranha CMS от {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Код из приложения-аутентификатора</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Управление контентом</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Отправить код для входа на почту</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Если с этим адресом связана учётная запись, мы отправили на него код. Проверьте почту.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Управляйте страницами, записями и медиафайлами вашего сайта.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Панель управления</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Или</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Запомнить имя пользователя</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Безопасный вход</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Безопасный вход без пароля</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Войти с помощью ключа доступа</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Войти с помощью кода из приложения-аутентификатора</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Чтобы продолжить, войдите по имени пользователя или адресу электронной почты.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Код для входа</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Предварительная версия</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Этот браузер не поддерживает ключи доступа.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Сначала введите имя пользователя или адрес электронной почты выше, затем снова нажмите «Войти с помощью ключа доступа».</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Для этой учётной записи не зарегистрирован ключ доступа. Войдите с помощью пароля.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Введённый код неверен или срок его действия истёк.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Не удалось выполнить вход с помощью ключа доступа. Попробуйте войти с паролем.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Сначала введите имя пользователя или адрес электронной почты выше, затем снова нажмите «Войти с помощью кода из приложения-аутентификатора».</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Для этой учётной записи не зарегистрировано приложение-аутентификатор. Войдите с помощью пароля.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Не удалось выполнить вход через приложение-аутентификатор. Попробуйте войти с паролем.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Сначала введите имя пользователя или адрес электронной почты выше, затем снова нажмите «Отправить код для входа на почту».</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Не удалось отправить код для входа. Попробуйте войти с паролем.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Не удалось выполнить вход. Попробуйте войти с паролем.</value>
+  </data>
 </root>

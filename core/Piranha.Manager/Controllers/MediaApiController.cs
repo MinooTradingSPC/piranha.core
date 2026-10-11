@@ -78,7 +78,13 @@ public class MediaApiController : Controller
         }
         else
         {
-            return Redirect(await _api.Media.EnsureVersionAsync(id, width.Value, height));
+            var url = await _api.Media.EnsureVersionAsync(id, width.Value, height);
+
+            if (url != null)
+            {
+                return Redirect(url);
+            }
+            return NotFound();
         }
     }
 
@@ -99,6 +105,7 @@ public class MediaApiController : Controller
     /// <param name="model">The media model</param>
     [Route("meta/save")]
     [HttpPost]
+    [Authorize(Policy = Permission.MediaEdit)]
     public async Task<IActionResult> SaveMeta(MediaListModel.MediaItem model)
     {
         if (await _service.SaveMeta(model))
@@ -133,7 +140,7 @@ public class MediaApiController : Controller
             result.Status = new StatusMessage
             {
                 Type = StatusMessage.Success,
-                Body = String.Format(_localizer.Media["The folder <code>{0}</code> was saved"], model.Name)
+                Body = String.Format(_localizer.Media["The folder <code>{0}</code> was saved"], System.Text.Encodings.Web.HtmlEncoder.Default.Encode(model.Name ?? ""))
             };
 
             return Ok(result);

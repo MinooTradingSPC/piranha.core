@@ -227,6 +227,13 @@ public abstract class Db<T> : DbContext, IDb where T : Db<T>
     /// <param name="options">Configuration options</param>
     public Db(DbContextOptions<T> options) : base(options)
     {
+        // Don't touch the database when created by the EF Core tools,
+        // e.g. when scaffolding migrations with `dotnet ef`
+        if (System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name == "ef")
+        {
+            return;
+        }
+
         if (!IsInitialized)
         {
             lock (Mutex)

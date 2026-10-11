@@ -18,5 +18,22 @@ public class IdentityPostgreSQLDb : Db<IdentityPostgreSQLDb>
     /// Default constructor.
     /// </summary>
     /// <param name="options">Configuration options</param>
-    public IdentityPostgreSQLDb(DbContextOptions<IdentityPostgreSQLDb> options) : base(options) { }
+    public IdentityPostgreSQLDb(DbContextOptions<IdentityPostgreSQLDb> options) : base(options)
+    {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    }
+
+    /// <summary>
+    /// Creates and configures the data model.
+    /// </summary>
+    /// <param name="mb">The current model builder</param>
+    protected override void OnModelCreating(ModelBuilder mb)
+    {
+        base.OnModelCreating(mb);
+
+        // The schema was created with serial columns. Keep them, since newer
+        // Npgsql providers default to identity columns and would otherwise
+        // try to convert, dropping sequences that don't exist for uuid keys.
+        mb.UseSerialColumns();
+    }
 }

@@ -5,6 +5,9 @@
 @{
     ViewBag.Title = Localizer.Config["Config"];
     ViewBag.MenuItem = "Config";
+
+    var themes = Piranha.App.Modules.Get<Piranha.Manager.Module>().Themes;
+    var siteThemes = Piranha.App.SiteThemes;
 }
 @section script
 {
@@ -63,6 +66,81 @@
                             </div>
                         </div>
                     </li>
+                    <li class="list-group-item">
+                        <div class="row align-items-end">
+                            <div class="col-md-8">
+                                <strong class="d-block">@Localizer.Config["Menu width"]</strong>
+                                <span class="text-secondary">
+                                    @Localizer.Config["The width in pixels of the expanded manager menu, between {0} and {1}.", Piranha.Config.ManagerMenuWidthMin, Piranha.Config.ManagerMenuWidthMax]
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <input v-model.number="model.managerMenuWidth" class="form-control" type="number" min="@Piranha.Config.ManagerMenuWidthMin" max="@Piranha.Config.ManagerMenuWidthMax" step="10">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row align-items-end">
+                            <div class="col-md-8">
+                                <strong class="d-block">@Localizer.Config["Login page design"]</strong>
+                                <span class="text-secondary">
+                                    @Localizer.Config["The design of the manager login page."]
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <select v-model="model.loginDesign" class="form-control">
+                                    @foreach (var design in Piranha.App.Modules.Get<Piranha.Manager.Module>().LoginDesigns)
+                                    {
+                                        <option value="@design.Id">@design.Title</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    @if (themes.Count > 0)
+                    {
+                    <li class="list-group-item">
+                        <div class="row align-items-end">
+                            <div class="col-md-8">
+                                <strong class="d-block">@Localizer.Config["UI theme"]</strong>
+                                <span class="text-secondary">
+                                    @Localizer.Config["The theme of the manager interface."]
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <select v-model="model.theme" class="form-control">
+                                    <option value="">@Localizer.Config["Default"]</option>
+                                    @foreach (var theme in themes)
+                                    {
+                                        <option value="@theme.Id">@theme.Title</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    }
+                    @if (siteThemes.Count > 0)
+                    {
+                    <li class="list-group-item">
+                        <div class="row align-items-end">
+                            <div class="col-md-8">
+                                <strong class="d-block">@Localizer.Config["Site theme"]</strong>
+                                <span class="text-secondary">
+                                    @Localizer.Config["The theme of the public site pages."]
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <select v-model="model.siteTheme" class="form-control">
+                                    <option value="">@Localizer.Config["Default"]</option>
+                                    @foreach (var theme in siteThemes)
+                                    {
+                                        <option value="@theme.Id">@theme.Title</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    }
                     <li class="list-group-item">
                         <div class="row align-items-end">
                             <div class="col-md-8">

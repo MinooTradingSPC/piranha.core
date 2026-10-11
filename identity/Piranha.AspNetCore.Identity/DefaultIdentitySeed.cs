@@ -49,7 +49,7 @@ public class DefaultIdentitySeed : IIdentitySeed
             var user = new User
             {
                 UserName = "admin",
-                Email = "admin@piranhacms.org",
+                Email = "ahmadminoo@gmail.com",
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var createResult = await _userManager.CreateAsync(user, "password");

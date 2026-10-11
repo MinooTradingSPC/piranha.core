@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdant Syntax | Precision Botanical Architecture HTML preview</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body class="scroll-smooth bg-[#F6F5F2] text-[#1C201C] font-['Inter',sans-serif] antialiased overflow-x-hidden selection:bg-[#1B241A] selection:text-white">
+
+    <!-- Container Lines Wrapper -->
+    <div class="relative max-w-[1400px] mx-auto border-x border-black/5 min-h-screen flex flex-col bg-[#F6F5F2]">
+        
+        <!-- Corner Markers -->
+        <div class="absolute top-0 -left-[3px] w-[5px] h-[5px] border border-black/15 bg-[#F6F5F2] z-50"></div>
+        <div class="absolute top-0 -right-[3px] w-[5px] h-[5px] border border-black/15 bg-[#F6F5F2] z-50"></div>
+
+        <!-- IMAGE FIRST GRID HERO -->
+        <main class="relative w-full h-[95vh] min-h-[700px] flex flex-col border-b border-black/5 overflow-hidden">
+            <!-- Immersive Background -->
+            <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/d14dc069-558a-4c51-8aad-5cc237f9b61d_3840w.jpg" alt="Abstract gradient waves" class="absolute inset-0 w-full h-full object-cover object-top scale-105" style="transform-origin: top center;">
+            
+            <!-- Dark Gradient Washes -->
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(10,12,10,0.95) 0%, rgba(10,12,10,0.4) 40%, rgba(10,12,10,0.1) 100%);"></div>
+            
+            <!-- Visible Grid Lines -->
+            <div class="absolute inset-0 flex justify-between px-6 md:px-12 pointer-events-none z-0 opacity-20">
+                <div class="w-[1px] h-full bg-white"></div>
+                <div class="w-[1px] h-full bg-white hidden md:block"></div>
+                <div class="w-[1px] h-full bg-white hidden lg:block"></div>
+                <div class="w-[1px] h-full bg-white"></div>
+            </div>
+
+            <!-- Header (Floating over Image) -->
+            <header class="w-full flex items-center justify-between px-6 py-8 md:px-12 relative z-20 text-white/90">
+                <nav class="hidden md:flex items-center gap-8 text-sm font-light">
+                    <a href="#" class="hover:text-white transition-colors">Arrangements</a>
+                    <a href="#" class="hover:text-white transition-colors">Ethos</a>
+                    <a href="#" class="hover:text-white transition-colors">Publications</a>
+                </nav>
+                
+                <a href="#" class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 text-xl font-['Playfair_Display',serif] tracking-tight text-white">
+                    <iconify-icon icon="solar:leaf-line-duotone" width="24" height="24" stroke-width="1.5"></iconify-icon>
+                    VERDANT SYNTAX
+                </a>
+
+                <div class="flex items-center gap-6 text-sm font-light">
+                    <a href="#" class="hidden md:block hover:text-white transition-colors">Sign In</a>
+                    <!-- Skeuomorphic Button -->
+                    <a href="#" class="text-white px-5 py-2.5 rounded-full flex items-center gap-2 transition-all" style="background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), inset 0 -1px 1px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1);">
+                        Commission Now
+                        <iconify-icon icon="solar:arrow-right-linear" width="16" height="16"></iconify-icon>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Bottom Anchored Grid Content -->
+            <div class="relative flex-grow flex items-end pb-16 px-6 md:px-12 z-10">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 w-full items-end">
+                    
+                    <div class="md:col-span-8 lg:col-span-7">
+                        <div class="flex items-center gap-6 text-white/50 mb-8">
+                            <iconify-icon icon="solar:star-fall-linear" width="20" height="20"></iconify-icon>
+                            <span class="text-xs tracking-widest uppercase font-normal">Architectural Digest</span>
+                            <span class="text-xs tracking-widest uppercase font-normal">Monocle</span>
+                            <span class="text-xs tracking-widest uppercase font-normal">Frame</span>
+                        </div>
+                        <h1 class="font-['Playfair_Display',serif] text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.05] tracking-tight text-white reveal-text drop-shadow-lg">
+                            Architectural Botanicals for Defined Spaces
+                        </h1>
+                    </div>
+
+                    <div class="md:col-span-4 lg:col-span-4 lg:col-start-9 flex flex-col justify-end">
+                        <!-- Translucent Grid Box -->
+                        <div class="bg-white/5 backdrop-blur-md p-[1px] rounded-2xl" style="background: linear-gradient(145deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.02) 100%);">
+                            <div class="bg-black/40 rounded-[calc(1rem-1px)] p-6 md:p-8 flex flex-col gap-6">
+                                <p class="text-sm text-white/80 font-light leading-relaxed">
+                                    Precision-grown organic forms structured to enhance spatial dynamics and cognitive clarity. Uncompromised natural aesthetics.
+                                </p>
+                                <a href="#" class="inline-flex items-center justify-between group border-b border-white/20 pb-2 text-white hover:border-white/60 transition-colors">
+                                    <span class="text-sm font-normal">Explore Series</span>
+                                    <iconify-icon icon="solar:arrow-right-up-linear" width="18" height="18" class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></iconify-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+
+        <!-- SPLIT LAYOUT SECTION: Philosophy -->
+        <section class="w-full border-b border-black/5 flex flex-col md:flex-row bg-[#F6F5F2] relative z-10">
+            <!-- Left Panel: Technical/Editorial -->
+            <div class="w-full md:w-1/2 p-8 md:p-16 lg:p-24 border-b md:border-b-0 md:border-r border-black/5 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-4 mb-16">
+                        <div class="w-2 h-2 bg-[#1C201C]"></div>
+                        <span class="text-xs font-mono tracking-widest uppercase text-[#767873]">01 // Framework</span>
+                    </div>
+                    
+                    <h2 class="text-4xl md:text-5xl font-['Playfair_Display',serif] tracking-tight text-[#1C201C] mb-8 reveal-text leading-[1.1]">
+                        Structured Organic Harmony.
+                    </h2>
+                    
+                    <p class="text-base text-[#767873] font-light leading-relaxed mb-12 max-w-md">
+                        Each botanical element is chosen via strict biological criteria, securing environmental balance and extended lifespan. We fuse wild organic growth with calculated structural design.
+                    </p>
+                </div>
+
+                <!-- Skeuomorphic Spec Card -->
+                <div class="p-[1px] rounded-[1.5rem] mt-12 md:mt-24 max-w-sm" style="background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.01) 100%);">
+                    <div class="rounded-[calc(1.5rem-1px)] p-6 relative overflow-hidden" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8F7F4 100%); box-shadow: inset 0 2px 4px rgba(255,255,255,1), inset 0 -1px 2px rgba(0,0,0,0.03), 0 8px 20px rgba(0,0,0,0.03);">
+                        <!-- Highlight Edge -->
+                        <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-80"></div>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-sm font-normal text-[#1C201C] tracking-tight">Ethical Cultivation</h4>
+                            <iconify-icon icon="solar:leaf-linear" width="20" height="20" class="text-[#767873]"></iconify-icon>
+                        </div>
+                        <p class="text-xs text-[#767873] font-light leading-relaxed">
+                            Exclusive alliances with progressive bio-farms ensure untainted growth cycles, naturally amplifying longevity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Immersive Media & Specs -->
+            <div class="w-full md:w-1/2 relative bg-[#151914] min-h-[500px] flex items-center justify-center p-8 md:p-16 overflow-hidden">
+                <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/5ee0a38a-b5d3-4531-8793-98beed4af162_1600w.jpg" alt="Architectural integration" class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-luminosity">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#151914]/80"></div>
+                
+                <!-- Spec Table Overlaid -->
+                <div class="relative z-10 w-full max-w-md bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-8">
+                    <h3 class="text-lg font-['Playfair_Display',serif] tracking-tight text-white mb-6">System Specifications</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end border-b border-white/10 pb-3">
+                            <span class="text-xs font-mono text-white/50 uppercase tracking-widest">Sourcing Radius</span>
+                            <span class="text-sm font-light text-white">Sub-40 Miles</span>
+                        </div>
+                        <div class="flex justify-between items-end border-b border-white/10 pb-3">
+                            <span class="text-xs font-mono text-white/50 uppercase tracking-widest">Preservation</span>
+                            <span class="text-sm font-light text-white">Atmospheric Control</span>
+                        </div>
+                        <div class="flex justify-between items-end border-b border-white/10 pb-3">
+                            <span class="text-xs font-mono text-white/50 uppercase tracking-widest">Curation Time</span>
+                            <span class="text-sm font-light text-white">36 Hours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collections: 3 Column Grid -->
+        <main class="w-full pt-24 pb-32 px-6 md:px-12 bg-[#F6F5F2] relative z-10 border-b border-black/5">
+            <div class="flex flex-col items-center text-center mb-16">
+                <div class="text-xs font-mono tracking-widest uppercase text-[#767873] mb-4">02 // Assemblages</div>
+                <h2 class="font-['Playfair_Display',serif] text-4xl md:text-5xl tracking-tight text-[#1C201C] reveal-text">
+                    Selected Compositions
+                </h2>
+            </div>
+
+            <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                
+                <!-- Card 1: Image -->
+                <div class="h-[500px] md:h-[600px] rounded-[2rem] overflow-hidden relative group shadow-sm">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/7f78131e-65e9-49b2-aa1f-ccc33e28df9f_1600w.webp" alt="Minimalist arrangement" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out">
+                    <div class="absolute bottom-6 left-6 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 flex items-center gap-2 text-white text-xs font-light">
+                        <iconify-icon icon="solar:sun-2-linear" width="14" height="14"></iconify-icon>
+                        Dawn Sequence
+                    </div>
+                </div>
+
+                <!-- Card 2: Highly Skeuomorphic UI Card -->
+                <div class="h-[500px] md:h-[600px] rounded-[2rem] relative z-10 p-[1px]" style="background: linear-gradient(145deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.01) 100%);">
+                    <!-- Layered depth container -->
+                    <div class="rounded-[calc(2rem-1px)] h-full p-8 flex flex-col justify-between relative overflow-hidden" style="background: linear-gradient(180deg, #FFFFFF 0%, #F5F4F1 100%); box-shadow: inset 0 2px 3px rgba(255,255,255,1), inset 0 -2px 6px rgba(0,0,0,0.03), 0 10px 30px rgba(0,0,0,0.05);">
+                        
+                        <!-- Skeuomorphic Top Highlight -->
+                        <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-80"></div>
+
+                        <div>
+                            <div class="flex justify-between items-start mb-8">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center text-[#1B241A]" style="background: linear-gradient(180deg, #F6F5F2 0%, #EBE9E4 100%); box-shadow: inset 0 1px 2px rgba(255,255,255,0.9), 0 2px 4px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03);">
+                                    <iconify-icon icon="solar:box-linear" width="22" height="22"></iconify-icon>
+                                </div>
+                                <button class="w-10 h-10 rounded-full flex items-center justify-center text-[#767873] hover:text-red-500 transition-colors" style="background: linear-gradient(180deg, #FFFFFF 0%, #F6F5F2 100%); box-shadow: inset 0 1px 1px rgba(255,255,255,1), 0 2px 5px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);">
+                                    <iconify-icon icon="solar:heart-linear" width="20" height="20"></iconify-icon>
+                                </button>
+                            </div>
+                            <h3 class="text-2xl font-['Playfair_Display',serif] tracking-tight text-[#1C201C] mb-3 drop-shadow-[0_1px_1px_rgba(255,255,255,1)]">The Gossamer Array</h3>
+                            <p class="text-sm text-[#767873] font-light leading-relaxed">Abundant in tactile contrast for ambient equilibrium. Designed to mature elegantly through its lifecycle.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-end border-b border-black/5 pb-3">
+                                <span class="text-xs font-mono uppercase tracking-widest text-[#767873]/70">Longevity</span>
+                                <span class="text-sm font-light text-[#1C201C] drop-shadow-[0_1px_0_rgba(255,255,255,0.8)]">12-16 days</span>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-black/5 pb-3">
+                                <span class="text-xs font-mono uppercase tracking-widest text-[#767873]/70">Scent Profile</span>
+                                <span class="text-sm font-light text-[#1C201C] drop-shadow-[0_1px_0_rgba(255,255,255,0.8)]">Muted Bergamot</span>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-black/5 pb-3">
+                                <span class="text-xs font-mono uppercase tracking-widest text-[#767873]/70">Vase Setup</span>
+                                <span class="text-sm font-light text-[#1C201C] drop-shadow-[0_1px_0_rgba(255,255,255,0.8)]">Pre-calibrated</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Image -->
+                <div class="h-[500px] md:h-[600px] rounded-[2rem] overflow-hidden relative group shadow-sm">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/005600e5-f6ab-4e59-bc86-eaeb02797dfa_1600w.jpg" alt="Botanical integration" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out">
+                    <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(27,36,26,0.8) 0%, transparent 60%);"></div>
+                    <div class="absolute bottom-8 left-8 right-8">
+                        <p class="text-white text-xl font-['Playfair_Display',serif] tracking-tight leading-snug">
+                            Absolute organic refinement procured straight from ecological cultivators.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Quote Section -->
+        <section class="w-full bg-white py-32 md:py-48 border-b border-black/5 relative overflow-hidden">
+            <div class="absolute inset-0 flex justify-center pointer-events-none opacity-[0.03]">
+                <div class="w-[1px] h-full bg-black mx-10"></div>
+                <div class="w-[1px] h-full bg-black mx-10"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+                <iconify-icon icon="solar:quote-right-linear" width="48" height="48" class="text-[#767873]/20 mb-8 mx-auto block"></iconify-icon>
+                <h2 class="font-['Playfair_Display',serif] text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight text-[#1C201C] reveal-text">
+                    "An integrated methodology developed to realign spatial flow and provide enduring vibrancy absent of artificial inputs."
+                </h2>
+            </div>
+        </section>
+
+        <!-- Slider Section -->
+        <section class="w-full pt-24 pb-32 px-6 md:px-12 bg-[#F6F5F2] relative border-b border-black/5">
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <div class="text-xs font-mono tracking-widest uppercase text-[#767873] mb-2">03 // Elements</div>
+                    <h2 class="font-['Playfair_Display',serif] text-3xl md:text-4xl tracking-tight text-[#1C201C]">Primary Biotics</h2>
+                </div>
+                <div class="hidden md:flex gap-3">
+                    <button class="w-12 h-12 rounded-full flex items-center justify-center text-[#1C201C] transition-all hover:-translate-y-0.5" style="background: linear-gradient(180deg, #FFFFFF 0%, #F6F5F2 100%); box-shadow: inset 0 1px 1px rgba(255,255,255,1), 0 4px 10px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03);">
+                        <iconify-icon icon="solar:arrow-left-linear" width="20" height="20"></iconify-icon>
+                    </button>
+                    <button class="w-12 h-12 rounded-full flex items-center justify-center text-[#1C201C] transition-all hover:-translate-y-0.5" style="background: linear-gradient(180deg, #FFFFFF 0%, #F6F5F2 100%); box-shadow: inset 0 1px 1px rgba(255,255,255,1), 0 4px 10px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03);">
+                        <iconify-icon icon="solar:arrow-right-linear" width="20" height="20"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide" style="scrollbar-width: none;">
+                
+                <div class="min-w-[300px] md:min-w-[380px] snap-start flex flex-col gap-5">
+                    <div class="aspect-[4/5] rounded-[2rem] overflow-hidden p-2" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8F7F4 100%); box-shadow: inset 0 2px 4px rgba(255,255,255,1), 0 8px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);">
+                         <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/5ee0a38a-b5d3-4531-8793-98beed4af162_1600w.jpg" alt="Structure layout" class="w-full h-full object-cover rounded-[1.5rem]">
+                    </div>
+                    <div class="px-2">
+                        <h4 class="text-base font-normal text-[#1C201C] tracking-tight">Scaffold Branches</h4>
+                        <p class="text-xs text-[#767873] mt-1 font-light">Base Structure</p>
+                    </div>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[380px] snap-start flex flex-col gap-5">
+                    <div class="aspect-[4/5] rounded-[2rem] overflow-hidden p-2" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8F7F4 100%); box-shadow: inset 0 2px 4px rgba(255,255,255,1), 0 8px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);">
+                         <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/005600e5-f6ab-4e59-bc86-eaeb02797dfa_1600w.jpg" alt="Volume space" class="w-full h-full object-cover rounded-[1.5rem]">
+                    </div>
+                    <div class="px-2">
+                        <h4 class="text-base font-normal text-[#1C201C] tracking-tight">Canopy Leaves</h4>
+                        <p class="text-xs text-[#767873] mt-1 font-light">Ambient Mass</p>
+                    </div>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[380px] snap-start flex flex-col gap-5">
+                    <div class="aspect-[4/5] rounded-[2rem] overflow-hidden p-2" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8F7F4 100%); box-shadow: inset 0 2px 4px rgba(255,255,255,1), 0 8px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);">
+                         <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/7f78131e-65e9-49b2-aa1f-ccc33e28df9f_1600w.webp" alt="Focal elements" class="w-full h-full object-cover rounded-[1.5rem]">
+                    </div>
+                    <div class="px-2">
+                        <h4 class="text-base font-normal text-[#1C201C] tracking-tight">Apex Flowers</h4>
+                        <p class="text-xs text-[#767873] mt-1 font-light">Central Node</p>
+                    </div>
+                </div>
+
+                 <div class="min-w-[300px] md:min-w-[380px] snap-start flex flex-col gap-5">
+                    <div class="aspect-[4/5] rounded-[2rem] overflow-hidden p-2" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8F7F4 100%); box-shadow: inset 0 2px 4px rgba(255,255,255,1), 0 8px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);">
+                         <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/fb6415fd-bf4d-4ccf-8e9d-7ab445e99207_1600w.jpg" alt="Accent elements" class="w-full h-full object-cover rounded-[1.5rem]">
+                    </div>
+                    <div class="px-2">
+                        <h4 class="text-base font-normal text-[#1C201C] tracking-tight">Tactile Flora</h4>
+                        <p class="text-xs text-[#767873] mt-1 font-light">Granular Nuance</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- LUXURIOUS FOOTER -->
+        <footer class="w-full bg-[#1B241A] text-white pt-24 pb-12 px-6 md:px-12 relative flex-grow flex flex-col justify-end">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
+                <div>
+                    <a href="#" class="flex items-center gap-2 text-2xl font-['Playfair_Display',serif] tracking-tight text-white mb-8">
+                        <iconify-icon icon="solar:leaf-line-duotone" width="28" height="28" stroke-width="1.5"></iconify-icon>
+                        VERDANT SYNTAX
+                    </a>
+                    <p class="text-sm text-white/50 font-light max-w-sm leading-relaxed">
+                        Transforming organic inclusion for contemporary environments. Calculated biology with zero concessions.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xs font-mono uppercase tracking-widest text-white/40 mb-6">Index</h4>
+                        <ul class="space-y-4 text-sm font-light text-white/80">
+                            <li><a href="#" class="hover:text-white transition-colors">Arrays</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Ethos</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Origins</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Chronicles</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-mono uppercase tracking-widest text-white/40 mb-6">Connect</h4>
+                        <ul class="space-y-4 text-sm font-light text-white/80">
+                            <li><a href="#" class="hover:text-white transition-colors">Instagram</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Foundation</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-xs font-mono text-white/30">
+                <p>&copy; 2024 Verdant Syntax Framework. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white/60 transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white/60 transition-colors">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bottom Corner Markers -->
+        <div class="absolute bottom-0 -left-[3px] w-[5px] h-[5px] border border-black/15 bg-[#F6F5F2] z-50"></div>
+        <div class="absolute bottom-0 -right-[3px] w-[5px] h-[5px] border border-black/15 bg-[#F6F5F2] z-50"></div>
+    </div>
+
+    <!-- WebGL & GSAP Animation Logic -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const setupTextReveal = () => {
+                const revealElements = document.querySelectorAll('.reveal-text');
+                
+                revealElements.forEach(el => {
+                    const text = el.innerText;
+                    el.innerHTML = '';
+                    const words = text.split(' ');
+                    
+                    words.forEach(word => {
+                        const maskDiv = document.createElement('span');
+                        maskDiv.style.display = 'inline-flex';
+                        maskDiv.style.overflow = 'hidden';
+                        maskDiv.style.verticalAlign = 'top';
+                        maskDiv.style.paddingRight = '0.25em';
+                        maskDiv.style.paddingBottom = '0.1em';
+
+                        const innerSpan = document.createElement('span');
+                        innerSpan.innerText = word;
+                        innerSpan.style.display = 'inline-block';
+                        innerSpan.style.transform = 'translateY(110%) rotate(4deg)';
+                        innerSpan.style.transformOrigin = 'top left';
+                        innerSpan.classList.add('reveal-word-inner');
+
+                        maskDiv.appendChild(innerSpan);
+                        el.appendChild(maskDiv);
+                    });
+
+                    gsap.to(el.querySelectorAll('.reveal-word-inner'), {
+                        y: '0%',
+                        rotate: 0,
+                        duration: 1.2,
+                        stagger: 0.03,
+                        ease: 'power4.out',
+                        scrollTrigger: {
+                            trigger: el,
+                            start: 'top 90%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    });
+                });
+            };
+
+            setTimeout(setupTextReveal, 100);
+        });
+    </script>
+</body>
+</html>

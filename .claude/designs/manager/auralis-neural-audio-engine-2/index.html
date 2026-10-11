@@ -1,0 +1,233 @@
+﻿<!doctype html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auralis - Neural Audio Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link id="all-fonts-link-font-geist" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap"><style id="all-fonts-style-font-geist">.font-geist { font-family: 'Geist', sans-serif !important; }</style></head>
+<body class="antialiased text-gray-900 bg-white overflow-x-hidden min-h-screen flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900">
+
+    <!-- Background Effect Container -->
+    <div class="fixed inset-y-0 right-0 w-[120vw] md:w-[70vw] translate-x-[10%] md:translate-x-0 z-0 overflow-hidden pointer-events-none">
+
+        <!-- WebGL Animated Gradient Canvas -->
+        <canvas id="webgl-canvas" class="absolute inset-0 w-full h-full"></canvas>
+
+        <!-- Glass Slices Overlay -->
+        <div class="absolute inset-0 flex">
+            <!-- Slice 1: Seamless blend with body background -->
+            <div class="h-full flex-1 relative border-l border-transparent" style="background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 100%);"></div>
+
+            <!-- Slice 2 -->
+            <div class="h-full flex-1 relative border-l border-white/60 shadow-[-15px_0_30px_-10px_rgba(255,255,255,1)]" style="background: linear-gradient(to right, rgba(255,255,255,0.85), rgba(255,255,255,0.65)); backdrop-filter: blur(16px);"></div>
+
+            <!-- Slice 3 -->
+            <div class="h-full flex-1 relative border-l border-white/40 shadow-[-15px_0_30px_-10px_rgba(255,255,255,0.9)]" style="background: linear-gradient(to right, rgba(255,255,255,0.65), rgba(255,255,255,0.4)); backdrop-filter: blur(12px);"></div>
+
+            <!-- Slice 4 -->
+            <div class="h-full flex-1 relative border-l border-white/20 shadow-[-15px_0_30px_-10px_rgba(255,255,255,0.6)]" style="background: linear-gradient(to right, rgba(255,255,255,0.4), rgba(255,255,255,0.15)); backdrop-filter: blur(6px);"></div>
+
+            <!-- Slice 5 (Rightmost, most transparent) -->
+            <div class="h-full flex-1 relative border-l border-white/10 shadow-[-15px_0_30px_-10px_rgba(255,255,255,0.3)]" style="background: linear-gradient(to right, rgba(255,255,255,0.15), rgba(255,255,255,0.02)); backdrop-filter: blur(2px);"></div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="relative z-10 w-full max-w-[88rem] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 flex flex-col min-h-screen">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between py-8 anim-element" style="opacity: 0; transform: translateY(-10px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+            <div class="flex items-center gap-1 text-lg font-medium tracking-tight text-gray-900 uppercase font-geist">
+                AURALIS<span class="text-[#4f46e5] text-xl leading-none font-geist">°</span>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-10 text-sm font-medium text-gray-600">
+                <a href="#" class="hover:text-gray-900 transition-colors font-geist">Platform</a>
+                <a href="#" class="hover:text-gray-900 transition-colors font-geist">Solutions</a>
+                <a href="#" class="hover:text-gray-900 transition-colors font-geist">Developers</a>
+                <a href="#" class="hover:text-gray-900 transition-colors font-geist">Company</a>
+                <a href="#" class="hover:text-gray-900 transition-colors font-geist">Docs</a>
+            </nav>
+
+            <div>
+                <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors font-geist">Sign in</a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="flex-1 flex flex-col justify-center max-w-2xl pt-16 pb-24">
+
+            <!-- Badge -->
+            <div class="anim-element mb-8 w-max inline-flex items-center gap-2 rounded-full border border-indigo-200/80 bg-indigo-50/50 px-3.5 py-1.5 text-xs font-medium text-indigo-600 shadow-sm backdrop-blur-md font-geist" style="opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+                <iconify-icon icon="solar:microphone-3-linear" class="text-base" stroke-width="1.5"></iconify-icon>
+                Next-Gen Audio Synthesis
+            </div>
+
+            <!-- Headline -->
+            <h1 class="anim-element text-5xl sm:text-6xl md:text-7xl lg:text-[80px] text-gray-900 leading-[1.05] font-geist font-light tracking-tighter" style="opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+                Speak Naturally.<br>
+                Across Borders.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#4f46e5] to-[#06b6d4] font-geist font-light tracking-tighter">Limitless Reach.</span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="anim-element mt-7 text-base md:text-lg text-gray-600 leading-relaxed max-w-[28rem] font-geist" style="opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+                Synthesize human-like audio instantly, clone vocal profiles with striking accuracy. Integrate smoothly into applications, games, and media. Swift. Secure. Broadcast-ready.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="anim-element mt-10 flex flex-wrap items-center gap-4" style="opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+                <a href="#" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#1c1c1e] px-7 py-3.5 text-sm font-medium text-white hover:bg-black transition-all duration-300 shadow-lg shadow-black/10 hover:shadow-black/20 hover:-translate-y-0.5 font-geist">
+                    Begin building today
+                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-lg opacity-80" stroke-width="1.5"></iconify-icon>
+                </a>
+                <a href="#" class="inline-flex items-center justify-center rounded-full border border-indigo-200/80 bg-white/40 backdrop-blur-md px-7 py-3.5 text-sm font-medium text-indigo-500 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-600 transition-all duration-300 font-geist">
+                    Talk to Sales
+                </a>
+            </div>
+        </main>
+
+        <!-- Bottom Features Row -->
+        <div class="anim-element pb-12 pt-8 flex flex-col sm:flex-row gap-10 sm:gap-14 border-t border-transparent" style="opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+
+            <!-- Feature 1 -->
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-500 group-hover:scale-110 transition-transform duration-300">
+                    <iconify-icon icon="solar:server-linear" class="text-xl" stroke-width="1.5"></iconify-icon>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900 font-geist">Fluid Dictation</h3>
+                    <p class="text-xs text-gray-500 mt-0.5 font-geist">Real-time processing</p>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-500 group-hover:scale-110 transition-transform duration-300">
+                    <iconify-icon icon="solar:soundwave-linear" class="text-xl" stroke-width="1.5"></iconify-icon>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900 font-geist">Vocal Replication</h3>
+                    <p class="text-xs text-gray-500 mt-0.5 font-geist">Pixel-perfect accuracy</p>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-500 group-hover:scale-110 transition-transform duration-300">
+                    <iconify-icon icon="solar:shield-check-linear" class="text-xl" stroke-width="1.5"></iconify-icon>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900 font-geist">Commercial-Grade</h3>
+                    <p class="text-xs text-gray-500 mt-0.5 font-geist">Unmatched stability</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts for WebGL and Animations -->
+    <script>
+        // --- WebGL Background Animation ---
+        const canvas = document.getElementById('webgl-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const geometry = new THREE.PlaneGeometry(2, 2);
+
+        // Custom Shader to generate a highly active, flowing indigo/cyan gradient
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                u_time: { value: 0.0 },
+                u_resolution: { value: new THREE.Vector2() }
+            },
+            vertexShader: `
+                void main() {
+                    gl_Position = vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform float u_time;
+                uniform vec2 u_resolution;
+
+                // Simple 2D noise implementation
+                vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+                float snoise(vec2 v){
+                    const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+                    vec2 i  = floor(v + dot(v, C.yy) );
+                    vec2 x0 = v -   i + dot(i, C.xx);
+                    vec2 i1; i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                    vec4 x12 = x0.xyxy + C.xxzz; x12.xy -= i1;
+                    i = mod(i, 289.0);
+                    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+                    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+                    m = m*m ; m = m*m ;
+                    vec3 x = 2.0 * fract(p * C.www) - 1.0; vec3 h = abs(x) - 0.5;
+                    vec3 ox = floor(x + 0.5); vec3 a0 = x - ox;
+                    m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+                    vec3 g; g.x  = a0.x  * x0.x  + h.x  * x0.y;
+                    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+                    return 130.0 * dot(m, g);
+                }
+
+                void main() {
+                    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+
+                    // Generate faster flowing noise for a pronounced animated effect
+                    float n = snoise(uv * 2.5 + vec2(u_time * 0.4, u_time * 0.5));
+                    float n2 = snoise(uv * 1.5 - vec2(u_time * 0.3, u_time * 0.2));
+
+                    // Brand colors for the remix
+                    vec3 colorIndigo = vec3(0.31, 0.27, 0.90);  // Core intense indigo
+                    vec3 colorCyan = vec3(0.02, 0.71, 0.83);    // Bright cyan accent
+                    vec3 colorDeep = vec3(0.15, 0.1, 0.5);      // Deep blending base
+
+                    // Mix based on layered noise for an active "plasma" feel
+                    float mixVal = smoothstep(-0.6, 0.8, n);
+                    vec3 finalColor = mix(colorDeep, colorIndigo, mixVal);
+
+                    float mixVal2 = smoothstep(-0.4, 0.9, n2);
+                    finalColor = mix(finalColor, colorCyan, mixVal2 * 0.8);
+
+                    // Fade intensity slightly towards the left side
+                    float alphaFade = smoothstep(-0.2, 0.6, uv.x);
+
+                    gl_FragColor = vec4(finalColor, alphaFade);
+                }
+            `
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        function resizeCanvas() {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function animateWebGL(time) {
+            // Speed multiplier increased to make the background visibly animated
+            material.uniforms.u_time.value = time * 0.002;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animateWebGL);
+        }
+        requestAnimationFrame(animateWebGL);
+
+
+        // --- Entrance Animations Setup ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.anim-element');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (index * 120)); // Stagger delay
+            });
+        });
+    </script>
+
+</body></html>

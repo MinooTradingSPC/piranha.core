@@ -8,6 +8,7 @@
  *
  */
 
+using System.ComponentModel.DataAnnotations;
 using Piranha.Models;
 
 namespace Piranha.Runtime;
@@ -33,6 +34,44 @@ public class MediaManager
         /// If image processing should be applied to this media type.
         /// </summary>
         public bool AllowProcessing { get; set; }
+
+        /// <summary>
+        /// Gets/sets an optional check of the uploaded content, for example
+        /// for magic bytes or the internal structure of PDF and Office files.
+        /// The delegate receives a seekable stream positioned at the start and
+        /// returns false to reject the upload. It must not dispose the stream.
+        /// No check runs when this is null.
+        /// </summary>
+        public Func<Stream, bool> ContentValidator { get; set; }
+
+        /// <summary>
+        /// Runs the content validator, if any, against the given content and
+        /// restores the stream position afterwards.
+        /// </summary>
+        /// <param name="content">The uploaded content</param>
+        /// <exception cref="ValidationException">If the validator rejects the content</exception>
+        internal async Task ValidateContent(MediaContent content)
+        {
+            if (ContentValidator == null)
+            {
+                return;
+            }
+
+            var stream = await content.GetStream().ConfigureAwait(false);
+
+            if (stream is not null)
+            {
+                var start = stream.Position;
+                stream.Position = 0;
+                var valid = ContentValidator(stream);
+                stream.Position = start;
+
+                if (!valid)
+                {
+                    throw new ValidationException("File content does not match the file type.");
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -57,13 +96,15 @@ public class MediaManager
         /// <param name="extension">The file extension</param>
         /// <param name="contentType">The content type</param>
         /// <param name="allowProcessing">If image processing should be allowed</param>
-        public void Add(string extension, string contentType, bool? allowProcessing = null)
+        /// <param name="contentValidator">Optional check of the uploaded content, returns false to reject it</param>
+        public void Add(string extension, string contentType, bool? allowProcessing = null, Func<Stream, bool> contentValidator = null)
         {
             Add(new MediaTypeItem
             {
                 Extension = extension.ToLower(),
                 ContentType = contentType,
-                AllowProcessing = allowProcessing.HasValue ? allowProcessing.Value : _allowProcessing
+                AllowProcessing = allowProcessing.HasValue ? allowProcessing.Value : _allowProcessing,
+                ContentValidator = contentValidator
             });
         }
 
@@ -118,10 +159,10 @@ public class MediaManager
         var extension = Path.GetExtension(filename);
 
         return Documents.ContainsExtension(extension) ||
-            Images.ContainsExtension(extension) ||
-            Videos.ContainsExtension(extension) ||
-            Audio.ContainsExtension(extension) ||
-            Resources.ContainsExtension(extension);
+               Images.ContainsExtension(extension) ||
+               Videos.ContainsExtension(extension) ||
+               Audio.ContainsExtension(extension) ||
+               Resources.ContainsExtension(extension);
     }
 
     /// <summary>
@@ -143,14 +184,17 @@ public class MediaManager
         {
             return MediaType.Image;
         }
+
         if (Videos.ContainsExtension(extension))
         {
             return MediaType.Video;
         }
+
         if (Audio.ContainsExtension(extension))
         {
             return MediaType.Audio;
         }
+
         if (Resources.ContainsExtension(extension))
         {
             return MediaType.Resource;
@@ -179,14 +223,17 @@ public class MediaManager
         {
             return item.ContentType;
         }
+
         if ((item = Videos.SingleOrDefault(t => t.Extension == extension)) != null)
         {
             return item.ContentType;
         }
+
         if ((item = Audio.SingleOrDefault(t => t.Extension == extension)) != null)
         {
             return item.ContentType;
         }
+
         if ((item = Resources.SingleOrDefault(t => t.Extension == extension)) != null)
         {
             return item.ContentType;
@@ -214,14 +261,17 @@ public class MediaManager
         {
             return item;
         }
+
         if ((item = Videos.SingleOrDefault(t => t.Extension == extension)) != null)
         {
             return item;
         }
+
         if ((item = Audio.SingleOrDefault(t => t.Extension == extension)) != null)
         {
             return item;
         }
+
         if ((item = Resources.SingleOrDefault(t => t.Extension == extension)) != null)
         {
             return item;

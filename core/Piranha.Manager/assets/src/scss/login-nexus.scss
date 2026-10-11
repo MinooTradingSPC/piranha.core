@@ -1,0 +1,892 @@
+// "Nexus" design of the manager login page, after the "Nexus Core -
+// Autonomous Systems" reference in
+// .claude/designs/manager/nexus-core-autonomous-systems: one bounded
+// near-black frame (#0A0A0A, 20px radius, 10 percent white border) on a
+// #050505 field lit by a faint cyan glow from the top. A header row holds the
+// brand and version, a split hero puts the form in the copy column (status
+// pill, light uppercase display heading, muted lead) and the brand in the
+// graphic column, where login-nexus.js draws the reference's isometric
+// platform with its pulsing cyan core, turning wire rings and floating
+// nodes. The site name sits in the floating "Logic Core" label above it.
+// The credit line closes the frame as the reference's stats strip does. It
+// styles the markup in Login.cshtml and is the only style sheet the page
+// loads, so it carries its own fonts and icons.
+//
+// Palette and type come from the reference: cyan (#00E5FF) as the only
+// accent, near-black surfaces, hairline white borders, 4px radii on
+// controls and 2px on the floating label, Bricolage Grotesque light
+// uppercase for the heading, the system sans stack for body copy and the
+// system mono stack (SFMono-Regular and friends) for labels and buttons.
+// Black on #00E5FF is 13.6:1, so the primary button keeps the reference
+// fill and label. The reference's 40 percent white meta text fails AA on
+// #0A0A0A, so it's raised to 60 percent (5.9:1), and form fields get a
+// 36 percent white border (3.3:1) instead of the 10 percent hairline. The
+// source is dark only, so this design doesn't follow the browser's light
+// mode. Without the script (or without canvas support) the graphic column
+// shows a still isometric grid with a cyan glow.
+
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+
+// Bricolage Grotesque (SIL Open Font License, see
+// webfonts/BricolageGrotesque-OFL.txt)
+@font-face {
+    font-family: "Bricolage Grotesque";
+    font-style: normal;
+    font-weight: 200 800;
+    font-display: swap;
+    src: url(../webfonts/BricolageGrotesque-Variable.woff2) format("woff2");
+}
+
+@keyframes nexus-rise {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 12px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes nexus-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .4;
+    }
+}
+
+@keyframes nexus-shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+html.login-page {
+    --nx-page: #050505;
+    --nx-frame: #0a0a0a;
+    --nx-stage: #060606;
+    --nx-text: #fff;
+    --nx-body: #d4d4d4;
+    --nx-muted: #a3a3a3;
+    --nx-meta: #9d9d9d;
+    --nx-line: rgba(255, 255, 255, .1);
+    --nx-line-soft: rgba(255, 255, 255, .05);
+    --nx-line-strong: rgba(255, 255, 255, .2);
+    --nx-field: #060606;
+    --nx-field-line: rgba(255, 255, 255, .36);
+    --nx-cyan: #00e5ff;
+    --nx-cyan-hover: #00cce5;
+    --nx-cyan-soft: rgba(0, 229, 255, .45);
+    --nx-on-cyan: #000;
+    --nx-error: #ff8a95;
+    --nx-error-bg: rgba(255, 77, 94, .08);
+    --nx-error-line: rgba(255, 77, 94, .4);
+    --nx-radius: 4px;
+    --nx-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --nx-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --nx-display: "Bricolage Grotesque", var(--nx-sans);
+    --nx-ease: cubic-bezier(.4, 0, .2, 1);
+
+    min-width: 0;
+    color-scheme: dark;
+    background: var(--nx-page);
+}
+
+#login {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    overflow-x: hidden;
+    color: var(--nx-body);
+    font: 400 14px/1.625 var(--nx-sans);
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--nx-page);
+    background-image: radial-gradient(circle at 50% 0%, rgba(0, 229, 255, .08) 0%, transparent 70%);
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    p, h1, h2 {
+        margin: 0;
+    }
+
+    input, button {
+        font: inherit;
+    }
+
+    .fas {
+        line-height: 1;
+    }
+
+    ::selection {
+        background: rgba(0, 229, 255, .3);
+        color: #fff;
+    }
+
+    .pre-release {
+        position: fixed;
+        top: 12px;
+        left: 50%;
+        z-index: 3;
+        transform: translateX(-50%);
+        padding: 4px 12px;
+        border: 1px solid var(--nx-cyan-soft);
+        border-radius: 9999px;
+        background: rgba(0, 0, 0, .8);
+        color: var(--nx-cyan);
+        font: 600 10px/1.6 var(--nx-mono);
+        letter-spacing: .1em;
+        text-transform: uppercase;
+    }
+
+    // The bounded frame.
+    .login-shell {
+        position: relative;
+        z-index: 1;
+        min-width: 0;
+        width: 100%;
+        max-width: 1280px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: var(--nx-frame);
+        border: 1px solid var(--nx-line);
+        border-radius: 20px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .25);
+        animation: nexus-rise .6s var(--nx-ease) both;
+    }
+
+    // Header row.
+    .login-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 20px 32px;
+        border-bottom: 1px solid var(--nx-line-soft);
+    }
+
+    .login-brandmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+        color: var(--nx-text);
+        font: 600 12px/16px var(--nx-mono);
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        overflow-wrap: anywhere;
+
+        img.logo {
+            flex: none;
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+    }
+
+    // The version, as the reference's outlined header control.
+    .login-topbar .login-status {
+        flex: none;
+        margin: 0;
+        padding: 8px 16px;
+        border: 1px solid var(--nx-line-strong);
+        border-radius: var(--nx-radius);
+        color: var(--nx-body);
+        font: 400 12px/16px var(--nx-mono);
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    // The split hero.
+    .login-main {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid var(--nx-line-soft);
+    }
+
+    // Copy column: the form.
+    .login-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 32px;
+    }
+
+    .login-panel-inner {
+        width: 100%;
+        max-width: 440px;
+    }
+
+    .login-panel.has-error .login-panel-inner {
+        animation: nexus-shake .6s ease-in-out both;
+    }
+
+    // The site name, as the reference's "Network Secure" status pill.
+    .login-panel-inner > .login-label:first-child {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        max-width: 100%;
+        margin: 0 0 32px;
+        padding: 4px 12px;
+        border: 1px solid var(--nx-line);
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, .05);
+        color: var(--nx-muted);
+        font-size: 10px;
+        line-height: 16px;
+        letter-spacing: .1em;
+
+        &::before {
+            content: "";
+            flex: none;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--nx-cyan);
+            box-shadow: 0 0 8px var(--nx-cyan);
+        }
+    }
+
+    .login-heading {
+        margin: 0 0 24px;
+        color: var(--nx-text);
+        font-family: var(--nx-display);
+        font-size: 36px;
+        font-weight: 300;
+        line-height: 1.1;
+        letter-spacing: -.05em;
+        text-transform: uppercase;
+        overflow-wrap: anywhere;
+    }
+
+    .login-subheading {
+        max-width: 400px;
+        margin: 0 0 40px;
+        color: var(--nx-meta);
+        font-size: 14px;
+        line-height: 1.625;
+    }
+
+    // The reference's label-md: mono, semibold, uppercase, tracked.
+    .login-label {
+        display: block;
+        margin: 0 0 8px;
+        color: var(--nx-muted);
+        font: 600 12px/16px var(--nx-mono);
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .login-field {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 12px 14px;
+        background: var(--nx-field);
+        color: var(--nx-text);
+        border: 1px solid var(--nx-field-line);
+        border-radius: var(--nx-radius);
+        font-size: 14px;
+        line-height: 1.5;
+        outline: 0;
+        transition: border-color .15s var(--nx-ease), box-shadow .15s var(--nx-ease);
+
+        &::placeholder {
+            color: #8a8a8a;
+            opacity: 1;
+        }
+
+        &:hover {
+            border-color: rgba(255, 255, 255, .5);
+        }
+
+        &:focus {
+            border-color: var(--nx-cyan);
+            box-shadow: 0 0 0 1px var(--nx-cyan), 0 0 8px var(--nx-cyan);
+        }
+
+        // Keep autofilled fields (the remembered username, saved
+        // passwords) on the dark field.
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus {
+            -webkit-text-fill-color: var(--nx-text);
+            caret-color: var(--nx-text);
+            -webkit-box-shadow: 0 0 0 1000px var(--nx-field) inset;
+            transition: background-color 9999s ease-out 0s;
+        }
+
+        &:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px var(--nx-field) inset, 0 0 0 1px var(--nx-cyan), 0 0 8px var(--nx-cyan);
+        }
+    }
+
+    .was-validated .form-control:invalid {
+        border-color: var(--nx-error-line);
+
+        &:focus {
+            border-color: var(--nx-error);
+            box-shadow: 0 0 0 1px var(--nx-error), 0 0 8px rgba(255, 77, 94, .5);
+        }
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 28px;
+        color: var(--nx-muted);
+        font-size: 13px;
+
+        .form-check-input {
+            flex: none;
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--nx-cyan);
+            cursor: pointer;
+
+            &:focus-visible {
+                outline: 2px solid var(--nx-cyan);
+                outline-offset: 2px;
+            }
+        }
+
+        .form-check-input:checked + .form-check-label {
+            color: var(--nx-text);
+        }
+
+        .form-check-label {
+            cursor: pointer;
+        }
+    }
+
+    // Primary action: the reference's cyan button.
+    .btn-login {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 24px;
+        background: var(--nx-cyan);
+        color: var(--nx-on-cyan);
+        border: 0;
+        border-radius: var(--nx-radius);
+        font: 600 12px/16px var(--nx-mono);
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-color .15s var(--nx-ease), box-shadow .15s var(--nx-ease);
+
+        i {
+            font-size: 13px;
+        }
+
+        &:hover {
+            background: var(--nx-cyan-hover);
+            box-shadow: 0 0 8px var(--nx-cyan-soft);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--nx-cyan);
+            outline-offset: 3px;
+        }
+
+        &:disabled,
+        &[aria-disabled="true"],
+        &[aria-busy="true"] {
+            background: #3d4c4f;
+            color: #d4d4d4;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        &[aria-busy="true"] {
+            cursor: progress;
+        }
+    }
+
+    .error-message {
+        margin: 0 0 20px;
+        padding: 10px 14px;
+        background: var(--nx-error-bg);
+        color: var(--nx-error);
+        border: 1px solid var(--nx-error-line);
+        border-left: 2px solid var(--nx-error);
+        border-radius: var(--nx-radius);
+        font-size: 13px;
+        white-space: pre-line;
+    }
+
+    #passkey-login-error {
+        margin: 16px 0 0;
+    }
+
+    .login-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 28px 0 16px;
+
+        &::before,
+        &::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--nx-line);
+        }
+
+        .login-label {
+            margin: 0;
+            color: var(--nx-meta);
+            font-size: 10px;
+            letter-spacing: .1em;
+        }
+    }
+
+    .login-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    // Secondary actions: the reference's hairline ghost buttons.
+    .login-method {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 13px 20px;
+        border: 1px solid var(--nx-line-strong);
+        border-radius: var(--nx-radius);
+        color: var(--nx-text);
+        font: 400 12px/16px var(--nx-mono);
+        letter-spacing: .1em;
+        text-align: center;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: border-color .15s var(--nx-ease), color .15s var(--nx-ease), background-color .15s var(--nx-ease);
+
+        i {
+            flex: none;
+            color: var(--nx-muted);
+            font-size: 14px;
+            transition: color .15s var(--nx-ease);
+        }
+
+        &:hover {
+            border-color: var(--nx-cyan);
+            background: rgba(255, 255, 255, .03);
+            color: var(--nx-cyan);
+
+            i {
+                color: var(--nx-cyan);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--nx-cyan);
+            outline-offset: 2px;
+        }
+    }
+
+    // The authenticator and email code forms, as the reference's floating
+    // glass label: a cyan top edge on a blurred black panel. The sign-in
+    // script shows them with display: block, so the spacing comes from
+    // margins.
+    .login-subform {
+        margin: 0 0 4px;
+        padding: 16px;
+        border: 1px solid var(--nx-line-strong);
+        border-top-color: var(--nx-cyan);
+        border-radius: 2px;
+        background: rgba(0, 0, 0, .5);
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+
+        > * + * {
+            margin-top: 12px;
+        }
+
+        .login-label {
+            margin-bottom: 0;
+            color: var(--nx-cyan);
+        }
+
+        .form-control {
+            margin-top: 8px;
+        }
+    }
+
+    .login-note {
+        color: var(--nx-muted);
+        font-size: 13px;
+    }
+
+    .login-code {
+        font-family: var(--nx-mono);
+        font-size: 18px;
+        letter-spacing: .5em;
+        text-align: center;
+    }
+
+    // The reference's "Integrated with networks" row.
+    .login-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px 24px;
+        width: 100%;
+        max-width: 440px;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--nx-line-soft);
+
+        .login-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            color: var(--nx-meta);
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: .1em;
+        }
+
+        i {
+            color: var(--nx-cyan);
+        }
+    }
+
+    // Graphic column: the scene with the brand as floating labels.
+    // It follows the form on small screens too.
+    .login-brand {
+        position: relative;
+        order: 2;
+        min-height: 400px;
+        overflow: hidden;
+        background-color: var(--nx-stage);
+        // Still fallback until (or unless) the script draws the scene: an
+        // isometric floor grid fading out from a cyan core glow.
+        background-image:
+            radial-gradient(circle at 50% 58%, rgba(0, 229, 255, .22), rgba(0, 229, 255, .05) 18%, transparent 42%),
+            radial-gradient(ellipse at 50% 60%, transparent 30%, var(--nx-stage) 72%),
+            repeating-linear-gradient(30deg, transparent 0 27px, rgba(255, 255, 255, .06) 27px 28px),
+            repeating-linear-gradient(-30deg, transparent 0 27px, rgba(255, 255, 255, .06) 27px 28px);
+        border-bottom: 1px solid var(--nx-line-soft);
+
+        &.has-scene {
+            background-image: none;
+        }
+    }
+
+    .nexus-scene {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity .8s var(--nx-ease);
+
+        &.is-ready {
+            opacity: 1;
+        }
+    }
+
+    .login-brand-body {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+
+        // The reference's "Synced" status dot.
+        &::after {
+            content: "";
+            position: absolute;
+            top: 37px;
+            right: 32px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--nx-cyan);
+            box-shadow: 0 0 8px var(--nx-cyan);
+            animation: nexus-pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+        }
+
+        // "// Neural Net Grid"
+        > .login-label {
+            position: absolute;
+            top: 32px;
+            left: 32px;
+            right: 56px;
+            margin: 0;
+            color: var(--nx-meta);
+            font-size: 10px;
+            letter-spacing: .1em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &::before {
+                content: "// ";
+            }
+        }
+    }
+
+    // The floating "Logic Core" label with its connecting line.
+    .login-display {
+        position: absolute;
+        top: max(72px, calc(50% - 340px));
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: calc(100% - 64px);
+        padding: 8px 16px;
+        border: 1px solid var(--nx-line-strong);
+        border-top-color: var(--nx-cyan);
+        border-radius: 2px;
+        background: rgba(0, 0, 0, .5);
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+        font-family: var(--nx-mono);
+        font-weight: 400;
+        text-align: center;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            width: 1px;
+            height: 64px;
+            margin-top: 1px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, .2), transparent);
+        }
+
+        .line {
+            display: block;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .line:first-child {
+            color: var(--nx-cyan);
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        .line + .line {
+            margin-top: 4px;
+            color: var(--nx-muted);
+            font-size: 10px;
+            line-height: 14px;
+        }
+    }
+
+    .login-lead {
+        position: absolute;
+        left: 32px;
+        right: 32px;
+        bottom: 28px;
+        max-width: 400px;
+        color: var(--nx-meta);
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    // The closing strip, as the reference's stats row.
+    .login-credit {
+        margin: 0;
+        padding: 24px 32px;
+        color: var(--nx-meta);
+        font: 400 10px/1.6 var(--nx-mono);
+        letter-spacing: .1em;
+        text-align: center;
+        text-transform: uppercase;
+
+        a {
+            color: var(--nx-meta);
+            text-decoration: none;
+            transition: color .15s var(--nx-ease);
+
+            &:hover {
+                color: var(--nx-cyan);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--nx-cyan);
+                outline-offset: 2px;
+                border-radius: 2px;
+            }
+        }
+    }
+
+    // Side by side from the reference's lg breakpoint.
+    @media (min-width: 992px) {
+        .login-main {
+            flex-direction: row;
+        }
+
+        .login-panel {
+            width: 50%;
+            padding: 56px;
+            border-right: 1px solid var(--nx-line-soft);
+        }
+
+        .login-brand {
+            width: 50%;
+            min-height: 0;
+            border-bottom: 0;
+        }
+
+        .login-heading {
+            font-size: 52px;
+        }
+    }
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .login-heading {
+            font-size: 44px;
+        }
+
+        .login-brand {
+            min-height: 480px;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .login-main {
+            border-bottom: 0;
+        }
+
+        .login-brand {
+            border-top: 1px solid var(--nx-line-soft);
+        }
+
+        .login-panel-inner,
+        .login-footer {
+            max-width: none;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        padding: 16px;
+
+        .login-shell {
+            border-radius: 12px;
+        }
+
+        .login-topbar {
+            padding: 16px 20px;
+        }
+
+        .login-topbar .login-status {
+            padding: 6px 10px;
+            font-size: 10px;
+        }
+
+        .login-panel {
+            padding: 28px 20px;
+        }
+
+        .login-panel-inner > .login-label:first-child {
+            margin-bottom: 24px;
+        }
+
+        .login-subheading {
+            margin-bottom: 32px;
+        }
+
+        .login-brand {
+            min-height: 380px;
+        }
+
+        .login-brand-body > .login-label {
+            top: 20px;
+            left: 20px;
+        }
+
+        .login-brand-body::after {
+            top: 25px;
+            right: 20px;
+        }
+
+        .login-display {
+            top: 52px;
+            max-width: calc(100% - 40px);
+
+            &::after {
+                height: 24px;
+            }
+        }
+
+        .login-lead {
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+        }
+
+        .login-credit {
+            padding: 20px;
+        }
+    }
+
+    @media (max-width: 359.98px) {
+        padding: 8px;
+
+        .login-topbar {
+            flex-wrap: wrap;
+        }
+
+        .login-heading {
+            font-size: 30px;
+        }
+
+        .login-code {
+            letter-spacing: .3em;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .login-shell,
+        .login-panel.has-error .login-panel-inner,
+        .login-brand-body::after {
+            animation: none;
+        }
+
+        .nexus-scene {
+            transition: none;
+        }
+    }
+}

@@ -1,5 +1,5 @@
 <template>
-    <div class="field html-field" :class="{ empty: isEmpty }">
+    <div class="field htms-field" :class="{ empty: isEmpty }">
         <div contenteditable="true" :id="uid" v-html="body" v-on:blur="onBlur"></div>
     </div>
 </template>
@@ -9,7 +9,7 @@ export default {
     props: ["uid", "toolbar", "model", "meta"],
     data: function () {
         return {
-            body: this.model.value
+            body: DOMPurify.sanitize(this.model.value || '', {USE_PROFILES: {html: true}})
         };
     },
     methods: {

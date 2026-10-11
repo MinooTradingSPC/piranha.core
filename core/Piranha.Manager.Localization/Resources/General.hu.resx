@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Username and/or password are incorrect.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>A Piranha CMS biztonsági szempontból megerősített forkja. Készítette: {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Hitelesítő kód</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Tartalomkezelő</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Bejelentkezési kód küldése e-mailben</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Ha ehhez az e-mail-címhez tartozik fiók, elküldtük rá a kódot. Nézze meg a beérkezett üzeneteit.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Kezelje webhelye oldalait, bejegyzéseit és médiatartalmait.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Kezelőfelület</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Vagy</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Felhasználónév megjegyzése</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Biztonságos bejelentkezés</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Biztonságos, jelszó nélküli bejelentkezés</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Bejelentkezés azonosítókulccsal</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Bejelentkezés hitelesítő alkalmazás kódjával</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>A folytatáshoz jelentkezzen be felhasználónevével vagy e-mail-címével.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Bejelentkezési kód</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Előzetes kiadás</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Ez a böngésző nem támogatja az azonosítókulcsokat.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Előbb adja meg fent a felhasználónevét vagy e-mail-címét, majd kattintson újra a(z) „Bejelentkezés azonosítókulccsal” lehetőségre.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Ehhez a fiókhoz nincs regisztrálva azonosítókulcs. Kérjük, jelentkezzen be jelszavával.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>A megadott kód helytelen vagy lejárt.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Az azonosítókulcsos bejelentkezést nem sikerült befejezni. Kérjük, próbálkozzon a jelszavával.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Előbb adja meg fent a felhasználónevét vagy e-mail-címét, majd kattintson újra a(z) „Bejelentkezés hitelesítő alkalmazás kódjával” lehetőségre.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Ehhez a fiókhoz nincs regisztrálva hitelesítő alkalmazás. Kérjük, jelentkezzen be jelszavával.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>A hitelesítő alkalmazásos bejelentkezést nem sikerült befejezni. Kérjük, próbálkozzon a jelszavával.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Előbb adja meg fent a felhasználónevét vagy e-mail-címét, majd kattintson újra a(z) „Bejelentkezési kód küldése e-mailben” lehetőségre.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>A bejelentkezési kódot nem sikerült elküldeni. Kérjük, próbálkozzon a jelszavával.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>A bejelentkezést nem sikerült befejezni. Kérjük, próbálkozzon a jelszavával.</value>
+  </data>
 </root>

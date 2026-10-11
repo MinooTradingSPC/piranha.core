@@ -1,0 +1,841 @@
+// "Lumina" design of the manager login page, after the "Lumina Brand
+// Guidelines" reference in .claude/designs/manager/lumina-brand-guidelines:
+// a brand board of two near-black cards (#11151D) side by side on a darker
+// page (#080B10), each framed by a 1px white gradient border that fades from
+// the top left. The brand card at the left is the reference's cover: a
+// WebGL field of drifting slate-blue noise with peach contour lines
+// (login-lumina.js draws it), the four-point Lumina star at the top and a
+// large Inter heading between white/10 hairlines, revealed word by word. The
+// form card at the right follows the reference's section cards: a heading in
+// slate brackets, mono labels, 8px controls and a numbered footer strip. It
+// styles the markup in Login.cshtml and is the only style sheet the page
+// loads, so it carries its own fonts and icons.
+//
+// Palette and type come from the reference: peach primary (#FDBA74, hover
+// #FB923C), slate accent (#475569), surface #11151D with inner fields in
+// #161B26, white headings, slate-200 body text, Inter for display and body,
+// JetBrains Mono for labels and metadata, 16px cards and 8px controls. Without
+// WebGL the brand card falls back to CSS gradients in the shader's colours.
+// The source is dark only, so this design doesn't follow the browser's light
+// mode.
+//
+// Contrast: white on peach fails (1.6:1), so the button carries slate #0F172A
+// text (10.6:1, 7.9:1 on the hover), as the reference's peach logo tile does.
+// The reference's slate-500 (#64748B) fails for small text on #11151D
+// (3.8:1), so labels and metadata use slate-400 (#94A3B8, 7.1:1) and
+// slate-500 is kept for the brackets and the star. Field borders are #5B6B82
+// (3.2:1 on #161B26) where the reference's white/10 hairline would be too faint
+// for a control.
+
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+
+// Inter and JetBrains Mono (SIL Open Font License, see
+// webfonts/Inter-OFL.txt and webfonts/JetBrainsMono-OFL.txt)
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(../webfonts/Inter-Variable.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url(../webfonts/JetBrainsMono-Variable.woff2) format("woff2");
+}
+
+@keyframes lumina-rise {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 16px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+// The reference's masked reveal: each line slides up out of its own clip.
+@keyframes lumina-reveal {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 110%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes lumina-shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+// The four-point Lumina star: a square with a quarter circle cut from each
+// corner, which is what the reference's SVG path draws.
+@mixin lumina-star($color) {
+    /*rtl:ignore*/
+    background:
+        radial-gradient(circle farthest-side at 0 0, transparent 98%, $color 100%) left top / 50% 50% no-repeat,
+        radial-gradient(circle farthest-side at 100% 0, transparent 98%, $color 100%) right top / 50% 50% no-repeat,
+        radial-gradient(circle farthest-side at 0 100%, transparent 98%, $color 100%) left bottom / 50% 50% no-repeat,
+        radial-gradient(circle farthest-side at 100% 100%, transparent 98%, $color 100%) right bottom / 50% 50% no-repeat;
+}
+
+// A card with the reference's gradient hairline frame.
+@mixin lumina-card {
+    border: 1px solid transparent;
+    border-radius: 16px;
+    background:
+        linear-gradient(var(--lumina-surface), var(--lumina-surface)) padding-box,
+        linear-gradient(135deg, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, .02) 100%) border-box;
+}
+
+html.login-page {
+    --lumina-page: #080b10;
+    --lumina-surface: #11151d;
+    --lumina-panel: #161b26;
+    --lumina-white: #fff;
+    --lumina-text: #e2e8f0;
+    --lumina-muted: #94a3b8;
+    --lumina-dim: #64748b;
+    --lumina-line: rgba(255, 255, 255, .1);
+    --lumina-line-soft: rgba(255, 255, 255, .05);
+    --lumina-control: #5b6b82;
+    --lumina-peach: #fdba74;
+    --lumina-peach-hover: #fb923c;
+    --lumina-peach-active: #f97316;
+    --lumina-on-peach: #0f172a;
+    --lumina-focus: rgba(253, 186, 116, .4);
+    --lumina-error: #fca5a5;
+    --lumina-error-bg: rgba(239, 68, 68, .1);
+    --lumina-error-stroke: rgba(248, 113, 113, .35);
+    --lumina-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --lumina-ease: cubic-bezier(.22, 1, .36, 1);
+
+    min-width: 0;
+    color-scheme: dark;
+    background: var(--lumina-page);
+}
+
+#login {
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    color: var(--lumina-text);
+    font: 400 15px/1.6 "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--lumina-page);
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    ::selection {
+        background: rgba(99, 102, 241, .3);
+        color: var(--lumina-white);
+    }
+
+    .fas {
+        line-height: 1;
+    }
+
+    .pre-release {
+        position: relative;
+        z-index: 2;
+        padding: 6px;
+        background: var(--lumina-peach);
+        color: var(--lumina-on-peach);
+        font: 600 11px/1.4 var(--lumina-mono);
+        letter-spacing: .12em;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .login-shell {
+        width: 100%;
+        max-width: 1600px;
+        min-height: 100vh;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding: 32px 48px;
+
+        > * {
+            animation: lumina-rise 1s var(--lumina-ease) both;
+        }
+
+        > .login-main {
+            animation-delay: .1s;
+        }
+
+        > .login-credit {
+            animation-delay: .25s;
+        }
+    }
+
+    // Header: the site at the left, the version at the right, as the rows
+    // that open the reference's cards.
+    .login-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 0 4px;
+    }
+
+    .login-brandmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        color: var(--lumina-white);
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: .025em;
+
+        img.logo {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+    }
+
+    .login-topbar .login-status {
+        margin: 0;
+        color: var(--lumina-muted);
+        white-space: nowrap;
+    }
+
+    // The board: two equal cards side by side.
+    .login-main {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        align-items: stretch;
+    }
+
+    // Mono eyebrow for labels and technical metadata.
+    .login-label {
+        display: block;
+        margin: 0 0 8px;
+        color: var(--lumina-muted);
+        font: 600 11px/1.4 var(--lumina-mono);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+
+    //
+    // Brand card: the reference's cover.
+    //
+    .login-brand {
+        @include lumina-card;
+        position: relative;
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 48px;
+        overflow: hidden;
+        isolation: isolate;
+
+        // Shown until the WebGL canvas is ready, and when there's no WebGL:
+        // the shader's slate haze and a peach glow, faded at the edges.
+        background:
+            radial-gradient(ellipse 45% 35% at 62% 42%, rgba(204, 128, 102, .22), transparent 70%) padding-box,
+            radial-gradient(ellipse 70% 60% at 40% 55%, rgba(51, 77, 128, .45), transparent 75%) padding-box,
+            linear-gradient(var(--lumina-surface), var(--lumina-surface)) padding-box,
+            linear-gradient(135deg, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, .02) 100%) border-box;
+
+        // The star at the top of the card.
+        &::before {
+            content: "";
+            position: relative;
+            z-index: 1;
+            flex: none;
+            width: 32px;
+            height: 32px;
+            @include lumina-star(var(--lumina-white));
+        }
+    }
+
+    #login-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 15px;
+        opacity: 0;
+        mix-blend-mode: screen;
+        pointer-events: none;
+        transition: opacity .8s var(--lumina-ease);
+
+        &.is-ready {
+            opacity: .8;
+        }
+    }
+
+    .login-brand-body {
+        position: relative;
+        z-index: 1;
+        margin-top: auto;
+        width: 100%;
+
+        // The row above the heading: star and name at the left, the card
+        // number at the right.
+        > .login-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--lumina-line);
+            color: var(--lumina-white);
+            font: 500 14px/1.4 "Inter", system-ui, sans-serif;
+            letter-spacing: .025em;
+            text-transform: none;
+
+            &::before {
+                content: "";
+                flex: none;
+                width: 16px;
+                height: 16px;
+                @include lumina-star(var(--lumina-white));
+            }
+
+            &::after {
+                content: "01";
+                margin-left: auto;
+                color: var(--lumina-muted);
+                letter-spacing: .1em;
+            }
+        }
+    }
+
+    .login-display {
+        margin: 0;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--lumina-line);
+        color: var(--lumina-white);
+        font-size: clamp(40px, 5.6vw, 96px);
+        font-weight: 500;
+        line-height: .95;
+        letter-spacing: -.035em;
+        overflow-wrap: anywhere;
+
+        .line {
+            display: block;
+            overflow: hidden;
+            padding: .1em .2em 0 0;
+
+            > span {
+                display: inline-block;
+                animation: lumina-reveal .8s cubic-bezier(.215, .61, .355, 1) both;
+                animation-delay: .35s;
+            }
+
+            + .line > span {
+                animation-delay: .45s;
+            }
+        }
+    }
+
+    .login-lead {
+        max-width: 32rem;
+        margin: 20px 0 0;
+        color: var(--lumina-muted);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.65;
+    }
+
+    //
+    // Form card: the reference's section cards.
+    //
+    .login-panel {
+        @include lumina-card;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        padding: 40px;
+
+        &.has-error {
+            animation: lumina-shake .6s ease-in-out both;
+        }
+    }
+
+    .login-panel-inner {
+        width: 100%;
+        max-width: 26rem;
+        margin: auto;
+    }
+
+    .login-panel-inner > .login-label:first-child {
+        margin-bottom: 16px;
+    }
+
+    // The heading in the slate brackets of the reference's "[ Inter ]".
+    .login-heading {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 0 0 12px;
+        color: var(--lumina-white);
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: -.025em;
+
+        &::before,
+        &::after {
+            flex: none;
+            color: var(--lumina-dim);
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 0;
+        }
+
+        &::before {
+            content: "[";
+            content: #{'"[" / ""'};
+        }
+
+        &::after {
+            content: "]";
+            content: #{'"]" / ""'};
+        }
+    }
+
+    .login-subheading {
+        margin: 0 0 32px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--lumina-line);
+        color: var(--lumina-muted);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.65;
+    }
+
+    .login-field {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 14px;
+        background: var(--lumina-panel);
+        color: var(--lumina-white);
+        border: 1px solid var(--lumina-control);
+        border-radius: 8px;
+        font: inherit;
+        font-size: 15px;
+        transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+
+        &::placeholder {
+            color: var(--lumina-muted);
+            opacity: .8;
+        }
+
+        &:hover {
+            border-color: #6b7b93;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--lumina-peach);
+            box-shadow: 0 0 0 3px var(--lumina-focus);
+        }
+
+        // A remembered or browser-filled username keeps the card's colours.
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus {
+            -webkit-text-fill-color: var(--lumina-white);
+            -webkit-box-shadow: 0 0 0 1000px var(--lumina-panel) inset;
+            caret-color: var(--lumina-white);
+        }
+
+        &:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+    }
+
+    .was-validated .form-control:invalid {
+        border-color: var(--lumina-error-stroke);
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba(248, 113, 113, .3);
+        }
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 4px 0 28px;
+        color: var(--lumina-muted);
+        font-size: 14px;
+
+        .form-check-input {
+            flex: none;
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--lumina-peach);
+            cursor: pointer;
+
+            &:focus-visible {
+                outline: 2px solid var(--lumina-peach);
+                outline-offset: 2px;
+            }
+        }
+
+        .form-check-input:checked + .form-check-label {
+            color: var(--lumina-text);
+        }
+
+        .form-check-label {
+            cursor: pointer;
+        }
+    }
+
+    // Primary action: the reference's peach swatch.
+    .btn-login {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 13px 24px;
+        background: var(--lumina-peach);
+        color: var(--lumina-on-peach);
+        border: 0;
+        border-radius: 8px;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, .4),
+            0 8px 24px -10px rgba(251, 146, 60, .55);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: .01em;
+        cursor: pointer;
+        transition: background-color .2s ease, box-shadow .2s ease, transform .2s var(--lumina-ease);
+
+        i {
+            transition: transform .2s var(--lumina-ease);
+        }
+
+        &:hover {
+            background: var(--lumina-peach-hover);
+            transform: translateY(-1px);
+
+            i {
+                transform: translateX(3px);
+            }
+        }
+
+        &:active {
+            background: var(--lumina-peach-active);
+            transform: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--lumina-peach);
+            outline-offset: 3px;
+        }
+
+        &:disabled,
+        &[aria-busy="true"] {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    }
+
+    .error-message {
+        margin: 0 0 20px;
+        padding: 10px 14px;
+        background: var(--lumina-error-bg);
+        color: var(--lumina-error);
+        border: 1px solid var(--lumina-error-stroke);
+        border-radius: 8px;
+        font-size: 14px;
+        white-space: pre-line;
+    }
+
+    #passkey-login-error {
+        margin: 16px 0 0;
+    }
+
+    .login-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 28px 0 16px;
+
+        &::before,
+        &::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--lumina-line);
+        }
+
+        .login-label {
+            margin: 0;
+        }
+    }
+
+    .login-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    // Secondary actions: the reference's inner panels.
+    .login-method {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 14px;
+        border: 1px solid var(--lumina-line-soft);
+        border-radius: 8px;
+        background: var(--lumina-panel);
+        color: var(--lumina-text);
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: border-color .2s ease, background-color .2s ease, color .2s ease;
+
+        i {
+            width: 16px;
+            color: var(--lumina-peach);
+            text-align: center;
+        }
+
+        &:hover {
+            border-color: var(--lumina-line);
+            background: #1b2130;
+            color: var(--lumina-white);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--lumina-peach);
+            outline-offset: 2px;
+        }
+    }
+
+    // The sign-in script shows these with display: block, so the spacing
+    // comes from margins rather than flex gaps.
+    .login-subform {
+        margin: 0 0 4px;
+        padding: 16px;
+        border: 1px solid var(--lumina-line-soft);
+        border-radius: 8px;
+        background:
+            linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px),
+            var(--lumina-panel);
+        background-size: 20px 20px, 20px 20px, auto;
+        background-position: center;
+
+        > * + * {
+            margin-top: 12px;
+        }
+
+        .login-label {
+            margin-bottom: 0;
+        }
+
+        .form-control {
+            background: var(--lumina-surface);
+        }
+    }
+
+    .login-note {
+        margin: 0;
+        color: var(--lumina-muted);
+        font-size: 14px;
+    }
+
+    .login-code {
+        font-family: var(--lumina-mono);
+        font-size: 18px;
+        letter-spacing: .4em;
+        text-align: center;
+    }
+
+    // The reference's footer strip: star, labels and the card number.
+    .login-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 8px 16px;
+        width: 100%;
+        max-width: 26rem;
+        margin: 40px auto 0;
+
+        &::before {
+            content: "";
+            flex: none;
+            width: 14px;
+            height: 14px;
+            @include lumina-star(var(--lumina-dim));
+        }
+
+        &::after {
+            content: "02";
+            color: var(--lumina-muted);
+            font: 400 12px/1.4 "Inter", system-ui, sans-serif;
+        }
+
+        .login-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            font: 400 12px/1.4 "Inter", system-ui, sans-serif;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        i {
+            color: var(--lumina-peach);
+        }
+    }
+
+    .login-credit {
+        margin: 0;
+        font: 500 11px/1.6 var(--lumina-mono);
+        letter-spacing: .08em;
+        text-align: center;
+        text-transform: uppercase;
+
+        a {
+            color: var(--lumina-muted);
+            text-decoration: none;
+
+            &:hover {
+                color: var(--lumina-peach);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--lumina-peach);
+                outline-offset: 2px;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    @media (max-width: 1023.98px) {
+        .login-shell {
+            padding: 32px;
+        }
+
+        .login-main {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .login-brand {
+            min-height: 400px;
+            padding: 40px;
+        }
+
+        .login-display {
+            font-size: clamp(40px, 10vw, 72px);
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .login-shell {
+            gap: 16px;
+            padding: 16px;
+        }
+
+        .login-main {
+            gap: 16px;
+        }
+
+        .login-brand {
+            min-height: 280px;
+            padding: 28px 24px;
+        }
+
+        .login-brand-body > .login-label {
+            margin-bottom: 16px;
+            padding-top: 16px;
+        }
+
+        .login-display {
+            padding-bottom: 16px;
+            font-size: clamp(34px, 12vw, 48px);
+        }
+
+        .login-lead {
+            display: none;
+        }
+
+        .login-panel {
+            padding: 28px 20px;
+        }
+
+        .login-heading {
+            gap: 10px;
+            font-size: 30px;
+
+            &::before,
+            &::after {
+                font-size: 20px;
+            }
+        }
+
+        .login-subheading {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+        }
+
+        .login-footer {
+            margin-top: 28px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .login-shell > *,
+        .login-display .line > span,
+        .login-panel.has-error {
+            animation: none;
+        }
+
+        #login-bg {
+            transition: none;
+        }
+
+        .btn-login:hover,
+        .btn-login:hover i {
+            transform: none;
+        }
+    }
+}

@@ -33,6 +33,9 @@ public class Config : BaseTestsAsync
                     config.CommentsPageSize = 0;
                     config.HierarchicalPageSlugs = true;
                     config.ManagerExpandedSitemapLevels = 0;
+                    config.ManagerMenuWidth = 200;
+                    config.ManagerTheme = null;
+                    config.SiteTheme = null;
                 }
             }
         });
@@ -135,6 +138,84 @@ public class Config : BaseTestsAsync
 
                 Assert.Equal(3, config.ManagerExpandedSitemapLevels);
             }
+        }
+    }
+
+    [Fact]
+    public void ManagerMenuWidth() {
+        using (var api = CreateApi()) {
+            using (var config = new Piranha.Config(api)) {
+                Assert.Equal(200, config.ManagerMenuWidth);
+
+                config.ManagerMenuWidth = 280;
+
+                Assert.Equal(280, config.ManagerMenuWidth);
+            }
+        }
+    }
+
+    [Fact]
+    public void ManagerMenuWidthClamped() {
+        using (var api = CreateApi()) {
+            using (var config = new Piranha.Config(api)) {
+                config.ManagerMenuWidth = 10;
+                Assert.Equal(Piranha.Config.ManagerMenuWidthMin, config.ManagerMenuWidth);
+
+                config.ManagerMenuWidth = 5000;
+                Assert.Equal(Piranha.Config.ManagerMenuWidthMax, config.ManagerMenuWidth);
+            }
+        }
+    }
+
+    [Fact]
+    public void ManagerTheme() {
+        using (var api = CreateApi()) {
+            using (var config = new Piranha.Config(api)) {
+                Assert.Null(config.ManagerTheme);
+
+                config.ManagerTheme = "Acme";
+                Assert.Equal("Acme", config.ManagerTheme);
+
+                config.ManagerTheme = null;
+                Assert.Null(config.ManagerTheme);
+            }
+        }
+    }
+
+    [Fact]
+    public void SiteTheme() {
+        using (var api = CreateApi()) {
+            using (var config = new Piranha.Config(api)) {
+                Assert.Null(config.SiteTheme);
+
+                config.SiteTheme = "Acme";
+                Assert.Equal("Acme", config.SiteTheme);
+
+                config.SiteTheme = null;
+                Assert.Null(config.SiteTheme);
+            }
+        }
+    }
+
+    [Fact]
+    public void SiteThemeCurrent() {
+        var themes = new Piranha.Runtime.AppSiteThemeList {
+            new Piranha.Models.SiteTheme { Id = "Acme", Title = "Acme", Styles = { "~/css/acme.css" } }
+        };
+
+        using (var api = CreateApi()) {
+            Assert.Null(themes.GetCurrent(api));
+
+            using (var config = new Piranha.Config(api)) {
+                config.SiteTheme = "Acme";
+            }
+            Assert.Equal("Acme", themes.GetCurrent(api).Id);
+
+            // A key that's no longer registered falls back to the site's own look.
+            using (var config = new Piranha.Config(api)) {
+                config.SiteTheme = "Removed";
+            }
+            Assert.Null(themes.GetCurrent(api));
         }
     }
 

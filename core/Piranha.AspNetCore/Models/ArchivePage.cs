@@ -54,6 +54,14 @@ public class ArchivePage<T, TPost> : Microsoft.AspNetCore.Mvc.RazorPages.PageMod
     public T Data { get; set; }
 
     /// <summary>
+    /// Gets the site theme selected in the config, or null when the site
+    /// uses its own look.
+    /// </summary>
+    public SiteTheme Theme => (_theme ??= new Lazy<SiteTheme>(() => App.SiteThemes.GetCurrent(_api))).Value;
+
+    private Lazy<SiteTheme> _theme;
+
+    /// <summary>
     /// Gets/sets the post archive model.
     /// </summary>
     public PostArchive<TPost> Archive { get; set; }

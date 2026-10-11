@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>使用者名稱或密碼不正確。</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>由 {0} 打造的 Piranha CMS 安全強化分支</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>驗證器應用程式代碼</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>內容管理</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>透過電子郵件傳送登入代碼給我</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>如果該電子郵件已註冊帳戶，我們已將代碼寄送至該信箱。請查看您的收件匣。</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>管理您網站的頁面、文章和媒體。</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>管理後台</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>或</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>記住我的使用者名稱</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>安全登入</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>安全的無密碼登入</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>改用通行密鑰登入</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>使用驗證器應用程式代碼登入</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>請使用您的使用者名稱或電子郵件登入以繼續。</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>登入代碼</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>預覽版</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>此瀏覽器不支援通行密鑰。</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>請先在上方輸入您的使用者名稱或電子郵件，然後再次點擊「改用通行密鑰登入」。</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>此帳戶尚未註冊通行密鑰。請改用密碼登入。</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>您輸入的代碼不正確或已過期。</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>無法完成通行密鑰登入。請改用密碼登入。</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>請先在上方輸入您的使用者名稱或電子郵件，然後再次點擊「使用驗證器應用程式代碼登入」。</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>此帳戶尚未註冊驗證器應用程式。請改用密碼登入。</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>無法完成驗證器登入。請改用密碼登入。</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>請先在上方輸入您的使用者名稱或電子郵件，然後再次點擊「透過電子郵件傳送登入代碼給我」。</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>無法傳送登入代碼。請改用密碼登入。</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>無法完成登入。請改用密碼登入。</value>
+  </data>
 </root>

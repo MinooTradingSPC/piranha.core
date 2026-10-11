@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Username and/or password are incorrect.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>{0} тарабынан коопсуздугу күчөтүлгөн Piranha CMS форку</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Аутентификатор коду</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Мазмунду башкаруу</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Кирүү кодун электрондук почтага жөнөтүү</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>Эгер бул электрондук почтага аккаунт катталган болсо, биз ага код жөнөттүк. Кирүүчү каттарды текшериңиз.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Сайтыңыздын баракчаларын, жазууларын жана медиасын башкарыңыз.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Башкаруу панели</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>же</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Колдонуучунун атын эстеп калуу</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Коопсуз кирүү</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Коопсуз, сырсөзсүз кирүү</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Анын ордуна кирүү ачкычын колдонуу</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Аутентификатор колдонмосунун коду менен кирүү</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Улантуу үчүн колдонуучунун атыңыз же электрондук почтаңыз менен кириңиз.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Кирүү коду</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Алдын ала чыгарылыш</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>Бул браузер кирүү ачкычтарын колдобойт.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Адегенде жогоруда колдонуучунун атын же электрондук почтаны киргизип, андан кийин «Анын ордуна кирүү ачкычын колдонуу» дегенди кайра басыңыз.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Бул аккаунт үчүн кирүү ачкычы катталган эмес. Анын ордуна сырсөз менен кириңиз.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>Киргизилген код туура эмес же анын мөөнөтү бүткөн.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Кирүү ачкычы менен кирүү аягына чыккан жок. Анын ордуна сырсөздү колдонуп көрүңүз.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Адегенде жогоруда колдонуучунун атын же электрондук почтаны киргизип, андан кийин «Аутентификатор колдонмосунун коду менен кирүү» дегенди кайра басыңыз.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>Бул аккаунт үчүн аутентификатор колдонмосу катталган эмес. Анын ордуна сырсөз менен кириңиз.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Аутентификатор аркылуу кирүү аягына чыккан жок. Анын ордуна сырсөздү колдонуп көрүңүз.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Адегенде жогоруда колдонуучунун атын же электрондук почтаны киргизип, андан кийин «Кирүү кодун электрондук почтага жөнөтүү» дегенди кайра басыңыз.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>Кирүү кодун жөнөтүү мүмкүн болгон жок. Анын ордуна сырсөздү колдонуп көрүңүз.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>Кирүү аягына чыккан жок. Анын ордуна сырсөздү колдонуп көрүңүз.</value>
+  </data>
 </root>

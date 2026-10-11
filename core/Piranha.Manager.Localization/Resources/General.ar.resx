@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>اسم المستخدم أو كلمة المرور غير صحيحة.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>نسخة معزّزة أمنيًا من Piranha CMS بواسطة {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>رمز المصادقة</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>إدارة المحتوى</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>أرسل لي رمز تسجيل الدخول بالبريد الإلكتروني</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>إذا كان هذا البريد الإلكتروني مرتبطًا بحساب، فقد أرسلنا إليه رمزًا. تحقّق من صندوق الوارد.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>أدِر صفحات موقعك ومنشوراته ووسائطه.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>لوحة الإدارة</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>أو</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>تذكّر اسم المستخدم</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>تسجيل دخول آمن</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>تسجيل دخول آمن بدون كلمة مرور</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>سجّل الدخول باستخدام مفتاح مرور بدلًا من ذلك</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>سجّل الدخول برمز من تطبيق المصادقة</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>سجّل الدخول باسم المستخدم أو البريد الإلكتروني للمتابعة.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>رمز تسجيل الدخول</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>إصدار تجريبي</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>هذا المتصفح لا يدعم مفاتيح المرور.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>أدخل اسم المستخدم أو البريد الإلكتروني في الأعلى أولًا، ثم انقر على «سجّل الدخول باستخدام مفتاح مرور بدلًا من ذلك» مرة أخرى.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>لا يوجد مفتاح مرور مسجّل لهذا الحساب. يُرجى تسجيل الدخول باستخدام كلمة المرور.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>الرمز الذي أدخلته غير صحيح أو انتهت صلاحيته.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>تعذّر إكمال تسجيل الدخول بمفتاح المرور. يُرجى المحاولة باستخدام كلمة المرور.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>أدخل اسم المستخدم أو البريد الإلكتروني في الأعلى أولًا، ثم انقر على «سجّل الدخول برمز من تطبيق المصادقة» مرة أخرى.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>لا يوجد تطبيق مصادقة مسجّل لهذا الحساب. يُرجى تسجيل الدخول باستخدام كلمة المرور.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>تعذّر إكمال تسجيل الدخول عبر تطبيق المصادقة. يُرجى المحاولة باستخدام كلمة المرور.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>أدخل اسم المستخدم أو البريد الإلكتروني في الأعلى أولًا، ثم انقر على «أرسل لي رمز تسجيل الدخول بالبريد الإلكتروني» مرة أخرى.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>تعذّر إرسال رمز تسجيل الدخول. يُرجى المحاولة باستخدام كلمة المرور.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>تعذّر إكمال تسجيل الدخول. يُرجى المحاولة باستخدام كلمة المرور.</value>
+  </data>
 </root>

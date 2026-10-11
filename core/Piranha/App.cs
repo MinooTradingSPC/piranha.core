@@ -73,6 +73,11 @@ public sealed class App
     private readonly PermissionManager _permissions;
 
     /// <summary>
+    /// The currently registered site themes.
+    /// </summary>
+    private readonly AppSiteThemeList _siteThemes;
+
+    /// <summary>
     /// The current cache level.
     /// </summary>
     private Cache.CacheLevel _cacheLevel = Cache.CacheLevel.Full;
@@ -153,6 +158,11 @@ public sealed class App
     /// Gets the currently registered permissions.
     /// </summary>
     public static PermissionManager Permissions => Instance._permissions;
+
+    /// <summary>
+    /// Gets the currently registered site themes.
+    /// </summary>
+    public static AppSiteThemeList SiteThemes => Instance._siteThemes;
 
     /// <summary>
     /// Gets/sets the current cache level.
@@ -294,6 +304,7 @@ public sealed class App
         _serializers = new();
         _hooks = new();
         _permissions = new();
+        _siteThemes = new();
         _contentGroups = [];
         _contentTypes = [];
         _pageTypes = [];

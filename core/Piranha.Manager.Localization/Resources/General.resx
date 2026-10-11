@@ -255,4 +255,85 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Username and/or password are incorrect.</value>
   </data>
+  <data name="A security-hardened fork of Piranha CMS by {0}" xml:space="preserve">
+    <value>A security-hardened fork of Piranha CMS by {0}</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Authenticator code</value>
+  </data>
+  <data name="Content manager" xml:space="preserve">
+    <value>Content manager</value>
+  </data>
+  <data name="Email me a sign-in code" xml:space="preserve">
+    <value>Email me a sign-in code</value>
+  </data>
+  <data name="If that email has an account, we've sent it a code. Check your inbox." xml:space="preserve">
+    <value>If that email has an account, we've sent it a code. Check your inbox.</value>
+  </data>
+  <data name="Manage the pages, posts and media of your site." xml:space="preserve">
+    <value>Manage the pages, posts and media of your site.</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Or</value>
+  </data>
+  <data name="Remember my username" xml:space="preserve">
+    <value>Remember my username</value>
+  </data>
+  <data name="Secure sign-in" xml:space="preserve">
+    <value>Secure sign-in</value>
+  </data>
+  <data name="Secure, passwordless sign-in" xml:space="preserve">
+    <value>Secure, passwordless sign-in</value>
+  </data>
+  <data name="Sign in with a passkey instead" xml:space="preserve">
+    <value>Sign in with a passkey instead</value>
+  </data>
+  <data name="Sign in with an authenticator app code" xml:space="preserve">
+    <value>Sign in with an authenticator app code</value>
+  </data>
+  <data name="Sign in with your username or email to continue." xml:space="preserve">
+    <value>Sign in with your username or email to continue.</value>
+  </data>
+  <data name="Sign-in code" xml:space="preserve">
+    <value>Sign-in code</value>
+  </data>
+  <data name="Pre-release" xml:space="preserve">
+    <value>Pre-release</value>
+  </data>
+  <data name="This browser doesn't support passkeys." xml:space="preserve">
+    <value>This browser doesn't support passkeys.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with a passkey instead&quot; again." xml:space="preserve">
+    <value>Enter your username or email above first, then click "Sign in with a passkey instead" again.</value>
+  </data>
+  <data name="No passkey is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>No passkey is registered for this account. Please sign in with your password instead.</value>
+  </data>
+  <data name="The code you entered is incorrect or has expired." xml:space="preserve">
+    <value>The code you entered is incorrect or has expired.</value>
+  </data>
+  <data name="The passkey sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>The passkey sign-in could not be completed. Please try your password instead.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Sign in with an authenticator app code&quot; again." xml:space="preserve">
+    <value>Enter your username or email above first, then click "Sign in with an authenticator app code" again.</value>
+  </data>
+  <data name="No authenticator app is registered for this account. Please sign in with your password instead." xml:space="preserve">
+    <value>No authenticator app is registered for this account. Please sign in with your password instead.</value>
+  </data>
+  <data name="The authenticator sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>The authenticator sign-in could not be completed. Please try your password instead.</value>
+  </data>
+  <data name="Enter your username or email above first, then click &quot;Email me a sign-in code&quot; again." xml:space="preserve">
+    <value>Enter your username or email above first, then click "Email me a sign-in code" again.</value>
+  </data>
+  <data name="The sign-in code could not be sent. Please try your password instead." xml:space="preserve">
+    <value>The sign-in code could not be sent. Please try your password instead.</value>
+  </data>
+  <data name="The sign-in could not be completed. Please try your password instead." xml:space="preserve">
+    <value>The sign-in could not be completed. Please try your password instead.</value>
+  </data>
 </root>

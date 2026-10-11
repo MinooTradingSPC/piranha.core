@@ -44,9 +44,11 @@ public sealed class AuthController : Controller
         Response.Cookies.Append(_options.XsrfCookieName, tokens.RequestToken, new CookieOptions
         {
             HttpOnly = false,
-            IsEssential = true
+            IsEssential = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict
         });
-        if (!string.IsNullOrEmpty(returnUrl))
+        if (Url.IsLocalUrl(returnUrl))
         {
             return LocalRedirect(returnUrl);
         }
