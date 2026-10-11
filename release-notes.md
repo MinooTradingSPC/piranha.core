@@ -1,4 +1,4 @@
-## [1.0.16] — 2026-10-06
+## [1.0.17] — 2026-10-11
 
 ### 🚀 Features
 
@@ -2026,6 +2026,7 @@
 - Added DOM purification for Markdown content. Fixes #2165 `(ddb7ce79)` — Håkan Edling
 - Remove entered password from error message. Fixes #2166 `(ac02722c)` — Håkan Edling
 - Added DOM purification to meta information. Fixes #2167 `(a9f5f6ca)` — Håkan Edling
+- Fix user list N+1 queries `(a9f67b38)` — nidhi0810
 
 ### ♻️ Refactoring
 
@@ -2107,7 +2108,7 @@
 - Update publish pipeline again `(b1779c7f)` — Håkan Edling
 - Changed signing to not use subscription id `(e7aae168)` — Håkan Edling
 - Updated az sign in command `(aa5bac04)` — Håkan Edling
-- piranha.core: Add passwordless manager login, selectable themes and hardening `(4dc5b46d)` — Ahmad Minoo
+- piranha.core: Add passwordless auth, manager themes, security hardening and media content validation `(9688bc0c)` — Ahmad Minoo
 
 ### 📝 Documentation
 
@@ -2266,6 +2267,7 @@
 - Removed old test scripts `(b38dbea2)` — Håkan Edling
 - Fixed dispose in comment tests `(ea06fd1a)` — Håkan Edling
 - Make sure to make internal id of site unique in test `(35b06a8e)` — Håkan Edling
+- Add user list role regression test `(a75f3787)` — nidhi0810
 
 ### 🏠 Chores
 
